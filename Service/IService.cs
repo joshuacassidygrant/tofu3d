@@ -1,5 +1,9 @@
 ﻿using System;
 
+/*
+ * Interface for services classes.
+ */
+
 namespace TUFFYCore.Service
 {
     public interface IService
