@@ -25,8 +25,9 @@ namespace TUFFYCore.ResourceLibrary
             Prefix = prefix;
         }
 
-        public override void Initialize()
+        public override void Build()
         {
+            base.Build();
             LoadResources();
         }
 
