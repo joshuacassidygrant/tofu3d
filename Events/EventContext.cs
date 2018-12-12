@@ -12,9 +12,9 @@ namespace TUFFYCore.Events
 
         private Dictionary<Events, List<IListener>> _eventListeners;
 
-        public override void Initialize()
+        public override void Build()
         {
-            base.Initialize();
+            base.Build();
             _eventListeners = new Dictionary<Events, List<IListener>>();
         }
 

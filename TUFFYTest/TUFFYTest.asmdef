@@ -1,0 +1,14 @@
+{
+    "name": "TUFFYTest",
+    "references": [
+        "TUFFYCore"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

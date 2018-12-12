@@ -6,7 +6,7 @@ using TUFFYCore.Service;
  */
 namespace TUFFYCore.ResourceLibrary
 {
-    public abstract class AbstractResourceLibrary: AbstractService
+    public abstract class AbstractResourceLibrary : AbstractService
     {
 
         protected string Prefix = "";
