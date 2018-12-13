@@ -37,7 +37,7 @@ namespace Tests
         }
 
         [Test]
-        public void TestDependenciesInPlace()
+        public void TestDependenciesShouldBeInPlace()
         {
             Assert.NotNull(_serviceContext);
             Assert.NotNull(_eventTesterService);
@@ -45,7 +45,7 @@ namespace Tests
         }
 
         [Test]
-        public void CorrectEventTypeCalledOnlyOnceEachCall()
+        public void CorrectEventTypeShouldBeCalledOnlyOnceEachCall()
         {
 
             _eventTesterService.BindListener(Events.Mollycoddle, _eventTesterService.Mollycoddled, _eventContext);
@@ -67,7 +67,7 @@ namespace Tests
         }
 
         [Test]
-        public void EventUnboundNotCalled()
+        public void EventUnboundShouldNotBeCalled()
         {
             _eventTesterService.BindListener(Events.Mollycoddle, _eventTesterService.Mollycoddled, _eventContext);
             Assert.AreEqual(0, _eventTesterService.MollycoddleCalled);

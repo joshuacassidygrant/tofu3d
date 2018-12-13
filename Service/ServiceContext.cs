@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TUFFYCore.Exceptions;
 using UnityEngine;
 
 /*
@@ -19,7 +20,7 @@ namespace TUFFYCore.Service
             _factory = new ServiceFactory(this);
         }
 
-        /*
+    /*
      * Binding
      */
         public void Drop(string name)
@@ -29,6 +30,7 @@ namespace TUFFYCore.Service
 
         public void Bind(string name, IService service)
         {
+            if (_services.ContainsKey(name)) throw new ServiceDoubleBindException();
             service = _factory.Build(service);
             _services.Add(name, service);
         }
@@ -55,7 +57,7 @@ namespace TUFFYCore.Service
         }
 
 
-        /*
+    /*
      * Initialization
      */
         public void FullInitialization()

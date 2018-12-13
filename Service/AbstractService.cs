@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TUFFYCore.Events;
+using TUFFYCore.Exceptions;
 using UnityEngine;
 
 /*
@@ -68,12 +69,17 @@ namespace TUFFYCore.Service
 
         public void BindServiceContext(ServiceContext serviceContext, string bindingName = null)
         {
-            if (bindingName == null)
-            {
-                bindingName = GetType().Name;
-            }
+            if (bindingName == null) bindingName = GetType().Name;
             ServiceContext = serviceContext;
-            serviceContext.Bind(bindingName, this);
+
+            try
+            {
+                serviceContext.Bind(bindingName, this);
+            }
+            catch (ServiceDoubleBindException e)
+            {
+                Debug.Log("Error: Cannot bind two services to " + bindingName + " " + e);
+            }
         }
 
         public string GetServiceName()
