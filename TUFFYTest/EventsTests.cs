@@ -5,7 +5,7 @@ using TUFFYCore.Service;
 using UnityEngine.Assertions;
 using Assert = NUnit.Framework.Assert;
 
-namespace Tests
+namespace TUFFYTests
 {
     public class EventsTests
     {
