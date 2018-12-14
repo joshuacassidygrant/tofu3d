@@ -12,7 +12,6 @@ namespace TUFFYCore.Service
 {
     public abstract class AbstractService : IService, IListener
     {
-
         protected ServiceContext ServiceContext;
 
         public virtual string[] Dependencies
@@ -20,7 +19,7 @@ namespace TUFFYCore.Service
             get { return null; }
         }
 
-        private Dictionary<Events.Events, List<Action<EventPayload>>> _boundListeners;
+        private Dictionary<Event, List<Action<EventPayload>>> _boundListeners;
 
         /*
      * Build sets up all internal workings of the class.
@@ -48,11 +47,15 @@ namespace TUFFYCore.Service
 
             foreach (string dependencyName in Dependencies)
             {
-                var field = GetType().GetField(toPrivateFieldName(dependencyName), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var field = GetType().GetField(toPrivateFieldName(dependencyName),
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
                 if (field == null)
                 {
-                    Debug.Log(GetType() + " has no field " + toPrivateFieldName(dependencyName) + " for " + dependencyName);
-                } else {
+                    Debug.Log(GetType() + " has no field " + toPrivateFieldName(dependencyName) + " for " +
+                              dependencyName);
+                }
+                else
+                {
                     //Debug.Log("Binding service " + dependencyName + " to " + GetType());
                     field.SetValue(this, ServiceContext.Fetch(dependencyName));
                 }
@@ -96,6 +99,7 @@ namespace TUFFYCore.Service
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -105,7 +109,7 @@ namespace TUFFYCore.Service
             return privateName;
         }
 
-        public void ReceiveEvent(Events.Events evnt, EventPayload payload)
+        public void ReceiveEvent(Event evnt, EventPayload payload)
         {
             if (_boundListeners == null) return;
 
@@ -120,18 +124,17 @@ namespace TUFFYCore.Service
             }
         }
 
-        public void BindListener(Events.Events evnt, Action<EventPayload> action, EventContext evntContext)
+        public void BindListener(Event evnt, Action<EventPayload> action, EventContext evntContext)
         {
-            if (_boundListeners == null) _boundListeners = new Dictionary<Events.Events, List<Action<EventPayload>>>();
+            if (_boundListeners == null) _boundListeners = new Dictionary<Event, List<Action<EventPayload>>>();
 
             if (!_boundListeners.ContainsKey(evnt)) _boundListeners.Add(evnt, new List<Action<EventPayload>>());
 
             evntContext.BindEventListener(evnt, this);
             _boundListeners[evnt].Add(action);
-
         }
 
-        public void UnbindListener(Events.Events evnt, Action<EventPayload> action, EventContext evntContext)
+        public void UnbindListener(Event evnt, Action<EventPayload> action, EventContext evntContext)
         {
             evntContext.RemoveEventListener(evnt, this);
             _boundListeners[evnt].Remove(action);

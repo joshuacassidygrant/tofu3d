@@ -3,7 +3,7 @@
 namespace TUFFYCore.Events
 {
     public interface IListener {
-        void ReceiveEvent(Events evnt, EventPayload payload);
-        void BindListener(Events evnt, Action<EventPayload> action, EventContext evntContext);
+        void ReceiveEvent(Event evnt, EventPayload payload);
+        void BindListener(Event evnt, Action<EventPayload> action, EventContext evntContext);
     }
 }

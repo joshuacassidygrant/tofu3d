@@ -20,7 +20,7 @@ namespace TUFFYCore.Service
             get { return null; }
         }
 
-        private Dictionary<Events.Events, List<Action<EventPayload>>> _boundListeners;
+        private Dictionary<Event, List<Action<EventPayload>>> _boundListeners;
 
 
         /*
@@ -106,7 +106,7 @@ namespace TUFFYCore.Service
             return "_" + Char.ToLowerInvariant(typeName[0]) + typeName.Substring(1);
         }
 
-        public void ReceiveEvent(Events.Events evnt, EventPayload payload)
+        public void ReceiveEvent(Event evnt, EventPayload payload)
         {
             if (_boundListeners == null) return;
 
@@ -121,9 +121,9 @@ namespace TUFFYCore.Service
             }
         }
 
-        public void BindListener(Events.Events evnt, Action<EventPayload> action, EventContext evntContext)
+        public void BindListener(Event evnt, Action<EventPayload> action, EventContext evntContext)
         {
-            if (_boundListeners == null) _boundListeners = new Dictionary<Events.Events, List<Action<EventPayload>>>();
+            if (_boundListeners == null) _boundListeners = new Dictionary<Event, List<Action<EventPayload>>>();
 
             if (!_boundListeners.ContainsKey(evnt)) _boundListeners.Add(evnt, new List<Action<EventPayload>>());
 
@@ -131,7 +131,7 @@ namespace TUFFYCore.Service
             _boundListeners[evnt].Add(action);
         }
 
-        public void UnbindListener(Events.Events evnt, Action<EventPayload> action, EventContext evntContext)
+        public void UnbindListener(Event evnt, Action<EventPayload> action, EventContext evntContext)
         {
             evntContext.RemoveEventListener(evnt, this);
             _boundListeners[evnt].Remove(action);
