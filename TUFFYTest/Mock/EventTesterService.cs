@@ -5,20 +5,12 @@ namespace Tests.Mock
 {
     public class EventTesterService : AbstractService
     {
-        public override string[] Dependencies {
-            get {
-                return new string[]
-                {
-                    "EventContext"
-                };
-            }
-        }
 
         public int MollycoddleCalled = 0;
         public int ZarfCalled = 0;
         public string LastZarfPayload;
 
-        private EventContext _eventContext;
+        [Dependency] private EventContext _eventContext;
 
 
         public void Mollycoddled(EventPayload eP)

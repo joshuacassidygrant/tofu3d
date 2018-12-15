@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using TUFFYCore.Events;
 using TUFFYCore.Exceptions;
 using UnityEngine;
@@ -14,11 +16,6 @@ namespace TUFFYCore.Service
     public abstract class AbstractMonoService : MonoBehaviour, IService, IListener
     {
         protected ServiceContext ServiceContext;
-
-        public virtual string[] Dependencies
-        {
-            get { return null; }
-        }
 
         private Dictionary<Event, List<Action<EventPayload>>> _boundListeners;
 
@@ -45,19 +42,25 @@ namespace TUFFYCore.Service
                 return;
             }
 
-            if (Dependencies == null) return;
+            var dependencyFields = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(p => p.GetCustomAttributes(typeof(Dependency), false).Any());
 
-            foreach (string dependencyName in Dependencies)
+            foreach (var fieldInfo in dependencyFields)
             {
-                var field = GetType().GetField(toPrivateFieldName(dependencyName), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (field == null)
+                object[] atts = fieldInfo.GetCustomAttributes(typeof(Dependency), false);
+
+                string name = ((Dependency)atts[0]).Name;
+                if (name == null) name = fieldInfo.FieldType.Name;
+
+                if (ServiceContext.Has(name))
                 {
-                    Debug.Log(GetType() + " has no field " + toPrivateFieldName(dependencyName) + " for " + dependencyName);
+                    fieldInfo.SetValue(this, ServiceContext.Fetch(name));
                 }
                 else
                 {
-                    field.SetValue(this, ServiceContext.Fetch(dependencyName));
+                    Debug.Log("Can't find service with name " + name + " to bind to " + GetType().Name);
                 }
+
             }
         }
 
@@ -91,14 +94,16 @@ namespace TUFFYCore.Service
 
         public bool CheckDependencies()
         {
-            foreach (string dependency in Dependencies)
+            /*foreach (string dependency in Dependencies)
             {
                 if (!ServiceContext.Has(dependency))
                 {
                     return false;
                 }
             }
+            return true;*/
             return true;
+
         }
 
         private string toPrivateFieldName(string typeName)

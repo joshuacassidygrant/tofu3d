@@ -5,17 +5,8 @@ using UnityEngine;
 
 public class DummyServiceOne : AbstractService
 {
-    private DummyServiceOne _anotherDummy;
-
-    public override string[] Dependencies
-    {
-        get {
-            return new string[]
-            {
-                "AnotherDummy"
-            };
-        }
-    }
+    [Dependency] private DummyLibrary _dummyLibrary;
+    [Dependency("AnotherDummy")] private DummyServiceOne _anotherDummy;
 
     public bool Built = false;
     public bool Bound = false;
