@@ -1,5 +1,6 @@
 # TestableUnityFramework
-A Unity framework built to be more unit-testable (by removing as much logic as possible OUT of MonoBehaviours).
+Version 0.0.0
+A Unity framework built to be more unit-testable (by removing as much logic as possible from MonoBehaviours and putting them in well-behaving, well-tested, generalized non-MonoBehaviour C# classes).
 
 Can be included as a submodule and accessed within your project.
 
