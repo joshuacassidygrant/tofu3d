@@ -5,7 +5,7 @@ using TUFFYCore.Service;
 
 namespace TUFFYTests
 {
-    public class ServicesTest {
+    public class ServiceContextTests {
 
         [Test]
         public void ServiceShouldBindToClassName()
@@ -62,11 +62,11 @@ namespace TUFFYTests
 
             //Assert
             Assert.True(ds1.Built);
-            Assert.False(ds1.Initialized);
+            Assert.False(ds1.GetInitialized());
             Assert.False(ds1.Bound);
             Assert.False(ds1.AnotherDummyBound());
             Assert.True(ds2.Built);
-            Assert.False(ds2.Initialized);
+            Assert.False(ds2.GetInitialized());
             Assert.False(ds2.Bound);
 
 
@@ -76,7 +76,7 @@ namespace TUFFYTests
             //Assert
             Assert.True(ds1.Bound);
             Assert.True(ds1.Built);
-            Assert.True(ds1.Initialized);
+            Assert.True(ds1.GetInitialized());
             Assert.True(ds1.AnotherDummyBound());
 
         }
@@ -113,6 +113,7 @@ namespace TUFFYTests
             Assert.False(((DummyServiceOne)s.Fetch("DummyServiceOne")).Bound);
 
         }
+
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TUFFYCore.Events;
 using TUFFYCore.Service;
 using UnityEngine;
 
@@ -10,7 +11,10 @@ public class DummyServiceOne : AbstractService
 
     public bool Built = false;
     public bool Bound = false;
-    public bool Initialized = false;
+
+    public int DummyActionsCalled = 0;
+    public float DummyActionsCapturedFloats = 0;
+    
 
 
     public override void Build()
@@ -28,11 +32,26 @@ public class DummyServiceOne : AbstractService
     public override void Initialize()
     {
         base.Initialize();
-        Initialized = true;
     }
 
     public bool AnotherDummyBound()
     {
         return _anotherDummy != null;
+    }
+
+    public bool GetInitialized()
+    {
+        return Initialized;
+    }
+
+    public void DummyEventAction(EventPayload payload)
+    {
+        DummyActionsCalled++;
+
+        if(payload.ContentType == PayloadContentType.Float)
+        {
+            float contentFloat = ((float)payload.GetContent());
+            DummyActionsCapturedFloats += contentFloat;
+        }
     }
 }

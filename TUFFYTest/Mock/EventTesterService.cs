@@ -12,7 +12,6 @@ namespace Tests.Mock
 
         [Dependency] private EventContext _eventContext;
 
-
         public void Mollycoddled(EventPayload eP)
         {
             MollycoddleCalled++;

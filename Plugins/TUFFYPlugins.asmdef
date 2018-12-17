@@ -1,0 +1,10 @@
+{
+    "name": "TUFFYPlugins",
+    "references": [
+        "TUFFYCore"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

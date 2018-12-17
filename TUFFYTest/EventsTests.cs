@@ -21,7 +21,6 @@ namespace TUFFYTests
         
             new EventTesterService().BindServiceContext(_serviceContext);
             new EventContext().BindServiceContext(_serviceContext);
-            _serviceContext.FullInitialization();
 
             _eventTesterService = (EventTesterService)_serviceContext.Fetch("EventTesterService");
             _eventContext = (EventContext) _serviceContext.Fetch("EventContext");
