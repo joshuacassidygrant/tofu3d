@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using TUFFYCore.Service;
+using TUFFYCore.TestSupport;
 
 namespace TUFFYTests
 {

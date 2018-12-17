@@ -1,7 +1,7 @@
 ﻿using TUFFYCore.Events;
 using TUFFYCore.Service;
 
-namespace Tests.Mock
+namespace TUFFYCore.TestSupport
 {
     public class EventTesterService : AbstractService
     {

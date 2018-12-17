@@ -1,0 +1,16 @@
+{
+    "name": "TUFPRenderablesTest",
+    "references": [
+        "TUFFYCore",
+        "TUFFYPlugins",
+        "TUFFYTest"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

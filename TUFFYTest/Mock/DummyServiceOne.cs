@@ -4,54 +4,58 @@ using TUFFYCore.Events;
 using TUFFYCore.Service;
 using UnityEngine;
 
-public class DummyServiceOne : AbstractService
+namespace TUFFYCore.TestSupport
 {
-    [Dependency] private DummyLibrary _dummyLibrary;
-    [Dependency("AnotherDummy")] private DummyServiceOne _anotherDummy;
-
-    public bool Built = false;
-    public bool Bound = false;
-
-    public int DummyActionsCalled = 0;
-    public float DummyActionsCapturedFloats = 0;
-    
-
-
-    public override void Build()
+    public class DummyServiceOne : AbstractService
     {
-        base.Build();
-        Built = true;
-    }
+        [Dependency] private DummyLibrary _dummyLibrary;
+        [Dependency("AnotherDummy")] private DummyServiceOne _anotherDummy;
 
-    public override void ResolveServiceBindings()
-    {
-        base.ResolveServiceBindings();
-        Bound = true;
-    }
+        public bool Built = false;
+        public bool Bound = false;
 
-    public override void Initialize()
-    {
-        base.Initialize();
-    }
+        public int DummyActionsCalled = 0;
+        public float DummyActionsCapturedFloats = 0;
 
-    public bool AnotherDummyBound()
-    {
-        return _anotherDummy != null;
-    }
 
-    public bool GetInitialized()
-    {
-        return Initialized;
-    }
 
-    public void DummyEventAction(EventPayload payload)
-    {
-        DummyActionsCalled++;
-
-        if(payload.ContentType == PayloadContentType.Float)
+        public override void Build()
         {
-            float contentFloat = ((float)payload.GetContent());
-            DummyActionsCapturedFloats += contentFloat;
+            base.Build();
+            Built = true;
+        }
+
+        public override void ResolveServiceBindings()
+        {
+            base.ResolveServiceBindings();
+            Bound = true;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
+
+        public bool AnotherDummyBound()
+        {
+            return _anotherDummy != null;
+        }
+
+        public bool GetInitialized()
+        {
+            return Initialized;
+        }
+
+        public void DummyEventAction(EventPayload payload)
+        {
+            DummyActionsCalled++;
+
+            if (payload.ContentType == PayloadContentType.Float)
+            {
+                float contentFloat = ((float)payload.GetContent());
+                DummyActionsCapturedFloats += contentFloat;
+            }
         }
     }
+
 }

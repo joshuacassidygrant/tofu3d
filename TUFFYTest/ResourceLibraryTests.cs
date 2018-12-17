@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using TUFFYCore.Service;
+using TUFFYCore.TestSupport;
 using UnityEngine;
 
 namespace TUFFYTests
