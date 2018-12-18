@@ -46,7 +46,7 @@ namespace TUFFYCore.ResourceLibrary
 
         public T Get(string id)
         {
-            if (Contains(id)) return _contents[id];
+            if (ContainsKey(id)) return _contents[id];
 
             return default(T);
         }
@@ -57,7 +57,7 @@ namespace TUFFYCore.ResourceLibrary
         }
 
 
-        public bool Contains(string id)
+        public bool ContainsKey(string id)
         {
             return _contents.ContainsKey(id);
         }

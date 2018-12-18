@@ -32,10 +32,10 @@ namespace TUFFYTests
         [Test]
         public void LibraryShouldLoadCorrectResources()
         {
-            Assert.True(_dummyLibrary.Contains("12"));
-            Assert.True(_dummyLibrary.Contains("15"));
-            Assert.True(_dummyLibrary.Contains("16"));
-            Assert.False(_dummyLibrary.Contains("11"));
+            Assert.True(_dummyLibrary.ContainsKey("12"));
+            Assert.True(_dummyLibrary.ContainsKey("15"));
+            Assert.True(_dummyLibrary.ContainsKey("16"));
+            Assert.False(_dummyLibrary.ContainsKey("11"));
 
         }
 
