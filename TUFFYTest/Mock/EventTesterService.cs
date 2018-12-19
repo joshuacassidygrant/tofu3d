@@ -19,8 +19,12 @@ namespace TUFFYCore.TestSupport
 
         public void Zarfed(EventPayload eP)
         {
-            string value = (string)eP.GetContent(PayloadContentType.String);
-            LastZarfPayload = value;
+            if (eP.ContentType == "String")
+            {
+                string value = eP.GetContent();
+                LastZarfPayload = value;
+            }
+
             ZarfCalled++;
         }
     }

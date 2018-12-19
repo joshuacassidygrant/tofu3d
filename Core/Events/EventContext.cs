@@ -14,18 +14,25 @@ namespace TUFFYCore.Events
 
         private Dictionary<Event, List<IListener>> _eventListeners;
         private EventList _events;
+        private EventPayloadTypeContainer _eventPayloadTypeContainer;
 
         public override void Build()
         {
             base.Build();
             _eventListeners = new Dictionary<Event, List<IListener>>();
             _events = new EventList();
-
+            _eventPayloadTypeContainer = new EventPayloadTypeContainer();
         }
 
-
-        public void TriggerEvent(Event evnt, EventPayload payload)
+        public EventPayloadTypeContainer GetPayloadTypeContainer()
         {
+            return _eventPayloadTypeContainer;
+        }
+
+        public void TriggerEvent(string eventKey, EventPayload payload)
+        {
+            Event evnt = GetEvent(eventKey);
+
             if (!_eventListeners.ContainsKey(evnt) || _eventListeners[evnt].Count == 0) return;
             _events.Get(evnt.Name).HasBeenCalled();
 

@@ -50,7 +50,7 @@ namespace TUFFYCore.TestSupport
         {
             DummyActionsCalled++;
 
-            if (payload.ContentType == PayloadContentType.Float)
+            if (payload.ContentType == "Float")
             {
                 float contentFloat = ((float)payload.GetContent());
                 DummyActionsCapturedFloats += contentFloat;

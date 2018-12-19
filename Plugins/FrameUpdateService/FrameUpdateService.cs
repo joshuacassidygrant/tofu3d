@@ -24,8 +24,8 @@ namespace TUFFYPlugins.FrameUpdateService
 
         void UpdateTime(float seconds)
         {
-            EventPayload deltaTimePayload = new EventPayload(PayloadContentType.Float, seconds);
-            _eventContext.TriggerEvent(_eventContext.GetEvent("FrameUpdate"), deltaTimePayload);
+            EventPayload deltaTimePayload = new EventPayload("Float", seconds, _eventContext);
+            _eventContext.TriggerEvent("FrameUpdate", deltaTimePayload);
         }
     }
 }

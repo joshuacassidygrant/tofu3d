@@ -53,13 +53,13 @@ namespace TUFFYTests
             Assert.AreEqual(0, _eventTesterService.MollycoddleCalled);
             Assert.AreEqual(0, _eventTesterService.ZarfCalled);
 
-            _eventContext.TriggerEvent(_eventContext.GetEvent("MollyCoddle"), new EventPayload(PayloadContentType.String, "test"));
-            _eventContext.TriggerEvent(_eventContext.GetEvent("MollyCoddle"), new EventPayload(PayloadContentType.String, "test"));
+            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("String", "test", _eventContext));
+            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("String", "test", _eventContext));
 
             Assert.AreEqual(2, _eventTesterService.MollycoddleCalled);
             Assert.AreEqual(0, _eventTesterService.ZarfCalled);
 
-            _eventContext.TriggerEvent(_eventContext.GetEvent("Zarf"), new EventPayload(PayloadContentType.String, "test"));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("String", "test", _eventContext));
 
             Assert.AreEqual(2, _eventTesterService.MollycoddleCalled);
             Assert.AreEqual(1, _eventTesterService.ZarfCalled);
@@ -73,11 +73,11 @@ namespace TUFFYTests
         {
             _eventTesterService.BindListener(_eventContext.GetEvent("MollyCoddle"), _eventTesterService.Mollycoddled, _eventContext);
             Assert.AreEqual(0, _eventTesterService.MollycoddleCalled);
-            _eventContext.TriggerEvent(_eventContext.GetEvent("MollyCoddle"), new EventPayload(PayloadContentType.Boolean, false));
+            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("Boolean", false, _eventContext));
             Assert.AreEqual(1, _eventTesterService.MollycoddleCalled);
             _eventTesterService.UnbindListener(_eventContext.GetEvent("MollyCoddle"), _eventTesterService.Mollycoddled, _eventContext);
-            _eventContext.TriggerEvent(_eventContext.GetEvent("MollyCoddle"), new EventPayload(PayloadContentType.Boolean, false));
-            _eventContext.TriggerEvent(_eventContext.GetEvent("Zarf"), new EventPayload(PayloadContentType.Boolean, false));
+            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("Boolean", false, _eventContext));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Boolean", false, _eventContext));
             Assert.AreEqual(1, _eventTesterService.MollycoddleCalled);
         }
 
@@ -86,7 +86,7 @@ namespace TUFFYTests
         {
             _eventTesterService.BindListener(_eventContext.GetEvent("Zarf"), _eventTesterService.Zarfed, _eventContext);
             Assert.AreEqual(0, _eventTesterService.ZarfCalled);
-            _eventContext.TriggerEvent(_eventContext.GetEvent("Zarf"), new EventPayload(PayloadContentType.String, "Test"));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("String", "Test", _eventContext));
             Assert.AreEqual(1, _eventTesterService.ZarfCalled);
             Assert.AreEqual("Test", _eventTesterService.LastZarfPayload);
 
@@ -98,7 +98,7 @@ namespace TUFFYTests
         {
             _eventTesterService.BindListener(_eventContext.GetEvent("Zarf"), _eventTesterService.Zarfed, _eventContext);
             Assert.AreEqual(0, _eventTesterService.ZarfCalled);
-            _eventContext.TriggerEvent(_eventContext.GetEvent("Zarf"), new EventPayload(PayloadContentType.Integer, 42));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42, _eventContext));
             Assert.AreEqual(1, _eventTesterService.ZarfCalled);
             Assert.AreNotEqual("42", _eventTesterService.LastZarfPayload);
             Assert.Null(_eventTesterService.LastZarfPayload);

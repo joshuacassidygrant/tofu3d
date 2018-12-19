@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 /*
  * All events are sent with an event payload, a data type
@@ -9,44 +11,33 @@ namespace TUFFYCore.Events
     public class EventPayload
     {
 
-        public PayloadContentType ContentType
-        {
-            get { return _contentType; }
-        }
+        public string ContentType { get; }
 
-        private PayloadContentType _contentType;
-        private Object _content;
+        private dynamic _content;
+        private EventPayloadTypeContainer _payloadTypeContainer;
 
-        public EventPayload(PayloadContentType contentType, Object content)
+        public EventPayload(string contentType, dynamic content, EventContext eventContext)
         {
-            _contentType = contentType;
+            ContentType = contentType;
             _content = content;
-            //TODO: add checking here to see if contentType is legal cast for content
+
+            _payloadTypeContainer = eventContext.GetPayloadTypeContainer();
+            
+            if (!_payloadTypeContainer.CheckContentAs(content, contentType))
+            {
+                Debug.Log("Can't store content " + content.ToString() + " as " + contentType);
+                //TODO: do something
+            }
+
+            
         }
 
 
-        public Object GetContent()
+        public dynamic GetContent()
         {
             return _content;
         }
 
-        public Object GetContent(PayloadContentType type)
-        {
-            switch (type)
-            {
-                case PayloadContentType.String:
-                    if (_content is string)
-                    {
-                        return (String)_content;
-                    } else {
-                        //Fails
-                        return null;
-                    }
-                default:
-                    return _content;
-            
-            }
-        }
 
     }
 }
