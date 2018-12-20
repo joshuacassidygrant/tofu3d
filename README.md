@@ -3,6 +3,8 @@
 
 v0.0.1
 
+<img align="left" width=128 height=128 src="./TOFULogoSmall.png" alt="tofu3d">
+
 tofu3d is a Unity3D framework built to be more unit-testable. We accomplish this by removing as much logic as possible from MonoBehaviours and putting them in well-behaving, well-tested, generalized non-MonoBehaviour C# classes. It also will contain some other core functionality for more test-based development, and a full plugin architecture that emphasizes maintainable, decoupled code and automated unit testing.
 
 ## Usage:
