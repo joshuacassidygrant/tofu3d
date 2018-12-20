@@ -35,7 +35,7 @@ namespace TofuCore.Service
             _services.Add(name, service);
         }
 
-        public IService Fetch(string name)
+        public dynamic Fetch(string name)
         {
             if (Has(name))
             {

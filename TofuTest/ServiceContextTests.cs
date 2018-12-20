@@ -1,8 +1,10 @@
 ﻿using NUnit.Compatibility;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
+using System;
 using TofuCore.Service;
 using TofuCore.TestSupport;
+using UnityEngine;
 
 namespace TofuTests
 {
@@ -112,6 +114,37 @@ namespace TofuTests
        
             //Assert
             Assert.False(((DummyServiceOne)s.Fetch("DummyServiceOne")).Bound);
+
+        }
+
+        [Test]
+        public void ServiceShouldDynamicallyCastType()
+        {
+            //Act
+            ServiceContext s = new ServiceContext();
+            new DummyServiceOne().BindServiceContext(s);
+            DummyServiceOne dummy = s.Fetch("DummyServiceOne");
+
+            //Assert
+            Assert.NotNull(dummy);
+
+            //Act
+            s.Fetch("DummyServiceOne").Flarf();
+            
+            //Assert
+            Assert.AreEqual(1, s.Fetch("DummyServiceOne").FlarfCount);
+
+            try
+            {
+                s.Fetch("DummyServiceOne").UnwrittenFunction();
+
+                //Assert
+                Assert.Fail();
+            } catch (Exception e)
+            {
+                Debug.Log("SUCCESS:");
+                Debug.Log(e);
+            }
 
         }
 

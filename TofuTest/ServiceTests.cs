@@ -34,8 +34,6 @@ namespace TofuTests
 
         }
 
-
-
         [Test]
         public void ServiceShouldBindAllDependencies()
         {
@@ -44,13 +42,13 @@ namespace TofuTests
             new DummyServiceOne().BindServiceContext(s);
 
             //Assert
-            Assert.False(((DummyServiceOne)s.Fetch("DummyServiceOne")).CheckDependencies());
+            Assert.False((s.Fetch("DummyServiceOne")).CheckDependencies());
 
             //Act
             s.FullInitialization();
 
             //Assert
-            Assert.False(((DummyServiceOne)s.Fetch("DummyServiceOne")).CheckDependencies());
+            Assert.False((s.Fetch("DummyServiceOne")).CheckDependencies());
 
             //Act
             new DummyLibrary("aaa").BindServiceContext(s);

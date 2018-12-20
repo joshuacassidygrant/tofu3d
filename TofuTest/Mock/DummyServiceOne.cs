@@ -16,6 +16,7 @@ namespace TofuCore.TestSupport
 
         public int DummyActionsCalled = 0;
         public float DummyActionsCapturedFloats = 0;
+        public int FlarfCount = 0;
 
 
 
@@ -44,6 +45,11 @@ namespace TofuCore.TestSupport
         public bool GetInitialized()
         {
             return Initialized;
+        }
+
+        public void Flarf()
+        {
+            FlarfCount++;
         }
 
         public void DummyEventAction(EventPayload payload)
