@@ -17,3 +17,6 @@ tofu3d is still under construction, and totally unstable. Will be adding in-proj
 Currently includes dependency injection, a resource library system, and an event system.
 
 Documentation to come.
+
+## Disclaimer:
+I'm a computer science student using this to get a good understanding of system design etc. I do not know everything, and appreciate any feedback on the decisions I've made.
