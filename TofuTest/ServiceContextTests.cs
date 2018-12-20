@@ -1,10 +1,10 @@
 ﻿using NUnit.Compatibility;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
-using TUFFYCore.Service;
-using TUFFYCore.TestSupport;
+using TofuCore.Service;
+using TofuCore.TestSupport;
 
-namespace TUFFYTests
+namespace TofuTests
 {
     public class ServiceContextTests {
 

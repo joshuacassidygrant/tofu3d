@@ -6,7 +6,7 @@ using UnityEngine;
  * All events are sent with an event payload, a data type
  * that encodes what it can be decoded to for type checking.
  */
-namespace TUFFYCore.Events
+namespace TofuCore.Events
 {
     public class EventPayload
     {

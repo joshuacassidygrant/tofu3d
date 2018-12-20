@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using TUFFYCore.Exceptions;
+using TofuCore.Exceptions;
 using UnityEngine;
 
-namespace TUFFYCore.Events
+namespace TofuCore.Events
 {
     public class EventPayloadTypeContainer
     {

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TUFFYCore.Events;
-using TUFFYCore.Exceptions;
+using TofuCore.Events;
+using TofuCore.Exceptions;
 using UnityEngine;
 
 /*
  * see also: AbstractMonoService. Inherit from this to
  * register in service context and inject to other services.
  */
-namespace TUFFYCore.Service
+namespace TofuCore.Service
 {
 
     public abstract class AbstractService : IService, IListener
@@ -18,7 +18,7 @@ namespace TUFFYCore.Service
         protected bool Initialized = false;
         protected ServiceContext ServiceContext;
 
-        private Dictionary<Event, List<Action<EventPayload>>> _boundListeners;
+        private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
 
         /*
      * Build sets up all internal workings of the class.
@@ -118,7 +118,7 @@ namespace TUFFYCore.Service
             return privateName;
         }
 
-        public void ReceiveEvent(Event evnt, EventPayload payload)
+        public void ReceiveEvent(TofuEvent evnt, EventPayload payload)
         {
             if (_boundListeners == null) return;
 
@@ -133,9 +133,9 @@ namespace TUFFYCore.Service
             }
         }
 
-        public void BindListener(Event evnt, Action<EventPayload> action, EventContext evntContext)
+        public void BindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext)
         {
-            if (_boundListeners == null) _boundListeners = new Dictionary<Event, List<Action<EventPayload>>>();
+            if (_boundListeners == null) _boundListeners = new Dictionary<TofuEvent, List<Action<EventPayload>>>();
 
             if (!_boundListeners.ContainsKey(evnt)) _boundListeners.Add(evnt, new List<Action<EventPayload>>());
 
@@ -143,7 +143,7 @@ namespace TUFFYCore.Service
             _boundListeners[evnt].Add(action);
         }
 
-        public void UnbindListener(Event evnt, Action<EventPayload> action, EventContext evntContext)
+        public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext)
         {
             evntContext.RemoveEventListener(evnt, this);
             _boundListeners[evnt].Remove(action);

@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace TUFFYCore.Events
+namespace TofuCore.Events
 {
     public interface IListener {
-        void ReceiveEvent(Event evnt, EventPayload payload);
-        void BindListener(Event evnt, Action<EventPayload> action, EventContext evntContext);
+        void ReceiveEvent(TofuEvent evnt, EventPayload payload);
+        void BindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext);
     }
 }

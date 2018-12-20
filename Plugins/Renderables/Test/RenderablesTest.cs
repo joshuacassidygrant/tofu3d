@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using UnityEngine;
 
-namespace TUFFYPlugins.Renderable
+namespace TofuPlugin.Renderable
 {
     public class RenderablesTest
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TUFFYCore.Exceptions
+namespace TofuCore.Exceptions
 {
     public class PayloadTypeDoubleRegisterException : Exception
     {

@@ -1,8 +1,6 @@
 {
-    "name": "TUFFYPlugins",
-    "references": [
-        "TUFFYCore"
-    ],
+    "name": "TofuCore",
+    "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

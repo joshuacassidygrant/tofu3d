@@ -1,4 +1,4 @@
-﻿namespace TUFFYCore.Events
+﻿namespace TofuCore.Events
 {
     public enum PayloadContentType {
         Boolean,

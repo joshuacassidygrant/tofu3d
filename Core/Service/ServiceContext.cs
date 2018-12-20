@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using TUFFYCore.Exceptions;
+using TofuCore.Exceptions;
 using UnityEngine;
 
 /*
  * The ServiceContext provides a container and dependency
  * injection for service classes.
  */
-namespace TUFFYCore.Service
+namespace TofuCore.Service
 {
     public class ServiceContext
     {

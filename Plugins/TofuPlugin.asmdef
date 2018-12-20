@@ -1,6 +1,9 @@
 {
-    "name": "TUFFYCore",
-    "references": [],
+    "name": "TofuPlugin",
+    "references": [
+        "TofuCore",
+        "TofuTest"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

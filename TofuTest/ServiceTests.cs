@@ -1,11 +1,12 @@
 ﻿using NUnit.Compatibility;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
-using TUFFYCore.Exceptions;
-using TUFFYCore.Service;
-using TUFFYCore.TestSupport;
+using TofuCore.Exceptions;
+using TofuCore.Service;
+using TofuCore.TestSupport;
+using UnityEngine;
 
-namespace TUFFYTests
+namespace TofuTests
 {
     public class ServiceTests
     {
@@ -28,6 +29,7 @@ namespace TUFFYTests
             } catch (MultipleInitializationException e)
             {
                 //Pass!
+                Debug.Log(e);
             }
 
         }

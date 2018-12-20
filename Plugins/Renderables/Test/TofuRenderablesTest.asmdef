@@ -1,7 +1,9 @@
 {
-    "name": "TUFFYTest",
+    "name": "TofuRenderablesTest",
     "references": [
-        "TUFFYCore"
+        "TofuCore",
+        "TofuPlugin",
+        "TofuTest"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

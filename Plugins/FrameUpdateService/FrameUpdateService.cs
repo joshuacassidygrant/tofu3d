@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TUFFYCore.Events;
-using TUFFYCore.Service;
+using TofuCore.Events;
+using TofuCore.Service;
 using UnityEngine;
 
-namespace TUFFYPlugins.FrameUpdateService
+namespace TofuPlugin.FrameUpdateService
 {
     public class FrameUpdateService : AbstractMonoService
     {

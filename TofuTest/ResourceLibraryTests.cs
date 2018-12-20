@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using TUFFYCore.Service;
-using TUFFYCore.TestSupport;
+using TofuCore.Service;
+using TofuCore.TestSupport;
 using UnityEngine;
 
-namespace TUFFYTests
+namespace TofuTests
 {
 
     public class ContentLibraryTests

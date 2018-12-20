@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TUFFYPlugins.Renderable
+namespace TofuPlugin.Renderable
 {
     public interface IRenderable
     {

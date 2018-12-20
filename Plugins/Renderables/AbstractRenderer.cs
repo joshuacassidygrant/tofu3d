@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TUFFYPlugins.Renderable
+namespace TofuPlugin.Renderable
 {
     public class AbstractRenderer : MonoBehaviour
     {

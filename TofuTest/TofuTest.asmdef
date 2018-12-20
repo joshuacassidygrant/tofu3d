@@ -1,9 +1,7 @@
 {
-    "name": "TUFPFrameUpdateTest",
+    "name": "TofuTest",
     "references": [
-        "TUFFYCore",
-        "TUFFYPlugins",
-        "TUFFYTest"
+        "TofuCore"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

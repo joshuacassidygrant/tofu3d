@@ -1,7 +1,7 @@
-﻿using TUFFYCore.Events;
-using TUFFYCore.Service;
+﻿using TofuCore.Events;
+using TofuCore.Service;
 
-namespace TUFFYCore.TestSupport
+namespace TofuCore.TestSupport
 {
     public class EventTesterService : AbstractService
     {

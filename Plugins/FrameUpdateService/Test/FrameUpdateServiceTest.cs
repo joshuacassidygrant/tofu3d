@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using TUFFYCore.Events;
-using TUFFYCore.Service;
-using TUFFYCore.TestSupport;
+using TofuCore.Events;
+using TofuCore.Service;
+using TofuCore.TestSupport;
 using UnityEngine;
 
-namespace TUFFYPlugins.FrameUpdateService
+namespace TofuPlugin.FrameUpdateService
 {
     public class FrameUpdateServiceTest
     {

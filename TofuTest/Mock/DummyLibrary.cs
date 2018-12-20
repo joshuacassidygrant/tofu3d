@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TUFFYCore.ResourceLibrary;
+using TofuCore.ResourceLibrary;
 using UnityEngine;
 
 
-namespace TUFFYCore.TestSupport
+namespace TofuCore.TestSupport
 {
 
     public class DummyLibrary : AbstractResourceLibrary<int>

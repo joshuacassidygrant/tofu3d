@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using TUFFYCore.Service;
+using TofuCore.Service;
 using UnityEngine;
 
 /*
  * AbstractResourceLibrary provides functionality to load in and retrieve content.
  */
-namespace TUFFYCore.ResourceLibrary
+namespace TofuCore.ResourceLibrary
 {
     public abstract class AbstractResourceLibrary<T> : AbstractService
     {

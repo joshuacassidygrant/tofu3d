@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TUFFYCore.Service;
+using TofuCore.Service;
 using UnityEngine;
 
 /*
@@ -8,18 +8,18 @@ using UnityEngine;
  *
  * Must load an array of event names with LoadEvents to use. 
  */
-namespace TUFFYCore.Events
+namespace TofuCore.Events
 {
     public class EventContext : AbstractService {
 
-        private Dictionary<Event, List<IListener>> _eventListeners;
+        private Dictionary<TofuEvent, List<IListener>> _eventListeners;
         private EventList _events;
         private EventPayloadTypeContainer _eventPayloadTypeContainer;
 
         public override void Build()
         {
             base.Build();
-            _eventListeners = new Dictionary<Event, List<IListener>>();
+            _eventListeners = new Dictionary<TofuEvent, List<IListener>>();
             _events = new EventList();
             _eventPayloadTypeContainer = new EventPayloadTypeContainer();
         }
@@ -31,7 +31,7 @@ namespace TUFFYCore.Events
 
         public void TriggerEvent(string eventKey, EventPayload payload)
         {
-            Event evnt = GetEvent(eventKey);
+            TofuEvent evnt = GetEvent(eventKey);
 
             if (!_eventListeners.ContainsKey(evnt) || _eventListeners[evnt].Count == 0) return;
             _events.Get(evnt.Name).HasBeenCalled();
@@ -43,12 +43,12 @@ namespace TUFFYCore.Events
 
         }
 
-        public Event GetEvent(string name)
+        public TofuEvent GetEvent(string name)
         {
             return _events.Get(name);
         }
 
-        public void BindEventListener(Event evnt, IListener listener)
+        public void BindEventListener(TofuEvent evnt, IListener listener)
         {
 
             if (!_eventListeners.ContainsKey(evnt))
@@ -59,7 +59,7 @@ namespace TUFFYCore.Events
             _eventListeners[evnt].Add(listener);
         }
 
-        public void RemoveEventListener(Event evnt, IListener listener)
+        public void RemoveEventListener(TofuEvent evnt, IListener listener)
         {
             if (!_eventListeners.ContainsKey(evnt) || !_eventListeners[evnt].Contains(listener))
             {

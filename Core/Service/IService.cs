@@ -4,7 +4,7 @@
  * Interface for services classes.
  */
 
-namespace TUFFYCore.Service
+namespace TofuCore.Service
 {
     public interface IService
     {

@@ -5,11 +5,11 @@ using System.Collections.Generic;
  * Bound to service context and provides any set up
  * that service classes need.
  */
-namespace TUFFYCore.Service
+namespace TofuCore.Service
 {
     public class ServiceFactory
     {
-        private readonly ServiceContext _serviceContext;
+        //private readonly ServiceContext _serviceContext;
 
         private static readonly Dictionary<string, Func<IService, IService>> InitFilters = new Dictionary<string, Func<IService, IService>>
         {
@@ -18,7 +18,7 @@ namespace TUFFYCore.Service
 
         public ServiceFactory (ServiceContext serviceContext)
         {
-            _serviceContext = serviceContext;
+            //_serviceContext = serviceContext;
         }
 
         public IService Build(IService service)

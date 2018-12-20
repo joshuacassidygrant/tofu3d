@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.AttributeUsage(System.AttributeTargets.Field)]
-public class Dependency: System.Attribute {
-    public string Name;
-    
-
-    public Dependency(string name)
+namespace TofuCore.Service
+{
+    [System.AttributeUsage(System.AttributeTargets.Field)]
+    public class Dependency : System.Attribute
     {
-        Name = name;
-    }
+        public string Name;
 
-    public Dependency()
-    {
-        
+
+        public Dependency(string name)
+        {
+            Name = name;
+        }
+
+        public Dependency()
+        {
+
+        }
     }
 }
+
