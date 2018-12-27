@@ -49,11 +49,34 @@ namespace TofuTests
         }
 
         [Test]
+        public void LibraryShouldAddResourceWhenAsked()
+        {
+            Assert.AreEqual(0, _dummyLibrary.Get("13"));
+            _dummyLibrary.LoadResource("13", 13);
+            Assert.AreNotEqual(0, _dummyLibrary.Get("13"));
+            
+        }
+
+        [Test]
         public void LibraryShouldGiveDefaultWhenNoResourceFound()
         {
 
             Assert.AreEqual(0, _dummyLibrary.Get("144"));
 
+        }
+
+        [Test]
+        public void LibraryShouldRemoveResourceWhenAsked()
+        {
+            Assert.AreEqual(12, _dummyLibrary.Get("12"));
+            Assert.True(_dummyLibrary.RemoveResource("12"));
+            Assert.AreEqual(0, _dummyLibrary.Get("12"));
+        }
+
+        [Test]
+        public void LibraryShouldReturnFalseWhenAskedToRemoveANonExistingMember()
+        {
+            Assert.False(_dummyLibrary.RemoveResource("Babylon"));
         }
 
 

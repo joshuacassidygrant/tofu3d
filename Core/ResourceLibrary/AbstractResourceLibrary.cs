@@ -38,6 +38,19 @@ namespace TofuCore.ResourceLibrary
 
         public abstract void LoadResources();
 
+        public virtual void LoadResource(string id, T resource)
+        {
+            try {
+                _contents.Add(id, resource);
+            } catch (Exception e) {
+                Debug.Log(e);
+            }
+        }
+
+        public virtual bool RemoveResource(string id)
+        {
+            return _contents.Remove(id);
+        }
 
         public Dictionary<string, T> GetCatalogue()
         {

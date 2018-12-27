@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TofuCore.ResourceLibrary;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace TofuCore.TestSupport
             _contents.Add("15", 15);
             _contents.Add("16", 16);
         }
+
     }
 
 }
