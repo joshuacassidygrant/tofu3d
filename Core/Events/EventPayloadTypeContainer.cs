@@ -15,9 +15,7 @@ namespace TofuCore.Events
                 {"Float", x => x is float },
                 {"Integer", x => x is int },
                 {"String", x => x is string },
-                {"GameObject", x => x is GameObject },
-                //{PayloadContentType.Unit, x => x is Unit }
-
+                {"GameObject", x => x is GameObject }
         };
 
         public void RegisterPayloadContentType(string id, Func<dynamic, bool> check)

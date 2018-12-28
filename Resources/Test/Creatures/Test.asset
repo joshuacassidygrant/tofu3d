@@ -16,3 +16,10 @@ MonoBehaviour:
   Sprite: {fileID: 0}
   UnitType: 0
   Speed: 0
+  Actions:
+  - ActionId: 
+    Configuration:
+      Properties:
+      - Key: 
+      - Key: 
+      - Key: 
