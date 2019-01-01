@@ -29,11 +29,20 @@ Events are passed around in an EventContext with dynamic event payloads. Event l
 ### Resource Libraries
 Resource libraries allow the serving and storage of items of a specified type. Each resource library is a service.
 
+### Command
+Can store and execute player/AI commands.
+
+### Configuration
+Holds an array of key-value pairs for config.
+
 ## Included Plugins
 Plugins are useful behaviour that relies on core functionality. Some plugins may have plugin dependencies.
 
 ### Frame Update Service
 A simple MonoBehaviour that sends an "Update" message with a delta time to all listeners.
+
+### Agents
+Agents are objects with a location, ID, renderable sprite/model etc. that can have AI behaviour.
 
 
 ## Disclaimer:
