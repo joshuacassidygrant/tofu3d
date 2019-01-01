@@ -1,7 +1,7 @@
 # tofu3d
 ### A Testable Object-Oriented Framework for Unity3D 
 
-v0.0.2
+v0.0.3
 
 <img align="left" width=128 height=128 src="./TOFULogoSmall.png" alt="tofu3d">
 
