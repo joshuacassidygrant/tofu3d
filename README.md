@@ -44,6 +44,8 @@ A simple MonoBehaviour that sends an "Update" message with a delta time to all l
 ### Agents
 Agents are objects with a location, ID, renderable sprite/model etc. that can have AI behaviour.
 
+### Resource Module
+An object that contains some float amount of resource out of a possible max amount of resource, and includes methods for depleting/spending that resource and can trigger events from that. Could be used with any numerical resource, such as health in an RPG game or wood in an RTS.
 
 ## Disclaimer:
 I'm a computer science student using this to get a good understanding of system design etc. I do not know everything, and appreciate any feedback on the decisions I've made.
