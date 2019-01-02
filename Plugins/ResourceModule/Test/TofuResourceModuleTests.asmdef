@@ -1,0 +1,15 @@
+{
+    "name": "TofuResourceModuleTests",
+    "references": [
+        "TofuCore",
+        "TofuPlugin"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
