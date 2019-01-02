@@ -5,6 +5,7 @@ using Scripts;
 using TofuPlugin.Agents.AI.Strategy;
 using Scripts.Sensors;
 using TofuCore.Configuration;
+using TofuCore.Service;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AI;
 using TofuPlugin.Agents.Commands;
@@ -35,24 +36,28 @@ namespace TofuPlugin.Agents
 
         private readonly Dictionary<string, dynamic> _properties = new Dictionary<string, dynamic>();
         private readonly AbstractSensorFactory _sensorFactory;
+        private readonly AbstractAgentActionFactory _actionFactory;
 
-        public Agent(int id, AgentPrototype prototype, Vector3 position, AbstractSensorFactory abstractSensorFactory,
-            AbstractAgentActionFactory actionFactory = null, float sizeRadius = 1f)
+
+        public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f)
         {
             Id = id;
             Name = prototype.Name;
             Sprite = prototype.Sprite;
             Position = position;
             SizeRadius = sizeRadius;
-            _sensorFactory = abstractSensorFactory;
+
+            
+            _sensorFactory = context.Fetch("AgentSensorFactory");
+            _actionFactory = context.Fetch("FakeAgentActionFactory");
 
             Actions = new List<AgentAction>();
 
-            if (actionFactory == null || prototype.Actions == null || prototype.Actions.Count <= 0) return;
+            if (_actionFactory == null || prototype.Actions == null || prototype.Actions.Count <= 0) return;
 
             foreach (PrototypeActionEntry action in prototype.Actions)
             {
-                Actions.Add(actionFactory.BindAction(this, action.ActionId, action.Configuration));
+                Actions.Add(_actionFactory.BindAction(this, action.ActionId, action.Configuration));
             }
 
 

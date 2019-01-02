@@ -1,0 +1,16 @@
+{
+    "name": "TofuAgentTest",
+    "references": [
+        "TofuCore",
+        "TofuPlugin",
+        "TofuTest"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
