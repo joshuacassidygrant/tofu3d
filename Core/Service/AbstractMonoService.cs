@@ -139,7 +139,7 @@ namespace TofuCore.Service
 
             if (!_boundListeners.ContainsKey(evnt)) _boundListeners.Add(evnt, new List<Action<EventPayload>>());
 
-            evntContext.BindEventListener(evnt, this);
+            evntContext.HelperBindEventListener(evnt, this);
             _boundListeners[evnt].Add(action);
         }
 

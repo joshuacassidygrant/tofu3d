@@ -48,7 +48,7 @@ namespace TofuCore.Events
             return _events.Get(name);
         }
 
-        public void BindEventListener(TofuEvent evnt, IListener listener)
+        public void HelperBindEventListener(TofuEvent evnt, IListener listener)
         {
 
             if (!_eventListeners.ContainsKey(evnt))

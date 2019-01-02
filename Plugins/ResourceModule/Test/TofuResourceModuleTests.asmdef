@@ -2,7 +2,8 @@
     "name": "TofuResourceModuleTests",
     "references": [
         "TofuCore",
-        "TofuPlugin"
+        "TofuPlugin",
+        "TofuTest"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
