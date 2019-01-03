@@ -14,10 +14,13 @@ namespace TofuPlugin.Agents.AgentActions
         public abstract AgentAction BindAction(Agent agent, string actionId,
             Configuration config);
 
-        public override void Build()
+        
+
+        public override void Initialize()
         {
-            base.Build();
+            base.Initialize();
             LoadAgentActions();
+
         }
 
         public abstract void AddAction(string key, Func<AgentAction> actionCreator);

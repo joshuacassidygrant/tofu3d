@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TofuCore.Events;
 using TofuCore.Service;
@@ -8,9 +9,9 @@ namespace TofuCore.TestSupport
 {
     public class DummyServiceOne : AbstractService
     {
-        [Dependency] private DummyLibrary _dummyLibrary;
-        [Dependency("AnotherDummy")] private DummyServiceOne _anotherDummy;
-
+        [Dependency] protected DummyLibrary DummyLibrary;
+        [Dependency("AnotherDummy")] protected DummyServiceOne AnotherDummy;
+    
         public bool Built = false;
         public bool Bound = false;
 
@@ -39,7 +40,7 @@ namespace TofuCore.TestSupport
 
         public bool AnotherDummyBound()
         {
-            return _anotherDummy != null;
+            return AnotherDummy != null;
         }
 
         public bool GetInitialized()
@@ -61,6 +62,11 @@ namespace TofuCore.TestSupport
                 float contentFloat = ((float)payload.GetContent());
                 DummyActionsCapturedFloats += contentFloat;
             }
+        }
+
+
+        public bool HasDummyLibrary() {
+            return DummyLibrary != null;
         }
     }
 

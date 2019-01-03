@@ -58,6 +58,23 @@ namespace TofuTests
             //Assert
             Assert.True(((DummyServiceOne)s.Fetch("DummyServiceOne")).CheckDependencies());
         }
+
+        [Test]
+        public void ServiceShouldBindBaseClasses()
+        {
+            ServiceContext s = new ServiceContext();
+            DummyServiceSub sub = new DummyServiceSub();
+            sub.BindServiceContext(s);
+
+            new DummyLibrary("t").BindServiceContext(s, "DummyLibrary");
+            new DummyLibrary("t2").BindServiceContext(s, "DummyLibrary2");
+
+            s.FullInitialization();
+
+            Assert.True(sub.HasDummyLibrary2());
+            Assert.True(sub.HasDummyLibrary());
+           
+        }
     }
 }
 

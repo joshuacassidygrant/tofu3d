@@ -9,10 +9,11 @@ namespace TofuCore.Glop
     public class GlopManager : AbstractService
     {
         protected Dictionary<int, Glop> Contents;
-        [Dependency] private EventContext _eventContext;
+        [Dependency] protected EventContext EventContext;
 
         public override void Initialize() {
-            BindListener(_eventContext.GetEvent("FrameUpdate"), OnUpdateFrame, _eventContext);
+            Debug.Log(EventContext);
+            BindListener(EventContext.GetEvent("FrameUpdate"), OnUpdateFrame, EventContext);
         }
 
         public void OnUpdateFrame(EventPayload payload) {

@@ -36,13 +36,19 @@ namespace TofuCore.Service
      */
         public virtual void ResolveServiceBindings()
         {
+
+            
+            Type t = GetType();
+            
+
             if (ServiceContext == null)
             {
-                Debug.Log("Service context not bound in " + GetType().Name);
+                Debug.Log("Service context not bound in " + t.Name);
                 return;
             }
 
-            var dependencyFields = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+
+            var dependencyFields = t.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(p => p.GetCustomAttributes(typeof(Dependency), false).Any());
 
             foreach (var fieldInfo in dependencyFields)
@@ -57,11 +63,17 @@ namespace TofuCore.Service
                     fieldInfo.SetValue(this, ServiceContext.Fetch(name));
                 } else
                 {
-                    Debug.Log("Can't find service with name " + name + " to bind to " + GetType().Name);
+                    Debug.Log("Can't find service with name " + name + " to bind to " + t.Name);
                 }
 
             }
 
+
+        }
+
+        public virtual void ResolveBaseBindings()
+        {
+            //You're at the top of the chain here!
         }
 
         /*
@@ -110,12 +122,6 @@ namespace TofuCore.Service
             }
 
             return true;
-        }
-
-        private string toPrivateFieldName(string typeName)
-        {
-            string privateName = "_" + Char.ToLowerInvariant(typeName[0]) + typeName.Substring(1);
-            return privateName;
         }
 
         public void ReceiveEvent(TofuEvent evnt, EventPayload payload)

@@ -37,6 +37,9 @@ namespace TofuCore.Service
      */
         public virtual void ResolveServiceBindings()
         {
+
+            //TODO: t stuff
+
             if (ServiceContext == null)
             {
                 Debug.Log("Service context not bound in " + GetType().Name);
@@ -65,7 +68,8 @@ namespace TofuCore.Service
             }
         }
 
-     /*
+
+        /*
      * Called after Build and ResolveServiceBindings.
      */
         public virtual void Initialize()
