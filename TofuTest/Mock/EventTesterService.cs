@@ -10,7 +10,7 @@ namespace TofuCore.TestSupport
         public int ZarfCalled = 0;
         public string LastZarfPayload;
 
-        [Dependency] private EventContext _eventContext;
+        [Dependency] protected EventContext EventContext;
 
         public void Mollycoddled(EventPayload eP)
         {

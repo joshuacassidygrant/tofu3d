@@ -9,7 +9,7 @@ namespace TofuPlugin.FrameUpdateService
     public class FrameUpdateService : AbstractMonoService
     {
 
-        [Dependency("EventContext")] private EventContext _eventContext;
+        [Dependency] protected EventContext EventContext;
 
         void Update()
         {
@@ -24,8 +24,8 @@ namespace TofuPlugin.FrameUpdateService
 
         void UpdateTime(float seconds)
         {
-            EventPayload deltaTimePayload = new EventPayload("Float", seconds, _eventContext);
-            _eventContext.TriggerEvent("FrameUpdate", deltaTimePayload);
+            EventPayload deltaTimePayload = new EventPayload("Float", seconds, EventContext);
+            EventContext.TriggerEvent("FrameUpdate", deltaTimePayload);
         }
     }
 }

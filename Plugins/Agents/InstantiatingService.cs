@@ -8,12 +8,12 @@ namespace TofuPlugin.Agents
     {
 
         public int ObjectsInstantiated = 0;
-        [Dependency] private EventContext _eventContext;
+        [Dependency] protected EventContext EventContext;
 
         public override void Initialize()
         {
             base.Initialize();
-            BindListener(_eventContext.GetEvent("SpawnUnit"), SpawnUnit, _eventContext);
+            BindListener(EventContext.GetEvent("SpawnUnit"), SpawnUnit, EventContext);
         }
 
         public GameObject DoInstantiate(GameObject obj, Vector3 place)
