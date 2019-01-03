@@ -35,7 +35,7 @@ namespace TofuPlugin.Agents
         public Vector3 Position { get; set; }
 
         private readonly Dictionary<string, dynamic> _properties = new Dictionary<string, dynamic>();
-        protected AbstractSensorFactory SensorFactory;
+        protected AgentSensorFactory SensorFactory;
         protected AbstractAgentActionFactory ActionFactory;
 
 
