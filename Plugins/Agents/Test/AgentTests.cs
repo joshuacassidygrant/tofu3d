@@ -17,8 +17,7 @@ public class AgentTests
     public void SetUp()
     {
         _context = new ServiceContext();
-        new AgentActionFactoryFake().BindServiceContext(_context);
-        
+        new FakeAgentActionFactory().BindServiceContext(_context);
 
         _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
         _prototype.Id = "t1p";
@@ -26,8 +25,8 @@ public class AgentTests
         _prototype.Sprite = null;
         _prototype.Actions = new List<PrototypeActionEntry>
         {
-            new PrototypeActionEntry("act"),
-            new PrototypeActionEntry("self")
+            new PrototypeActionEntry("test1"),
+            new PrototypeActionEntry("test2")
         };
     }
 

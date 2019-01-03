@@ -1,4 +1,5 @@
-﻿using TofuCore.Service;
+﻿using System;
+using TofuCore.Service;
 using Scripts;
 using TofuCore.Configuration;
 
@@ -18,5 +19,7 @@ namespace TofuPlugin.Agents.AgentActions
             base.Build();
             LoadAgentActions();
         }
+
+        public abstract void AddAction(string key, Func<AgentAction> actionCreator);
     }
 }

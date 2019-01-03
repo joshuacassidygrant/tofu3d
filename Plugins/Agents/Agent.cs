@@ -5,6 +5,7 @@ using Scripts;
 using TofuPlugin.Agents.AI.Strategy;
 using Scripts.Sensors;
 using TofuCore.Configuration;
+using TofuCore.Glop;
 using TofuCore.Service;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AI;
@@ -19,10 +20,9 @@ namespace TofuPlugin.Agents
      * or player input. Agents are managed by an agent manager class and rendered by an agent
      * renderer.
      */
-    public class Agent: IRenderable, ITargettable, IControllableAgent, IConfigurable, ISensable
+    public class Agent: Glop, IRenderable, ITargettable, IControllableAgent, IConfigurable, ISensable
     {
-        public int Id;
-        public string Name;
+
         public List<AgentAction> Actions { get; }
         public ITargettable TargettableSelf => this;
         public AIAgentController Controller;
@@ -35,29 +35,27 @@ namespace TofuPlugin.Agents
         public Vector3 Position { get; set; }
 
         private readonly Dictionary<string, dynamic> _properties = new Dictionary<string, dynamic>();
-        private readonly AbstractSensorFactory _sensorFactory;
-        private readonly AbstractAgentActionFactory _actionFactory;
+        protected AbstractSensorFactory SensorFactory;
+        protected AbstractAgentActionFactory ActionFactory;
 
 
-        public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f)
+        public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f) : base(id, prototype.Name)
         {
-            Id = id;
-            Name = prototype.Name;
             Sprite = prototype.Sprite;
             Position = position;
             SizeRadius = sizeRadius;
 
             
-            _sensorFactory = context.Fetch("AgentSensorFactory");
-            _actionFactory = context.Fetch("FakeAgentActionFactory");
+            SensorFactory = context.Fetch("AgentSensorFactory");
+            ActionFactory = context.Fetch("FakeAgentActionFactory");
 
             Actions = new List<AgentAction>();
 
-            if (_actionFactory == null || prototype.Actions == null || prototype.Actions.Count <= 0) return;
+            if (ActionFactory == null || prototype.Actions == null || prototype.Actions.Count <= 0) return;
 
             foreach (PrototypeActionEntry action in prototype.Actions)
             {
-                Actions.Add(_actionFactory.BindAction(this, action.ActionId, action.Configuration));
+                Actions.Add(ActionFactory.BindAction(this, action.ActionId, action.Configuration));
             }
 
 
@@ -68,9 +66,9 @@ namespace TofuPlugin.Agents
         }
 
 
-        public virtual void Update(float frameDelta)
+        public override void Update(float frameDelta)
         {
-            if (Controller == null) Controller = new AIAgentController(this, _sensorFactory.NewAgentSensor(this));
+            if (Controller == null) Controller = new AIAgentController(this, SensorFactory.NewAgentSensor(this));
             //Do something
         }
 
