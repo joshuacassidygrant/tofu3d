@@ -10,7 +10,9 @@ using UnityEngine;
  */
 namespace TofuCore.Events
 {
-    public class EventContext : AbstractService {
+    public class EventContext : AbstractService
+    {
+
 
         private Dictionary<TofuEvent, List<IListener>> _eventListeners;
         private EventList _events;

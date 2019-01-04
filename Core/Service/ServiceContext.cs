@@ -11,6 +11,8 @@ namespace TofuCore.Service
 {
     public class ServiceContext
     {
+        public int LastGlopId;
+
         private Dictionary<string, IService> _services;
         private ServiceFactory _factory;
 
@@ -18,6 +20,7 @@ namespace TofuCore.Service
         {
             _services = new Dictionary<string, IService>();
             _factory = new ServiceFactory(this);
+            LastGlopId = 1;
         }
 
     /*

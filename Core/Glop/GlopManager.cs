@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TofuCore.Events;
 using TofuCore.Service;
 using UnityEngine;
@@ -13,7 +14,6 @@ namespace TofuCore.Glop
         [Dependency] protected EventContext EventContext;
 
         public override void Initialize() {
-            Debug.Log(EventContext);
             BindListener(EventContext.GetEvent("FrameUpdate"), OnUpdateFrame, EventContext);
         }
 
@@ -36,10 +36,14 @@ namespace TofuCore.Glop
             return Contents.Count;
         }
 
+        public List<Glop> GetContents()
+        {
+            return Contents.Values.ToList();
+        }
+
         public int GenerateGlopId()
         {
-            //TODO: make this avoid collisions
-            return Random.Range(0, 1000000);
+            return ServiceContext.LastGlopId++;
         }
     }
 }
