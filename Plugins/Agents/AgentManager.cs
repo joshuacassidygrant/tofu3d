@@ -9,6 +9,14 @@ namespace TofuPlugin.Agents
 {
     public class AgentManager : GlopManager, ISensableContainer {
 
+        public Agent Spawn(AgentPrototype prototype, Vector3 location)
+        {
+            int id = GenerateGlopId();
+            Agent agent = new Agent(id, prototype, location, ServiceContext);
+            Contents.Add(id, agent);
+            return agent;
+        }
+
         public List<Agent> GetAllAgentsInRangeOfPoint(Vector3 point, float range)
         {
             return GetAgents().Where(x => (point - x.Position).sqrMagnitude <= range * range).ToList();

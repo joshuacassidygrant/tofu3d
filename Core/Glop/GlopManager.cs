@@ -8,6 +8,7 @@ namespace TofuCore.Glop
 {
     public class GlopManager : AbstractService
     {
+
         protected Dictionary<int, Glop> Contents;
         [Dependency] protected EventContext EventContext;
 
@@ -33,6 +34,12 @@ namespace TofuCore.Glop
 
         public int CountActive() {
             return Contents.Count;
+        }
+
+        public int GenerateGlopId()
+        {
+            //TODO: make this avoid collisions
+            return Random.Range(0, 1000000);
         }
     }
 }
