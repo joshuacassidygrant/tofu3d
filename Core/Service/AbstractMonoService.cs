@@ -22,22 +22,21 @@ namespace TofuCore.Service
 
 
         /*
-    * Build sets up all internal workings of the class. Since it's called on GameServiceInitializer's
-    * Awake() method, it should happen before Start()!
-    */
+        * Build sets up all internal workings of the class. Since it's called on GameServiceInitializer's
+        * Awake() method, it should happen before Start()!
+        */
         public virtual void Build()
         {
             //
         }
 
         /*
-     * ResolveServiceBindings ensures that the class has access to all _serviceContext it needs
-     * To receive bindings, a service MUST have fields named as a private version of the 
-     * dependency name (e.g. _serviceName for ServiceName)
-     */
+        * ResolveServiceBindings ensures that the class has access to all serviceContext it needs.
+        * To set a binding, declare it with a [Dependency] attribute on a protected field. If a
+        * service is to be bound to a specialized string, use [Dependency("SpecialName")]
+        */
         public virtual void ResolveServiceBindings()
         {
-
             //TODO: t stuff
 
             if (ServiceContext == null)
@@ -53,7 +52,7 @@ namespace TofuCore.Service
             {
                 object[] atts = fieldInfo.GetCustomAttributes(typeof(Dependency), false);
 
-                string name = ((Dependency)atts[0]).Name;
+                string name = ((Dependency) atts[0]).Name;
                 if (name == null) name = fieldInfo.FieldType.Name;
 
                 if (ServiceContext.Has(name))
@@ -64,7 +63,6 @@ namespace TofuCore.Service
                 {
                     Debug.Log("Can't find service with name " + name + " to bind to " + GetType().Name);
                 }
-
             }
         }
 
@@ -78,8 +76,8 @@ namespace TofuCore.Service
             {
                 Debug.Log("Trying to initialize " + GetType().ToString() + " multiple times!");
                 throw new MultipleInitializationException();
-                
             }
+
             Initialized = true;
         }
 
@@ -111,7 +109,6 @@ namespace TofuCore.Service
             foreach (var fieldInfo in dependencyFields)
             {
                 if (fieldInfo.GetValue(this) == null) return false;
-
             }
 
             return true;

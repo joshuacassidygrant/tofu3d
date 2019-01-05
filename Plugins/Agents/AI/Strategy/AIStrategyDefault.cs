@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TofuPlugin.Agents.AgentActions;
+using TofuPlugin.Agents.Commands;
 
 namespace TofuPlugin.Agents.AI.Strategy
 {
@@ -10,11 +11,8 @@ namespace TofuPlugin.Agents.AI.Strategy
 
 
         //Stub
-        public override AgentAction PickAction(List<AgentAction> actions) {
-            //Will need to get world state here too?
-            //A request to UnitManager?
-
-            if (actions.Count > 0) return actions[0];
+        public override AgentActionCommand PickCommand(List<AgentAction> actions) {
+            
             return null;
         }
 

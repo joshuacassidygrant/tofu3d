@@ -15,5 +15,9 @@ namespace TofuPlugin.Agents.Commands
             Target = target;
         }
 
+        public override bool TryExecute()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

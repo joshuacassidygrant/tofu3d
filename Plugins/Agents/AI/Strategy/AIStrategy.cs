@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Scripts.Sensors;
 using TofuPlugin.Agents.AgentActions;
+using TofuPlugin.Agents.Commands;
 
 namespace TofuPlugin.Agents.AI.Strategy
 {
@@ -18,7 +19,7 @@ namespace TofuPlugin.Agents.AI.Strategy
             _sensor = sensor;
         }
 
-        public abstract AgentAction PickAction(List<AgentAction> actions);
+        public abstract AgentActionCommand PickCommand(List<AgentAction> actions);
 
     }
 }

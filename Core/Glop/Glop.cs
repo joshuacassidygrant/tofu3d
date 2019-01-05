@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TofuCore.Service;
 using UnityEngine;
 
 namespace TofuCore.Glop
@@ -11,14 +12,18 @@ namespace TofuCore.Glop
     public abstract class Glop {
         public int Id;
         public string Name;
+        protected ServiceContext ServiceContext;
 
-        protected Glop(int id, string name)
+        protected Glop(int id, string name, ServiceContext context)
         {
             Id = id;
             Name = name;
+            ServiceContext = context;
         }
 
         public abstract void Update(float frameDelta);
+
+
     }
 
 }

@@ -39,15 +39,14 @@ namespace TofuPlugin.Agents
         protected AbstractAgentActionFactory ActionFactory;
 
 
-        public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f) : base(id, prototype.Name)
+        public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f) : base(id, prototype.Name, context)
         {
             Sprite = prototype.Sprite;
             Position = position;
             SizeRadius = sizeRadius;
 
+            ResolveDependencies();
             
-            SensorFactory = context.Fetch("AgentSensorFactory");
-            ActionFactory = context.Fetch("FakeAgentActionFactory");
 
             Actions = new List<AgentAction>();
 
@@ -61,6 +60,12 @@ namespace TofuPlugin.Agents
 
         }
 
+        private void ResolveDependencies()
+        {
+            SensorFactory = ServiceContext.Fetch("AgentSensorFactory");
+            ActionFactory = ServiceContext.Fetch("FakeAgentActionFactory");
+        }
+
         public void ReceiveCommand(AgentActionCommand command) {
             throw new System.NotImplementedException();
         }
@@ -68,10 +73,14 @@ namespace TofuPlugin.Agents
 
         public override void Update(float frameDelta)
         {
-            if (Controller == null) Controller = new AIAgentController(this, SensorFactory.NewAgentSensor(this));
+            if (Controller == null) AutoSetController();
             //Do something
         }
 
+        public virtual void AutoSetController()
+        {
+            Controller = new AIAgentController(this, SensorFactory.NewAgentSensor(this));
+        }
 
 
         public void AddAction(AgentAction action)

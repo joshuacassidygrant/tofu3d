@@ -29,10 +29,10 @@ namespace TofuCore.Service
         }
 
 
-        /*
-     * ResolveServiceBindings ensures that the class has access to all serviceContext it needs
-     * To receive bindings, a service MUST have fields named as a private version of the 
-     * dependency name (e.g. _serviceName for ServiceName)
+    /*
+     * ResolveServiceBindings ensures that the class has access to all serviceContext it needs.
+     * To set a binding, declare it with a [Dependency] attribute on a protected field. If a
+     * service is to be bound to a specialized string, use [Dependency("SpecialName")]
      */
         public virtual void ResolveServiceBindings()
         {
@@ -71,10 +71,6 @@ namespace TofuCore.Service
 
         }
 
-        public virtual void ResolveBaseBindings()
-        {
-            //You're at the top of the chain here!
-        }
 
         /*
         * Called after Build and ResolveServiceBindings.

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AI.Strategy;
+using TofuPlugin.Agents.Commands;
 
 namespace Scripts.Agents.Strategy {
 
@@ -11,9 +12,10 @@ namespace Scripts.Agents.Strategy {
 
 
         //Stub
-        public override AgentAction PickAction(List<AgentAction> actions) {
+        public override AgentActionCommand PickCommand(List<AgentAction> actions)
+        {
 
-            if (actions.Count > 0) return actions[0];
+            if (actions.Count > 0) return null;
             return null;
         }
 
