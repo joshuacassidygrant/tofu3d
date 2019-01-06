@@ -66,7 +66,7 @@ namespace TofuPlugin.Agents
             ActionFactory = ServiceContext.Fetch("FakeAgentActionFactory");
         }
 
-        public void ReceiveCommand(AgentActionCommand command) {
+        public void ReceiveCommand(AgentCommand command) {
             throw new System.NotImplementedException();
         }
 

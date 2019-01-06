@@ -11,7 +11,7 @@ namespace TofuPlugin.Agents.AI.Strategy
 
 
         //Stub
-        public override AgentActionCommand PickCommand(List<AgentAction> actions) {
+        public override AgentCommand PickCommand(List<AgentAction> actions) {
             
             return null;
         }

@@ -19,7 +19,7 @@ namespace TofuPlugin.Agents.AI.Strategy
             _sensor = sensor;
         }
 
-        public abstract AgentActionCommand PickCommand(List<AgentAction> actions);
+        public abstract AgentCommand PickCommand(List<AgentAction> actions);
 
     }
 }

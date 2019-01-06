@@ -3,13 +3,21 @@ using TofuPlugin.Agents.AgentActions;
 
 namespace TofuPlugin.Agents.Commands
 {
-    public class AgentActionCommand : Command
+    /*
+     *  An AgentCommand is a goal set by a Controller (either AI or human),
+     *  responsible for finding and triggering AgentActions able to fulfill 
+     *  that goal.
+     *  
+     *  AgentCommands can interrupt themselves or be interrupted by a controller 
+     *  when a situation arises.
+     */
+    public class AgentCommand : Command
     {
 
         public AgentAction Action;
         public ITargettable Target;
 
-        public AgentActionCommand(AgentAction action, ITargettable target)
+        public AgentCommand(AgentAction action, ITargettable target)
         {
             Action = action;
             Target = target;

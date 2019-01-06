@@ -1,7 +1,9 @@
 ﻿namespace TofuCore.Command
 {
+
     public abstract class Command
     {
+
 
         public abstract bool TryExecute();
 

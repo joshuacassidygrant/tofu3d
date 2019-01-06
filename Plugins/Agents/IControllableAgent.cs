@@ -9,7 +9,7 @@ namespace TofuPlugin.Agents
         List<AgentAction> Actions { get; }
         void AddAction(AgentAction action);
         ITargettable TargettableSelf { get; }
-        void ReceiveCommand(AgentActionCommand command);
+        void ReceiveCommand(AgentCommand command);
 
     }
 }
