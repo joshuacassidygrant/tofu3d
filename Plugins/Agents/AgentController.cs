@@ -24,6 +24,11 @@ namespace TofuPlugin.Agents
 
         }
 
+        public virtual void Update()
+        {
+
+        }
+
 
     }
 }

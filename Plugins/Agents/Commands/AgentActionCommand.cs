@@ -25,7 +25,13 @@ namespace TofuPlugin.Agents.Commands
 
         public override bool TryExecute()
         {
-            throw new System.NotImplementedException();
+            Action.TriggerAction(Target);
+            return true;
+        }
+
+        public override string ToString()
+        {
+            return Action.Name + " targetting " + Target.ToString();
         }
     }
 }

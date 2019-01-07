@@ -34,6 +34,18 @@ namespace TofuPlugin.Agents
         public Sprite Sprite { get; set; }
         public Vector3 Position { get; set; }
 
+        public AgentCommand CurrentCommand {
+            get; set;
+        }
+
+        public AgentAction CurrentAction {
+            get; set;
+        }
+
+        public ITargettable CurrentActionTarget {
+            get; set;
+        }
+
         private readonly Dictionary<string, dynamic> _properties = new Dictionary<string, dynamic>();
         protected AgentSensorFactory SensorFactory;
         protected AbstractAgentActionFactory ActionFactory;
@@ -74,6 +86,13 @@ namespace TofuPlugin.Agents
         public override void Update(float frameDelta)
         {
             if (Controller == null) AutoSetController();
+            Controller.Update();
+            //Controller should target and trigger actions.
+
+            if (CurrentAction != null)
+            {
+                CurrentAction.TryExecute(frameDelta);
+            }
             //Do something
         }
 
@@ -89,6 +108,28 @@ namespace TofuPlugin.Agents
             Actions.Add(action);
         }
 
+        //Pathfinding
+        //TEMPORARY
+        //TODO: add real pathfinding
+        private Vector3 _nextPathPoint = Vector3.zero;
+
+        public Vector3 GetNextPathPoint()
+        {
+            return _nextPathPoint;
+        }
+
+        public void SetNextPathPoint(Vector3 point)
+        {
+            _nextPathPoint = point;
+        }
+
+        public void MoveInDirection(Vector3 direction, float time)
+        {
+            Position = direction * GetProperty("Speed", 1f) * time;
+        }
+
+
+        //Config
         public virtual void Configure(Configuration config) {
             foreach (ConfigurationProperty entry in config.Properties)
             {

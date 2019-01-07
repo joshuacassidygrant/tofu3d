@@ -13,13 +13,13 @@ namespace TofuPlugin.Agents.AgentActions
      * walking along a path may take any number of frames to complete. 
      * 
      * A single AgentAction refers to a distinct entry within an Agent's action list.
-     */ 
-    public abstract class AgentAction: IConfigurable
+     */
+    public abstract class AgentAction : IConfigurable
     {
         public Agent Agent;
         public string Id;
         public string Name;
-        
+
         /*
          * Cooldown refers to the time until this agent can use this action again
          */
@@ -36,17 +36,21 @@ namespace TofuPlugin.Agents.AgentActions
         /*
          * FocusTime refers to the amount of time required to focus on triggering an 
          * action. This could be 0 or very low for something quick (an attack, for 
-         * instance) or longer for something more complicated (casting a ritual).
-         * Some actions might allow focus for a variable amount of time up to a maximum
-         * time.
+         * instance) or longer for something more complicated (casting a ritual, carving
+         * a small wooden duck). Some actions might allow focus for a variable amount of
+         * time up to a maximum time.
          */
         public float FocusTime;
         public float CurrentFocusTime;
-        public bool VariableFocus;
-        public float MaximiumFocus;
+        public bool VariableFocusTime;
+        public float MaximumFocusTime;
 
         //The range at which this action can be activated
         public float Range;
+
+        //An action must be triggered by a command (to set a target) before it can be used.
+        public bool Triggered;
+        
 
         private Dictionary<string, dynamic> _properties = new Dictionary<string, dynamic>();
 
@@ -57,6 +61,9 @@ namespace TofuPlugin.Agents.AgentActions
 
         }
 
+        /*
+         * The targetting function determines the best target for an action.
+         */
         public abstract ITargettable TargettingFunction();
 
         public virtual bool CanUse()
@@ -66,11 +73,18 @@ namespace TofuPlugin.Agents.AgentActions
                 TargettingFunction() != null);
         }
 
-        public virtual void UseEffect(ITargettable target)
+        public virtual void TriggerAction(ITargettable target)
         {
             CurrentCooldown = Cooldown;
         }
 
+        public virtual void TryExecute(float time)
+        {
+
+        }
+
+         
+        //PROPERTIES
         public virtual void Configure(Configuration config)
         {
             SetProperty("Cooldown", 0f);

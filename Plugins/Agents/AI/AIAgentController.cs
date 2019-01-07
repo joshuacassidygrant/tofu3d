@@ -1,5 +1,6 @@
 ﻿using Scripts.Sensors;
 using TofuPlugin.Agents.AI.Strategy;
+using TofuPlugin.Agents.Commands;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.AI
@@ -16,9 +17,32 @@ namespace TofuPlugin.Agents.AI
             ClearStrategy();
         }
 
-        public void NextCommand()
+        public override void Update()
         {
+            base.Update();
+
+            if (_strategy == null) return;
             
+            if(Agent.CurrentCommand == null)
+            {
+                Agent.CurrentCommand = NextCommand();
+                Debug.Log(Agent.CurrentCommand);
+                Debug.Log("Command picked" + Agent.CurrentCommand.ToString());
+            }
+
+            if (Agent.CurrentAction == null)
+            {
+                Agent.CurrentAction = Agent.CurrentCommand.Action;
+                Agent.CurrentActionTarget = Agent.CurrentCommand.Target;
+            }
+        }
+
+        public AgentCommand NextCommand()
+        {
+            AgentCommand nextCommand = _strategy.PickCommand(Agent.Actions);
+            Debug.Log(_strategy);
+            Debug.Log(nextCommand);
+            return nextCommand;
         }
 
         public string GetStrategyName()
