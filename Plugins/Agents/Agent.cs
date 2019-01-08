@@ -125,6 +125,7 @@ namespace TofuPlugin.Agents
 
         public void MoveInDirection(Vector3 direction, float time)
         {
+            Debug.Log("Move");
             Position = direction * GetProperty("Speed", 1f) * time;
         }
 

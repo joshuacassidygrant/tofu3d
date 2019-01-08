@@ -3,6 +3,7 @@ using System.Dynamic;
 using Scripts;
 using TofuPlugin.Agents.AI;
 using TofuCore.Configuration;
+using UnityEngine;
 
 namespace TofuPlugin.Agents.AgentActions
 {
@@ -80,7 +81,6 @@ namespace TofuPlugin.Agents.AgentActions
 
         public virtual void TryExecute(float time)
         {
-
         }
 
          

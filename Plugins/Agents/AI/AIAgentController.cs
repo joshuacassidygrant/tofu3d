@@ -26,6 +26,7 @@ namespace TofuPlugin.Agents.AI
             if(Agent.CurrentCommand == null)
             {
                 Agent.CurrentCommand = NextCommand();
+                Debug.Log(_strategy.ToString());
                 Debug.Log(Agent.CurrentCommand);
                 Debug.Log("Command picked" + Agent.CurrentCommand.ToString());
             }
@@ -34,13 +35,13 @@ namespace TofuPlugin.Agents.AI
             {
                 Agent.CurrentAction = Agent.CurrentCommand.Action;
                 Agent.CurrentActionTarget = Agent.CurrentCommand.Target;
+                Agent.CurrentAction.TriggerAction(Agent.CurrentActionTarget);
             }
         }
 
         public AgentCommand NextCommand()
         {
-            AgentCommand nextCommand = _strategy.PickCommand(Agent.Actions);
-            Debug.Log(_strategy);
+            AgentCommand nextCommand = _strategy.PickCommand();
             Debug.Log(nextCommand);
             return nextCommand;
         }
@@ -53,12 +54,21 @@ namespace TofuPlugin.Agents.AI
         public void SetStrategy(AIStrategy strategy)
         {
             _strategy = strategy;
+            _strategy.BindAgent(Agent);
             strategy.SetSensor(Sensor);
+            Update();
+        }
+        
+        public void Interrupt()
+        {
+            Agent.CurrentCommand = null;
+            Agent.CurrentAction = null;
+            Agent.CurrentActionTarget = null;
         }
 
         public void ClearStrategy()
         {
-            _strategy = new AIStrategyDefault();
+            SetStrategy(new AIStrategyDefault());
         }
 
 

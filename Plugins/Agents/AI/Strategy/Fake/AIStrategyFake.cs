@@ -12,10 +12,9 @@ namespace Scripts.Agents.Strategy {
 
 
         //Stub
-        public override AgentCommand PickCommand(List<AgentAction> actions)
+        public override AgentCommand PickCommand()
         {
 
-            if (actions.Count > 0) return null;
             return null;
         }
 
