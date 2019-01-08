@@ -28,7 +28,7 @@ namespace TofuPlugin.Agents
         public AIAgentController Controller;
 
         //TODO: should we also allow other methods of setting size radius? Or move it out of properties?
-        public float SizeRadius { get; }
+        public float SizeRadius { get; protected set; }
 
         //TODO: should be able to take a 3d model instead
         public Sprite Sprite { get; set; }
