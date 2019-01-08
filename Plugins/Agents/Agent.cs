@@ -22,7 +22,9 @@ namespace TofuPlugin.Agents
      */
     public class Agent: Glop, IRenderable, ITargettable, IControllableAgent, IConfigurable, ISensable
     {
-
+        /*
+         * Add to this only with the AddAction() method to ensure actions are bound to agent
+         */
         public List<AgentAction> Actions { get; }
         public ITargettable TargettableSelf => this;
         public AIAgentController Controller;
@@ -58,7 +60,6 @@ namespace TofuPlugin.Agents
             SizeRadius = sizeRadius;
 
             ResolveDependencies();
-            
 
             Actions = new List<AgentAction>();
 
@@ -66,10 +67,8 @@ namespace TofuPlugin.Agents
 
             foreach (PrototypeActionEntry action in prototype.Actions)
             {
-                Actions.Add(ActionFactory.BindAction(this, action.ActionId, action.Configuration));
+                AddAction(ActionFactory.BindAction(this, action.ActionId, action.Configuration));
             }
-
-
         }
 
         private void ResolveDependencies()
@@ -82,7 +81,6 @@ namespace TofuPlugin.Agents
             throw new System.NotImplementedException();
         }
 
-
         public override void Update(float frameDelta)
         {
             if (Controller == null) AutoSetController();
@@ -91,6 +89,7 @@ namespace TofuPlugin.Agents
 
             if (CurrentAction != null)
             {
+                //Once action is set and targeted, agent is responsible for carrying it out
                 CurrentAction.TryExecute(frameDelta);
             }
             //Do something
@@ -104,7 +103,11 @@ namespace TofuPlugin.Agents
 
         public void AddAction(AgentAction action)
         {
-            action.Agent = this;
+            if (action.Agent != this)
+            {
+                Debug.Log("Must bind action to this agent first!");
+                return;
+            } 
             Actions.Add(action);
         }
 
