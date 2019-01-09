@@ -48,6 +48,11 @@ namespace TofuPlugin.Agents
             get; set;
         }
 
+        public virtual string GetSortingLayer()
+        {
+            return "Agent";
+        }
+
         private readonly Dictionary<string, dynamic> _properties = new Dictionary<string, dynamic>();
         protected AgentSensorFactory SensorFactory;
         protected AbstractAgentActionFactory ActionFactory;

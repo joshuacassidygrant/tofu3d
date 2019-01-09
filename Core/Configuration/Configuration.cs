@@ -25,12 +25,46 @@ namespace TofuCore.Configuration
     public class ConfigurationProperty
     {
         public string Key; 
-        public dynamic Value;
+        public string Value;
 
-        public ConfigurationProperty(string id, dynamic value)
+        public ConfigurationProperty(string id, string value)
         {
             Key = id;
             Value = value;
+        }
+
+        public int ValueAsInt(int def)
+        {
+            int result;
+
+            if (int.TryParse(Value, out result))
+            {
+                return result;
+            }
+
+            return def;
+        }
+
+        public float ValueAsFloat(float def)
+        {
+            float result;
+
+            if (float.TryParse(Value, out result))
+            {
+                return result;
+            }
+            return def;
+        }
+
+        public bool ValueAsBool(bool def)
+        {
+            bool result;
+
+            if (bool.TryParse(Value, out result)) {
+                return result;
+            }
+
+            return def;
         }
     }
 }

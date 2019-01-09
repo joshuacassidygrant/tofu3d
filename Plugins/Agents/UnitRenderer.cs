@@ -9,7 +9,7 @@ namespace TofuPlugin.Agents
         public void Initialize(Agent agent)
         {
             base.Initialize(agent);
-            SetLayer("Agent");
+            SetLayer(agent.GetSortingLayer());
         }
 
 

@@ -5,6 +5,8 @@ namespace TofuPlugin.Renderable
     public interface IRenderable
     {
 
+        string GetSortingLayer();
+
         Sprite Sprite {
             get;
         }
