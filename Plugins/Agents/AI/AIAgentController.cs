@@ -26,9 +26,6 @@ namespace TofuPlugin.Agents.AI
             if(Agent.CurrentCommand == null)
             {
                 Agent.CurrentCommand = NextCommand();
-                Debug.Log(_strategy.ToString());
-                Debug.Log(Agent.CurrentCommand);
-                Debug.Log("Command picked" + Agent.CurrentCommand.ToString());
             }
 
             if (Agent.CurrentAction == null)
@@ -42,7 +39,6 @@ namespace TofuPlugin.Agents.AI
         public AgentCommand NextCommand()
         {
             AgentCommand nextCommand = _strategy.PickCommand();
-            Debug.Log(nextCommand);
             return nextCommand;
         }
 

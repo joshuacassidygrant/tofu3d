@@ -15,12 +15,14 @@ namespace TofuCore.Service
         public int LastGlopId;
 
         private Dictionary<string, IService> _services;
+        private Dictionary<string, string> _aliases;
         private List<GlopManager> _glopManagers;
         private ServiceFactory _factory;
 
         public ServiceContext()
         {
             _services = new Dictionary<string, IService>();
+            _aliases = new Dictionary<string, string>();
             _glopManagers = new List<GlopManager>();
             _factory = new ServiceFactory(this);
             LastGlopId = 0x1;
@@ -50,21 +52,32 @@ namespace TofuCore.Service
         {
             if (Has(name))
             {
-                return _services[name];
+                if (_services.ContainsKey(name))
+                {
+                    return _services[name];
+                } else
+                {
+                    return _services[_aliases[name]];
+                }
             }
 
             Debug.Log("Can't find type " + name);
             return null;
         }
 
-        public bool Has(String name)
+        public bool Has(string name)
         {
-            if (_services.ContainsKey(name))
+            if (_services.ContainsKey(name) || (_aliases.ContainsKey(name) && _services.ContainsKey(_aliases[name])))
             {
                 return true;
             }
 
             return false;
+        }
+
+        public void AddAlias(string key, string alias)
+        {
+            _aliases.Add(alias, key);
         }
         
         //Glop functions

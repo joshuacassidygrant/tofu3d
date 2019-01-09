@@ -24,7 +24,7 @@ namespace Tests
             _context = new ServiceContext();
 
             _fakeActionFactory = new FakeAgentActionFactory();
-            _fakeActionFactory.BindServiceContext(_context);
+            _fakeActionFactory.BindServiceContext(_context, "AgentActionFactory");
             _fakeActionFactory.Build();
             _fakeActionFactory.Initialize();
             _fakeActionFactory.AddAction("act", () => new AgentActionFake("act", "Act"));

@@ -74,7 +74,7 @@ namespace TofuPlugin.Agents
         private void ResolveDependencies()
         {
             SensorFactory = ServiceContext.Fetch("AgentSensorFactory");
-            ActionFactory = ServiceContext.Fetch("FakeAgentActionFactory");
+            ActionFactory = ServiceContext.Fetch("AgentActionFactory");
         }
 
         public void ReceiveCommand(AgentCommand command) {

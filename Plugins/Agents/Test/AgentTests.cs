@@ -18,7 +18,7 @@ public class AgentTests
     {
         _context = new ServiceContext();
         FakeAgentActionFactory _actionFactory = new FakeAgentActionFactory();
-        _actionFactory.BindServiceContext(_context);
+        _actionFactory.BindServiceContext(_context, "AgentActionFactory");
         new AgentSensorFactory().BindServiceContext(_context);
 
 
