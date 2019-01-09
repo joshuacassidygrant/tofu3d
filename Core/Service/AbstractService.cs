@@ -149,6 +149,7 @@ namespace TofuCore.Service
         {
             evntContext.RemoveEventListener(evnt, this);
             _boundListeners[evnt].Remove(action);
+
         }
     }
 }

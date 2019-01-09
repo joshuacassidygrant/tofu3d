@@ -41,6 +41,20 @@ namespace TofuCore.Glop
             return Contents.Values.ToList();
         }
 
+        public Glop GetGlopById(int id)
+        {
+            if (HasId(id))
+            {
+                return Contents[id];
+            }
+            return null;
+        }
+
+        public bool HasId(int id)
+        {
+            return Contents.ContainsKey(id);
+        }
+
         public int GenerateGlopId()
         {
             return ServiceContext.LastGlopId++;

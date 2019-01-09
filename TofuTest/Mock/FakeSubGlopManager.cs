@@ -1,12 +1,18 @@
 ﻿using TofuCore.Glop;
 
-namespace Assets.tofu3d.TofuTest.Mock
+namespace TofuTests.Mock
 {
     public class FakeSubGlopManager : GlopManager {
 
         public int UseNextId()
         {
             return GenerateGlopId();
+        }
+
+        public void SpawnFakeGlop()
+        {
+            int id = UseNextId();
+            Contents.Add(id, new FakeGlop(id, ServiceContext));
         }
 	
     }
