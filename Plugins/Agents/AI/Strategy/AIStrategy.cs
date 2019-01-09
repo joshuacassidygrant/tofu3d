@@ -12,7 +12,7 @@ namespace TofuPlugin.Agents.AI.Strategy
      */
     public abstract class AIStrategy
     {
-        private AbstractSensor _sensor;
+        protected AbstractSensor _sensor;
         protected IControllableAgent Agent;
         
         public void BindAgent(IControllableAgent agent)
