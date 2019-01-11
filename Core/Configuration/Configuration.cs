@@ -12,7 +12,7 @@ namespace TofuCore.Configuration
 
         public void AddProperty(string id, dynamic value)
         {
-            Properties.Add(new ConfigurationProperty(id, value));
+            Properties.Add(new ConfigurationProperty(id, value.ToString()));
         }
 
         public List<ConfigurationProperty>.Enumerator GetEnumerator()

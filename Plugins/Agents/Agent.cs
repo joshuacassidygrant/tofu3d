@@ -48,12 +48,22 @@ namespace TofuPlugin.Agents
             get; set;
         }
 
+        public Properties Properties {
+            get {
+                return _properties;
+            }
+            protected set {
+                _properties = value;
+            }
+        }
+
+        private Properties _properties;
+
         public virtual string GetSortingLayer()
         {
             return "Agent";
         }
 
-        private readonly Dictionary<string, dynamic> _properties = new Dictionary<string, dynamic>();
         protected AgentSensorFactory SensorFactory;
         protected AbstractAgentActionFactory ActionFactory;
 
@@ -134,61 +144,13 @@ namespace TofuPlugin.Agents
         public void MoveInDirection(Vector3 direction, float time)
         {
             Debug.Log("Move");
-            Position = direction * GetProperty("Speed", 1f) * time;
+            Position = direction * Properties.GetProperty("Speed", 1f) * time;
         }
 
 
-        //Config
-        public virtual void Configure(Configuration config) {
-            foreach (ConfigurationProperty entry in config.Properties)
-            {
-                SetProperty(entry.Key, entry.Value);
-            }
-        }
 
-        public Dictionary<string, dynamic> GetProperties() {
-            return _properties;
-        }
 
-        public float GetProperty(string id, float defaultValue) {
-            if (!_properties.ContainsKey(id)) {
-                return defaultValue;
-            }
-            return _properties[id];
-        }
-
-        public string GetProperty(string id, string defaultValue) {
-            if (!_properties.ContainsKey(id) || (string)_properties[id] == null) {
-                return defaultValue;
-            }
-
-            return _properties[id];
-        }
-
-        public int GetProperty(string id, int defaultValue) {
-            if (!_properties.ContainsKey(id)) {
-                return defaultValue;
-            }
-
-            return _properties[id];
-        }
-
-        public bool GetProperty(string id, bool defaultValue) {
-            if (!_properties.ContainsKey(id)) {
-                return defaultValue;
-            }
-
-            return _properties[id];
-        }
-
-        public void SetProperty(string id, dynamic value) {
-            if (_properties.ContainsKey(id)) {
-                _properties[id] = value;
-                return;
-            }
-
-            _properties.Add(id, value);
-        }
+       
 
     }
 }
