@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TofuCore.Configuration
 {
-    public class Properties : MonoBehaviour
+    public class Properties
     {
 
         Dictionary<string, string> _properties;

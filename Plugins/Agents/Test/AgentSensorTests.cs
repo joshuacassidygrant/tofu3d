@@ -36,7 +36,7 @@ namespace Tests
             _context.FullInitialization();
             Debug.Log(_context.Fetch("AgentSensorFactory"));
 
-            _agent = _agentManager.Spawn(new AgentPrototype(), Vector3.zero);
+            _agent = _agentManager.Spawn(AgentPrototype.GetNew(), Vector3.zero);
             _sensor = new AgentSensor(_context, _agent);
         }
 
@@ -52,8 +52,8 @@ namespace Tests
         [Test]
         public void SensorShouldDetectAgentsInRange()
         {
-            Agent _u1 = _agentManager.Spawn(new AgentPrototype(), Vector3.one);
-            Agent _u2 = _agentManager.Spawn(new AgentPrototype(), new Vector3(10f,10f, 0));
+            Agent _u1 = _agentManager.Spawn(AgentPrototype.GetNew(), Vector3.one);
+            Agent _u2 = _agentManager.Spawn(AgentPrototype.GetNew(), new Vector3(10f,10f, 0));
 
             List<Agent> agents = _sensor.GetAgentsInRange(5f);
 
@@ -73,8 +73,8 @@ namespace Tests
         public void SensorShouldIgnoreSelfAgentIfDirected()
         {
             //Arrange
-            Agent _u1 = _agentManager.Spawn(new AgentPrototype(), Vector3.one);
-            Agent _u2 = _agentManager.Spawn(new AgentPrototype(), new Vector3(10f, 10f, 0));
+            _agentManager.Spawn(AgentPrototype.GetNew(), Vector3.one);
+            _agentManager.Spawn(AgentPrototype.GetNew(), new Vector3(10f, 10f, 0));
 
             //Act
             List<Agent> agents = _sensor.GetOtherAgentsInRange(100f);
@@ -88,9 +88,9 @@ namespace Tests
         public void SensorShouldPickClosestUnitAndFurthestUnitWhenDirected()
         {
             //Arrange
-            Agent _u1 = _agentManager.Spawn(new AgentPrototype(), Vector3.one);
-            Agent _u2 = _agentManager.Spawn(new AgentPrototype(), new Vector3(10f, 10f, 0));
-            Agent _u3 = _agentManager.Spawn(new AgentPrototype(), new Vector3(-2f, -2f, 0));
+            Agent _u1 = _agentManager.Spawn(AgentPrototype.GetNew(), Vector3.one);
+            _agentManager.Spawn(AgentPrototype.GetNew(), new Vector3(10f, 10f, 0));
+            Agent _u3 = _agentManager.Spawn(AgentPrototype.GetNew(), new Vector3(-2f, -2f, 0));
             
 
             //Act

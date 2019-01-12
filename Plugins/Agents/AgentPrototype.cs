@@ -13,5 +13,10 @@ namespace TofuPlugin.Agents
 
         public List<PrototypeActionEntry> Actions;
         public Configuration Config;
+
+        public static AgentPrototype GetNew()
+        {
+            return ScriptableObject.CreateInstance<AgentPrototype>();
+        }
     }
 }
