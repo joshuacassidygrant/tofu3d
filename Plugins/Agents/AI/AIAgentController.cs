@@ -22,10 +22,18 @@ namespace TofuPlugin.Agents.AI
             base.Update();
 
             if (_strategy == null) return;
-            
-            if(Agent.CurrentCommand == null)
+
+            if (Agent.CurrentCommand != null && !Agent.CurrentCommand.Executable())
+            {
+                Interrupt();
+            }
+
+            AgentCommand newCommand = NextCommand();
+
+            if(Agent.CurrentCommand == null || newCommand.Priority > Agent.CurrentCommand.Priority)
             {
                 Agent.CurrentCommand = NextCommand();
+                Agent.CurrentAction = null;
             }
 
             if (Agent.CurrentAction == null)

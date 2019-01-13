@@ -9,5 +9,6 @@ namespace TofuPlugin.Agents
     public interface ITargettable
     {
         Vector3 Position { get; }
+        bool Active { get; }
     }
 }

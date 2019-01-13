@@ -22,6 +22,12 @@ namespace TofuPlugin.Agents
                 return _position;
             }
         }
+
+        public bool Active {
+            get {
+                return true;
+            }
+        }
     }
 
 }

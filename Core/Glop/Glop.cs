@@ -21,6 +21,11 @@ namespace TofuCore.Glop
             ServiceContext = context;
         }
 
+        public virtual void Die()
+        {
+            //Do something!
+        }
+
         public abstract void Update(float frameDelta);
 
 

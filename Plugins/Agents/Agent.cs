@@ -57,6 +57,10 @@ namespace TofuPlugin.Agents
             }
         }
 
+        public bool Active {
+            get; protected set;
+        }
+
         private Properties _properties;
 
         public virtual string GetSortingLayer()
@@ -124,6 +128,12 @@ namespace TofuPlugin.Agents
                 return;
             } 
             Actions.Add(action);
+        }
+
+        public override void Die()
+        {
+            base.Die();
+            Active = false;
         }
 
         //Pathfinding

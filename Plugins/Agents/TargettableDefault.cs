@@ -11,6 +11,12 @@ namespace TofuPlugin.Agents
                 return Vector3.zero;
             }
         }
+
+        public bool Active {
+            get {
+                return true;
+            }
+        }
     }
 }
 

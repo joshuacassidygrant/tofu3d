@@ -16,11 +16,18 @@ namespace TofuPlugin.Agents.Commands
 
         public AgentAction Action;
         public ITargettable Target;
+        public int Priority;
 
-        public AgentCommand(AgentAction action, ITargettable target)
+        public AgentCommand(AgentAction action, ITargettable target, int priority)
         {
             Action = action;
             Target = target;
+            Priority = priority;
+        }
+
+        public virtual bool Executable()
+        {
+            return Target != null && Target.Active;
         }
 
         public override bool TryExecute()

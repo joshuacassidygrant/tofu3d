@@ -59,6 +59,17 @@ namespace TofuCore.Glop
         {
             return ServiceContext.LastGlopId++;
         }
+
+        public void Destroy(Glop glop)
+        {
+            if (HasId(glop.Id))
+            {
+                glop.Die();
+                Contents.Remove(glop.Id);
+            }
+
+            Debug.Log("No GLOP found with id " + glop.Id);
+        }
     }
 }
 
