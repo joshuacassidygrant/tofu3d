@@ -32,7 +32,7 @@ namespace TofuPlugin.Agents.AI.Strategy
             if (action == null)
             {
                 Debug.Log("No action found for id: " + id);
-                return new AgentActionIdle("idleX", "IdleX");
+                return null;
             }
             return action;
         }

@@ -30,7 +30,8 @@ namespace TofuPlugin.Agents.AI
 
             AgentCommand newCommand = NextCommand();
 
-            if(Agent.CurrentCommand == null || newCommand.Priority > Agent.CurrentCommand.Priority)
+            if (Agent.CurrentCommand == null || 
+               (newCommand != null && newCommand.Priority > Agent.CurrentCommand.Priority))
             {
                 Agent.CurrentCommand = NextCommand();
                 Agent.CurrentAction = null;
