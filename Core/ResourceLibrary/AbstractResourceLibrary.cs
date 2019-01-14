@@ -18,16 +18,12 @@ namespace TofuCore.ResourceLibrary
         protected Dictionary<string, T> _contents;
 
 
-        protected AbstractResourceLibrary(string path)
+        protected AbstractResourceLibrary(string path, string prefix = "")
         {
             Type = typeof(T);
             Path = path;
-            _contents = new Dictionary<string, T>();
-        }
-
-        public void SetPrefix(string prefix)
-        {
             Prefix = prefix;
+            _contents = new Dictionary<string, T>();
         }
 
         public override void Build()

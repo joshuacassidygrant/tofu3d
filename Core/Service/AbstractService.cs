@@ -85,7 +85,7 @@ namespace TofuCore.Service
             Initialized = true;
         }
 
-        public void BindServiceContext(ServiceContext serviceContext, string bindingName = null)
+        public dynamic BindServiceContext(ServiceContext serviceContext, string bindingName = null)
         {
             if (bindingName == null) bindingName = GetType().Name;
             ServiceContext = serviceContext;
@@ -97,7 +97,10 @@ namespace TofuCore.Service
             catch (ServiceDoubleBindException e)
             {
                 Debug.Log("Error: Cannot bind two services to " + bindingName + " " + e);
+                return this;
             }
+
+            return this;
         }
 
         public string GetServiceName()
