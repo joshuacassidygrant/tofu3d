@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
+using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
@@ -10,6 +11,9 @@ namespace TofuPlugin.Agents
         void AddAction(AgentAction action);
         ITargettable TargettableSelf { get; }
         void ReceiveCommand(AgentCommand command);
+        Vector3 Position {
+            get;
+        }
         AgentCommand CurrentCommand {
             get;
             set;

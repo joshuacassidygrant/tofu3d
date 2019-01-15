@@ -20,7 +20,6 @@ namespace TofuPlugin.Agents.AI
         public override void Update()
         {
             base.Update();
-
             if (_strategy == null) return;
 
             if (Agent.CurrentCommand != null && !Agent.CurrentCommand.Executable())
@@ -43,6 +42,7 @@ namespace TofuPlugin.Agents.AI
                 Agent.CurrentActionTarget = Agent.CurrentCommand.Target;
                 Agent.CurrentAction.TriggerAction(Agent.CurrentActionTarget);
             }
+            
         }
 
         public AgentCommand NextCommand()
