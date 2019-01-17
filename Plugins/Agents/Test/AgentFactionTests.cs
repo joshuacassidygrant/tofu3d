@@ -99,6 +99,21 @@ namespace TofuPlugin.Agents.Tests
             }
         }
 
+
+        [Test]
+        public void ShouldBeAbleToCreateAndGetFactionsThroughFactionManager()
+        {
+            Faction fBob = _factionManager.Create("bobs", "Bob's Raiders");
+            Faction fJim = _factionManager.Create("jims", "Jim's Patriots");
+            Faction fSue = _factionManager.Create("sues", "Sue's Slaughterbunnies");
+
+            Assert.AreEqual(3, _factionManager.CountActive());
+            Assert.AreEqual(fBob, _factionManager.GetFactionByIdName("bobs"));
+            Assert.AreEqual(fSue, _factionManager.GetFactionByIdName("sues"));
+            Assert.AreEqual(fJim, _factionManager.GetFactionByIdName("jims"));
+
+
+        }
     }
 
 }
