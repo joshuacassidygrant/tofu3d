@@ -5,7 +5,7 @@ using TofuCore.Events;
 using TofuCore.Service;
 using UnityEngine;
 
-namespace TofuCore.Glop
+namespace TofuCore.Glops
 {
     public class GlopManager : AbstractService
     {

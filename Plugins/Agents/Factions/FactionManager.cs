@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TofuCore.Glop;
+using TofuCore.Glops;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Faction
+namespace TofuPlugin.Agents.Factions
 {
     public class FactionManager : GlopManager
     {

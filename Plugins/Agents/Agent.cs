@@ -5,7 +5,7 @@ using Scripts;
 using TofuPlugin.Agents.AI.Strategy;
 using Scripts.Sensors;
 using TofuCore.Configuration;
-using TofuCore.Glop;
+using TofuCore.Glops;
 using TofuCore.Service;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AI;

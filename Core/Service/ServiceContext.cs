@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TofuCore.Exceptions;
-using TofuCore.Glop;
+using TofuCore.Glops;
 using UnityEngine;
 
 /*
@@ -81,7 +81,7 @@ namespace TofuCore.Service
         }
         
         //Glop functions
-        public Glop.Glop FindGlopById(int id)
+        public Glops.Glop FindGlopById(int id)
         {
             foreach (GlopManager manager in _glopManagers)
             {

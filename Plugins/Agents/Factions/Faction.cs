@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TofuCore.Glop;
+using TofuCore.Glops;
+using TofuCore.Player;
 using TofuCore.Service;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Faction
+namespace TofuPlugin.Agents.Factions
 {
     public class Faction: Glop
     {
@@ -14,8 +15,12 @@ namespace TofuPlugin.Agents.Faction
         //List of other allegiances and their relationships
         private Dictionary<Faction, int> _relationships;
 
-        public Faction(string idName, int id, ServiceContext serviceContext) : base(id, idName, serviceContext)
+        public string IdName;
+        public Player Controller;
+
+        public Faction(string idName, string niceName, int id, ServiceContext serviceContext) : base(id, idName, serviceContext)
         {
+            Name = niceName;
             _relationships = new Dictionary<Faction, int>();
         }
 
@@ -36,6 +41,11 @@ namespace TofuPlugin.Agents.Faction
             {
                 _relationships[faction] = value;
             }
+        }
+
+        public void SetController(Player controller)
+        {
+            Controller = controller;
         }
 
         public override void Update(float frameDelta)

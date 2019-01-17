@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using NUnit.Framework;
 using TofuCore.Events;
-using TofuCore.Glop;
+using TofuCore.Glops;
 using TofuCore.Service;
 using TofuTests.Mock;
 using UnityEngine;

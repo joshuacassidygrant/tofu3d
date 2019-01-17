@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
-public class ISensableTests {
+namespace TofuPlugin.Agents.Tests
+{
+    public class ISensableTests {
 
-    [SetUp]
-    public void SetUp()
-    {
+        [SetUp]
+        public void SetUp()
+        {
 
+        }
     }
-
-	
-
 
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TofuCore.Service;
 using UnityEngine;
 
-namespace TofuCore.Glop
+namespace TofuCore.Glops
 {
     /*
      * A GLOP is a Generalized Local Object or Process. Subclass this

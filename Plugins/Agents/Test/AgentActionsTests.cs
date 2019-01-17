@@ -7,7 +7,7 @@ using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
 
-namespace Tests
+namespace TofuPlugin.Agents.Tests
 {
     public class AgentActionsTests
     {

@@ -1,4 +1,4 @@
-﻿using TofuCore.Glop;
+﻿using TofuCore.Glops;
 
 namespace TofuTests.Mock
 {
