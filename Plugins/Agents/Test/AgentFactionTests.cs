@@ -114,6 +114,12 @@ namespace TofuPlugin.Agents.Tests
 
 
         }
+
+        [Test]
+        public void TestFactionLevelsLoad()
+        {
+            //TODO: this
+        }
     }
 
 }

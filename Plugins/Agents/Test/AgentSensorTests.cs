@@ -31,10 +31,7 @@ namespace TofuPlugin.Agents.Tests
 
             _eventContext.GetPayloadTypeContainer().RegisterPayloadContentType("Agent", (x => x is Agent));
 
-            Debug.Log(_context.Fetch("AgentSensorFactory"));
-
             _context.FullInitialization();
-            Debug.Log(_context.Fetch("AgentSensorFactory"));
 
             _agent = _agentManager.Spawn(AgentPrototype.GetNew(), Vector3.zero);
             _sensor = new AgentSensor(_context, _agent);

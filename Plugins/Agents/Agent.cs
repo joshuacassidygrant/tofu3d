@@ -11,6 +11,7 @@ using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AI;
 using TofuPlugin.Agents.Commands;
 using TofuPlugin.Agents.Sensors;
+using TofuPlugin.Agents.Factions;
 
 namespace TofuPlugin.Agents
 {
@@ -45,6 +46,10 @@ namespace TofuPlugin.Agents
         }
 
         public ITargettable CurrentActionTarget {
+            get; set;
+        }
+
+        public Faction Faction {
             get; set;
         }
 
@@ -99,6 +104,7 @@ namespace TofuPlugin.Agents
         public void ReceiveCommand(AgentCommand command) {
             throw new System.NotImplementedException();
         }
+
 
         public override void Update(float frameDelta)
         {
