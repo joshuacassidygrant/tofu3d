@@ -18,21 +18,23 @@ namespace TofuPlugin.Agents.Factions
         public string IdName;
         public Player Controller;
 
-        public Faction(string idName, string niceName, int id, ServiceContext serviceContext) : base(id, idName, serviceContext)
+        public Faction(string idName, string niceName, int id, ServiceContext serviceContext) : base(id, niceName, serviceContext)
         {
-            Name = niceName;
+            IdName = idName;
             _relationships = new Dictionary<Faction, int>();
         }
 
         public void SetMutualRelationship (Faction faction, int value)
         {
             SetRelationship(faction, value);
-            faction.SetRelationship(faction, value);
+            faction.SetRelationship(this, value);
 
         }
 
         public void SetRelationship(Faction faction, int value)
         {
+            if (faction == this) throw new ExceptionSelfRelationship();
+
             if (!_relationships.ContainsKey(faction))
             {
                 _relationships.Add(faction, value);
@@ -43,9 +45,35 @@ namespace TofuPlugin.Agents.Factions
             }
         }
 
+        public void ChangeMutualRelationship (Faction faction, int value)
+        {  
+            ChangeRelationship(faction, value);
+            faction.ChangeRelationship(this, value);
+        }
+
+        public void ChangeRelationship (Faction faction, int value)
+        {
+            if (faction == this) throw new ExceptionSelfRelationship();
+
+            if (!_relationships.ContainsKey(faction))
+            {
+                _relationships.Add(faction, value);
+            }
+            else
+            {
+                _relationships[faction] += value;
+            }
+        }
+
         public void SetController(Player controller)
         {
             Controller = controller;
+        }
+
+        public int GetRelationship(Faction faction)
+        {
+            if (!_relationships.ContainsKey(faction)) return 0;
+            return _relationships[faction];
         }
 
         public override void Update(float frameDelta)
