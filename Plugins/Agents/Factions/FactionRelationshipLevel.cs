@@ -16,6 +16,8 @@ namespace TofuPlugin.Agents.Factions
             Name = name;
              
         }
+
+        //Add queryable list of things you can do at this level?  
     }
 
 }

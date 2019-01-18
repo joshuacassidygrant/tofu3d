@@ -30,6 +30,7 @@ namespace TofuPlugin.Agents
         public ITargettable TargettableSelf => this;
         public AIAgentController Controller;
 
+
         //TODO: should we also allow other methods of setting size radius? Or move it out of properties?
         public float SizeRadius { get; protected set; }
 
@@ -75,6 +76,7 @@ namespace TofuPlugin.Agents
 
         protected AgentSensorFactory SensorFactory;
         protected AbstractAgentActionFactory ActionFactory;
+        protected FactionManager FactionManager;
 
 
         public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f) : base(id, prototype.Name, context)
@@ -99,6 +101,7 @@ namespace TofuPlugin.Agents
         {
             SensorFactory = ServiceContext.Fetch("AgentSensorFactory");
             ActionFactory = ServiceContext.Fetch("AgentActionFactory");
+            FactionManager = ServiceContext.Fetch("FactionManager");
         }
 
         public void ReceiveCommand(AgentCommand command) {

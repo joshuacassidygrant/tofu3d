@@ -14,12 +14,14 @@ namespace TofuPlugin.Agents.Factions
             _relationships = new List<FactionRelationshipLevel>();
         }
 
-        private static List<FactionRelationshipLevel> _relationships;
+        private List<FactionRelationshipLevel> _relationships;
 
         public void Configure(List<FactionRelationshipLevel> relationships)
         {
             relationships.Sort(CompareTo);
             _relationships = relationships;
+
+            //TODO: disallow overlapping range
         }
 
         private int CompareTo(FactionRelationshipLevel x, FactionRelationshipLevel y)
@@ -41,13 +43,28 @@ namespace TofuPlugin.Agents.Factions
             return Contents.Values.Cast<Faction>().FirstOrDefault(x => (x.IdName == idName));
         }
 
-        public static FactionRelationshipLevel GetFactionRelationship(int amount)
+        public FactionRelationshipLevel GetFactionRelationship(int amount)
         {
-            foreach (FactionRelationshipLevel rel in _relationships)
+
+            if (_relationships == null || _relationships.Count == 0)
             {
-                if (rel.Min >= amount) return rel;
+                return new FactionRelationshipLevel(0, "Unaffiliated");
             }
-            return new FactionRelationshipLevel(0, "Unaffiliated");
+
+            //Remove edge cases
+            if (amount >= _relationships[_relationships.Count - 1].Min) return _relationships[_relationships.Count - 1];
+            if (amount <= _relationships[0].Min) return _relationships[0];
+
+            //NOTE: If we have a very large number of levels, could be efficient to add a max to each
+            //and run a binary search.
+
+            for (int i = _relationships.Count - 2; i > 0; i--)
+            {
+                if (amount >= _relationships[i].Min) return _relationships[i] ;
+            }
+
+            return _relationships[0];
+
         }
 
 

@@ -5,6 +5,8 @@ using TofuPlugin.Agents.AgentActions.Fake;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
+using TofuPlugin.Agents.Factions;
+using TofuCore.Events;
 
 namespace TofuPlugin.Agents.Tests
 {
@@ -18,9 +20,11 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
             _context = new ServiceContext();
-            FakeAgentActionFactory _actionFactory = new FakeAgentActionFactory();
-            _actionFactory.BindServiceContext(_context, "AgentActionFactory");
+            FakeAgentActionFactory _actionFactory = new FakeAgentActionFactory().BindServiceContext(_context, "AgentActionFactory");
+            FactionManager _factionManager = new FactionManager().BindServiceContext(_context);
+            EventContext _eventContext = new EventContext().BindServiceContext(_context);
             new AgentSensorFactory().BindServiceContext(_context);
+
 
 
             _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
@@ -47,6 +51,8 @@ namespace TofuPlugin.Agents.Tests
             Assert.AreEqual(null, u.Sprite);
             Assert.AreEqual(Vector3.zero, u.Position);
             Assert.AreEqual(2, u.Actions.Count);
+
+            
 
         }
     }

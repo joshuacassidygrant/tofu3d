@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 using TofuCore.Player;
 using TofuCore.Service;
 using TofuPlugin.Agents.Factions;
@@ -118,7 +119,40 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void TestFactionLevelsLoad()
         {
-            //TODO: this
+            Assert.AreEqual("Unaffiliated", _factionManager.GetFactionRelationship(10).Name);
+
+            //With a single level, always return this.
+            List<FactionRelationshipLevel> levels = new List<FactionRelationshipLevel>();
+            FactionRelationshipLevel def = new FactionRelationshipLevel(30, "Default");
+            levels.Add(def);
+            _factionManager.Configure(levels);
+
+            Assert.AreEqual("Default", _factionManager.GetFactionRelationship(31).Name);
+
+
+            levels = new List<FactionRelationshipLevel>();
+            FactionRelationshipLevel friend = new FactionRelationshipLevel(30, "Friend");
+            FactionRelationshipLevel neutral = new FactionRelationshipLevel(-10, "Neutral");
+            FactionRelationshipLevel enemy = new FactionRelationshipLevel(-30, "Enemy");
+            FactionRelationshipLevel archenemy = new FactionRelationshipLevel(-50, "Archenemy");
+            levels.Add(friend);
+            levels.Add(enemy);
+            levels.Add(archenemy);
+            levels.Add(neutral);
+
+            _factionManager.Configure(levels);
+
+            Assert.AreEqual("Friend", _factionManager.GetFactionRelationship(30).Name);
+            Assert.AreEqual("Friend", _factionManager.GetFactionRelationship(500).Name);
+            Assert.AreEqual("Neutral", _factionManager.GetFactionRelationship(29).Name);
+            Assert.AreEqual("Neutral", _factionManager.GetFactionRelationship(0).Name);
+            Assert.AreEqual("Neutral", _factionManager.GetFactionRelationship(-10).Name);
+            Assert.AreEqual("Enemy", _factionManager.GetFactionRelationship(-11).Name);
+            Assert.AreEqual("Enemy", _factionManager.GetFactionRelationship(-30).Name);
+            Assert.AreEqual("Archenemy", _factionManager.GetFactionRelationship(-31).Name);
+            Assert.AreEqual("Archenemy", _factionManager.GetFactionRelationship(-512).Name);
+            
+
         }
     }
 
