@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TofuCore.Player
 {
-    public class Player : Glops.Glop
+    public class Player : Glop
     {
         //TODO this
         //Probably abstract for AI vs. human player
@@ -17,7 +17,6 @@ namespace TofuCore.Player
 
         public override void Update(float frameDelta)
         {
-            throw new System.NotImplementedException();
         }
     }
 

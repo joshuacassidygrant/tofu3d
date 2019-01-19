@@ -234,7 +234,11 @@ namespace TofuPlugin.Agents.Tests
             Faction bobs = _factionManager.Create("bobs", "Bob's Raiders");
             Faction sues = _factionManager.Create("sues", "Sue's Slaughterers");
 
-            bobs.SetMutualRelationship(sues, -20);
+            agent.Faction = bobs;
+            agent2.Faction = sues;
+            agent3.Faction = sues;
+
+            bobs.SetMutualRelationship(sues, -30);
 
             Assert.False(agent.PermissionToDo("help", agent2));
             Assert.True(agent.PermissionToDo("attack", agent2));
