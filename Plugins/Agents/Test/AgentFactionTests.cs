@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using TofuCore.Player;
 using TofuCore.Service;
+using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Factions;
+using UnityEngine;
 
 namespace TofuPlugin.Agents.Tests
 {
@@ -11,12 +13,20 @@ namespace TofuPlugin.Agents.Tests
 
         private FactionManager _factionManager;
         private ServiceContext _context;
+        private AgentPrototype _prototype;
 
         [SetUp]
         public void SetUp()
         {
             _context = new ServiceContext();
             _factionManager = new FactionManager().BindServiceContext(_context);
+
+
+            _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
+            _prototype.Id = "t1p";
+            _prototype.Name = "T1P";
+            _prototype.Sprite = null;
+            _prototype.Actions = new List<PrototypeActionEntry>();
         }
 
         [Test]
@@ -123,7 +133,7 @@ namespace TofuPlugin.Agents.Tests
 
             //With a single level, always return this.
             List<FactionRelationshipLevel> levels = new List<FactionRelationshipLevel>();
-            FactionRelationshipLevel def = new FactionRelationshipLevel(30, "Default");
+            FactionRelationshipLevel def = new FactionRelationshipLevel(30, "Default", new List<string>());
             levels.Add(def);
             _factionManager.Configure(levels);
 
@@ -131,10 +141,11 @@ namespace TofuPlugin.Agents.Tests
 
 
             levels = new List<FactionRelationshipLevel>();
-            FactionRelationshipLevel friend = new FactionRelationshipLevel(30, "Friend");
-            FactionRelationshipLevel neutral = new FactionRelationshipLevel(-10, "Neutral");
-            FactionRelationshipLevel enemy = new FactionRelationshipLevel(-30, "Enemy");
-            FactionRelationshipLevel archenemy = new FactionRelationshipLevel(-50, "Archenemy");
+            FactionRelationshipLevel friend = new FactionRelationshipLevel(30, "Friend", new List<string>());
+            FactionRelationshipLevel neutral = new FactionRelationshipLevel(-10, "Neutral", new List<string>());
+            FactionRelationshipLevel enemy = new FactionRelationshipLevel(-30, "Enemy", new List<string>());
+            FactionRelationshipLevel archenemy = new FactionRelationshipLevel(-50, "Archenemy", new List<string>());
+            
             levels.Add(friend);
             levels.Add(enemy);
             levels.Add(archenemy);
@@ -154,6 +165,90 @@ namespace TofuPlugin.Agents.Tests
             
 
         }
+
+        [Test]
+        public void TestFactionLevelsShouldWorkWithAgents()
+        {
+            List<FactionRelationshipLevel> levels = new List<FactionRelationshipLevel>();
+            FactionRelationshipLevel friend = new FactionRelationshipLevel(30, "Friend", new List<string>());
+            FactionRelationshipLevel neutral = new FactionRelationshipLevel(-10, "Neutral", new List<string>());
+            FactionRelationshipLevel enemy = new FactionRelationshipLevel(-30, "Enemy", new List<string>());
+            FactionRelationshipLevel archenemy = new FactionRelationshipLevel(-50, "Archenemy", new List<string>());
+
+            levels.Add(friend);
+            levels.Add(enemy);
+            levels.Add(archenemy);
+            levels.Add(neutral);
+
+            _factionManager.Configure(levels);
+
+            Agent agent = new Agent(123, _prototype, Vector3.one, _context);
+            Agent agent2 = new Agent(124, _prototype, Vector3.zero, _context);
+            Agent agent3 = new Agent(125, _prototype, Vector3.left, _context);
+
+            Faction bobs = _factionManager.Create("bobs", "Bob's Raiders");
+            Faction sues = _factionManager.Create("sues", "Sue's Slaughterers");
+
+            agent.Faction = bobs;
+            agent2.Faction = sues;
+            agent3.Faction = sues;
+
+            bobs.SetMutualRelationship(sues, -29);
+
+            Assert.AreEqual("Enemy", _factionManager.GetFactionRelationship(agent, agent2).Name);
+            Assert.AreEqual("Same", _factionManager.GetFactionRelationship(agent2, agent3).Name);
+            Assert.AreEqual("Same", _factionManager.GetFactionRelationship(agent2, agent2).Name);
+
+            bobs.SetMutualRelationship(sues, 30);
+            Assert.AreEqual("Friend", _factionManager.GetFactionRelationship(agent, agent2).Name);
+
+            sues.SetRelationship(bobs, -50);
+            Assert.AreEqual("Archenemy", _factionManager.GetFactionRelationship(agent2, agent).Name);
+            Assert.AreEqual("Friend", _factionManager.GetFactionRelationship(agent, agent2).Name);
+
+        }
+
+        [Test]
+        public void TestAgentFunctionsShouldReturnFactionLevelsAndPermissions()
+        {
+            List<FactionRelationshipLevel> levels = new List<FactionRelationshipLevel>();
+            FactionRelationshipLevel friend = new FactionRelationshipLevel(30, "Friend", new List<string> {"help", "hug", "kiss" });
+            FactionRelationshipLevel neutral = new FactionRelationshipLevel(-10, "Neutral", new List<string> { "stare" });
+            FactionRelationshipLevel enemy = new FactionRelationshipLevel(-30, "Enemy", new List<string> { "attack" });
+            FactionRelationshipLevel archenemy = new FactionRelationshipLevel(-50, "Archenemy", new List<string> { "hunt", "attack" });
+            FactionRelationshipLevel same = new FactionRelationshipLevel(0, "Same", new List<string> { "help"});
+
+            _factionManager.SetSame(same);
+
+            levels.Add(friend);
+            levels.Add(enemy);
+            levels.Add(archenemy);
+            levels.Add(neutral);
+
+            _factionManager.Configure(levels);
+
+            Agent agent = new Agent(123, _prototype, Vector3.one, _context);
+            Agent agent2 = new Agent(124, _prototype, Vector3.zero, _context);
+            Agent agent3 = new Agent(125, _prototype, Vector3.left, _context);
+
+            Faction bobs = _factionManager.Create("bobs", "Bob's Raiders");
+            Faction sues = _factionManager.Create("sues", "Sue's Slaughterers");
+
+            bobs.SetMutualRelationship(sues, -20);
+
+            Assert.False(agent.PermissionToDo("help", agent2));
+            Assert.True(agent.PermissionToDo("attack", agent2));
+            Assert.True(agent2.PermissionToDo("help", agent3));
+
+            bobs.SetMutualRelationship(sues, 40);
+            Assert.True(agent.PermissionToDo("hug", agent2));
+            Assert.True(agent.PermissionToDo("kiss", agent2));
+            Assert.False(agent.PermissionToDo("hug", agent));
+        }
     }
 
+
+    
+
 }
+

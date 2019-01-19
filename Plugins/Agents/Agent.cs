@@ -145,6 +145,25 @@ namespace TofuPlugin.Agents
             Active = false;
         }
 
+        /*
+         * Faction
+         */
+        
+        public FactionRelationshipLevel GetRelationshipWith(Agent agent)
+        {
+            return FactionManager.GetFactionRelationship(this, agent);
+        }
+
+        public List<string> GetFactionPermissions(Agent agent)
+        {
+            return GetRelationshipWith(agent).Permissions;
+        }
+
+        public bool PermissionToDo(string factionAction, Agent agent)
+        {
+            return GetFactionPermissions(agent).Contains(factionAction);
+        }
+
         //Pathfinding
         //TEMPORARY
         //TODO: add real pathfinding

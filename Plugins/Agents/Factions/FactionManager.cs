@@ -9,9 +9,24 @@ namespace TofuPlugin.Agents.Factions
     public class FactionManager : GlopManager
     {
 
+        public FactionRelationshipLevel Unaffiliated;
+        public FactionRelationshipLevel Same;
+
         public FactionManager()
         {
             _relationships = new List<FactionRelationshipLevel>();
+            Unaffiliated = new FactionRelationshipLevel(0, "Unaffiliated", new List<string>());
+            Same = new FactionRelationshipLevel(0, "Same", new List<string>());
+        }
+
+        public void SetSame(FactionRelationshipLevel level)
+        {
+            Same = level;
+        }
+
+        public void SetUnaffiliated(FactionRelationshipLevel level)
+        {
+            Unaffiliated = level;
         }
 
         private List<FactionRelationshipLevel> _relationships;
@@ -43,12 +58,24 @@ namespace TofuPlugin.Agents.Factions
             return Contents.Values.Cast<Faction>().FirstOrDefault(x => (x.IdName == idName));
         }
 
+        public FactionRelationshipLevel GetFactionRelationship(Agent agent, Faction faction)
+        {
+            if (agent.Faction == faction) return Same;
+
+            return GetFactionRelationship(agent.Faction.GetRelationship(faction));
+        }
+
+        public FactionRelationshipLevel GetFactionRelationship(Agent agent, Agent other)
+        {
+            return GetFactionRelationship(agent, other.Faction);
+        }
+
         public FactionRelationshipLevel GetFactionRelationship(int amount)
         {
 
             if (_relationships == null || _relationships.Count == 0)
             {
-                return new FactionRelationshipLevel(0, "Unaffiliated");
+                return new FactionRelationshipLevel(0, "Unaffiliated", new List<string>());
             }
 
             //Remove edge cases
