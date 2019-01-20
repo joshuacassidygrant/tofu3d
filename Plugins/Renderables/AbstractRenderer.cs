@@ -8,13 +8,13 @@ namespace TofuPlugin.Renderable
     {
 
         private IRenderable _renderable;
-        private SpriteRenderer _spriteRenderer;
+        protected SpriteRenderer SpriteRenderer;
 
         public void Render()
         {
             if (_renderable == null) return;
             transform.position = _renderable.Position;
-            _spriteRenderer.sprite = _renderable.Sprite;
+            SpriteRenderer.sprite = _renderable.Sprite;
         }
 
         private void Update()
@@ -26,7 +26,7 @@ namespace TofuPlugin.Renderable
         public void Initialize(IRenderable renderable)
         {
             _renderable = renderable;
-            _spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+            SpriteRenderer = gameObject.AddComponent<SpriteRenderer>();
 
             Render();
         }
@@ -38,7 +38,7 @@ namespace TofuPlugin.Renderable
 
         protected void SetLayer(string layerName)
         {
-            _spriteRenderer.sortingLayerName = layerName;
+            SpriteRenderer.sortingLayerName = layerName;
         }
 
 

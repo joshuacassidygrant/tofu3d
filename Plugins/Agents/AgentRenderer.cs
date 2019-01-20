@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
-    public class UnitRenderer : AbstractRenderer
+    public class AgentRenderer : AbstractRenderer
     {
 
         public void Initialize(Agent agent)

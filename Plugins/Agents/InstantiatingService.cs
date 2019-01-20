@@ -13,7 +13,6 @@ namespace TofuPlugin.Agents
         public override void Initialize()
         {
             base.Initialize();
-            BindListener(EventContext.GetEvent("SpawnUnit"), SpawnUnit, EventContext);
         }
 
         public GameObject DoInstantiate(GameObject obj, Vector3 place)
@@ -24,22 +23,6 @@ namespace TofuPlugin.Agents
         }
 
 
-        /*
-     * Event-triggered
-     */
 
-        public void SpawnUnit(EventPayload payload)
-        {
-            if (payload.ContentType != "Agent")
-            {
-                Debug.Log("Incorrect content type");
-                return;
-            }
-            
-            Agent agent = (Agent) payload.GetContent();
-
-            UnitRenderer renderer = DoInstantiate(new GameObject() {name = agent.Name + agent.Id}, agent.Position).AddComponent<UnitRenderer>();
-            renderer.Initialize(agent);
-        }
     }
 }
