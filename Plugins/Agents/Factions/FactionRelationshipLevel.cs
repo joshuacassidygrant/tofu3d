@@ -24,6 +24,11 @@ namespace TofuPlugin.Agents.Factions
             return Permissions.Contains(permission);
         }
 
+        public override string ToString()
+        {
+            return Name + " " + base.ToString();
+        }
+
         //Add queryable list of things you can do at this level?  
     }
 

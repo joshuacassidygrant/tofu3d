@@ -28,12 +28,17 @@ namespace TofuPlugin.Agents
             return agentManager.GetAllAgentsInRangeOfPoint(Agent.Position, range).ToList();
         }
 
+        public List<Agent> GetAgentsInRangeWithFactionPermission(float range, string permission)
+        {
+            return GetAgentsInRange(range, (other => Agent.PermissionToDo(permission, other)));
+        }
+
         public List<Agent> GetAgentsInRange(float range, Func<Agent, bool> predicate) {
             return GetAgentsInRange(range).Where(predicate).ToList();
         }
 
         public List<Agent> GetOtherAgentsInRange(float range) {
-            return GetAgentsInRange(range, (agent => agent != Agent));
+            return GetAgentsInRange(range, (other => other != Agent));
         }
 
         public List<Agent> GetOtherAgentsInRange(float range, Func<Agent, bool> predicate) {
