@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Scripts.Utility
+namespace TofuCore.Utility
 {
     public static class MathUtilities {
 
