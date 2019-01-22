@@ -149,7 +149,7 @@ namespace TofuPlugin.Agents.AgentActions
 
         public bool Ready()
         {
-            return Phase == ActionPhase.READY;
+            return Phase == ActionPhase.READY && !Triggered;
         }
 
 

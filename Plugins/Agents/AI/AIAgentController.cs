@@ -40,7 +40,7 @@ namespace TofuPlugin.Agents.AI
             {
                 Agent.CurrentAction = Agent.CurrentCommand.Action;
                 Agent.CurrentActionTarget = Agent.CurrentCommand.Target;
-                Agent.CurrentAction.TriggerAction(Agent.CurrentActionTarget);
+                //Agent.CurrentAction.TriggerAction(Agent.CurrentActionTarget);
             }
             
         }
