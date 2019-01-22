@@ -20,6 +20,23 @@ namespace TofuPlugin.Agents.AgentActions
         public Agent Agent;
         public string Id;
         public string Name;
+        
+        public ActionPhase Phase {
+            get {
+                if (Triggered)
+                {
+                    return ActionPhase.FOCUS;
+                } 
+
+                if (CurrentCooldown > 0)
+                {
+                    return ActionPhase.COOLDOWN;
+                }
+
+                return ActionPhase.READY;
+            }
+
+        }
 
         /*
          * Cooldown refers to the time until this agent can use this action again
@@ -51,6 +68,7 @@ namespace TofuPlugin.Agents.AgentActions
 
         //An action must be triggered by a command (to set a target) before it can be used.
         public bool Triggered;
+        public ITargettable StoredTarget;
         
 
 
@@ -85,13 +103,41 @@ namespace TofuPlugin.Agents.AgentActions
 
         public virtual void TriggerAction(ITargettable target)
         {
+            Triggered = true;
+            StoredTarget = target;
+        }
+
+        public virtual void FireAction(ITargettable target, float deltaTime) {
             CurrentCooldown = Cooldown;
         }
 
         public virtual void TryExecute(float time)
         {
+
         }
 
+        public virtual void Update(float deltaTime)
+        {
+            switch (Phase)
+            {
+                case ActionPhase.COOLDOWN:
+                    CurrentCooldown = Mathf.Max(0, CurrentCooldown - deltaTime);
+                    break;
+                case ActionPhase.FOCUS:
+                    CurrentFocusTime += deltaTime;
+                    
+                    if (CurrentFocusTime >= FocusTime)
+                    {
+                        CurrentFocusTime = 0;
+                        FireAction(StoredTarget, deltaTime);
+                        StoredTarget = null;
+                        Triggered = false; 
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
          
         //PROPERTIES
         public virtual void Configure(Configuration config)
@@ -101,6 +147,18 @@ namespace TofuPlugin.Agents.AgentActions
             //Do something
         }
 
+        public bool Ready()
+        {
+            return Phase == ActionPhase.READY;
+        }
 
+
+    }
+
+    public enum ActionPhase
+    {
+        READY,
+        FOCUS,
+        COOLDOWN
     }
 }

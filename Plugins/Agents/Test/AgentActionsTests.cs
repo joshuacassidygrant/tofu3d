@@ -63,15 +63,41 @@ namespace TofuPlugin.Agents.Tests
         }
 
         [Test]
-        public void TestUnitSelfAction()
+        public void TestUnitSelfActionTargets()
         {
             AgentAction selfAction = _agent.Actions[1];
             ITargettable target = selfAction.TargettingFunction();
             Assert.AreEqual(target, _agent);
         }
 
+        [Test]
+        public void TestActionShouldPassThroughPhases()
+        {
+            AgentAction selfAction = _agent.Actions[1];
+            selfAction.Cooldown = 5f;
+            selfAction.FocusTime = 2f;
 
-    
+            Assert.AreEqual(ActionPhase.READY, selfAction.Phase);
+
+            selfAction.TriggerAction(_agent);
+            Assert.AreEqual(ActionPhase.FOCUS, selfAction.Phase);
+
+            _agent.Update(1f);
+            Assert.AreEqual(ActionPhase.FOCUS, selfAction.Phase);
+
+            _agent.Update(1f);
+            Assert.AreEqual(ActionPhase.COOLDOWN, selfAction.Phase);
+
+            _agent.Update(4f);
+            Assert.AreEqual(ActionPhase.COOLDOWN, selfAction.Phase);
+
+            _agent.Update(1f);
+            Assert.AreEqual(ActionPhase.READY, selfAction.Phase);
+
+        }
+
+
+
 
     }
 }

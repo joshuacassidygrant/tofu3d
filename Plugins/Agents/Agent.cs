@@ -111,14 +111,16 @@ namespace TofuPlugin.Agents
 
         public override void Update(float frameDelta)
         {
+            UpdateActions(frameDelta);
+
             if (Controller == null) AutoSetController();
             Controller.Update();
             //Controller should target and trigger actions.
 
-            if (CurrentAction != null)
+            if (CurrentCommand != null)
             {
                 //Once action is set and targeted, agent is responsible for carrying it out
-                CurrentAction.TryExecute(frameDelta);
+                CurrentCommand.TryExecute();
             }
             //Do something
         }
@@ -185,9 +187,18 @@ namespace TofuPlugin.Agents
         }
 
 
+        protected void UpdateActions(float deltaTime)
+        {
+            foreach (AgentAction action in Actions)
+            {
+                action.Update(deltaTime);
+            }
+        }
 
 
-       
+
+
+
 
     }
 }

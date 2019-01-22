@@ -32,8 +32,13 @@ namespace TofuPlugin.Agents.Commands
 
         public override bool TryExecute()
         {
-            Action.TriggerAction(Target);
-            return true;
+            if (Action.Ready())
+            {
+                Action.TriggerAction(Target);
+                return true;
+            }
+
+            return false;
         }
 
         public override string ToString()
