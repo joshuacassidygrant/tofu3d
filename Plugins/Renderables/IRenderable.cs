@@ -4,6 +4,7 @@ namespace TofuPlugin.Renderable
 {
     public interface IRenderable
     {
+        int GetId();
 
         string GetSortingLayer();
 

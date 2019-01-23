@@ -23,6 +23,7 @@ namespace TofuPlugin.Agents
      */
     public class Agent: Glop, IRenderable, ITargettable, IControllableAgent, IConfigurable, ISensable
     {
+
         /*
          * Add to this only with the AddAction() method to ensure actions are bound to agent
          */
@@ -37,6 +38,11 @@ namespace TofuPlugin.Agents
         //TODO: should be able to take a 3d model instead
         public Sprite Sprite { get; set; }
         public Vector3 Position { get; set; }
+
+        public int GetId()
+        {
+            return Id;
+        }
 
         public AgentCommand CurrentCommand {
             get; set;

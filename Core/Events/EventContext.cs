@@ -17,6 +17,7 @@ namespace TofuCore.Events
         private Dictionary<TofuEvent, List<IListener>> _eventListeners;
         private EventList _events;
         private EventPayloadTypeContainer _eventPayloadTypeContainer;
+        private Dictionary<TofuEvent, IListener> _eventListenersToRemove;
 
         public override void Build()
         {
@@ -33,6 +34,7 @@ namespace TofuCore.Events
 
         public void TriggerEvent(string eventKey, EventPayload payload)
         {
+            FlushListeners();
             TofuEvent evnt = GetEvent(eventKey);
 
             if (!_eventListeners.ContainsKey(evnt) || _eventListeners[evnt].Count == 0) return;
@@ -42,6 +44,8 @@ namespace TofuCore.Events
             {
                 listener.ReceiveEvent(evnt, payload);
             }
+            FlushListeners();
+
 
         }
 
@@ -52,7 +56,6 @@ namespace TofuCore.Events
 
         public void HelperBindEventListener(TofuEvent evnt, IListener listener)
         {
-
             if (!_eventListeners.ContainsKey(evnt))
             {
                 _eventListeners.Add(evnt, new List<IListener>());
@@ -69,7 +72,25 @@ namespace TofuCore.Events
                 return;
             }
 
-            _eventListeners[evnt].Remove(listener);
+            if (_eventListenersToRemove == null)
+            {
+                _eventListenersToRemove = new Dictionary<TofuEvent, IListener>();
+            }
+
+            _eventListenersToRemove.Add(evnt, listener);
+
+
+        }
+
+        private void FlushListeners()
+        {
+            if (_eventListenersToRemove == null) return;
+
+            foreach (KeyValuePair<TofuEvent, IListener> entry in _eventListenersToRemove)
+            {
+                _eventListeners[entry.Key].Remove(entry.Value);
+            }
+            _eventListenersToRemove = null;
 
         }
     }

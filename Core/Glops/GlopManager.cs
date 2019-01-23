@@ -21,9 +21,27 @@ namespace TofuCore.Glops
 
             if (payload.ContentType != "Float") return;
 
+            List<Glop> garbageCollection = new List<Glop>();
+
             foreach (Glop g in Contents.Values) {
-                g.Update((float)payload.GetContent());
+                if (g.Garbage)
+                {
+                    garbageCollection.Add(g);
+                } else
+                {
+                    g.Update((float)payload.GetContent());
+                }
             }
+
+            if (garbageCollection.Count > 0)
+            {
+                foreach (Glop g in garbageCollection)
+                {
+                    Contents.Remove(g.Id);
+                }
+            }
+
+
         }
 
         public override void Build()

@@ -23,8 +23,19 @@ namespace TofuCore.Glops
 
         public virtual void Die()
         {
-            //Do something!
+            Garbage = true;
         }
+
+        public bool Garbage {
+            get {
+                return _garbage;
+            }
+            protected set {
+                _garbage = value;
+            }
+        }
+        private bool _garbage = false;
+
 
         public abstract void Update(float frameDelta);
 

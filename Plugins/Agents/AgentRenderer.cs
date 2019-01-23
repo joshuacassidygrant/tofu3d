@@ -1,4 +1,5 @@
-﻿using TofuPlugin.Renderable;
+﻿using TofuCore.Service;
+using TofuPlugin.Renderable;
 using UnityEngine;
 
 namespace TofuPlugin.Agents
@@ -6,9 +7,9 @@ namespace TofuPlugin.Agents
     public class AgentRenderer : AbstractRenderer
     {
 
-        public void Initialize(Agent agent)
+        public void Initialize(Agent agent, ServiceContext context)
         {
-            base.Initialize(agent);
+            base.Initialize(agent, context);
             SetLayer(agent.GetSortingLayer());
         }
 

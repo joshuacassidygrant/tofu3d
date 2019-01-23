@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TofuCore.Events;
 using UnityEngine;
@@ -17,6 +18,9 @@ namespace TofuPlugin.ResourceModule
         public int IMax => Mathf.RoundToInt(_max);
         public float FValue => _value;
         public float FMax => _max;
+
+        private string _depletionEventKey;
+        private EventPayload _depletionEventPayload;
 
         public float Percent
         {
@@ -39,13 +43,28 @@ namespace TofuPlugin.ResourceModule
             _eventContext = eventContext;
         }
 
-        public void Deplete(float amount, string depletionEventKey = null, EventPayload depletionPayload = null)
+        public void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null)
         {
             _value -= amount;
-            if (depletionEventKey != null && _value <= 0)
+            if (_value <= 0)
             {
-                _eventContext.TriggerEvent(depletionEventKey, depletionPayload);
+                if (_depletionEventKey != null && _depletionEventPayload != null)
+                {
+                    _eventContext.TriggerEvent(_depletionEventKey, _depletionEventPayload);
+                }
+
+                if (additionalDepletionEventKey != null && _value <= 0)
+                {
+                    _eventContext.TriggerEvent(additionalDepletionEventKey, additionalPayload);
+                }
             }
+
+        }
+
+        public void BindDepletionEvent(string key, EventPayload payload)
+        {
+            _depletionEventKey = key;
+            _depletionEventPayload = payload;
         }
 
         public bool Spend(float amount)

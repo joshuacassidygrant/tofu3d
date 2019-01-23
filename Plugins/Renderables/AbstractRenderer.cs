@@ -1,39 +1,56 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TofuCore.Events;
+using TofuCore.Service;
 using UnityEngine;
 
 namespace TofuPlugin.Renderable
 {
-    public class AbstractRenderer : MonoBehaviour
+    public class AbstractRenderer : MonoBehaviour, IListener
     {
 
-        private IRenderable _renderable;
+        protected IRenderable Renderable;
         protected SpriteRenderer SpriteRenderer;
+        protected ServiceContext ServiceContext;
+        protected EventContext EventContext;
+        protected bool ToDestroy;
+
+        private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
+        private Dictionary<TofuEvent, Action<EventPayload>> _listenersToUnbind;
+
 
         public void Render()
         {
-            if (_renderable == null) return;
-            transform.position = _renderable.Position;
-            SpriteRenderer.sprite = _renderable.Sprite;
+            if (Renderable == null) return;
+            transform.position = Renderable.Position;
+            SpriteRenderer.sprite = Renderable.Sprite;
         }
 
         private void Update()
         {
             Render();
 
+            if (ToDestroy)
+            {
+                enabled = false;
+                Destroy(gameObject);
+            }
         }
 
-        public void Initialize(IRenderable renderable)
+        public void Initialize(IRenderable renderable, ServiceContext context)
         {
-            _renderable = renderable;
+            Renderable = renderable;
             SpriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-
+            ServiceContext = context;
+            EventContext = context.Fetch("EventContext");
             Render();
         }
 
+
         protected void SetToPosition()
         {
-            transform.position = _renderable.Position;
+            transform.position = Renderable.Position;
         }
 
         protected void SetLayer(string layerName)
@@ -41,6 +58,48 @@ namespace TofuPlugin.Renderable
             SpriteRenderer.sortingLayerName = layerName;
         }
 
+        public void ReceiveEvent(TofuEvent evnt, EventPayload payload)
+        {
+            FlushListeners();
+            if (_boundListeners == null) return;
 
+            if (!_boundListeners.ContainsKey(evnt))
+            {
+                Debug.Log("Expected event " + evnt + " but found no action bound");
+            }
+
+            foreach (Action<EventPayload> action in _boundListeners[evnt])
+            {
+                action.Invoke(payload);
+            }
+            FlushListeners();
+        }
+
+        public void BindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext)
+        {
+            if (_boundListeners == null) _boundListeners = new Dictionary<TofuEvent, List<Action<EventPayload>>>();
+
+            if (!_boundListeners.ContainsKey(evnt)) _boundListeners.Add(evnt, new List<Action<EventPayload>>());
+
+            evntContext.HelperBindEventListener(evnt, this);
+            _boundListeners[evnt].Add(action);
+        }
+
+        public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext)
+        {
+            evntContext.RemoveEventListener(evnt, this);
+            if (_listenersToUnbind == null) _listenersToUnbind = new Dictionary<TofuEvent, Action<EventPayload>>();
+            _listenersToUnbind.Add(evnt, action);
+
+        }
+
+        private void FlushListeners()
+        {
+            if (_listenersToUnbind == null) return;
+            foreach (KeyValuePair<TofuEvent, Action<EventPayload>> entry in _listenersToUnbind)
+            {
+                _boundListeners[entry.Key].Remove(entry.Value);
+            }
+        }
     }
 }
