@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TofuCore.Events;
+using TofuPlugin.Agents;
 using UnityEngine;
 
 
@@ -20,7 +21,10 @@ namespace TofuPlugin.ResourceModule
         public float FMax => _max;
 
         private string _depletionEventKey;
-        private EventPayload _depletionEventPayload;
+        private string _fullDepletionEventKey;
+        private EventPayload _fullDepletionEventPayload;
+
+        private ITargettable _owner;
 
         public float Percent
         {
@@ -35,22 +39,27 @@ namespace TofuPlugin.ResourceModule
         private float _max;
         private readonly EventContext _eventContext;
 
-        public ResourceModule(string name, float max, float val, EventContext eventContext)
+        public ResourceModule(string name, float max, float val, ITargettable owner, EventContext eventContext)
         {
             Name = name;
             _value = val;
             _max = max;
             _eventContext = eventContext;
+            _owner = owner;
         }
 
         public void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null)
         {
+
             _value -= amount;
+
+            _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, new TargettablePosition(_owner.Position), (int)Math.Round(amount)), _eventContext));
+
             if (_value <= 0)
             {
-                if (_depletionEventKey != null && _depletionEventPayload != null)
+                if (_fullDepletionEventKey != null && _fullDepletionEventPayload != null)
                 {
-                    _eventContext.TriggerEvent(_depletionEventKey, _depletionEventPayload);
+                    _eventContext.TriggerEvent(_fullDepletionEventKey, _fullDepletionEventPayload);
                 }
 
                 if (additionalDepletionEventKey != null && _value <= 0)
@@ -61,10 +70,15 @@ namespace TofuPlugin.ResourceModule
 
         }
 
-        public void BindDepletionEvent(string key, EventPayload payload)
+        public void BindFullDepletionEvent(string key, EventPayload payload)
+        {
+            _fullDepletionEventKey = key;
+            _fullDepletionEventPayload = payload;
+        }
+
+        public void SetDepletionEventKey(string key)
         {
             _depletionEventKey = key;
-            _depletionEventPayload = payload;
         }
 
         public bool Spend(float amount)
