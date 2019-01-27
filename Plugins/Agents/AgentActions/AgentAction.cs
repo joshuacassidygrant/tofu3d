@@ -4,6 +4,7 @@ using Scripts;
 using TofuPlugin.Agents.AI;
 using TofuCore.Configuration;
 using UnityEngine;
+using TofuCore.Service;
 
 namespace TofuPlugin.Agents.AgentActions
 {
@@ -69,8 +70,8 @@ namespace TofuPlugin.Agents.AgentActions
         //An action must be triggered by a command (to set a target) before it can be used.
         public bool Triggered;
         public ITargettable StoredTarget;
-        
 
+        public ServiceContext ServiceContext;
 
         public Properties Properties {
             get { return _properties; }
@@ -87,6 +88,11 @@ namespace TofuPlugin.Agents.AgentActions
             Name = name;
             Properties = new Properties();
 
+        }
+
+        public virtual void BindDependencies()
+        {
+            //DO something
         }
 
         /*
@@ -137,6 +143,11 @@ namespace TofuPlugin.Agents.AgentActions
                 default:
                     break;
             }
+        }
+
+        public void InjectServiceContext(ServiceContext serviceContext)
+        {
+            ServiceContext = serviceContext;
         }
          
         //PROPERTIES

@@ -1,4 +1,6 @@
-﻿namespace TofuPlugin.Agents.AgentActions.Fake {
+﻿using TofuCore.Service;
+
+namespace TofuPlugin.Agents.AgentActions.Fake {
 
     public class AgentSelfActionFake : AgentAction
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Scripts.Sensors;
+using TofuCore.Service;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace TofuPlugin.Agents.AI.Strategy
      */
     public abstract class AIStrategy
     {
+        protected ServiceContext ServiceContext;
         protected AbstractSensor _sensor;
         protected IControllableAgent Agent;
         

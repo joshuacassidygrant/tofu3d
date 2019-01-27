@@ -1,4 +1,6 @@
 ﻿
+using TofuCore.Service;
+
 namespace TofuPlugin.Agents.AgentActions
 {
     public class AgentActionIdle : AgentAction
