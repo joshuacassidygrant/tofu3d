@@ -14,7 +14,7 @@ namespace TofuPlugin.Agents.Tests
         private ServiceContext _context;
         private AgentSensor _sensor;
         private AgentSensorFactory _sensorFactory;
-        private AgentManager _agentManager;
+        private AgentContainer _agentManager;
         private Agent _agent;
         private EventContext _eventContext;
 
@@ -26,7 +26,7 @@ namespace TofuPlugin.Agents.Tests
             _eventContext.BindServiceContext(_context);
             _sensorFactory = new AgentSensorFactory();
             _sensorFactory.BindServiceContext(_context);
-            _agentManager = new AgentManager();
+            _agentManager = new AgentContainer();
             _agentManager.BindServiceContext(_context);
 
             _eventContext.GetPayloadTypeContainer().RegisterPayloadContentType("Agent", (x => x is Agent));

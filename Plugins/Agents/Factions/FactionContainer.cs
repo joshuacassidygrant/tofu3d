@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents.Factions
 {
-    public class FactionManager : GlopManager
+    public class FactionContainer : GlopContainer
     {
 
         public FactionRelationshipLevel Unaffiliated;
         public FactionRelationshipLevel Same;
 
-        public FactionManager()
+        public FactionContainer()
         {
             _relationships = new List<FactionRelationshipLevel>();
             Unaffiliated = new FactionRelationshipLevel(0, "Unaffiliated", new List<string>());

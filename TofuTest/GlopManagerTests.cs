@@ -27,7 +27,7 @@ namespace TofuTests
         [Test]
         public void TestGlopManagerShouldInitialize()
         {
-            GlopManager glopManager = new GlopManager();
+            GlopContainer glopManager = new GlopContainer();
             glopManager.BindServiceContext(_context);
             _context.FullInitialization();
 

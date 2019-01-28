@@ -53,7 +53,10 @@ namespace TofuPlugin.ResourceModule
 
             _value -= amount;
 
-            _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, new TargettablePosition(_owner.Position), (int)Math.Round(amount)), _eventContext));
+            if (_depletionEventKey != null)
+            {
+                _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, new TargettablePosition(_owner.Position), (int)Math.Round(amount)), _eventContext));
+            }
 
             if (_value <= 0)
             {

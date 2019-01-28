@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TofuCore.Glops
 {
-    public class GlopManager : AbstractService
+    public class GlopContainer : AbstractService
     {
 
         protected Dictionary<int, Glop> Contents;

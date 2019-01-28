@@ -13,7 +13,7 @@ namespace TofuCore.Service
 
         private static readonly Dictionary<string, Func<IService, IService>> InitFilters = new Dictionary<string, Func<IService, IService>>
         {
-            {"UnitManager", FilterUnitManager}
+            {"UnitContainer", FilterUnitContainer}
         };
 
         public ServiceFactory (ServiceContext serviceContext)
@@ -35,7 +35,7 @@ namespace TofuCore.Service
             return service;
         }
 
-        private static IService FilterUnitManager(IService unitManager)
+        private static IService FilterUnitContainer(IService unitManager)
         {
             //Perform additional setup for this class here.
             return unitManager;

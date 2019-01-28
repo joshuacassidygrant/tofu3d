@@ -3,7 +3,7 @@ using TofuCore.Glops;
 
 namespace TofuCore.Player
 {
-    public class PlayerManager : GlopManager
+    public class PlayerContainer : GlopContainer
     {
 
         public Player Create(string idName)

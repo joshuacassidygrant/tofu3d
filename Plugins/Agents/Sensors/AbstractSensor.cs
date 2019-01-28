@@ -10,7 +10,7 @@ namespace Scripts.Sensors
     public abstract class AbstractSensor
     {
         //TODO: this should be an array of sensible managers
-        protected GlopManager Manager;
+        protected GlopContainer Manager;
         protected ServiceContext Context;
 
         

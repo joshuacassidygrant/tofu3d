@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
-    public class AgentManager : GlopManager, ISensableContainer {
+    public class AgentContainer : GlopContainer, ISensableContainer {
 
         public Agent Spawn(AgentPrototype prototype, Vector3 location)
         {

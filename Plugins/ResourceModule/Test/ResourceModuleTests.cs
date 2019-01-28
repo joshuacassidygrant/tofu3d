@@ -17,6 +17,7 @@ public class ResourceModuleTests {
         _eventContext = new EventContext();
         _eventContext.Initialize();
         _eventContext.Build();
+        _eventContext.GetPayloadTypeContainer().RegisterPayloadContentType("ResourceEventPayload", (x => x is ResourceEventPayload));
 
 
     }

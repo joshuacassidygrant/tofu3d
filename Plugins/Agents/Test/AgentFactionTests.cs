@@ -11,7 +11,7 @@ namespace TofuPlugin.Agents.Tests
     public class AgentFactionTests
     {
 
-        private FactionManager _factionManager;
+        private FactionContainer _factionManager;
         private ServiceContext _context;
         private AgentPrototype _prototype;
 
@@ -19,7 +19,7 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
             _context = new ServiceContext();
-            _factionManager = new FactionManager().BindServiceContext(_context);
+            _factionManager = new FactionContainer().BindServiceContext(_context);
 
 
             _prototype = ScriptableObject.CreateInstance<AgentPrototype>();

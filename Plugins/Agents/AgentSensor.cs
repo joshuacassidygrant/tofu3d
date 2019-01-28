@@ -15,7 +15,7 @@ namespace TofuPlugin.Agents
 
         public AgentSensor(ServiceContext context, Agent agent) : base(context) {
             Agent = agent;
-            Manager = Context.Fetch("AgentManager");
+            Manager = Context.Fetch("AgentContainer");
         }
 
         public override List<ISensable> GetAllSensables()
@@ -24,7 +24,7 @@ namespace TofuPlugin.Agents
         }
 
         public List<Agent> GetAgentsInRange(float range) {
-            AgentManager agentManager = (AgentManager)Manager;
+            AgentContainer agentManager = (AgentContainer)Manager;
             return agentManager.GetAllAgentsInRangeOfPoint(Agent.Position, range).ToList();
         }
 

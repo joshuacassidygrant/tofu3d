@@ -82,7 +82,7 @@ namespace TofuPlugin.Agents
 
         protected AgentSensorFactory SensorFactory;
         protected AbstractAgentActionFactory ActionFactory;
-        protected FactionManager FactionManager;
+        protected FactionContainer FactionManager;
 
 
         public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f) : base(id, prototype.Name, context)
@@ -107,7 +107,7 @@ namespace TofuPlugin.Agents
         {
             SensorFactory = ServiceContext.Fetch("AgentSensorFactory");
             ActionFactory = ServiceContext.Fetch("AgentActionFactory");
-            FactionManager = ServiceContext.Fetch("FactionManager");
+            FactionManager = ServiceContext.Fetch("FactionContainer");
         }
 
         public void ReceiveCommand(AgentCommand command) {
