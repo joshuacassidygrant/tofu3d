@@ -23,6 +23,7 @@ namespace TofuPlugin.ResourceModule
         private string _depletionEventKey;
         private string _fullDepletionEventKey;
         private EventPayload _fullDepletionEventPayload;
+        private string _replenishEventKey;
 
         private ITargettable _owner;
 
@@ -84,6 +85,11 @@ namespace TofuPlugin.ResourceModule
             _depletionEventKey = key;
         }
 
+        public void SetReplenishEventKey(string key)
+        {
+            _replenishEventKey = key;
+        }
+
         public bool Spend(float amount)
         {
             if (CanSpend(amount))
@@ -110,6 +116,15 @@ namespace TofuPlugin.ResourceModule
             float percent = Percent;
             SetMax(amount);
             _value = FMax * percent;
+        }
+
+        public void Replenish(float amount)
+        {
+            _value = Mathf.Min(_value + amount, FMax);
+            if (_replenishEventKey != null)
+            {
+                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, new TargettablePosition(_owner.Position), (int)Math.Round(amount)), _eventContext));
+            }
         }
 
     }

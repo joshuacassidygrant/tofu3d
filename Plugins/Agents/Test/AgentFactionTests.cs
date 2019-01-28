@@ -11,7 +11,7 @@ namespace TofuPlugin.Agents.Tests
     public class AgentFactionTests
     {
 
-        private FactionContainer _factionManager;
+        private FactionContainer _factionContainer;
         private ServiceContext _context;
         private AgentPrototype _prototype;
 
@@ -19,7 +19,7 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
             _context = new ServiceContext();
-            _factionManager = new FactionContainer().BindServiceContext(_context);
+            _factionContainer = new FactionContainer().BindServiceContext(_context);
 
 
             _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
@@ -114,14 +114,14 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void ShouldBeAbleToCreateAndGetFactionsThroughFactionManager()
         {
-            Faction fBob = _factionManager.Create("bobs", "Bob's Raiders");
-            Faction fJim = _factionManager.Create("jims", "Jim's Patriots");
-            Faction fSue = _factionManager.Create("sues", "Sue's Slaughterbunnies");
+            Faction fBob = _factionContainer.Create("bobs", "Bob's Raiders");
+            Faction fJim = _factionContainer.Create("jims", "Jim's Patriots");
+            Faction fSue = _factionContainer.Create("sues", "Sue's Slaughterbunnies");
 
-            Assert.AreEqual(3, _factionManager.CountActive());
-            Assert.AreEqual(fBob, _factionManager.GetFactionByIdName("bobs"));
-            Assert.AreEqual(fSue, _factionManager.GetFactionByIdName("sues"));
-            Assert.AreEqual(fJim, _factionManager.GetFactionByIdName("jims"));
+            Assert.AreEqual(3, _factionContainer.CountActive());
+            Assert.AreEqual(fBob, _factionContainer.GetFactionByIdName("bobs"));
+            Assert.AreEqual(fSue, _factionContainer.GetFactionByIdName("sues"));
+            Assert.AreEqual(fJim, _factionContainer.GetFactionByIdName("jims"));
 
 
         }
@@ -129,15 +129,15 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void TestFactionLevelsLoad()
         {
-            Assert.AreEqual("Unaffiliated", _factionManager.GetFactionRelationship(10).Name);
+            Assert.AreEqual("Unaffiliated", _factionContainer.GetFactionRelationship(10).Name);
 
             //With a single level, always return this.
             List<FactionRelationshipLevel> levels = new List<FactionRelationshipLevel>();
             FactionRelationshipLevel def = new FactionRelationshipLevel(30, "Default", new List<string>());
             levels.Add(def);
-            _factionManager.Configure(levels);
+            _factionContainer.Configure(levels);
 
-            Assert.AreEqual("Default", _factionManager.GetFactionRelationship(31).Name);
+            Assert.AreEqual("Default", _factionContainer.GetFactionRelationship(31).Name);
 
 
             levels = new List<FactionRelationshipLevel>();
@@ -151,17 +151,17 @@ namespace TofuPlugin.Agents.Tests
             levels.Add(archenemy);
             levels.Add(neutral);
 
-            _factionManager.Configure(levels);
+            _factionContainer.Configure(levels);
 
-            Assert.AreEqual("Friend", _factionManager.GetFactionRelationship(30).Name);
-            Assert.AreEqual("Friend", _factionManager.GetFactionRelationship(500).Name);
-            Assert.AreEqual("Neutral", _factionManager.GetFactionRelationship(29).Name);
-            Assert.AreEqual("Neutral", _factionManager.GetFactionRelationship(0).Name);
-            Assert.AreEqual("Neutral", _factionManager.GetFactionRelationship(-10).Name);
-            Assert.AreEqual("Enemy", _factionManager.GetFactionRelationship(-11).Name);
-            Assert.AreEqual("Enemy", _factionManager.GetFactionRelationship(-30).Name);
-            Assert.AreEqual("Archenemy", _factionManager.GetFactionRelationship(-31).Name);
-            Assert.AreEqual("Archenemy", _factionManager.GetFactionRelationship(-512).Name);
+            Assert.AreEqual("Friend", _factionContainer.GetFactionRelationship(30).Name);
+            Assert.AreEqual("Friend", _factionContainer.GetFactionRelationship(500).Name);
+            Assert.AreEqual("Neutral", _factionContainer.GetFactionRelationship(29).Name);
+            Assert.AreEqual("Neutral", _factionContainer.GetFactionRelationship(0).Name);
+            Assert.AreEqual("Neutral", _factionContainer.GetFactionRelationship(-10).Name);
+            Assert.AreEqual("Enemy", _factionContainer.GetFactionRelationship(-11).Name);
+            Assert.AreEqual("Enemy", _factionContainer.GetFactionRelationship(-30).Name);
+            Assert.AreEqual("Archenemy", _factionContainer.GetFactionRelationship(-31).Name);
+            Assert.AreEqual("Archenemy", _factionContainer.GetFactionRelationship(-512).Name);
             
 
         }
@@ -180,14 +180,14 @@ namespace TofuPlugin.Agents.Tests
             levels.Add(archenemy);
             levels.Add(neutral);
 
-            _factionManager.Configure(levels);
+            _factionContainer.Configure(levels);
 
             Agent agent = new Agent(123, _prototype, Vector3.one, _context);
             Agent agent2 = new Agent(124, _prototype, Vector3.zero, _context);
             Agent agent3 = new Agent(125, _prototype, Vector3.left, _context);
 
-            Faction bobs = _factionManager.Create("bobs", "Bob's Raiders");
-            Faction sues = _factionManager.Create("sues", "Sue's Slaughterers");
+            Faction bobs = _factionContainer.Create("bobs", "Bob's Raiders");
+            Faction sues = _factionContainer.Create("sues", "Sue's Slaughterers");
 
             agent.Faction = bobs;
             agent2.Faction = sues;
@@ -195,16 +195,16 @@ namespace TofuPlugin.Agents.Tests
 
             bobs.SetMutualRelationship(sues, -29);
 
-            Assert.AreEqual("Enemy", _factionManager.GetFactionRelationship(agent, agent2).Name);
-            Assert.AreEqual("Same", _factionManager.GetFactionRelationship(agent2, agent3).Name);
-            Assert.AreEqual("Same", _factionManager.GetFactionRelationship(agent2, agent2).Name);
+            Assert.AreEqual("Enemy", _factionContainer.GetFactionRelationship(agent, agent2).Name);
+            Assert.AreEqual("Same", _factionContainer.GetFactionRelationship(agent2, agent3).Name);
+            Assert.AreEqual("Same", _factionContainer.GetFactionRelationship(agent2, agent2).Name);
 
             bobs.SetMutualRelationship(sues, 30);
-            Assert.AreEqual("Friend", _factionManager.GetFactionRelationship(agent, agent2).Name);
+            Assert.AreEqual("Friend", _factionContainer.GetFactionRelationship(agent, agent2).Name);
 
             sues.SetRelationship(bobs, -50);
-            Assert.AreEqual("Archenemy", _factionManager.GetFactionRelationship(agent2, agent).Name);
-            Assert.AreEqual("Friend", _factionManager.GetFactionRelationship(agent, agent2).Name);
+            Assert.AreEqual("Archenemy", _factionContainer.GetFactionRelationship(agent2, agent).Name);
+            Assert.AreEqual("Friend", _factionContainer.GetFactionRelationship(agent, agent2).Name);
 
         }
 
@@ -218,21 +218,21 @@ namespace TofuPlugin.Agents.Tests
             FactionRelationshipLevel archenemy = new FactionRelationshipLevel(-50, "Archenemy", new List<string> { "hunt", "attack" });
             FactionRelationshipLevel same = new FactionRelationshipLevel(0, "Same", new List<string> { "help"});
 
-            _factionManager.SetSame(same);
+            _factionContainer.SetSame(same);
 
             levels.Add(friend);
             levels.Add(enemy);
             levels.Add(archenemy);
             levels.Add(neutral);
 
-            _factionManager.Configure(levels);
+            _factionContainer.Configure(levels);
 
             Agent agent = new Agent(123, _prototype, Vector3.one, _context);
             Agent agent2 = new Agent(124, _prototype, Vector3.zero, _context);
             Agent agent3 = new Agent(125, _prototype, Vector3.left, _context);
 
-            Faction bobs = _factionManager.Create("bobs", "Bob's Raiders");
-            Faction sues = _factionManager.Create("sues", "Sue's Slaughterers");
+            Faction bobs = _factionContainer.Create("bobs", "Bob's Raiders");
+            Faction sues = _factionContainer.Create("sues", "Sue's Slaughterers");
 
             agent.Faction = bobs;
             agent2.Faction = sues;
