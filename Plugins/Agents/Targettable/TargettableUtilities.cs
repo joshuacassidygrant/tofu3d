@@ -3,10 +3,9 @@
  */
 using System.Collections.Generic;
 using System.Linq;
-using TofuPlugin.Agents;
 using UnityEngine;
 
-namespace TofuPlugin.Agent.Utility
+namespace TofuPlugin.Agents.Targettable
 {
     public static class TargettableUtilities
     {

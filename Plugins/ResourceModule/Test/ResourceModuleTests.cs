@@ -4,6 +4,7 @@ using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.TestSupport;
 using TofuPlugin.Agents;
+using TofuPlugin.Agents.Targettable;
 using TofuPlugin.ResourceModule;
 using UnityEngine;
 

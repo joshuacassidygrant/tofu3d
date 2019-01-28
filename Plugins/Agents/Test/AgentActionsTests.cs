@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using TofuPlugin.Agents;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AgentActions.Fake;
 using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
+using TofuPlugin.Agents.Targettable;
 
 namespace TofuPlugin.Agents.Tests
 {
@@ -45,6 +45,8 @@ namespace TofuPlugin.Agents.Tests
                 };
             _agent = new Agent(1, _prototype, Vector3.zero, _context);
             _unit2 = new Agent(2, _prototype, Vector3.left, _context);
+
+
         }
 
         [Test]

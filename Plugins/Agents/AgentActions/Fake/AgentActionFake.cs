@@ -1,4 +1,5 @@
 ﻿using TofuCore.Service;
+using TofuPlugin.Agents.Targettable;
 
 namespace TofuPlugin.Agents.AgentActions.Fake {
 

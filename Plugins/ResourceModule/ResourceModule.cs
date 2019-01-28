@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TofuCore.Events;
 using TofuPlugin.Agents;
+using TofuPlugin.Agents.Targettable;
 using UnityEngine;
 
 

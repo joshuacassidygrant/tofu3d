@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
+using TofuPlugin.Agents.Targettable;
 
 namespace TofuPlugin.Agents.AI.Strategy
 {

@@ -5,6 +5,7 @@ using TofuPlugin.Agents.AI;
 using TofuCore.Configuration;
 using UnityEngine;
 using TofuCore.Service;
+using TofuPlugin.Agents.Targettable;
 
 namespace TofuPlugin.Agents.AgentActions
 {

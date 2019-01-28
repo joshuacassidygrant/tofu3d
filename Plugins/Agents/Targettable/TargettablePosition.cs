@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TofuPlugin.Agents
+namespace TofuPlugin.Agents.Targettable
 {
     public class TargettablePosition : ITargettable
     {

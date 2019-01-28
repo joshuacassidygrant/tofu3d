@@ -12,6 +12,8 @@ using TofuPlugin.Agents.AI;
 using TofuPlugin.Agents.Commands;
 using TofuPlugin.Agents.Sensors;
 using TofuPlugin.Agents.Factions;
+using TofuCore.Events;
+using TofuPlugin.Agents.Targettable;
 
 namespace TofuPlugin.Agents
 {
@@ -38,6 +40,8 @@ namespace TofuPlugin.Agents
         //TODO: should be able to take a 3d model instead
         public Sprite Sprite { get; set; }
         public Vector3 Position { get; set; }
+
+        protected EventContext EventContext;
 
         public int GetId()
         {
@@ -108,6 +112,7 @@ namespace TofuPlugin.Agents
             SensorFactory = ServiceContext.Fetch("AgentSensorFactory");
             ActionFactory = ServiceContext.Fetch("AgentActionFactory");
             FactionManager = ServiceContext.Fetch("FactionContainer");
+            EventContext = ServiceContext.Fetch("EventContext");
         }
 
         public void ReceiveCommand(AgentCommand command) {
@@ -127,6 +132,10 @@ namespace TofuPlugin.Agents
             {
                 //Once action is set and targeted, agent is responsible for carrying it out
                 CurrentCommand.TryExecute();
+                if (CurrentCommand.Action.Phase == ActionPhase.FOCUS && CurrentCommand.Action.Name != "Move")
+                {
+                    EventContext.TriggerEvent("StringPop", new EventPayload("EventPayloadStringTargettable", new EventPayloadStringTargettable(this, "F"), EventContext));
+                }
             }
             //Do something
         }

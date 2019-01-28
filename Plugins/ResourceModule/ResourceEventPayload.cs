@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TofuPlugin.Agents;
+using TofuPlugin.Agents.Targettable;
 using UnityEngine;
 
 namespace TofuPlugin.ResourceModule
