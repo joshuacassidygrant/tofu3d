@@ -17,6 +17,7 @@ namespace TofuCore.Configuration
         public Properties(Configuration config)
         {
             _properties = new Dictionary<string, string>();
+            if (config == null) return;
             Configure(config);
         }
 

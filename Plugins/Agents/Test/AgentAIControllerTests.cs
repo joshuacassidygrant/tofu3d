@@ -9,6 +9,8 @@ using TofuPlugin.Agents.AI.Strategy;
 using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
+using TofuPlugin.Agents.Factions;
+using TofuCore.Events;
 
 namespace TofuPlugin.Agents.Tests
 {
@@ -23,6 +25,7 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
             _context = new ServiceContext();
+            new EventContext().BindServiceContext(_context);
 
             _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
             _prototype.Id = "t1p";

@@ -49,6 +49,7 @@ namespace TofuCore.Events
             if (!IsRegistered(id))
             {
                 Debug.Log(id + " not registered as an event payload content type");
+                return false;
             }
 
             return _typeDefaultChecks[id](content);
