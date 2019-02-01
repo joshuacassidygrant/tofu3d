@@ -6,9 +6,9 @@ using TofuPlugin.Agents.Targettable;
 namespace TofuPlugin.Agents.AI.Strategy
 {
     /*
-     * A stupid strategy for testing.
+     * A stupid behaviour for testing.
      */
-    public class AIStrategyDefault : AIStrategy {
+    public class AiBehaviourDefault : AIBehaviour {
 
 
         //Stub

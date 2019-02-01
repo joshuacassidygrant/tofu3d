@@ -11,7 +11,7 @@ namespace TofuPlugin.Agents.AI.Strategy
      * Class to determine AI targetting and longterm planning, action use etc.
      * Plug into AIAgentController.
      */
-    public abstract class AIStrategy
+    public abstract class AIBehaviour
     {
         protected ServiceContext ServiceContext;
         protected AbstractSensor _sensor;

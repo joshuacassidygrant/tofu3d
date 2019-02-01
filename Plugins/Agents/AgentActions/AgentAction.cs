@@ -41,6 +41,16 @@ namespace TofuPlugin.Agents.AgentActions
         }
 
         /*
+         *  Usage tag values define base values for the usefulness of the action in general 
+         *  circumstances. They should be defined in terms of the dynamic values they might
+         *  have, at a rate of ~1 damage = ~1 utility.
+         *  
+         *  AI Strategies consume these values and combine them with sensor information and
+         *  their behaviour priorities to make decisions.
+         */
+        public abstract Dictionary<string, float> GetUsageTagValues();
+
+        /*
          * Cooldown refers to the time until this agent can use this action again
          */
         public float Cooldown;

@@ -6,9 +6,9 @@ using TofuPlugin.Agents.Commands;
 namespace Scripts.Agents.Strategy {
 
     /*
-     * A stupid strategy for testing.
+     * A stupid behaviour for testing.
      */
-    public class AIStrategyFake : AIStrategy {
+    public class AiBehaviourFake : AIBehaviour {
 
 
         //Stub

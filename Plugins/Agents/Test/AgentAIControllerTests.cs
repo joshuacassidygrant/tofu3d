@@ -46,7 +46,7 @@ namespace TofuPlugin.Agents.Tests
             a.Update(0f);
             Assert.NotNull(a.Controller);
             Assert.NotNull(a.Controller.GetSensor());
-            Assert.AreEqual("AIStrategyDefault", a.Controller.GetStrategyName());
+            Assert.AreEqual("AiBehaviourDefault", a.Controller.GetStrategyName());
         }
 
         [Test]
@@ -54,14 +54,14 @@ namespace TofuPlugin.Agents.Tests
         {
             Agent a = new Agent(12, _prototype, Vector3.zero, _context);
             a.Update(0f);
-            a.Controller.SetStrategy(new AIStrategyFake());
-            Assert.AreEqual("AIStrategyFake", a.Controller.GetStrategyName());
+            a.Controller.SetStrategy(new AiBehaviourFake());
+            Assert.AreEqual("AiBehaviourFake", a.Controller.GetStrategyName());
 
             a.Update(1f);
-            Assert.AreEqual("AIStrategyFake", a.Controller.GetStrategyName());
+            Assert.AreEqual("AiBehaviourFake", a.Controller.GetStrategyName());
 
             a.Controller.ClearStrategy();
-            Assert.AreEqual("AIStrategyDefault", a.Controller.GetStrategyName());
+            Assert.AreEqual("AiBehaviourDefault", a.Controller.GetStrategyName());
 
         }
 
