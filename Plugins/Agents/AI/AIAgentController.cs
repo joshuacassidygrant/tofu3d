@@ -1,5 +1,5 @@
 ﻿using Scripts.Sensors;
-using TofuPlugin.Agents.AI.Strategy;
+using TofuPlugin.Agents.AI.Behaviour;
 using TofuPlugin.Agents.Commands;
 using UnityEngine;
 

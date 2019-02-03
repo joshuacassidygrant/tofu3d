@@ -3,7 +3,7 @@ using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
 using TofuPlugin.Agents.Targettable;
 
-namespace TofuPlugin.Agents.AI.Strategy
+namespace TofuPlugin.Agents.AI.Behaviour
 {
     /*
      * A stupid behaviour for testing.

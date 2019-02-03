@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using TofuPlugin.Agents.AgentActions;
-using TofuPlugin.Agents.AI.Strategy;
+using TofuPlugin.Agents.AI.Behaviour;
 using TofuPlugin.Agents.Commands;
 
-namespace Scripts.Agents.Strategy {
+namespace Scripts.Agents.Behaviour {
 
     /*
      * A stupid behaviour for testing.

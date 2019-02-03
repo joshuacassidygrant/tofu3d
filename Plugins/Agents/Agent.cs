@@ -2,7 +2,7 @@
 using TofuPlugin.Renderable;
 using System.Collections.Generic;
 using Scripts;
-using TofuPlugin.Agents.AI.Strategy;
+using TofuPlugin.Agents.AI.Behaviour;
 using Scripts.Sensors;
 using TofuCore.Configuration;
 using TofuCore.Glops;

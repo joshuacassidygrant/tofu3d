@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Scripts.Agents.Strategy;
+using Scripts.Agents.Behaviour;
 using TofuPlugin.Agents;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AgentActions.Fake;
-using TofuPlugin.Agents.AI.Strategy;
+using TofuPlugin.Agents.AI.Behaviour;
 using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;

@@ -5,7 +5,7 @@ using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.AI.Strategy
+namespace TofuPlugin.Agents.AI.Behaviour
 {
     /*
      * Class to determine AI targetting and longterm planning, action use etc.

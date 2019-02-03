@@ -109,7 +109,7 @@ namespace TofuPlugin.Agents.AgentActions
         /*
          * The targetting function determines the best target for an action.
          */
-        public abstract ITargettable TargettingFunction();
+        public abstract ITargettable TargettingFunction(AgentSensor sensor);
 
         public virtual bool CanUse()
         {

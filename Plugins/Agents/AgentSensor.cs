@@ -11,6 +11,7 @@ namespace TofuPlugin.Agents
     {
 
         protected Agent Agent;
+        public float SightRange;
 
 
         public AgentSensor(ServiceContext context, Agent agent) : base(context) {
