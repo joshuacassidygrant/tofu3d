@@ -14,7 +14,7 @@ namespace TofuPlugin.Agents.AI
 
         public AIAgentController(Agent agent, AbstractSensor sensor): base(agent, sensor)
         {
-            ClearStrategy();
+            ClearBehaviour();
         }
 
         public override void Update()
@@ -51,12 +51,17 @@ namespace TofuPlugin.Agents.AI
             return nextCommand;
         }
 
-        public string GetStrategyName()
+        public AIBehaviour GetBehaviour()
+        {
+            return _behaviour;
+        }
+
+        public string GetBehaviourName()
         {
             return _behaviour.GetType().Name;
         }
 
-        public void SetStrategy(AIBehaviour behaviour)
+        public void SetBehaviour(AIBehaviour behaviour)
         {
             _behaviour = behaviour;
             _behaviour.BindAgent(Agent);
@@ -71,9 +76,9 @@ namespace TofuPlugin.Agents.AI
             Agent.CurrentActionTarget = null;
         }
 
-        public void ClearStrategy()
+        public void ClearBehaviour()
         {
-            SetStrategy(new AiBehaviourDefault());
+            SetBehaviour(new AiBehaviourDefault());
         }
 
 

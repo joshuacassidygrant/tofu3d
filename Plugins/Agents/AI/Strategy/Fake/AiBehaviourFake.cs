@@ -18,7 +18,6 @@ namespace Scripts.Agents.Behaviour {
             return null;
         }
 
-
-
+        public override Dictionary<string, float> BehaviourCoefficients { get; }
     }
 }

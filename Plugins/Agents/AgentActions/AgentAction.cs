@@ -109,14 +109,15 @@ namespace TofuPlugin.Agents.AgentActions
         /*
          * The targetting function determines the best target for an action.
          */
-        public abstract ITargettable TargettingFunction(AgentSensor sensor);
+        public abstract ActionTargettableValueTuple TargettingFunction();
 
         public virtual bool CanUse()
         {
             return 
                 (Cooldown <= 0 &&
-                TargettingFunction() != null);
+                TargettingFunction().Targettable != null);
         }
+
 
         public virtual void TriggerAction(ITargettable target)
         {
@@ -173,6 +174,7 @@ namespace TofuPlugin.Agents.AgentActions
         {
             return Phase == ActionPhase.READY && !Triggered;
         }
+
 
 
     }

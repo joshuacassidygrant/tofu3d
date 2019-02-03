@@ -15,7 +15,7 @@ namespace TofuPlugin.Agents.AgentActions.Fake {
             throw new System.NotImplementedException();
         }
 
-        public override ITargettable TargettingFunction()
+        public override ActionTargettableValueTuple TargettingFunction()
         {
             throw new System.NotImplementedException();
         }

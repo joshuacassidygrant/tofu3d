@@ -25,7 +25,6 @@ namespace TofuPlugin.Agents.AI.Behaviour
 
         }
 
-
-
+        public override Dictionary<string, float> BehaviourCoefficients { get; }
     }
 }
