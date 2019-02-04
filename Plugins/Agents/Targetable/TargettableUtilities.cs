@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Targettable
+namespace TofuPlugin.Agents.Targetable
 {
     public static class TargettableUtilities
     {
 
         //Gets the closest Vector3 in a list
-        public static ITargettable GetClosest(Vector3 point, List<ITargettable> objects)
+        public static ITargetable GetClosest(Vector3 point, List<ITargetable> objects)
         {
-            List<ITargettable> targetsOrdered = objects.OrderBy(t => (t.Position - point).sqrMagnitude).ToList();
+            List<ITargetable> targetsOrdered = objects.OrderBy(t => (t.Position - point).sqrMagnitude).ToList();
             if (targetsOrdered.Count == 0) return null;
             return targetsOrdered[0];
 

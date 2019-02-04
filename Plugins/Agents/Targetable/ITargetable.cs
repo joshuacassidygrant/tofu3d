@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Targettable
+namespace TofuPlugin.Agents.Targetable
 {
-    public interface ITargettable
+    public interface ITargetable
     {
         Vector3 Position { get; }
         bool Active { get; }

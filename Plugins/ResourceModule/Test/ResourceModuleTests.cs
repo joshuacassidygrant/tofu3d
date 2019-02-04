@@ -4,7 +4,7 @@ using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.TestSupport;
 using TofuPlugin.Agents;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 using TofuPlugin.ResourceModule;
 using UnityEngine;
 
@@ -26,7 +26,7 @@ public class ResourceModuleTests {
     [Test]
     public void TestResourceModuleShouldBeConstructed()
     {
-        ResourceModule resourceModule = new ResourceModule("Test", 100f, 40f, new TargettablePosition(Vector3.zero), _eventContext);
+        ResourceModule resourceModule = new ResourceModule("Test", 100f, 40f, new TargetablePosition(Vector3.zero), _eventContext);
 
         Assert.AreEqual("Test", resourceModule.Name);
         Assert.AreEqual(100f, resourceModule.FMax);
@@ -42,7 +42,7 @@ public class ResourceModuleTests {
     [Test]
     public void TestResourcePercentReturns0WhenMaxIs0()
     {
-        ResourceModule resourceModule = new ResourceModule("Test", 0, 40f, new TargettablePosition(Vector3.zero), _eventContext);
+        ResourceModule resourceModule = new ResourceModule("Test", 0, 40f, new TargetablePosition(Vector3.zero), _eventContext);
         
         Assert.AreEqual(0, resourceModule.Percent);
     }
@@ -54,7 +54,7 @@ public class ResourceModuleTests {
         
         ds1.BindListener(_eventContext.GetEvent("DummyCalled"), ds1.DummyEventAction, _eventContext);
 
-        ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, new TargettablePosition(Vector3.zero), _eventContext);
+        ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, new TargetablePosition(Vector3.zero), _eventContext);
         resourceModule.Deplete(1f, "DummyCalled", new EventPayload("String", "depleted", _eventContext));
 
         Assert.AreEqual(0, ds1.DummyActionsCalled);
@@ -67,7 +67,7 @@ public class ResourceModuleTests {
     [Test]
     public void TestSpendShouldFailWhenNotEnoughResource()
     {
-        ResourceModule resourceModule = new ResourceModule("Buns", 100f, 100f, new TargettablePosition(Vector3.zero), _eventContext);
+        ResourceModule resourceModule = new ResourceModule("Buns", 100f, 100f, new TargetablePosition(Vector3.zero), _eventContext);
 
         bool succ = resourceModule.Spend(90f);
         Assert.True(succ);
@@ -82,7 +82,7 @@ public class ResourceModuleTests {
     [Test]
     public void TestSetMaxShouldSetMaxButNotVal()
     {
-        ResourceModule resourceModule = new ResourceModule("Zoms", 100f, 100f, new TargettablePosition(Vector3.zero), _eventContext);
+        ResourceModule resourceModule = new ResourceModule("Zoms", 100f, 100f, new TargetablePosition(Vector3.zero), _eventContext);
         
         Assert.AreEqual(100, resourceModule.IMax);
 
@@ -95,7 +95,7 @@ public class ResourceModuleTests {
     [Test]
     public void TestSetMaxRetainPercentShouldSetMaxAndVal()
     {
-        ResourceModule resourceModule = new ResourceModule("Zoms", 100f, 100f, new TargettablePosition(Vector3.zero), _eventContext);
+        ResourceModule resourceModule = new ResourceModule("Zoms", 100f, 100f, new TargetablePosition(Vector3.zero), _eventContext);
 
         resourceModule.SetMaxRetainPercent(200f);
         

@@ -13,7 +13,7 @@ using TofuPlugin.Agents.Commands;
 using TofuPlugin.Agents.Sensors;
 using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 
 namespace TofuPlugin.Agents
 {
@@ -23,14 +23,14 @@ namespace TofuPlugin.Agents
      * or player input. Agents are managed by an agent manager class and rendered by an agent
      * renderer.
      */
-    public class Agent: Glop, IRenderable, ITargettable, IControllableAgent, IConfigurable, ISensable
+    public class Agent: Glop, IRenderable, ITargetable, IControllableAgent, IConfigurable, ISensable
     {
 
         /*
          * Add to this only with the AddAction() method to ensure actions are bound to agent
          */
         public List<AgentAction> Actions { get; }
-        public ITargettable TargettableSelf => this;
+        public ITargetable TargetableSelf => this;
         public AIAgentController Controller;
 
 
@@ -56,7 +56,7 @@ namespace TofuPlugin.Agents
             get; set;
         }
 
-        public ITargettable CurrentActionTarget {
+        public ITargetable CurrentActionTarget {
             get; set;
         }
 

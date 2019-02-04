@@ -5,7 +5,7 @@ using TofuPlugin.Agents.AgentActions.Fake;
 using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 using TofuCore.Events;
 
 namespace TofuPlugin.Agents.Tests
@@ -71,7 +71,7 @@ namespace TofuPlugin.Agents.Tests
         {
             //TODO: this
             AgentAction selfAction = _agent.Actions[1];
-            //ITargettable target = selfAction.TargettingFunction();
+            //ITargetable target = selfAction.TargetingFunction();
             //Assert.AreEqual(target, _agent);
         }
 

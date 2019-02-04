@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 using UnityEngine;
 
 namespace TofuPlugin.Agents
@@ -10,7 +10,7 @@ namespace TofuPlugin.Agents
     {
         List<AgentAction> Actions { get; }
         void AddAction(AgentAction action);
-        ITargettable TargettableSelf { get; }
+        ITargetable TargetableSelf { get; }
         void ReceiveCommand(AgentCommand command);
         Vector3 Position {
             get;
@@ -23,7 +23,7 @@ namespace TofuPlugin.Agents
             get;
             set;
         }
-        ITargettable CurrentActionTarget {
+        ITargetable CurrentActionTarget {
             get;
             set;
         }

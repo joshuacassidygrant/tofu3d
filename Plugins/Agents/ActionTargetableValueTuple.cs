@@ -1,21 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TofuPlugin.Agents.AgentActions;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
-    public struct ActionTargettableValueTuple
+    public struct ActionTargetableValueTuple
     {
         public AgentAction Action;
-        public ITargettable Targettable;
+        public ITargetable Targetable;
         public float Value;
 
-        public ActionTargettableValueTuple(AgentAction action, ITargettable targettable, float value)
+        public ActionTargetableValueTuple(AgentAction action, ITargetable targetable, float value)
         {
             Action = action;
-            Targettable = targettable;
+            Targetable = targetable;
             Value = value;
         }
 
@@ -25,7 +25,7 @@ namespace TofuPlugin.Agents
             return Equals(NULL);
         }
 
-        public static ActionTargettableValueTuple NULL = new ActionTargettableValueTuple(null, null, 0f);
+        public static ActionTargetableValueTuple NULL = new ActionTargetableValueTuple(null, null, 0f);
     }
 }
 

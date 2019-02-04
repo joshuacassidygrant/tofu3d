@@ -5,7 +5,7 @@ using Scripts.Sensors;
 using TofuCore.Service;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.AI.Behaviour
@@ -56,13 +56,13 @@ namespace TofuPlugin.Agents.AI.Behaviour
         {
             Debug.Log("pick");
             //TODO: Also should handle whether it privileges fire-and-forget tactics or focus fire
-            List<ActionTargettableValueTuple> atVs = new List<ActionTargettableValueTuple>();
+            List<ActionTargetableValueTuple> atVs = new List<ActionTargetableValueTuple>();
             List<AgentAction> actions = Agent.Actions;
             foreach (AgentAction action in actions)
             {
                 try
                 {
-                    atVs.Add(action.TargettingFunction());
+                    atVs.Add(action.TargetingFunction());
                 }
                 catch (Exception e)
                 {
@@ -71,11 +71,11 @@ namespace TofuPlugin.Agents.AI.Behaviour
             }
 
             atVs.Sort((x, y) => x.Value.CompareTo(y.Value));
-            ActionTargettableValueTuple pick = atVs[0];
+            ActionTargetableValueTuple pick = atVs[0];
 
 
 
-            return new AgentCommand(pick.Action, pick.Targettable, Mathf.RoundToInt(pick.Value));
+            return new AgentCommand(pick.Action, pick.Targetable, Mathf.RoundToInt(pick.Value));
 
         }
 

@@ -1,6 +1,6 @@
 ﻿using TofuCore.Command;
 using TofuPlugin.Agents.AgentActions;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 
 namespace TofuPlugin.Agents.Commands
 {
@@ -16,10 +16,10 @@ namespace TofuPlugin.Agents.Commands
     {
 
         public AgentAction Action;
-        public ITargettable Target;
+        public ITargetable Target;
         public int Priority;
 
-        public AgentCommand(AgentAction action, ITargettable target, int priority)
+        public AgentCommand(AgentAction action, ITargetable target, int priority)
         {
             Action = action;
             Target = target;

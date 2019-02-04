@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TofuCore.Service;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 
 namespace TofuPlugin.Agents.AgentActions.Fake {
 
@@ -15,7 +15,7 @@ namespace TofuPlugin.Agents.AgentActions.Fake {
             throw new System.NotImplementedException();
         }
 
-        public override ActionTargettableValueTuple TargettingFunction()
+        public override ActionTargetableValueTuple TargetingFunction()
         {
             throw new System.NotImplementedException();
         }

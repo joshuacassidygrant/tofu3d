@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Targettable
+namespace TofuPlugin.Agents.Targetable
 {
-    public class TargettableDefault : ITargettable
+    public class TargetableDefault : ITargetable
     {
         public Vector3 Position {
             get {

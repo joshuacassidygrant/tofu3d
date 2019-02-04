@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TofuPlugin.Agents;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 using UnityEngine;
 
 namespace TofuPlugin.ResourceModule
@@ -10,10 +10,10 @@ namespace TofuPlugin.ResourceModule
     {
 
         public Color Color;
-        public ITargettable Target;
+        public ITargetable Target;
         public int Amount;
 
-        public ResourceEventPayload(Color color, ITargettable target, int amount)
+        public ResourceEventPayload(Color color, ITargetable target, int amount)
         {
             Color = color;
             Target = target;

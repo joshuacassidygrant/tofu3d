@@ -5,7 +5,7 @@ using TofuPlugin.Agents.AI;
 using TofuCore.Configuration;
 using UnityEngine;
 using TofuCore.Service;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 
 namespace TofuPlugin.Agents.AgentActions
 {
@@ -80,7 +80,7 @@ namespace TofuPlugin.Agents.AgentActions
 
         //An action must be triggered by a command (to set a target) before it can be used.
         public bool Triggered;
-        public ITargettable StoredTarget;
+        public ITargetable StoredTarget;
 
         public ServiceContext ServiceContext;
 
@@ -109,23 +109,23 @@ namespace TofuPlugin.Agents.AgentActions
         /*
          * The targetting function determines the best target for an action.
          */
-        public abstract ActionTargettableValueTuple TargettingFunction();
+        public abstract ActionTargetableValueTuple TargetingFunction();
 
         public virtual bool CanUse()
         {
             return 
                 (Cooldown <= 0 &&
-                TargettingFunction().Targettable != null);
+                TargetingFunction().Targetable != null);
         }
 
 
-        public virtual void TriggerAction(ITargettable target)
+        public virtual void TriggerAction(ITargetable target)
         {
             Triggered = true;
             StoredTarget = target;
         }
 
-        public virtual void FireAction(ITargettable target, float deltaTime) {
+        public virtual void FireAction(ITargetable target, float deltaTime) {
             CurrentCooldown = Cooldown;
         }
 

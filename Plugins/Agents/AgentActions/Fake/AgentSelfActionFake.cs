@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TofuCore.Service;
-using TofuPlugin.Agents.Targettable;
+using TofuPlugin.Agents.Targetable;
 
 namespace TofuPlugin.Agents.AgentActions.Fake {
 
@@ -13,12 +13,12 @@ namespace TofuPlugin.Agents.AgentActions.Fake {
 
         public override Dictionary<string, float> GetUsageTagValues()
         {
-            throw new System.NotImplementedException();
+            return new Dictionary<string, float>();
         }
 
-        public override ActionTargettableValueTuple TargettingFunction()
+        public override ActionTargetableValueTuple TargetingFunction()
         {
-            return new ActionTargettableValueTuple(this, Agent.TargettableSelf, 1f);
+            return new ActionTargetableValueTuple(this, Agent.TargetableSelf, 1f);
         }
     }
 

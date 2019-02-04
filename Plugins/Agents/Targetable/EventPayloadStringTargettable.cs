@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Targettable
+namespace TofuPlugin.Agents.Targetable
 {
     public struct EventPayloadStringTargettable
     {
 
-        public ITargettable Target;
+        public ITargetable Target;
         public string Value;
 
-        public EventPayloadStringTargettable(ITargettable target, string value)
+        public EventPayloadStringTargettable(ITargetable target, string value)
         {
             Target = target;
             Value = value;
