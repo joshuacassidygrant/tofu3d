@@ -20,8 +20,8 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
             _context = new ServiceContext();
-            FakeAgentActionFactory _actionFactory = new FakeAgentActionFactory().BindServiceContext(_context, "AgentActionFactory");
-            FactionContainer _factionManager = new FactionContainer().BindServiceContext(_context);
+            new FakeAgentActionFactory().BindServiceContext(_context, "AgentActionFactory");
+            new FactionContainer().BindServiceContext(_context);
             new AgentSensorFactory().BindServiceContext(_context);
 
 
