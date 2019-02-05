@@ -129,7 +129,7 @@ namespace TofuPlugin.Agents
             Controller.Update();
             //Controller should target and trigger actions.
 
-            if (CurrentCommand != null)
+            if (CurrentCommand != null && CurrentCommand.Action != null)
             {
                 //Once action is set and targeted, agent is responsible for carrying it out
                 CurrentCommand.TryExecute();

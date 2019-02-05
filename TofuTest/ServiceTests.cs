@@ -51,9 +51,10 @@ namespace TofuTests
             Assert.False((s.Fetch("DummyServiceOne")).CheckDependencies());
 
             //Act
-            new DummyLibrary("aaa").BindServiceContext(s);
-            new DummyServiceOne().BindServiceContext(s, "AnotherDummy");
-            s.ResolveBindings();
+            DummyLibrary dl1 = new DummyLibrary("aaa").BindServiceContext(s);
+            DummyServiceOne ds1 = new DummyServiceOne().BindServiceContext(s, "AnotherDummy");
+            s.FullInitialization(dl1);
+            s.FullInitialization(ds1);
 
             //Assert
             Assert.True(((DummyServiceOne)s.Fetch("DummyServiceOne")).CheckDependencies());

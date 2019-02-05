@@ -20,7 +20,6 @@ namespace TofuTests
             _serviceContext = new ServiceContext();
         
             new EventTesterService().BindServiceContext(_serviceContext);
-            new EventContext().BindServiceContext(_serviceContext);
 
             _eventTesterService = (EventTesterService)_serviceContext.Fetch("EventTesterService");
             _eventContext = (EventContext) _serviceContext.Fetch("EventContext");

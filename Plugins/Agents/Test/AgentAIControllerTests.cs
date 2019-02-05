@@ -25,7 +25,6 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
             _context = new ServiceContext();
-            new EventContext().BindServiceContext(_context);
 
             _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
             _prototype.Id = "t1p";

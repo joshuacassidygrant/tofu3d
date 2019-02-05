@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TofuCore.Events;
 using TofuCore.Exceptions;
 using TofuCore.Glops;
 using UnityEngine;
@@ -26,11 +27,14 @@ namespace TofuCore.Service
             _glopManagers = new List<GlopContainer>();
             _factory = new ServiceFactory(this);
             LastGlopId = 0x1;
+
+            //All service contexts need an event context.
+            BindCoreServices();
         }
 
-    /*
-     * Binding
-     */
+        /*
+         * Binding
+         */
         public void Drop(string name)
         {
             _services.Remove(name);
@@ -99,7 +103,14 @@ namespace TofuCore.Service
             InitializeAll();
         }
 
-        public void ResolveBindings()
+        //To be called for late bindings:
+        public void FullInitialization(IService service)
+        {
+            ResolveBindings();
+            service.Initialize();
+        }
+
+        private void ResolveBindings()
         {
             foreach (KeyValuePair<String, IService> entry in _services)
             {
@@ -107,7 +118,7 @@ namespace TofuCore.Service
             }
         }
 
-        public void InitializeAll()
+        private void InitializeAll()
         {
             foreach (KeyValuePair<String, IService> entry in _services)
             {
@@ -115,7 +126,13 @@ namespace TofuCore.Service
             }
         }
 
-    
+        private void BindCoreServices()
+        {
+            new EventContext().BindServiceContext(this);
+
+        }
+
+
 
     }
 }

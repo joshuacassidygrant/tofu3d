@@ -18,7 +18,7 @@ namespace TofuPlugin.FrameUpdateService
         public void SetUp()
         {
             _serviceContext = new ServiceContext();
-            _eventContext = new EventContext();
+            _eventContext = _serviceContext.Fetch("EventContext");
             _eventContext.BindServiceContext(_serviceContext);
             _frameUpdateService = new GameObject().AddComponent<FrameUpdateService>();
             _frameUpdateService.BindServiceContext(_serviceContext);

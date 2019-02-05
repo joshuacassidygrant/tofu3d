@@ -22,8 +22,7 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
             _context = new ServiceContext();
-            _eventContext = new EventContext();
-            _eventContext.BindServiceContext(_context);
+            _eventContext = _context.Fetch("EventContext");
             _sensorFactory = new AgentSensorFactory();
             _sensorFactory.BindServiceContext(_context);
             _agentManager = new AgentContainer();
