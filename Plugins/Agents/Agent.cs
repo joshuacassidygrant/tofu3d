@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TofuPlugin.Renderable;
 using System.Collections.Generic;
+using System.Linq;
 using Scripts;
 using TofuPlugin.Agents.AI.Behaviour;
 using Scripts.Sensors;
@@ -132,10 +133,10 @@ namespace TofuPlugin.Agents
             {
                 //Once action is set and targeted, agent is responsible for carrying it out
                 CurrentCommand.TryExecute();
-                if (CurrentCommand.Action.Phase == ActionPhase.FOCUS && CurrentCommand.Action.Name != "Move")
+                /*if (CurrentCommand.Action.Phase == ActionPhase.FOCUS && CurrentCommand.Action.Name != "Move")
                 {
                     EventContext.TriggerEvent("StringPop", new EventPayload("EventPayloadStringTargettable", new EventPayloadStringTargettable(this, "F"), EventContext));
-                }
+                }*/
             }
             //Do something
         }
@@ -199,6 +200,12 @@ namespace TofuPlugin.Agents
         public void MoveInDirection(Vector3 direction, float time)
         {
             Position = Position + direction * Properties.GetProperty("Speed", 1f) * time;
+        }
+
+        //TEMP
+        public AgentAction GetMoveAction()
+        {
+            return Actions.FirstOrDefault(x => x.Id == "move");
         }
 
 

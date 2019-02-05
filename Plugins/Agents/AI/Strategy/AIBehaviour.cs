@@ -54,10 +54,9 @@ namespace TofuPlugin.Agents.AI.Behaviour
         //Could crank up "intelligence" to simulate more actions at the cost of processing speed.
         public virtual AgentCommand PickCommand()
         {
-            Debug.Log("pick");
             //TODO: Also should handle whether it privileges fire-and-forget tactics or focus fire
             List<ActionTargetableValueTuple> atVs = new List<ActionTargetableValueTuple>();
-            List<AgentAction> actions = Agent.Actions;
+            List<AgentAction> actions = Agent.Actions.Where(x => x.Ready()).ToList();
             foreach (AgentAction action in actions)
             {
                 try
@@ -70,10 +69,8 @@ namespace TofuPlugin.Agents.AI.Behaviour
                 }
             }
 
-            atVs.Sort((x, y) => x.Value.CompareTo(y.Value));
+            atVs.Sort((x, y) => y.Value.CompareTo(x.Value));
             ActionTargetableValueTuple pick = atVs[0];
-
-
 
             return new AgentCommand(pick.Action, pick.Targetable, Mathf.RoundToInt(pick.Value));
 
@@ -92,14 +89,15 @@ namespace TofuPlugin.Agents.AI.Behaviour
 
         public float GetUtilityValue(Dictionary<string, float> actionUsageTagValues, float targetValue)
         {
+            Dictionary<string, float> atvLive = new Dictionary<string, float>();
             //Multiply each atvu with the matching coefficient or 1
             foreach (KeyValuePair<string, float> entry in actionUsageTagValues)
             {
-                actionUsageTagValues[entry.Key] = entry.Value * GetBehaviourCoefficient(entry.Key);
+               atvLive.Add(entry.Key, entry.Value * GetBehaviourCoefficient(entry.Key));
             }
 
             //then add them up and multiply by target value
-            return actionUsageTagValues.Values.Sum() * targetValue;
+            return atvLive.Values.Sum() * targetValue;
         }
 
     }

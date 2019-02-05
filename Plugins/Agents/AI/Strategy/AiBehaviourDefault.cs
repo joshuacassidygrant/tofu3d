@@ -18,7 +18,7 @@ namespace TofuPlugin.Agents.AI.Behaviour
 
             if (action == null)
             {
-                return new AgentCommand(new AgentActionIdle("idle", "Idle"), new TargetableDefault(), 0);
+                return new AgentCommand(action, new TargetableDefault(), 0);
             }
 
             return new AgentCommand(action, new TargetableDefault(), 0);

@@ -175,6 +175,11 @@ namespace TofuPlugin.Agents.AgentActions
             return Phase == ActionPhase.READY && !Triggered;
         }
 
+        public bool InRange(ITargetable target)
+        {
+            return Vector3.SqrMagnitude(Agent.Position - target.Position) < Range;
+        }
+
 
 
     }

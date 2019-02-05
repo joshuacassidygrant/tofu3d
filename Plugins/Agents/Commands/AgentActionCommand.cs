@@ -35,12 +35,24 @@ namespace TofuPlugin.Agents.Commands
         {
             if (Action.Ready())
             {
+                //TODO: check all action preconditions here -- in range, enough power etc
+                if (!Action.InRange(Target))
+                {
+                    //TODO: Get the best mobility action and path towards target (later -- this would need a new pathing system if it had to allow for blinks etc)
+                    //Action.Agent.GetMobilityActions();
+                    //TEMP:
+                    Action.Agent.GetMoveAction().TriggerAction(Target);
+                    return false;
+                }
+
                 Action.TriggerAction(Target);
                 return true;
             }
-
             return false;
+
         }
+
+    
 
         public override string ToString()
         {

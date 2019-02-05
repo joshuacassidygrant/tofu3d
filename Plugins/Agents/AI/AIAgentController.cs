@@ -66,7 +66,7 @@ namespace TofuPlugin.Agents.AI
             _behaviour = behaviour;
             _behaviour.BindAgent(Agent);
             behaviour.SetSensor(Sensor);
-            Update();
+            //Update();
         }
         
         public void Interrupt()
