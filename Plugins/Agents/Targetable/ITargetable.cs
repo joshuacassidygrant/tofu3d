@@ -10,5 +10,6 @@ namespace TofuPlugin.Agents.Targetable
     {
         Vector3 Position { get; }
         bool Active { get; }
+        float SizeRadius { get; }
     }
 }

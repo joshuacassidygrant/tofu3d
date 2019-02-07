@@ -16,7 +16,7 @@ namespace TofuPlugin.Agents
 
         public static AgentPrototype GetNew()
         {
-            return ScriptableObject.CreateInstance<AgentPrototype>();
+            return CreateInstance<AgentPrototype>();
         }
     }
 }
