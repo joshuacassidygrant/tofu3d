@@ -18,6 +18,7 @@ namespace TofuCore.Events
         private EventList _events;
         private EventPayloadTypeContainer _eventPayloadTypeContainer;
         private Dictionary<TofuEvent, IListener> _eventListenersToRemove;
+        [Dependency] protected EventLogger EventLogger;
 
         public override void Build()
         {
@@ -45,6 +46,11 @@ namespace TofuCore.Events
                 listener.ReceiveEvent(evnt, payload);
             }
             FlushListeners();
+
+            if (EventLogger != null)
+            {
+                EventLogger.LogEvent(Time.time, eventKey, payload.ContentType);
+            }
 
 
         }

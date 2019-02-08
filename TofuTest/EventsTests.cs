@@ -1,7 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.Service;
 using TofuCore.TestSupport;
+using UnityEngine;
 using UnityEngine.Assertions;
 using Assert = NUnit.Framework.Assert;
 
@@ -13,16 +15,17 @@ namespace TofuTests
         private ServiceContext _serviceContext;
         private EventContext _eventContext;
         private EventTesterService _eventTesterService;
+        private EventLogger _eventLogger;
 
         [SetUp]
         public void SetUp()
         {
             _serviceContext = new ServiceContext();
-        
-            new EventTesterService().BindServiceContext(_serviceContext);
 
-            _eventTesterService = (EventTesterService)_serviceContext.Fetch("EventTesterService");
-            _eventContext = (EventContext) _serviceContext.Fetch("EventContext");
+            _eventTesterService = new EventTesterService().BindServiceContext(_serviceContext);
+            _eventLogger = new EventLogger().BindServiceContext(_serviceContext);
+
+            _eventContext = _serviceContext.Fetch("EventContext");
             _serviceContext.FullInitialization();
         }
 
@@ -105,6 +108,33 @@ namespace TofuTests
 
         }
 
+        [Test]
+        public void UnregisteredPayloadTypeShouldWarnButNotFail()
+        {
+            try
+            {
+                _eventTesterService.BindListener(_eventContext.GetEvent("Flom"), _eventTesterService.Zarfed, _eventContext);
+                _eventContext.TriggerEvent("Flom", new EventPayload("AnUndeclaredType", "zoom", _eventContext));
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [Test]
+        public void EventLoggerServiceShouldCollectTriggeredEvents()
+        {
+            _eventTesterService.BindListener(_eventContext.GetEvent("Zarf"), _eventTesterService.Zarfed, _eventContext);
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42, _eventContext));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42, _eventContext));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42, _eventContext));
+
+            Assert.AreEqual(3, _eventLogger.Logs.Count);
+            Assert.AreEqual("Zarf", _eventLogger.Logs[0].Event);
+            Assert.AreEqual("Integer", _eventLogger.Logs[0].PayloadType);
+        }
 
     }
 }

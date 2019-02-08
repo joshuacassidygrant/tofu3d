@@ -25,8 +25,7 @@ namespace TofuCore.Events
             
             if (!_payloadTypeContainer.CheckContentAs(content, contentType))
             {
-                Debug.Log("Can't store content " + content.ToString() + " as " + contentType);
-                //TODO: do something
+                Debug.LogWarning("Can't store content " + content.ToString() + " as " + contentType);
             }
 
             
