@@ -19,12 +19,23 @@ namespace TofuPlugin.Renderable
         private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
         private Dictionary<TofuEvent, Action<EventPayload>> _listenersToUnbind;
 
+        protected RuntimeAnimatorController AnimatorController;
+        protected Animator Anim;
+
 
         public void Render()
         {
             if (Renderable == null) return;
             transform.position = Renderable.Position;
-            SpriteRenderer.sprite = Renderable.Sprite;
+            if (Anim.runtimeAnimatorController == null)
+            {
+                SpriteRenderer.sprite = Renderable.Sprite;
+            }
+            else
+            {
+                UpdateAnimationStates(Renderable.GetAnimationStateBools());
+            }
+
         }
 
         private void Update()
@@ -43,6 +54,7 @@ namespace TofuPlugin.Renderable
             Renderable = renderable;
             SpriteRenderer = gameObject.AddComponent<SpriteRenderer>();
             ServiceContext = context;
+            Anim = gameObject.AddComponent<Animator>();
             EventContext = context.Fetch("EventContext");
             Render();
         }
@@ -99,6 +111,14 @@ namespace TofuPlugin.Renderable
             foreach (KeyValuePair<TofuEvent, Action<EventPayload>> entry in _listenersToUnbind)
             {
                 _boundListeners[entry.Key].Remove(entry.Value);
+            }
+        }
+
+        private void UpdateAnimationStates(Dictionary<string, bool> paramBools)
+        {
+            foreach (KeyValuePair<string, bool> entry in paramBools)
+            {
+                 Anim.SetBool(entry.Key, entry.Value);
             }
         }
     }

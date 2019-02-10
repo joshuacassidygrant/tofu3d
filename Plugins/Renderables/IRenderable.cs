@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace TofuPlugin.Renderable
 {
@@ -15,6 +16,8 @@ namespace TofuPlugin.Renderable
         Vector3 Position {
             get;
         }
+
+        Dictionary<string, bool> GetAnimationStateBools();
         //Add animation stuff too.
 
     }

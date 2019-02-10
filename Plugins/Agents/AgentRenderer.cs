@@ -1,6 +1,7 @@
 ﻿using TofuCore.Service;
 using TofuPlugin.Renderable;
 using UnityEngine;
+using UnityEngine.Animations;
 
 namespace TofuPlugin.Agents
 {
@@ -12,6 +13,7 @@ namespace TofuPlugin.Agents
             base.Initialize(agent, context);
             SetLayer(agent.GetSortingLayer());
         }
+
 
 
     }

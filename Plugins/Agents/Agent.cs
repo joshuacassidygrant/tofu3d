@@ -40,7 +40,10 @@ namespace TofuPlugin.Agents
 
         //TODO: should be able to take a 3d model instead
         public Sprite Sprite { get; set; }
+        private Dictionary<string, bool> AnimationStates = new Dictionary<string, bool>();
+
         public Vector3 Position { get; set; }
+        
 
         protected EventContext EventContext;
 
@@ -84,6 +87,7 @@ namespace TofuPlugin.Agents
         {
             return "Agent";
         }
+
 
         protected AgentSensorFactory SensorFactory;
         protected AbstractAgentActionFactory ActionFactory;
@@ -133,6 +137,7 @@ namespace TofuPlugin.Agents
             {
                 //Once action is set and targeted, agent is responsible for carrying it out
                 CurrentCommand.TryExecute();
+                SetAnimationStates();
                 /*if (CurrentCommand.Action.Phase == ActionPhase.FOCUS && CurrentCommand.Action.Name != "Move")
                 {
                     EventContext.TriggerEvent("StringPop", new EventPayload("EventPayloadStringTargettable", new EventPayloadStringTargettable(this, "F"), EventContext));
@@ -217,7 +222,51 @@ namespace TofuPlugin.Agents
             }
         }
 
+        public Dictionary<string, bool> GetAnimationStateBools()
+        {
+            return AnimationStates;
+        }
 
+        protected virtual void SetAnimationStates()
+        {
+            ClearAnimationStates();
+
+            if (CurrentCommand.Action.Name == "Move")
+            {
+                SetAnimationState("Walking", true);
+            }
+            else if (CurrentCommand.Action.Phase == ActionPhase.FOCUS)
+            {
+                SetAnimationState("Focusing" ,true);
+            }
+            else if (CurrentCommand.Action.Phase == ActionPhase.READY && CurrentCommand.Action.CanUse())
+            {
+                SetAnimationState("Acting", true);
+
+            }
+        }
+
+        protected void SetAnimationState(string key, bool value)
+        {
+            if (!AnimationStates.ContainsKey(key))
+            {
+                AnimationStates.Add(key, value);
+            }
+            else
+            {
+                AnimationStates[key] = value;
+            }
+
+        }
+
+        protected void ClearAnimationStates()
+        {
+            string[] keys = AnimationStates.Keys.ToArray();
+            foreach (string key in keys)
+            {
+                AnimationStates[key] = false;
+            }
+        }
 
 
 
