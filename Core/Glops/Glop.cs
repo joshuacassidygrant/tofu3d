@@ -8,6 +8,9 @@ namespace TofuCore.Glops
     /*
      * A GLOP is a Generalized Local Object or Process. Subclass this
      * and manage it with a GlopManager.
+     *
+     * GLOPs receive updates from their managers, generally with a framedelta
+     * float telling how much time has passed since the last frame.
      */
     public abstract class Glop {
         public int Id;
@@ -26,15 +29,7 @@ namespace TofuCore.Glops
             Garbage = true;
         }
 
-        public bool Garbage {
-            get {
-                return _garbage;
-            }
-            protected set {
-                _garbage = value;
-            }
-        }
-        private bool _garbage = false;
+        public bool Garbage { get; protected set; }
 
 
         public abstract void Update(float frameDelta);

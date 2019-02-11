@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace TofuCore.Configuration
 {
+    /*
+     * A properties object holds a key-value pair dictionary of values that extend an IConfigurable object.
+     */
     public class Properties
     {
 

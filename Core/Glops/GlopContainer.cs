@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace TofuCore.Glops
 {
+    /*
+     * A GLOP Container holds and manages GLOP objects (TOFU's generic object type).
+     * It contains methods for storing, retrieving and updating its child glops.
+     */
     public class GlopContainer : AbstractService
     {
 
