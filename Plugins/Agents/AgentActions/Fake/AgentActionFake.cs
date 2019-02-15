@@ -2,7 +2,7 @@
 using TofuCore.Service;
 using TofuPlugin.Agents.Targetable;
 
-namespace TofuPlugin.Agents.AgentActions.Fake {
+namespace TofuPlugin.Agents.AgentActions.Test {
 
     public class AgentActionFake : AgentAction {
 

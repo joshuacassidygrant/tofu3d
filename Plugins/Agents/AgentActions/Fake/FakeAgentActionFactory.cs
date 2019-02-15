@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TofuCore.Configuration;
 using TofuPlugin.Agents;
 using TofuPlugin.Agents.AgentActions;
+using TofuPlugin.Agents.AgentActions.Test;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.AgentActions.Fake
