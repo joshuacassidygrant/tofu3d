@@ -35,7 +35,7 @@ namespace TofuPlugin.Agents.Tests
             Faction faction = new Faction("testIdName", "Test Faction", 0x314CA, _context);
 
             Assert.AreEqual("testIdName", faction.IdName);
-            Assert.AreEqual("Test Faction", faction.Name);
+            Assert.AreEqual("Test Faction", faction.GetName());
             Assert.AreEqual(0x314CA, faction.Id);
             Assert.AreEqual(0, faction.GetRelationship(new Faction("f", "f", 3, _context)));
             

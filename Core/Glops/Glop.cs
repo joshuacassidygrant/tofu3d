@@ -14,13 +14,11 @@ namespace TofuCore.Glops
      */
     public abstract class Glop {
         public int Id;
-        public string Name;
         protected ServiceContext ServiceContext;
 
-        protected Glop(int id, string name, ServiceContext context)
+        protected Glop(int id, ServiceContext context)
         {
             Id = id;
-            Name = name;
             ServiceContext = context;
         }
 

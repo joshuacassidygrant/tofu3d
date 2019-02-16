@@ -33,6 +33,7 @@ namespace TofuPlugin.Agents
         public List<AgentAction> Actions { get; }
         public ITargetable TargetableSelf => this;
         public AIAgentController Controller;
+        protected string Name;
 
 
         //TODO: should we also allow other methods of setting size radius? Or move it out of properties?
@@ -81,6 +82,11 @@ namespace TofuPlugin.Agents
             get; protected set;
         }
 
+        public string GetName()
+        {
+            return Name;
+        }
+
         private Properties _properties;
 
         public virtual string GetSortingLayer()
@@ -94,17 +100,19 @@ namespace TofuPlugin.Agents
         protected FactionContainer FactionManager;
 
 
-        public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f) : base(id, prototype.Name, context)
+        public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f) : base(id, context)
         {
-            Sprite = prototype.Sprite;
+            Sprite = prototype?.Sprite;
+            Name = prototype?.Name;
+
             Position = position;
             SizeRadius = sizeRadius;
-
+            
             ResolveDependencies();
 
             Actions = new List<AgentAction>();
 
-            if (ActionFactory == null || prototype.Actions == null || prototype.Actions.Count <= 0) return;
+            if (prototype == null || ActionFactory == null || prototype.Actions == null || prototype.Actions.Count <= 0) return;
 
             foreach (PrototypeActionEntry action in prototype.Actions)
             {
@@ -268,8 +276,9 @@ namespace TofuPlugin.Agents
             }
         }
 
-
-
-
+        public override string ToString()
+        {
+            return "Agent" + Id;
+        }
     }
 }

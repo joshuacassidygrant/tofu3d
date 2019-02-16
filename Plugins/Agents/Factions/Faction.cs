@@ -16,11 +16,13 @@ namespace TofuPlugin.Agents.Factions
         private Dictionary<Faction, int> _relationships;
 
         public string IdName;
+        private string _name;
         public Player Controller;
 
-        public Faction(string idName, string niceName, int id, ServiceContext serviceContext) : base(id, niceName, serviceContext)
+        public Faction(string idName, string niceName, int id, ServiceContext serviceContext) : base(id, serviceContext)
         {
             IdName = idName;
+            _name = niceName;
             _relationships = new Dictionary<Faction, int>();
         }
 
@@ -68,6 +70,11 @@ namespace TofuPlugin.Agents.Factions
         public void SetController(Player controller)
         {
             Controller = controller;
+        }
+
+        public string GetName()
+        {
+            return _name;
         }
 
         public int GetRelationship(Faction faction)

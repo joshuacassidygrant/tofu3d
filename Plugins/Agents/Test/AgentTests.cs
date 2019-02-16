@@ -40,13 +40,21 @@ namespace TofuPlugin.Agents.Tests
         }
 
         [Test]
+        public void AgentShouldConstructWithNullPrototype()
+        {
+            Agent u = new Agent(123, null, Vector3.back, _context);
+            Assert.NotNull(u);
+            Assert.AreEqual(123, u.GetId());
+        }
+
+        [Test]
         public void AgentShouldConstructWithPropertiesAndActions()
         {
             Agent u = new Agent(123, _prototype, Vector3.zero, _context);
 
             //Assert
             Assert.AreEqual(123, u.Id);
-            Assert.AreEqual("T1P", u.Name);
+            Assert.AreEqual("T1P", u.GetName());
             Assert.AreEqual(null, u.Sprite);
             Assert.AreEqual(Vector3.zero, u.Position);
             Assert.AreEqual(2, u.Actions.Count);

@@ -8,7 +8,7 @@ namespace TofuTests.Mock
 {
     public class FakeGlop : Glop
     {
-        public FakeGlop(int id, ServiceContext context) : base(id, "test", context)
+        public FakeGlop(int id, ServiceContext context) : base(id, context)
         {
         }
 
