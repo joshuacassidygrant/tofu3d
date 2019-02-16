@@ -26,6 +26,9 @@ A service (in either MonoBehaviour or plain flavours) can be bound to a ServiceC
 ### Events
 Events are passed around in an EventContext with dynamic event payloads. Event listeners and triggers must all be bound in terms of an event context, which is a service in itself.
 
+### Glops
+A Glop (Generalized Local Object or Process) is a single object that is contained in a GlopContainer. Generally, Glop is subclassed to represent any major managed, live data in a Tofu game.
+
 ### Resource Libraries
 Resource libraries allow the serving and storage of items of a specified type. Each resource library is a service.
 
@@ -46,6 +49,9 @@ Agents are objects with a location, ID, renderable sprite/model etc. that can ha
 
 ### Resource Module
 An object that contains some float amount of resource out of a possible max amount of resource, and includes methods for depleting/spending that resource and can trigger events from that. Could be used with any numerical resource, such as health in an RPG game or wood in an RTS.
+
+### Renderables
+Renderables define animation, sprite and model properties to represent Glop and other object as visual GameObjects in a Unity scene.
 
 ## Disclaimer:
 I'm a computer science student using this to get a good understanding of system design etc. I do not know everything, and appreciate any feedback on the decisions I've made.
