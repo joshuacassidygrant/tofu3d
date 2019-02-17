@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TofuCore.Service;
@@ -54,7 +55,23 @@ namespace TofuTests
             Assert.AreEqual(0, _dummyLibrary.Get("13"));
             _dummyLibrary.LoadResource("13", 13);
             Assert.AreNotEqual(0, _dummyLibrary.Get("13"));
+
             
+        }
+
+        [Test]
+        public void LibraryShouldThrowErrorWhenAddingADoubleKey()
+        {
+            try
+            {
+                _dummyLibrary.LoadResource("15", 13);
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                //Pass
+            }
+
         }
 
         [Test]
@@ -77,6 +94,15 @@ namespace TofuTests
         public void LibraryShouldReturnFalseWhenAskedToRemoveANonExistingMember()
         {
             Assert.False(_dummyLibrary.RemoveResource("Babylon"));
+        }
+
+        [Test]
+        public void TestGetCatalogue()
+        {
+            Dictionary<string, int> catalogue = _dummyLibrary.GetCatalogue();
+
+            Assert.NotNull(catalogue);
+            Assert.AreEqual(3, catalogue.Count);
         }
 
 

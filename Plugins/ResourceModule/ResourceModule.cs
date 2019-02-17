@@ -112,6 +112,11 @@ namespace TofuPlugin.ResourceModule
             _max = amount;
         }
 
+        public void SetValue(float amount)
+        {
+            _value = amount;
+        }
+
         public void SetMaxRetainPercent(float amount)
         {
             float percent = Percent;
