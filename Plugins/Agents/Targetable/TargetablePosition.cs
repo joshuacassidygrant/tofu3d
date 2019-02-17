@@ -12,14 +12,16 @@ namespace TofuPlugin.Agents.Targetable
         float z => _position.z;
 
 
-        public TargetablePosition(Vector3 position)
+        public TargetablePosition(Vector3 position, float radius = 0f)
         {
             _position = position;
+            _sizeRadius = radius;
         }
 
         public Vector3 Position => _position;
         public bool Active => true;
-        public float SizeRadius => 0f;
+        public float SizeRadius => _sizeRadius;
+        private float _sizeRadius;
     }
 
 }

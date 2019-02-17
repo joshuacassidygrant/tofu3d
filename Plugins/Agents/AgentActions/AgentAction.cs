@@ -177,7 +177,7 @@ namespace TofuPlugin.Agents.AgentActions
 
         public bool InRange(ITargetable target)
         {
-            return Vector3.SqrMagnitude(Agent.Position - target.Position) < Range;
+            return TargetableUtilities.GetDistanceBetween(Agent, target) <= Range;
         }
 
 

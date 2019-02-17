@@ -215,6 +215,11 @@ namespace TofuPlugin.Agents
             Position = Position + direction * Properties.GetProperty("Speed", 1f) * time;
         }
 
+        public void MoveTo(Vector3 position)
+        {
+            Position = position;
+        }
+
         //TEMP
         public AgentAction GetMoveAction()
         {

@@ -20,7 +20,10 @@ namespace TofuPlugin.Agents.Targetable
             List<ITargetable> targetsWithin =
                 objects.Where(t => (t.Position - targetable.Position).magnitude - t.SizeRadius < 0)
                         .OrderBy(t => (t.Position - targetable.Position).sqrMagnitude).ToList();
-            if (targetsWithin.Count > 0) return targetsWithin[0];
+            if (targetsWithin.Count > 0)
+            {
+                return targetsWithin[0];
+            }
                     
             //Else, return the closest targetable based on other targetable's size radii
             List <ITargetable> targetsOrdered = objects.OrderBy(t => 
@@ -30,13 +33,24 @@ namespace TofuPlugin.Agents.Targetable
 
         }
 
+        /*
+         * This method will return negative numbers for overlapping targets
+         */
+        private static float GetDistanceBetweenUnclamped(ITargetable t1, ITargetable t2)
+        {
+            return (t1.Position - t2.Position).magnitude - t1.SizeRadius - t2.SizeRadius;
+        }
+
         //Finds the distance between two ITargetable by the closest points on their radii
         public static float GetDistanceBetween(ITargetable t1, ITargetable t2)
         {
-            float distance = (t1.Position - t2.Position).magnitude - t1.SizeRadius - t2.SizeRadius;
-            
+            return Mathf.Max(GetDistanceBetweenUnclamped(t1,t2), 0f);
+        }
 
-            return Mathf.Max(distance, 0f);
+        //Checks if two targetables overlap
+        public static bool DoTargetablesOverlap(ITargetable t1, ITargetable t2)
+        {
+            return GetDistanceBetweenUnclamped(t1, t2) <= 0;
         }
         
     }
