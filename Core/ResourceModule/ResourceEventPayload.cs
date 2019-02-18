@@ -1,7 +1,7 @@
 ﻿using TofuCore.Targetable;
 using UnityEngine;
 
-namespace TofuPlugin.ResourceModule
+namespace TofuCore.ResourceModule
 {
     public struct ResourceEventPayload
     {

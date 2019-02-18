@@ -4,7 +4,7 @@ using TofuCore.Targetable;
 using UnityEngine;
 
 
-namespace TofuPlugin.ResourceModule
+namespace TofuCore.ResourceModule
 {
     public class ResourceModule
     {
@@ -23,7 +23,7 @@ namespace TofuPlugin.ResourceModule
         private EventPayload _fullDepletionEventPayload;
         private string _replenishEventKey;
 
-        private ITargetable _owner;
+        private IResourceModuleOwner _owner;
 
         public float Percent
         {
@@ -38,7 +38,7 @@ namespace TofuPlugin.ResourceModule
         private float _max;
         private readonly EventContext _eventContext;
 
-        public ResourceModule(string name, float max, float val, ITargetable owner, EventContext eventContext)
+        public ResourceModule(string name, float max, float val, IResourceModuleOwner owner, EventContext eventContext)
         {
             Name = name;
             _value = val;
@@ -54,7 +54,7 @@ namespace TofuPlugin.ResourceModule
 
             if (_depletionEventKey != null)
             {
-                _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, new TargetablePosition(_owner.Position), (int)Math.Round(amount)), _eventContext));
+                _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, new TargetablePosition(_owner.GetPosition()), (int)Math.Round(amount)), _eventContext));
             }
 
             if (_value <= 0)
@@ -126,7 +126,7 @@ namespace TofuPlugin.ResourceModule
             _value = Mathf.Min(_value + amount, FMax);
             if (_replenishEventKey != null)
             {
-                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, new TargetablePosition(_owner.Position), (int)Math.Round(amount)), _eventContext));
+                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, new TargetablePosition(_owner.GetPosition()), (int)Math.Round(amount)), _eventContext));
             }
         }
 

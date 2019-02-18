@@ -12,6 +12,7 @@ using TofuPlugin.Agents.Commands;
 using TofuPlugin.Agents.Sensors;
 using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
+using TofuCore.ResourceModule;
 using TofuCore.Targetable;
 
 namespace TofuPlugin.Agents
@@ -22,7 +23,7 @@ namespace TofuPlugin.Agents
      * or player input. Agents are managed by an agent manager class and rendered by an agent
      * renderer.
      */
-    public class Agent: Glop, IRenderable, ITargetable, IControllableAgent, IConfigurable, ISensable
+    public class Agent: Glop, IRenderable, ITargetable, IControllableAgent, IConfigurable, ISensable, IResourceModuleOwner
     {
 
         /*
@@ -42,7 +43,7 @@ namespace TofuPlugin.Agents
         private Dictionary<string, bool> AnimationStates = new Dictionary<string, bool>();
 
         public Vector3 Position { get; set; }
-        
+        private Dictionary<string, ResourceModule> _resourceModules;
 
         protected EventContext EventContext;
 
@@ -107,6 +108,7 @@ namespace TofuPlugin.Agents
             SizeRadius = sizeRadius;
             
             ResolveDependencies();
+            _resourceModules = new Dictionary<string, ResourceModule>();
 
             Actions = new List<AgentAction>();
 
@@ -116,6 +118,7 @@ namespace TofuPlugin.Agents
             {
                 AddAction(ActionFactory.BindAction(this, action.ActionId, action.Configuration));
             }
+
         }
 
         private void ResolveDependencies()
@@ -284,5 +287,38 @@ namespace TofuPlugin.Agents
         {
             return "Agent" + Id;
         }
+
+        public Dictionary<string, ResourceModule> GetResourceModules()
+        {
+            return _resourceModules;
+        }
+
+        public void AssignResourceModule(string key, ResourceModule module)
+        {
+            if (_resourceModules.ContainsKey(key))
+            {
+                Debug.Log("Can't assign a second resource module to key " + key);
+                return;
+            }
+
+            _resourceModules.Add(key, module);
+        }
+
+        public void RemoveResourceModule(string key)
+        {
+            _resourceModules.Remove(key);
+        }
+
+        public ResourceModule GetResourceModule(string key)
+        {
+            if (!_resourceModules.ContainsKey(key)) return null;
+            return _resourceModules[key];
+        }
+
+        public Vector3 GetPosition()
+        {
+            return Position;
+        }
+
     }
 }
