@@ -1,7 +1,4 @@
-﻿
-using System.Collections.Generic;
-using TofuCore.Service;
-using TofuPlugin.Agents.Targetable;
+﻿using System.Collections.Generic;
 
 namespace TofuPlugin.Agents.AgentActions
 {

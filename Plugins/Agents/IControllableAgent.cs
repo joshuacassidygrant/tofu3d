@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using TofuCore.Targetable;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
-using TofuPlugin.Agents.Targetable;
 using UnityEngine;
 
 namespace TofuPlugin.Agents

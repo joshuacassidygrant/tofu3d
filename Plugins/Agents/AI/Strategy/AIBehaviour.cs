@@ -5,7 +5,6 @@ using Scripts.Sensors;
 using TofuCore.Service;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
-using TofuPlugin.Agents.Targetable;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.AI.Behaviour

@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using TofuCore.Events;
+using TofuCore.Targetable;
 using TofuCore.TestSupport;
-using TofuPlugin.Agents;
-using TofuPlugin.Agents.Targetable;
 using TofuPlugin.ResourceModule;
 using UnityEngine;
 

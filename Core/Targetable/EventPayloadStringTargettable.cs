@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Targetable
+namespace TofuCore.Targetable
 {
     public struct EventPayloadStringTargettable
     {

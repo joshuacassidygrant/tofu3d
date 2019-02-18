@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TofuCore.Glops;
+﻿using TofuCore.Glops;
 using TofuCore.Service;
-using UnityEngine;
 
 namespace TofuCore.Player
 {
@@ -10,6 +7,8 @@ namespace TofuCore.Player
     {
         //TODO this
         //Probably abstract for AI vs. human player
+
+        
 
         public Player(int id, string name, ServiceContext context) : base(id, context)
         {

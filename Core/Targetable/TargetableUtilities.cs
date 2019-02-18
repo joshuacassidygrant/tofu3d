@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.ExceptionServices;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Targetable
+namespace TofuCore.Targetable
 {
     public static class TargetableUtilities
     {

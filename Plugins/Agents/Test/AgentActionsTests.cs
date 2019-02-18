@@ -5,8 +5,6 @@ using TofuPlugin.Agents.AgentActions.Fake;
 using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
-using TofuPlugin.Agents.Targetable;
-using TofuCore.Events;
 using TofuPlugin.Agents.AgentActions.Test;
 
 namespace TofuPlugin.Agents.Tests

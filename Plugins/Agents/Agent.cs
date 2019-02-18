@@ -2,8 +2,6 @@
 using TofuPlugin.Renderable;
 using System.Collections.Generic;
 using System.Linq;
-using Scripts;
-using TofuPlugin.Agents.AI.Behaviour;
 using Scripts.Sensors;
 using TofuCore.Configuration;
 using TofuCore.Glops;
@@ -14,7 +12,7 @@ using TofuPlugin.Agents.Commands;
 using TofuPlugin.Agents.Sensors;
 using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
-using TofuPlugin.Agents.Targetable;
+using TofuCore.Targetable;
 
 namespace TofuPlugin.Agents
 {
@@ -244,6 +242,7 @@ namespace TofuPlugin.Agents
         {
             ClearAnimationStates();
 
+            //TODO: make a better way to send these
             if (CurrentCommand.Action.Name == "Move")
             {
                 SetAnimationState("Walking", true);

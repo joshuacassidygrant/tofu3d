@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using TofuCore.Events;
-using TofuPlugin.Agents;
-using TofuPlugin.Agents.Targetable;
+using TofuCore.Targetable;
 using UnityEngine;
 
 

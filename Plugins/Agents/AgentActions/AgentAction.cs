@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
-using Scripts;
-using TofuPlugin.Agents.AI;
 using TofuCore.Configuration;
 using UnityEngine;
 using TofuCore.Service;
-using TofuPlugin.Agents.Targetable;
+using TofuCore.Targetable;
 
 namespace TofuPlugin.Agents.AgentActions
 {

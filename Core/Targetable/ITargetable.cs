@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.Targetable
+namespace TofuCore.Targetable
 {
     public interface ITargetable
     {

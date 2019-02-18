@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
+using TofuCore.Targetable;
 using TofuPlugin.Agents.AgentActions.Test;
 using TofuPlugin.Agents.Commands;
-using TofuPlugin.Agents.Targetable;
 
 namespace TofuPlugin.Agents.AgentActions.Tests
 {

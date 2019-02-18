@@ -1,6 +1,6 @@
 ﻿using TofuCore.Command;
+using TofuCore.Targetable;
 using TofuPlugin.Agents.AgentActions;
-using TofuPlugin.Agents.Targetable;
 
 namespace TofuPlugin.Agents.Commands
 {

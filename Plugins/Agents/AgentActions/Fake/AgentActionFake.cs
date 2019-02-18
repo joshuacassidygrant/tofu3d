@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using TofuCore.Service;
-using TofuPlugin.Agents.Targetable;
 
 namespace TofuPlugin.Agents.AgentActions.Test {
 

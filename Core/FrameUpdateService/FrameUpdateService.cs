@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TofuCore.Events;
+﻿using TofuCore.Events;
 using TofuCore.Service;
 using UnityEngine;
 
-namespace TofuPlugin.FrameUpdateService
+namespace TofuCore.FrameUpdateService
 {
     public class FrameUpdateService : AbstractMonoService
     {

@@ -4,13 +4,13 @@ using TofuCore.Service;
 using TofuCore.TestSupport;
 using UnityEngine;
 
-namespace TofuPlugin.FrameUpdateService
+namespace TofuTests
 {
     public class FrameUpdateServiceTest
     {
 
         ServiceContext _serviceContext;
-        FrameUpdateService _frameUpdateService;
+        TofuCore.FrameUpdateService.FrameUpdateService _frameUpdateService;
         EventContext _eventContext;
         DummyServiceOne _dummyService;
 
@@ -20,7 +20,7 @@ namespace TofuPlugin.FrameUpdateService
             _serviceContext = new ServiceContext();
             _eventContext = _serviceContext.Fetch("EventContext");
             _eventContext.BindServiceContext(_serviceContext);
-            _frameUpdateService = new GameObject().AddComponent<FrameUpdateService>();
+            _frameUpdateService = new GameObject().AddComponent<TofuCore.FrameUpdateService.FrameUpdateService>();
             _frameUpdateService.BindServiceContext(_serviceContext);
             _dummyService = new DummyServiceOne();
             _dummyService.BindServiceContext(_serviceContext);
