@@ -9,10 +9,12 @@ namespace TofuCore.Player
     public class Player : Glop, IResourceModuleOwner
     {
         private Dictionary<string, ResourceModule.ResourceModule> _resourceModules;
+        private string _name;
 
         public Player(int id, string name, ServiceContext context) : base(id, context)
         {
             _resourceModules = new Dictionary<string, ResourceModule.ResourceModule>();
+            _name = name;
         }
 
         public override void Update(float frameDelta)
@@ -50,6 +52,11 @@ namespace TofuCore.Player
         {
             //TODO: Maybe give this a position?
             return Vector3.zero;
+        }
+
+        public string GetName()
+        {
+            return _name;
         }
     }
 

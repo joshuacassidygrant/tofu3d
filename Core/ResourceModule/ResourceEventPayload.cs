@@ -7,10 +7,10 @@ namespace TofuCore.ResourceModule
     {
 
         public Color Color;
-        public ITargetable Target;
+        public IResourceModuleOwner Target;
         public int Amount;
 
-        public ResourceEventPayload(Color color, ITargetable target, int amount)
+        public ResourceEventPayload(Color color, IResourceModuleOwner target, int amount)
         {
             Color = color;
             Target = target;

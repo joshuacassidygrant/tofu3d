@@ -22,6 +22,7 @@ namespace TofuCore.ResourceModule
         private string _fullDepletionEventKey;
         private EventPayload _fullDepletionEventPayload;
         private string _replenishEventKey;
+        private string _changeEventKey;
 
         private IResourceModuleOwner _owner;
 
@@ -51,10 +52,11 @@ namespace TofuCore.ResourceModule
         {
 
             _value -= amount;
+            FireChangeEvent();
 
             if (_depletionEventKey != null)
             {
-                _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, new TargetablePosition(_owner.GetPosition()), (int)Math.Round(amount)), _eventContext));
+                _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, _owner, (int)Math.Round(amount)), _eventContext));
             }
 
             if (_value <= 0)
@@ -88,11 +90,17 @@ namespace TofuCore.ResourceModule
             _replenishEventKey = key;
         }
 
+        public void SetChangeEventKey(string key)
+        {
+            _changeEventKey = key;
+        }
+
         public bool Spend(float amount)
         {
             if (CanSpend(amount))
             {
                 _value -= amount;
+                FireChangeEvent();
                 return true;
             }
 
@@ -112,6 +120,7 @@ namespace TofuCore.ResourceModule
         public void SetValue(float amount)
         {
             _value = amount;
+            FireChangeEvent();
         }
 
         public void SetMaxRetainPercent(float amount)
@@ -119,15 +128,24 @@ namespace TofuCore.ResourceModule
             float percent = Percent;
             SetMax(amount);
             _value = FMax * percent;
+            FireChangeEvent();
         }
 
         public void Replenish(float amount)
         {
             _value = Mathf.Min(_value + amount, FMax);
+            FireChangeEvent();
             if (_replenishEventKey != null)
             {
-                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, new TargetablePosition(_owner.GetPosition()), (int)Math.Round(amount)), _eventContext));
+                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, _owner, (int)Math.Round(amount)), _eventContext));
             }
+        }
+
+        private void FireChangeEvent()
+        {
+            if (String.IsNullOrEmpty(_changeEventKey)) return;
+            _eventContext.TriggerEvent(_changeEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, _owner, IValue), _eventContext));
+
         }
 
     }
