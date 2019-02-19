@@ -27,7 +27,8 @@ namespace TofuPlugin.Renderable
         {
             if (Renderable == null) return;
             transform.position = Renderable.Position;
-            if (Anim.runtimeAnimatorController == null)
+            
+            if (Anim.runtimeAnimatorController == null && SpriteRenderer != null)
             {
                 SpriteRenderer.sprite = Renderable.Sprite;
             }
