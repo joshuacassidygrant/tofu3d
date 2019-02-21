@@ -122,5 +122,10 @@ namespace TofuPlugin.Renderable
                  Anim.SetBool(entry.Key, entry.Value);
             }
         }
+
+        public IRenderable GetRenderable()
+        {
+            return Renderable;
+        }
     }
 }
