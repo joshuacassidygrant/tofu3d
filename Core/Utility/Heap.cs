@@ -23,6 +23,7 @@
             T top = _contents[0];
             _itemCount--;
             _contents[0] = _contents[_itemCount];
+            _contents[0].HeapIndex = 0;
             SortDown(_contents[0]);
             return top;
         }
