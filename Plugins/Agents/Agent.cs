@@ -44,6 +44,7 @@ namespace TofuPlugin.Agents
 
         public Vector3 Position { get; set; }
         private Dictionary<string, ResourceModule> _resourceModules;
+        public Vector3 NextMoveTarget;
 
         protected EventContext EventContext;
 
@@ -210,6 +211,13 @@ namespace TofuPlugin.Agents
         {
             _nextPathPoint = point;
         }
+
+        public virtual void SetMove(ITargetable target, float dist)
+        {
+            //
+        }
+
+
 
         public void MoveInDirection(Vector3 direction, float time)
         {

@@ -42,7 +42,8 @@ namespace TofuPlugin.Agents.Commands
                     //TODO: allow for unit size
                     //Action.Agent.GetMobilityActions();
                     //TEMP:
-                    Action.Agent.GetMoveAction().TriggerAction(Target);
+                    //Action.Agent.GetMoveAction().TriggerAction(Target);
+                    Action.Agent.SetMove(Target, 0.1f);
                     return false;
                 }
 
