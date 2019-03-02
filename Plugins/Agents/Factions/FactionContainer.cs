@@ -47,15 +47,14 @@ namespace TofuPlugin.Agents.Factions
 
         public Faction Create(string idName, string niceName)
         {
-            int id = GenerateGlopId();
-            Faction faction = new Faction(idName, niceName, id, ServiceContext);
-            Contents.Add(id, faction);
+            Faction faction = new Faction(idName, niceName);
+            Register(faction);
             return faction;
         }
 
         public Faction GetFactionByIdName(string idName)
         {
-            return Contents.Values.Cast<Faction>().FirstOrDefault(x => (x.IdName == idName));
+            return GetContents().Cast<Faction>().FirstOrDefault(x => (x.IdName == idName));
         }
 
         public FactionRelationshipLevel GetFactionRelationship(Agent agent, Faction faction)

@@ -14,6 +14,7 @@ using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
 using TofuCore.Targetable;
+using TofuPlugin.Agents.AgentActions.Fake;
 
 namespace TofuPlugin.Agents
 {
@@ -97,10 +98,10 @@ namespace TofuPlugin.Agents
 
         protected AgentSensorFactory SensorFactory;
         protected AbstractAgentActionFactory ActionFactory;
-        protected FactionContainer FactionManager;
+        protected FactionContainer FactionContainer;
 
 
-        public Agent(int id, AgentPrototype prototype, Vector3 position, ServiceContext context, float sizeRadius = 1f) : base(id, context)
+        public Agent(AgentPrototype prototype, Vector3 position, float sizeRadius = 1f)
         {
             Sprite = prototype?.Sprite;
             Name = prototype?.Name;
@@ -108,7 +109,6 @@ namespace TofuPlugin.Agents
             Position = position;
             SizeRadius = sizeRadius;
             
-            ResolveDependencies();
             _resourceModules = new Dictionary<string, ResourceModule>();
 
             Actions = new List<AgentAction>();
@@ -122,12 +122,12 @@ namespace TofuPlugin.Agents
 
         }
 
-        private void ResolveDependencies()
+        public override void InjectDependencies(Dictionary<string, IContentInjectable> injectables)
         {
-            SensorFactory = ServiceContext.Fetch("AgentSensorFactory");
-            ActionFactory = ServiceContext.Fetch("AgentActionFactory");
-            FactionManager = ServiceContext.Fetch("FactionContainer");
-            EventContext = ServiceContext.Fetch("EventContext");
+            SensorFactory = injectables["AgentSensorFactory"] as AgentSensorFactory;
+            ActionFactory = injectables["AgentActionFactory"] as AgentActionFactory;
+            FactionContainer = injectables["FactionContainer"] as FactionContainer;
+            EventContext = injectables["EventContext"] as EventContext;
         }
 
         public void ReceiveCommand(AgentCommand command) {
@@ -184,7 +184,7 @@ namespace TofuPlugin.Agents
         
         public FactionRelationshipLevel GetRelationshipWith(Agent agent)
         {
-            return FactionManager.GetFactionRelationship(this, agent);
+            return FactionContainer.GetFactionRelationship(this, agent);
         }
 
         public List<string> GetFactionPermissions(Agent agent)

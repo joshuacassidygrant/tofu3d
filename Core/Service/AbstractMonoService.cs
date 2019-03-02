@@ -13,11 +13,11 @@ using UnityEngine;
  */
 namespace TofuCore.Service
 {
-    public abstract class AbstractMonoService : MonoBehaviour, IService, IListener
+    public abstract class AbstractMonoService : MonoBehaviour, IService, IListener, IContentInjectable
     {
         protected bool Initialized = false;
         protected ServiceContext ServiceContext;
-
+        protected Dictionary<string, IContentInjectable> ContentInjectables;
         private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
 
 
@@ -63,6 +63,22 @@ namespace TofuCore.Service
                 {
                     Debug.Log("Can't find service with name " + name + " to bind to " + GetType().Name);
                 }
+            }
+
+            ContentInjectables = new Dictionary<string, IContentInjectable>();
+            var contentInjectableFields = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(p => (p.GetCustomAttributes(typeof(ContentInjectable), false)).Any());
+
+            foreach (var fieldInfo in contentInjectableFields)
+            {
+                string name = fieldInfo.FieldType.Name;
+
+                if (fieldInfo.GetValue(this) == null || !(fieldInfo.GetValue(this) is IContentInjectable))
+                {
+                    Debug.Log("Trying to set " + name + " as a ContentInjectable in " + this.ToString() + " but it is null or doesn't implement IContentInjectable.");
+                }
+
+                ContentInjectables.Add(fieldInfo.FieldType.Name, fieldInfo.GetValue(this) as IContentInjectable);
             }
         }
 

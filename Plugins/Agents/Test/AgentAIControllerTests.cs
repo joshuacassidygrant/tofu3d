@@ -40,7 +40,7 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void TestAgentCreatesOwnAIControllerByDefault()
         {
-            Agent a = new Agent(12, _prototype, Vector3.zero, _context);
+            Agent a = new Agent(_prototype, Vector3.zero);
             Assert.Null(a.Controller);
             a.Update(0f);
             Assert.NotNull(a.Controller);
@@ -51,7 +51,7 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void TestCanChangeAgentStrategy()
         {
-            Agent a = new Agent(12, _prototype, Vector3.zero, _context);
+            Agent a = new Agent(_prototype, Vector3.zero);
             a.Update(0f);
             a.Controller.SetBehaviour(new AiBehaviourFake());
             Assert.AreEqual("AiBehaviourFake", a.Controller.GetBehaviourName());

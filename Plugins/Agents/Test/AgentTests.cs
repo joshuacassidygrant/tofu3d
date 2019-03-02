@@ -42,7 +42,7 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void AgentShouldConstructWithNullPrototype()
         {
-            Agent u = new Agent(123, null, Vector3.back, _context);
+            Agent u = new Agent(null, Vector3.back);
             Assert.NotNull(u);
             Assert.AreEqual(123, u.GetId());
         }
@@ -50,7 +50,7 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void AgentShouldConstructWithPropertiesAndActions()
         {
-            Agent u = new Agent(123, _prototype, Vector3.zero, _context);
+            Agent u = new Agent(_prototype, Vector3.zero);
 
             //Assert
             Assert.AreEqual(123, u.Id);

@@ -43,8 +43,8 @@ namespace TofuPlugin.Agents.Tests
                     new PrototypeActionEntry("act"),
                     new PrototypeActionEntry("self")
                 };
-            _agent = new Agent(1, _prototype, Vector3.zero, _context);
-            _unit2 = new Agent(2, _prototype, Vector3.left, _context);
+            _agent = new Agent(_prototype, Vector3.zero);
+            _unit2 = new Agent( _prototype, Vector3.left);
 
 
         }

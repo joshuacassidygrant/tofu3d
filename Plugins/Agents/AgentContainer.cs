@@ -11,9 +11,8 @@ namespace TofuPlugin.Agents
 
         public Agent Spawn(AgentPrototype prototype, Vector3 location)
         {
-            int id = GenerateGlopId();
-            Agent agent = new Agent(id, prototype, location, ServiceContext);
-            Contents.Add(id, agent);
+            Agent agent = new Agent(prototype, location);
+            Register(agent);
             return agent;
         }
 
@@ -25,11 +24,11 @@ namespace TofuPlugin.Agents
 
         public List<Agent> GetAgents()
         {
-            return Contents.Values.Cast<Agent>().ToList();
+            return GetContents().Cast<Agent>().ToList();
         }
 
         public List<ISensable> GetAllSensables() {
-            return Contents.Values.Cast<ISensable>().ToList();
+            return GetContents().Cast<ISensable>().ToList();
         }
 
         public List<ISensable> GetAllSensablesWithinRangeOfPoint(Vector3 point, float range)

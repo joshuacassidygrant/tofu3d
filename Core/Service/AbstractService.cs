@@ -13,11 +13,11 @@ using UnityEngine;
 namespace TofuCore.Service
 {
 
-    public abstract class AbstractService : IService, IListener
+    public abstract class AbstractService : IService, IListener, IContentInjectable
     {
         protected bool Initialized = false;
         protected ServiceContext ServiceContext;
-
+        protected Dictionary<string, IContentInjectable> ContentInjectables;
         private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
 
         /*
@@ -36,20 +36,16 @@ namespace TofuCore.Service
      */
         public virtual void ResolveServiceBindings()
         {
-
-            
             Type t = GetType();
             
-
             if (ServiceContext == null)
             {
                 Debug.Log("Service context not bound in " + t.Name);
                 return;
             }
 
-
             var dependencyFields = t.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(p => p.GetCustomAttributes(typeof(Dependency), false).Any());
+                .Where(p => (p.GetCustomAttributes(typeof(Dependency), false)).Any());
 
             foreach (var fieldInfo in dependencyFields)
             {
@@ -67,6 +63,25 @@ namespace TofuCore.Service
                 }
 
             }
+
+
+            ContentInjectables = new Dictionary<string, IContentInjectable>();
+            var contentInjectableFields = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(p => (p.GetCustomAttributes(typeof(ContentInjectable), false)).Any());
+                
+            foreach (var fieldInfo in contentInjectableFields)
+            {
+                string name = fieldInfo.FieldType.Name;
+
+                if (fieldInfo.GetValue(this) == null || !(fieldInfo.GetValue(this) is IContentInjectable))
+                {
+                    Debug.Log("Trying to set " + name + " as a ContentInjectable in " + this.ToString() + " but it is null or doesn't implement IContentInjectable.");
+                }
+
+                ContentInjectables.Add(fieldInfo.FieldType.Name, fieldInfo.GetValue(this) as IContentInjectable);
+            }
+
+
         }
 
 

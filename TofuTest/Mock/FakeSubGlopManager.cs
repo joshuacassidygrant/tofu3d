@@ -11,8 +11,8 @@ namespace TofuTests.Mock
 
         public void SpawnFakeGlop()
         {
-            int id = UseNextId();
-            Contents.Add(id, new FakeGlop(id, ServiceContext));
+            FakeGlop glop = new FakeGlop();
+            Register(glop);
         }
 	
     }

@@ -14,17 +14,20 @@ namespace TofuCore.Glops
      */
     public abstract class Glop {
         public int Id;
-        protected ServiceContext ServiceContext;
-
-        protected Glop(int id, ServiceContext context)
-        {
-            Id = id;
-            ServiceContext = context;
-        }
 
         public virtual void Die()
         {
             Garbage = true;
+        }
+
+        public abstract void InjectDependencies(Dictionary<string, IContentInjectable> injectables);
+
+        /**
+         * To be called after dependencies are injected and Glop is registered to container.
+         */
+        public virtual void Initialize()
+        {
+
         }
 
         public bool Garbage { get; protected set; }

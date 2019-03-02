@@ -8,8 +8,9 @@ namespace TofuTests.Mock
 {
     public class FakeGlop : Glop
     {
-        public FakeGlop(int id, ServiceContext context) : base(id, context)
+        public override void InjectDependencies(Dictionary<string, IContentInjectable> injectables)
         {
+
         }
 
         public override void Update(float frameDelta)

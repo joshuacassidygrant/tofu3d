@@ -19,7 +19,7 @@ namespace TofuPlugin.Agents.Factions
         private string _name;
         public Player Controller;
 
-        public Faction(string idName, string niceName, int id, ServiceContext serviceContext) : base(id, serviceContext)
+        public Faction(string idName, string niceName) : base()
         {
             IdName = idName;
             _name = niceName;
@@ -81,6 +81,11 @@ namespace TofuPlugin.Agents.Factions
         {
             if (!_relationships.ContainsKey(faction)) return 0;
             return _relationships[faction];
+        }
+
+        public override void InjectDependencies(Dictionary<string, IContentInjectable> injectables)
+        {
+
         }
 
         public override void Update(float frameDelta)

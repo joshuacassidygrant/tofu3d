@@ -14,7 +14,7 @@ namespace TofuCore.Glops
     public class GlopContainer : AbstractService
     {
 
-        protected Dictionary<int, Glop> Contents;
+        private Dictionary<int, Glop> _contents;
         [Dependency] protected EventContext EventContext;
 
         public override void Initialize() {
@@ -27,7 +27,7 @@ namespace TofuCore.Glops
 
             List<Glop> garbageCollection = new List<Glop>();
 
-            foreach (Glop g in Contents.Values) {
+            foreach (Glop g in _contents.Values) {
                 if (g.Garbage)
                 {
                     garbageCollection.Add(g);
@@ -41,7 +41,7 @@ namespace TofuCore.Glops
             {
                 foreach (Glop g in garbageCollection)
                 {
-                    Contents.Remove(g.Id);
+                    _contents.Remove(g.Id);
                 }
             }
 
@@ -51,30 +51,42 @@ namespace TofuCore.Glops
         public override void Build()
         {
             base.Build();
-            Contents = new Dictionary<int, Glop>();
+            _contents = new Dictionary<int, Glop>();
         }
 
         public int CountActive() {
-            return Contents.Count;
+            return _contents.Count;
         }
 
         public List<Glop> GetContents()
         {
-            return Contents.Values.ToList();
+            return _contents.Values.ToList();
         }
 
         public Glop GetGlopById(int id)
         {
             if (HasId(id))
             {
-                return Contents[id];
+                return _contents[id];
             }
             return null;
         }
 
         public bool HasId(int id)
         {
-            return Contents.ContainsKey(id);
+            return _contents.ContainsKey(id);
+        }
+
+        /**
+         * Register gives the GLOP an Id, injects its dependencies, triggers initialization, and adds it to the GlopContainer.
+         */
+        public void Register(Glop glop)
+        {
+            int id = GenerateGlopId();
+            glop.Id = id;
+            glop.InjectDependencies(ContentInjectables);
+            glop.Initialize();
+            _contents.Add(id, glop);
         }
 
         public int GenerateGlopId()
@@ -82,12 +94,13 @@ namespace TofuCore.Glops
             return ServiceContext.LastGlopId++;
         }
 
-        public void Destroy(Glop glop)
+
+        protected void Destroy(Glop glop)
         {
             if (HasId(glop.Id))
             {
                 glop.Die();
-                Contents.Remove(glop.Id);
+                _contents.Remove(glop.Id);
             }
 
             Debug.Log("No GLOP found with id " + glop.Id);

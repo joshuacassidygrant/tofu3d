@@ -32,23 +32,23 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void NewFactionShouldHaveFields()
         {
-            Faction faction = new Faction("testIdName", "Test Faction", 0x314CA, _context);
+            Faction faction = new Faction("testIdName", "Test Faction");
 
             Assert.AreEqual("testIdName", faction.IdName);
             Assert.AreEqual("Test Faction", faction.GetName());
             Assert.AreEqual(0x314CA, faction.Id);
-            Assert.AreEqual(0, faction.GetRelationship(new Faction("f", "f", 3, _context)));
+            Assert.AreEqual(0, faction.GetRelationship(new Faction("f", "f")));
             
         }
 
         [Test]
         public void ShouldBeAbleToSetControllerOfFaction()
         {
-            Faction faction = new Faction("testIdName", "Test Faction", 0x314CA, _context);
+            Faction faction = new Faction("testIdName", "Test Faction");
 
             Assert.Null(faction.Controller);
 
-            Player player = new Player(0x43223, "testPlayerName", _context);
+            Player player = new Player("testPlayerName");
             faction.SetController(player);
 
             Assert.AreEqual(player, faction.Controller);
@@ -57,8 +57,8 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void SetMutualFactionRelationshipShouldWorkMutualUnmutual()
         {
-            Faction faction = new Faction("testIdName", "Test Faction", 0x314CA, _context);
-            Faction faction2 = new Faction("testIdName2", "Test Faction2", 0x314CB, _context);
+            Faction faction = new Faction("testIdName", "Test Faction");
+            Faction faction2 = new Faction("testIdName2", "Test Faction2");
 
             faction.SetMutualRelationship(faction2, 33);
 
@@ -74,8 +74,8 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void SetFactionRelationshipDeltaShouldWorkMutualUnmutual()
         {
-            Faction faction = new Faction("testIdName", "Test Faction", 0x314CA, _context);
-            Faction faction2 = new Faction("testIdName2", "Test Faction2", 0x314CB, _context);
+            Faction faction = new Faction("testIdName", "Test Faction");
+            Faction faction2 = new Faction("testIdName2", "Test Faction2");
 
             faction.SetMutualRelationship(faction2, 5);
             faction.ChangeMutualRelationship(faction2, 20);
@@ -98,7 +98,7 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void SetSelfRelationshipShouldThrowException()
         {
-            Faction faction = new Faction("testIdName", "Test Faction", 0x314CA, _context);
+            Faction faction = new Faction("testIdName", "Test Faction");
         
             try
             {
@@ -182,9 +182,9 @@ namespace TofuPlugin.Agents.Tests
 
             _factionContainer.Configure(levels);
 
-            Agent agent = new Agent(123, _prototype, Vector3.one, _context);
-            Agent agent2 = new Agent(124, _prototype, Vector3.zero, _context);
-            Agent agent3 = new Agent(125, _prototype, Vector3.left, _context);
+            Agent agent = new Agent(_prototype, Vector3.one);
+            Agent agent2 = new Agent(_prototype, Vector3.zero);
+            Agent agent3 = new Agent(_prototype, Vector3.left);
 
             Faction bobs = _factionContainer.Create("bobs", "Bob's Raiders");
             Faction sues = _factionContainer.Create("sues", "Sue's Slaughterers");
@@ -227,9 +227,9 @@ namespace TofuPlugin.Agents.Tests
 
             _factionContainer.Configure(levels);
 
-            Agent agent = new Agent(123, _prototype, Vector3.one, _context);
-            Agent agent2 = new Agent(124, _prototype, Vector3.zero, _context);
-            Agent agent3 = new Agent(125, _prototype, Vector3.left, _context);
+            Agent agent = new Agent(_prototype, Vector3.one);
+            Agent agent2 = new Agent(_prototype, Vector3.zero);
+            Agent agent3 = new Agent(_prototype, Vector3.left);
 
             Faction bobs = _factionContainer.Create("bobs", "Bob's Raiders");
             Faction sues = _factionContainer.Create("sues", "Sue's Slaughterers");

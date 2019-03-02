@@ -11,19 +11,24 @@ namespace TofuCore.Player
         private Dictionary<string, ResourceModule.ResourceModule> _resourceModules;
         private string _name;
 
-        public Player(int id, string name, ServiceContext context) : base(id, context)
+        public Player(string name) : base()
         {
             _resourceModules = new Dictionary<string, ResourceModule.ResourceModule>();
             _name = name;
+        }
+
+        public override void InjectDependencies(Dictionary<string, IContentInjectable> injectables)
+        {
         }
 
         public override void Update(float frameDelta)
         {
         }
 
+
         public Dictionary<string, ResourceModule.ResourceModule> GetResourceModules()
         {
-            throw new System.NotImplementedException();
+            return _resourceModules;
         }
 
         public void AssignResourceModule(string key, ResourceModule.ResourceModule module)

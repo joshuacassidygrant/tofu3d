@@ -16,9 +16,8 @@ namespace TofuCore.Player
 
         public Player Create(string idName)
         {
-            int id = GenerateGlopId();
-            Player player = new Player(id, idName, ServiceContext);
-            Contents.Add(id, player);
+            Player player = new Player(idName);
+            Register(player);
             _playersByString.Add(idName, player);
             return player;
 
