@@ -17,7 +17,8 @@ namespace TofuCore.Player
             _name = name;
         }
 
-        public override void InjectDependencies(Dictionary<string, IContentInjectable> injectables)
+
+        public override void InjectDependencies(ContentInjectablePayload injectables)
         {
         }
 

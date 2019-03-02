@@ -83,9 +83,9 @@ namespace TofuPlugin.Agents.Factions
             return _relationships[faction];
         }
 
-        public override void InjectDependencies(Dictionary<string, IContentInjectable> injectables)
-        {
 
+        public override void InjectDependencies(ContentInjectablePayload injectables)
+        {
         }
 
         public override void Update(float frameDelta)

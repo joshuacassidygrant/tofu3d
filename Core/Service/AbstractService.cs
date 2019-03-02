@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TofuCore.ContentInjectable;
 using TofuCore.Events;
 using TofuCore.Exceptions;
 using UnityEngine;
@@ -12,12 +13,11 @@ using UnityEngine;
  */
 namespace TofuCore.Service
 {
-
     public abstract class AbstractService : IService, IListener, IContentInjectable
-    {
+    { 
         protected bool Initialized = false;
         protected ServiceContext ServiceContext;
-        protected Dictionary<string, IContentInjectable> ContentInjectables;
+        protected ContentInjectablePayload ContentInjectables;
         private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
 
         /*
@@ -65,9 +65,9 @@ namespace TofuCore.Service
             }
 
 
-            ContentInjectables = new Dictionary<string, IContentInjectable>();
+            ContentInjectables = new ContentInjectablePayload();
             var contentInjectableFields = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(p => (p.GetCustomAttributes(typeof(ContentInjectable), false)).Any());
+                .Where(p => (p.GetCustomAttributes(typeof(ContentInjectable.ContentInjectable), false)).Any());
                 
             foreach (var fieldInfo in contentInjectableFields)
             {

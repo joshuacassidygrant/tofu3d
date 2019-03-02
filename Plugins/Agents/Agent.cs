@@ -122,12 +122,12 @@ namespace TofuPlugin.Agents
 
         }
 
-        public override void InjectDependencies(Dictionary<string, IContentInjectable> injectables)
+        public override void InjectDependencies(ContentInjectablePayload injectables)
         {
-            SensorFactory = injectables["AgentSensorFactory"] as AgentSensorFactory;
-            ActionFactory = injectables["AgentActionFactory"] as AgentActionFactory;
-            FactionContainer = injectables["FactionContainer"] as FactionContainer;
-            EventContext = injectables["EventContext"] as EventContext;
+            SensorFactory = injectables.Get("AgentSensorFactory");
+            ActionFactory = injectables.Get("ActionFactory");
+            FactionContainer = injectables.Get("FactionContainer");
+            EventContext = injectables.Get("EventContext");
         }
 
         public void ReceiveCommand(AgentCommand command) {

@@ -20,14 +20,14 @@ namespace TofuCore.Glops
             Garbage = true;
         }
 
-        public abstract void InjectDependencies(Dictionary<string, IContentInjectable> injectables);
+        public abstract void InjectDependencies(ContentInjectablePayload injectables);
 
         /**
          * To be called after dependencies are injected and Glop is registered to container.
          */
         public virtual void Initialize()
         {
-
+            // Do something!
         }
 
         public bool Garbage { get; protected set; }

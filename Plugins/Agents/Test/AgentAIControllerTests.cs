@@ -20,6 +20,7 @@ namespace TofuPlugin.Agents.Tests
         private FakeAgentActionFactory _factoryFake;
         private AgentSensorFactory _sensorFactory;
         private ServiceContext _context;
+        private AgentContainer _agentContainer;
 
         [SetUp]
         public void SetUp()
@@ -32,8 +33,8 @@ namespace TofuPlugin.Agents.Tests
             _prototype.Sprite = null;
             _prototype.Actions = new List<PrototypeActionEntry>();
 
-            _sensorFactory = new AgentSensorFactory();
-            _sensorFactory.BindServiceContext(_context);
+            _sensorFactory = new AgentSensorFactory().BindServiceContext(_context);
+            _agentContainer = new AgentContainer().BindServiceContext(_context);
 
         }
 
@@ -42,6 +43,7 @@ namespace TofuPlugin.Agents.Tests
         {
             Agent a = new Agent(_prototype, Vector3.zero);
             Assert.Null(a.Controller);
+            _agentContainer.Register(a);
             a.Update(0f);
             Assert.NotNull(a.Controller);
             Assert.NotNull(a.Controller.GetSensor());

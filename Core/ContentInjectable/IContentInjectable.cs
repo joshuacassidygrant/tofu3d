@@ -5,7 +5,11 @@ using UnityEngine;
 /**
  * Defines objects that can be injected into content members (e.g. GLOPs)
  */
-public interface IContentInjectable {
+namespace TofuCore.ContentInjectable
+{
+    public interface IContentInjectable
+    {
 
 
+    }
 }

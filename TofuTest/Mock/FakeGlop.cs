@@ -8,7 +8,7 @@ namespace TofuTests.Mock
 {
     public class FakeGlop : Glop
     {
-        public override void InjectDependencies(Dictionary<string, IContentInjectable> injectables)
+        public override void InjectDependencies(ContentInjectablePayload injectables)
         {
 
         }
