@@ -15,6 +15,7 @@ using TofuCore.Events;
 using TofuCore.ResourceModule;
 using TofuCore.Targetable;
 using TofuPlugin.Agents.AgentActions.Fake;
+using TofuPlugin.Pathfinding;
 
 namespace TofuPlugin.Agents
 {
@@ -26,15 +27,35 @@ namespace TofuPlugin.Agents
      */
     public class Agent: Glop, IRenderable, ITargetable, IControllableAgent, IConfigurable, ISensable, IResourceModuleOwner
     {
-
+        protected string Name;
         /*
          * Add to this only with the AddAction() method to ensure actions are bound to agent
          */
         public List<AgentAction> Actions { get; }
+        public AgentType AgentType;
+        public Color BaseColor;
+
         public ITargetable TargetableSelf => this;
         public AIAgentController Controller;
-        protected string Name;
 
+
+        /*Pathfinding -- REFACTOR */
+        private Path _path;
+        private float _turnDist = 0.04f;
+        private float _stoppingDist = 1f;
+        private ITargetable _moveTarget;
+        private float _moveTargetDist;
+        private float _turnSpeed = 1f;
+        private Quaternion _rotation = Quaternion.identity;
+        private float _moveSpeed = 2f;
+
+        //TEMP?
+        public Configuration Config;
+        public AgentPrototype Prototype;
+
+        private HashSet<string> _expectedProperties;
+        protected AIBehaviourManager BehaviourManager;
+        protected PathRequestService PathRequestService;
 
         //TODO: should we also allow other methods of setting size radius? Or move it out of properties?
         public float SizeRadius { get; protected set; }
@@ -46,6 +67,8 @@ namespace TofuPlugin.Agents
         public Vector3 Position { get; set; }
         private Dictionary<string, ResourceModule> _resourceModules;
         public Vector3 NextMoveTarget;
+
+
 
         protected EventContext EventContext;
 
@@ -101,14 +124,22 @@ namespace TofuPlugin.Agents
         protected FactionContainer FactionContainer;
 
 
-        public Agent(AgentPrototype prototype, Vector3 position, float sizeRadius = 1f)
+        public Agent(AgentPrototype prototype, Vector3 position, AgentType agentType, float sizeRadius = 1f)
         {
             Sprite = prototype?.Sprite;
             Name = prototype?.Name;
 
             Position = position;
             SizeRadius = sizeRadius;
-            
+
+            Config = config;
+            Prototype = prototype;
+            //Temp
+            AgentType = agentType;
+            _expectedProperties = agentType.ExpectedProperties;
+
+            if (Config == null && Prototype != null) Config = prototype.Config;
+
             _resourceModules = new Dictionary<string, ResourceModule>();
 
             Actions = new List<AgentAction>();
@@ -125,15 +156,16 @@ namespace TofuPlugin.Agents
         public override void InjectDependencies(ContentInjectablePayload injectables)
         {
             SensorFactory = injectables.Get("AgentSensorFactory");
-            ActionFactory = injectables.Get("ActionFactory");
+            ActionFactory = injectables.Get("AgentActionFactory");
             FactionContainer = injectables.Get("FactionContainer");
             EventContext = injectables.Get("EventContext");
+            BehaviourManager = injectables.Get("AIBehaviourManager");
+            PathRequestService = injectables.Get("PathRequestService");
         }
 
         public void ReceiveCommand(AgentCommand command) {
             throw new System.NotImplementedException();
         }
-
 
         public override void Update(float frameDelta)
         {
@@ -153,7 +185,103 @@ namespace TofuPlugin.Agents
                     EventContext.TriggerEvent("StringPop", new EventPayload("EventPayloadStringTargettable", new EventPayloadStringTargettable(this, "F"), EventContext));
                 }*/
             }
-            //Do something
+
+            if (_moveTarget != null && _path != null)
+            {
+                FollowPath(frameDelta);
+            }
+        }
+
+        private void FollowPath(float frameDelta)
+        {
+            bool followingPath = true;
+            int pathIndex = 0;
+            Vector3 nextPoint = (_path.LookPoints[0]);
+
+            float speedPercent = 1f;
+
+            Vector2 pos2D = new Vector2(Position.x, Position.y);
+            while (_path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D))
+            {
+                if (pathIndex == _path.FinishLineIndex)
+                {
+                    followingPath = false;
+                }
+                else
+                {
+                    pathIndex++;
+                    nextPoint = _path.LookPoints[pathIndex];
+                }
+            }
+
+            if (followingPath)
+            {
+                if (pathIndex >= _path.slowDownIndex && _stoppingDist > 0)
+                {
+                    speedPercent = Mathf.Clamp01(_path.TurnBoundaries[_path.FinishLineIndex].DistanceFromPoint(pos2D) / _stoppingDist);
+                    if (speedPercent <= 0.01)
+                    {
+                        followingPath = false;
+                    }
+                }
+
+                Vector3 direction = (nextPoint - Position).normalized;
+                Vector3 add = direction * frameDelta * _moveSpeed * speedPercent;
+                Position += add;
+            }
+        }
+
+        public void SetMoveTarget(ITargetable target, float dist)
+        {
+            _moveTarget = target;
+            _moveTargetDist = dist;
+            RequestPathTo(target.Position);
+        }
+
+        public void RequestPathTo(Vector3 point)
+        {
+            PathRequest request = new PathRequest(Position, point, OnPathFound);
+            PathRequestService.RequestPath(request);
+        }
+
+        public void OnPathFound(Vector3[] waypoints, bool success)
+        {
+            if (success)
+            {
+                _path = new Path(waypoints, Position, _turnDist, _stoppingDist);
+                /*StopCoroutine("FollowPath");
+                StartCoroutine("FollowPath");*/
+            }
+        }
+
+
+
+
+        public override void SetMove(ITargetable target, float dist)
+        {
+            base.SetMove(target, dist);
+            SetMoveTarget(target, dist);
+        }
+
+
+        public override void AutoSetController()
+        {
+            SetController(new AIUnitController(this, SensorFactory.NewAgentSensor(this), BehaviourManager));
+        }
+
+        public void SetController(AIAgentController controller)
+        {
+            Controller = controller;
+            foreach (AgentAction action in Actions)
+            {
+                ((UnitAction)action).UnitSensor = (UnitSensor)controller.GetSensor();
+            }
+
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + UnitType.ToString() + Id + " at " + Position.ToString();
         }
 
         public virtual void AutoSetController()
@@ -178,10 +306,29 @@ namespace TofuPlugin.Agents
             Active = false;
         }
 
+        //TODO: remove this
+        private void LoadDefaultActions()
+        {
+            if (ActionFactory == null)
+            {
+                Debug.Log("No action factory bound. Cannot load default actions.");
+                return;
+            }
+
+            //TODO: most of these are testing only
+            AddAction(ActionFactory.BindAction(this, "idle"));
+            AddAction(ActionFactory.BindAction(this, "move"));
+            AddAction(ActionFactory.BindAction(this, "attack"));
+            AddAction(ActionFactory.BindAction(this, "ranged"));
+            AddAction(ActionFactory.BindAction(this, "heal"));
+            AddAction(ActionFactory.BindAction(this, "moveToObjective"));
+
+        }
+
         /*
          * Faction
          */
-        
+
         public FactionRelationshipLevel GetRelationshipWith(Agent agent)
         {
             return FactionContainer.GetFactionRelationship(this, agent);
@@ -217,7 +364,34 @@ namespace TofuPlugin.Agents
             //
         }
 
+        public override void Initialize()
+        {
+            base.Initialize();
+            float hpMax = 0f;
 
+
+            if (Prototype != null)
+            {
+                UnitType = Prototype.UnitType;
+                hpMax = Prototype.HpMax;
+                BaseColor = Prototype.BaseColor;
+                SizeRadius = Prototype.SizeRadius;
+            }
+
+            ResourceModule Hp = new ResourceModule("HP", hpMax, hpMax, this, _eventContext);
+            Hp.BindFullDepletionEvent("UnitDies", new EventPayload("Unit", this, _eventContext));
+            Hp.SetDepletionEventKey("Damaged");
+            Hp.SetReplenishEventKey("Healed");
+            AssignResourceModule("HP", Hp);
+
+
+
+            CheckProperties(Config);
+            Properties = new Properties(Config);
+
+            LoadDefaultActions();
+
+        }
 
         public void MoveInDirection(Vector3 direction, float time)
         {
@@ -326,6 +500,26 @@ namespace TofuPlugin.Agents
         public Vector3 GetPosition()
         {
             return Position;
+        }
+
+        private bool CheckProperties(Configuration config)
+        {
+            if (config == null) return true;
+
+            HashSet<string> _checklist = new HashSet<string>(_expectedProperties);
+
+            foreach (var entry in config)
+            {
+                if (_checklist.Contains(entry.Key))
+                {
+                    _checklist.Remove(entry.Key);
+                }
+            }
+
+            if (_checklist.Count == 0) return true;
+
+            Debug.Log("Could not find " + _checklist.Count + " expected properties for unit " + Name + Id);
+            return false;
         }
 
     }

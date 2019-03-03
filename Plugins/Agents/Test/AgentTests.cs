@@ -15,6 +15,7 @@ namespace TofuPlugin.Agents.Tests
     {
         private AgentPrototype _prototype;
         private ServiceContext _context;
+        private AgentContainer _agentContainer;
 
         [SetUp]
         public void SetUp()
@@ -23,7 +24,7 @@ namespace TofuPlugin.Agents.Tests
             new FakeAgentActionFactory().BindServiceContext(_context, "AgentActionFactory");
             new FactionContainer().BindServiceContext(_context);
             new AgentSensorFactory().BindServiceContext(_context);
-
+            _agentContainer = new AgentContainer().BindServiceContext(_context);
 
 
             _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
@@ -44,16 +45,14 @@ namespace TofuPlugin.Agents.Tests
         {
             Agent u = new Agent(null, Vector3.back);
             Assert.NotNull(u);
-            Assert.AreEqual(123, u.GetId());
         }
 
         [Test]
         public void AgentShouldConstructWithPropertiesAndActions()
         {
-            Agent u = new Agent(_prototype, Vector3.zero);
+            Agent u = _agentContainer.Spawn(_prototype, Vector3.zero);
 
             //Assert
-            Assert.AreEqual(123, u.Id);
             Assert.AreEqual("T1P", u.GetName());
             Assert.AreEqual(null, u.Sprite);
             Assert.AreEqual(Vector3.zero, u.Position);

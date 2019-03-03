@@ -12,6 +12,7 @@ namespace TofuPlugin.Agents.Tests
     {
 
         private FactionContainer _factionContainer;
+        private AgentContainer _agentContainer;
         private ServiceContext _context;
         private AgentPrototype _prototype;
 
@@ -20,7 +21,8 @@ namespace TofuPlugin.Agents.Tests
         {
             _context = new ServiceContext();
             _factionContainer = new FactionContainer().BindServiceContext(_context);
-
+            _agentContainer = new AgentContainer().BindServiceContext(_context);
+            _context.FullInitialization();
 
             _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
             _prototype.Id = "t1p";
@@ -180,10 +182,9 @@ namespace TofuPlugin.Agents.Tests
             levels.Add(neutral);
 
             _factionContainer.Configure(levels);
-
-            Agent agent = new Agent(_prototype, Vector3.one);
-            Agent agent2 = new Agent(_prototype, Vector3.zero);
-            Agent agent3 = new Agent(_prototype, Vector3.left);
+            Agent agent = _agentContainer.Spawn(_prototype, Vector3.one);
+            Agent agent2 = _agentContainer.Spawn(_prototype, Vector3.zero);
+            Agent agent3 = _agentContainer.Spawn(_prototype, Vector3.left);
 
             Faction bobs = _factionContainer.Create("bobs", "Bob's Raiders");
             Faction sues = _factionContainer.Create("sues", "Sue's Slaughterers");
@@ -225,10 +226,9 @@ namespace TofuPlugin.Agents.Tests
             levels.Add(neutral);
 
             _factionContainer.Configure(levels);
-
-            Agent agent = new Agent(_prototype, Vector3.one);
-            Agent agent2 = new Agent(_prototype, Vector3.zero);
-            Agent agent3 = new Agent(_prototype, Vector3.left);
+            Agent agent = _agentContainer.Spawn(_prototype, Vector3.one);
+            Agent agent2 = _agentContainer.Spawn(_prototype, Vector3.zero);
+            Agent agent3 = _agentContainer.Spawn(_prototype, Vector3.left);
 
             Faction bobs = _factionContainer.Create("bobs", "Bob's Raiders");
             Faction sues = _factionContainer.Create("sues", "Sue's Slaughterers");

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TofuCore.Targetable;
 using TofuPlugin.Agents.AgentActions;
+using TofuPlugin.Agents.Behaviour;
 using TofuPlugin.Agents.Commands;
 
 namespace TofuPlugin.Agents.AI.Behaviour

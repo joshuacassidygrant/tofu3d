@@ -7,7 +7,7 @@ using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.AI.Behaviour
+namespace TofuPlugin.Agents.Behaviour
 {
     /*
      * Class to determine AI targetting and longterm planning, action use etc.
@@ -19,8 +19,6 @@ namespace TofuPlugin.Agents.AI.Behaviour
         protected AbstractSensor _sensor;
         protected IControllableAgent Agent;
         
-
-
         public void BindAgent(IControllableAgent agent)
         {
             Agent = agent;
