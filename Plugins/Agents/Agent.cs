@@ -54,7 +54,6 @@ namespace TofuPlugin.Agents
         protected PathRequestService PathRequestService;
         protected AgentTypeLibrary AgentTypeLibrary;
 
-        //TODO: should we also allow other methods of setting size radius? Or move it out of properties?
         public float SizeRadius { get; protected set; }
 
         //TODO: should be able to take a 3d model instead
@@ -123,34 +122,13 @@ namespace TofuPlugin.Agents
         protected FactionContainer FactionContainer;
 
 
-        public Agent(AgentPrototype prototype, Vector3 position, AgentType agentType, float sizeRadius = 1f)
+        /**
+         * INITIALIZATION
+         */
+        public Agent()
         {
-            Sprite = prototype?.Sprite;
-            Name = prototype?.Name;
-
-            Position = position;
-            SizeRadius = sizeRadius;
-
-            //Temp
-            AgentType = agentType;
-            _expectedProperties = agentType.ExpectedProperties;
-
             _resourceModules = new Dictionary<string, ResourceModule>();
-
             Actions = new List<AgentAction>();
-
-            if (prototype == null || ActionFactory == null || prototype.Actions == null || prototype.Actions.Count <= 0) return;
-
-            foreach (PrototypeActionEntry action in prototype.Actions)
-            {
-                AddAction(ActionFactory.BindAction(this, action.ActionId, action.Configuration));
-            }
-             
-            float hpMax = 0f;
-
-
-
-
         }
 
         public void ConsumeConfig(Configuration config)
@@ -158,35 +136,24 @@ namespace TofuPlugin.Agents
             OverwriteProperties(config);
             CheckProperties();
         }
-
+        
         public void ConsumePrototype(AgentPrototype prototype)
         {
             if (prototype == null) return;
-
+            Sprite = prototype.Sprite;
+            Name = prototype.Name;
             AgentType = AgentTypeLibrary.Get(prototype.AgentType);
-            //hpMax = prototype.HpMax;
             BaseColor = prototype.BaseColor;
             SizeRadius = prototype.SizeRadius;
-            
-            //Load actions based on agent type
 
-            //Load custom actions from prototype
+            ConsumeConfig(prototype.Config);
+
+            BindResourceModules();
+            LoadTypeDefaultActions();
+            LoadPrototypeActions(prototype);
         }
 
-        private void OverwriteProperties(Configuration config)
-        {
-            // Will overwrite duplicate properties
-            if (Properties == null)
-            {
-                Properties properties = new Properties(config);
-            }
-            else
-            {
-                Properties.Configure(config);
-            }
-
-        }
-
+        // Called by AgentFactory from AgentContainer to InjectDependencies
         public override void InjectDependencies(ContentInjectablePayload injectables)
         {
             SensorFactory = injectables.Get("AgentSensorFactory");
@@ -197,10 +164,58 @@ namespace TofuPlugin.Agents
             PathRequestService = injectables.Get("PathRequestService");
         }
 
-        public void ReceiveCommand(AgentCommand command) {
-            throw new System.NotImplementedException();
+        private void BindResourceModules()
+        {
+            foreach (AgentTypeLibrary.AgentResourceModuleConfig agentResourceModuleConfig in AgentType
+                .ResourceModuleConfigs)
+            {
+                AssignResourceModule(agentResourceModuleConfig.Key, agentResourceModuleConfig.GenerateResourceModule(this, EventContext));
+            }
         }
 
+        private void LoadTypeDefaultActions()
+        {
+            foreach (string actionId in AgentType.DefaultActions)
+            {
+                AddAction(ActionFactory.BindAction(this, actionId));
+            }
+        }
+
+        private void LoadPrototypeActions(AgentPrototype prototype)
+        {
+            foreach (PrototypeActionEntry actionEntry in prototype.Actions)
+            {
+                AgentAction action = ActionFactory.BindAction(this, actionEntry.ActionId);
+                AddAction(action);
+                action.Configure(actionEntry.Configuration);
+            }
+        }
+
+
+        public void SetSensor(AgentSensor sensor)
+        {
+            _sensor = sensor;
+        }
+
+        public void SetController(AIAgentController controller)
+        {
+            Controller = controller;
+            foreach (AgentAction action in Actions)
+            {
+                (action).AgentSensor = (AgentSensor)controller.GetSensor();
+            }
+
+        }
+
+        public virtual void AutoSetController()
+        {
+            SetController(new AIAgentController(this, _sensor));
+        }
+
+
+        /**
+         * UPDATE & COMMON METHODS
+         */
         public override void Update(float frameDelta)
         {
             UpdateActions(frameDelta);
@@ -226,6 +241,52 @@ namespace TofuPlugin.Agents
             }
         }
 
+
+        public override string ToString()
+        {
+            return base.ToString() + AgentType.ToString() + Id + " at " + Position.ToString();
+        }
+
+        public override void Die()
+        {
+            base.Die();
+            Active = false;
+        }
+
+        /**
+         * COMMANDS
+         */
+        public void ReceiveCommand(AgentCommand command)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /**
+         * ACTIONS
+         */
+
+        protected void UpdateActions(float deltaTime)
+        {
+            foreach (AgentAction action in Actions)
+            {
+                action.Update(deltaTime);
+            }
+        }
+
+
+        public void AddAction(AgentAction action)
+        {
+            if (action.Agent != this)
+            {
+                Debug.Log("Must bind action to this agent first!");
+                return;
+            }
+            Actions.Add(action);
+        }
+
+        /**
+         * PATHFINDING AND MOVEMENT
+         */
         private void FollowPath(float frameDelta)
         {
             bool followingPath = true;
@@ -265,6 +326,11 @@ namespace TofuPlugin.Agents
             }
         }
 
+        public Vector3 GetPosition()
+        {
+            return Position;
+        }
+
         public void SetMoveTarget(ITargetable target, float dist)
         {
             _moveTarget = target;
@@ -289,101 +355,14 @@ namespace TofuPlugin.Agents
         }
 
 
-
-
         public void SetMove(ITargetable target, float dist)
         {
             SetMoveTarget(target, dist);
         }
 
-
-
-        /**
-         * AI Configuration
-         */
-        public void SetSensor(AgentSensor sensor)
-        {
-            _sensor = sensor;
-        }
-
-        public void SetController(AIAgentController controller)
-        {
-            Controller = controller;
-            foreach (AgentAction action in Actions)
-            {
-                (action).AgentSensor = (AgentSensor)controller.GetSensor();
-            }
-
-        }
-
-        public override string ToString()
-        {
-            return base.ToString() + AgentType.ToString() + Id + " at " + Position.ToString();
-        }
-
-        public virtual void AutoSetController()
-        {
-            SetController(new AIAgentController(this, _sensor));
-        }
-
-
-        public void AddAction(AgentAction action)
-        {
-            if (action.Agent != this)
-            {
-                Debug.Log("Must bind action to this agent first!");
-                return;
-            } 
-            Actions.Add(action);
-        }
-
-        public override void Die()
-        {
-            base.Die();
-            Active = false;
-        }
-
-        //TODO: remove this
-        private void LoadDefaultActions()
-        {
-            if (ActionFactory == null)
-            {
-                Debug.Log("No action factory bound. Cannot load default actions.");
-                return;
-            }
-
-            //TODO: most of these are testing only
-            AddAction(ActionFactory.BindAction(this, "idle"));
-            AddAction(ActionFactory.BindAction(this, "move"));
-            AddAction(ActionFactory.BindAction(this, "attack"));
-            AddAction(ActionFactory.BindAction(this, "ranged"));
-            AddAction(ActionFactory.BindAction(this, "heal"));
-            AddAction(ActionFactory.BindAction(this, "moveToObjective"));
-
-        }
-
-        /*
-         * Faction
-         */
-
-        public FactionRelationshipLevel GetRelationshipWith(Agent agent)
-        {
-            return FactionContainer.GetFactionRelationship(this, agent);
-        }
-
-        public List<string> GetFactionPermissions(Agent agent)
-        {
-            return GetRelationshipWith(agent).Permissions;
-        }
-
-        public bool PermissionToDo(string factionAction, Agent agent)
-        {
-            return GetFactionPermissions(agent).Contains(factionAction);
-        }
-
         //Pathfinding
         //TEMPORARY
-        //TODO: add real pathfinding
+        //TODO: REMOVE THIS
         private Vector3 _nextPathPoint = Vector3.zero;
 
         public Vector3 GetNextPathPoint()
@@ -394,24 +373,6 @@ namespace TofuPlugin.Agents
         public void SetNextPathPoint(Vector3 point)
         {
             _nextPathPoint = point;
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-
-
-            ResourceModule Hp = new ResourceModule("HP", hpMax, hpMax, this, EventContext);
-            Hp.BindFullDepletionEvent("UnitDies", new EventPayload("Unit", this, EventContext));
-            Hp.SetDepletionEventKey("Damaged");
-            Hp.SetReplenishEventKey("Healed");
-            AssignResourceModule("HP", Hp);
-
-
-
-
-            LoadDefaultActions();
-
         }
 
         public void MoveInDirection(Vector3 direction, float time)
@@ -430,15 +391,30 @@ namespace TofuPlugin.Agents
             return Actions.FirstOrDefault(x => x.Id == "move");
         }
 
+        /**
+         * FACTION METHODS
+         */
 
-        protected void UpdateActions(float deltaTime)
+        public FactionRelationshipLevel GetRelationshipWith(Agent agent)
         {
-            foreach (AgentAction action in Actions)
-            {
-                action.Update(deltaTime);
-            }
+            return FactionContainer.GetFactionRelationship(this, agent);
         }
 
+        public List<string> GetFactionPermissions(Agent agent)
+        {
+            return GetRelationshipWith(agent).Permissions;
+        }
+
+        public bool PermissionToDo(string factionAction, Agent agent)
+        {
+            return GetFactionPermissions(agent).Contains(factionAction);
+        }
+
+
+
+        /**
+         * IRENDERABLE
+         */
         public Dictionary<string, bool> GetAnimationStateBools()
         {
             return AnimationStates;
@@ -460,7 +436,6 @@ namespace TofuPlugin.Agents
             else if (CurrentCommand.Action.Phase == ActionPhase.READY && CurrentCommand.Action.CanUse())
             {
                 SetAnimationState("Acting", true);
-
             }
         }
 
@@ -485,6 +460,10 @@ namespace TofuPlugin.Agents
                 AnimationStates[key] = false;
             }
         }
+
+        /**
+         * RESOURCE MODULES
+         */
 
         public Dictionary<string, ResourceModule> GetResourceModules()
         {
@@ -513,11 +492,9 @@ namespace TofuPlugin.Agents
             return _resourceModules[key];
         }
 
-        public Vector3 GetPosition()
-        {
-            return Position;
-        }
-
+        /**
+         * PROPERTIES & CONFIG
+         */
         private bool CheckProperties()
         {
             if (Properties == null) return true;
@@ -538,5 +515,18 @@ namespace TofuPlugin.Agents
             return false;
         }
 
+        private void OverwriteProperties(Configuration config)
+        {
+            // Will overwrite duplicate properties
+            if (Properties == null)
+            {
+                Properties = new Properties(config);
+            }
+            else
+            {
+                Properties.Configure(config);
+            }
+
+        }
     }
 }

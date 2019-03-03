@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TofuCore.Service;
 using TofuPlugin.Agents.AI.Behaviour;
+using TofuPlugin.Agents.Behaviour;
 using UnityEngine;
 
 namespace TofuPlugin.Agents {
@@ -12,10 +13,10 @@ namespace TofuPlugin.Agents {
     public class AIBehaviourManager : AbstractService
     {
         private string _default = "AiBehaviourDefault";
-        private Dictionary<string, Func<UnitBehaviour>> _behaviours = new Dictionary<string, Func<UnitBehaviour>>();
+        private Dictionary<string, Func<AIBehaviour>> _behaviours = new Dictionary<string, Func<AIBehaviour>>();
         
 
-        public UnitBehaviour ChooseStrategy(Agent _u)
+        public AIBehaviour ChooseStrategy(Agent _u)
         {
             //TODO: this
             //return _behaviours.Values.ToList()[UnityEngine.Random.Range(1, _behaviours.Count)].Invoke();
@@ -36,7 +37,7 @@ namespace TofuPlugin.Agents {
             return _behaviours[_default].Invoke();
         } 
 
-        public UnitBehaviour GetBehaviour(string behaviourId)
+        public AIBehaviour GetBehaviour(string behaviourId)
         {
             if (!_behaviours.ContainsKey(behaviourId))
             {
@@ -52,7 +53,7 @@ namespace TofuPlugin.Agents {
             return _default;
         }
 
-        public void BindBehaviours(Dictionary<string, Func<UnitBehaviour>> behaviours, string defaultName)
+        public void BindBehaviours(Dictionary<string, Func<AIBehaviour>> behaviours, string defaultName)
         {
             _behaviours = behaviours;
             SetDefaultStrategy(defaultName);

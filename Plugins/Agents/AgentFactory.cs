@@ -24,6 +24,7 @@ namespace  TofuPlugin.Agents
             container.Register(agent);
             agent.ConsumePrototype(prototype);
             agent.ConsumeConfig(config);
+            agent.Initialize();
 
             AgentSensor sensor = AgentSensorFactory.NewAgentSensor(agent);
             agent.SetSensor(sensor);
