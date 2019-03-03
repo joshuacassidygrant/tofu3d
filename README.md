@@ -1,7 +1,7 @@
 # tofu3d
 ### A Testable Object-Oriented Framework for Unity3D 
 
-v0.0.3
+v0.0.4
 
 <img align="left" width=128 height=128 src="./TOFULogoSmall.png" alt="tofu3d">
 
@@ -14,7 +14,7 @@ tofu3d is built for games that are able to put their game logic separate from Un
 ## Status:
 tofu3d is still under construction, and totally unstable. Will be adding in-project tests, demos and documentation when I have time. I am developing this as a submodule inside a game project, so expect this to be updated as I need more features in the game.
 
-Currently includes dependency injection, a resource library system, and an event system.
+Currently includes dependency injection, a resource library system, an entity control and storage layer, and an event system.
 
 Documentation to come.
 
@@ -30,28 +30,31 @@ Events are passed around in an EventContext with dynamic event payloads. Event l
 A Glop (Generalized Local Object or Process) is a single object that is contained in a GlopContainer. Generally, Glop is subclassed to represent any major managed, live data in a Tofu game.
 
 ### Resource Libraries
-Resource libraries allow the serving and storage of items of a specified type. Each resource library is a service.
+Resource libraries allow the serving and storage of items of a specified type. Each resource library is a service. 
+Use ResourceLibraries to load and store data from formats like XML or JSON, to load in prefabs, to maintain custom enum-like classes or to serve media like strings, sprites, textures, models and sound.
+
+Resource libraries are similar to GlopContainers in that they contain and serve objects; however, a ResourceLibrary does not ever update its objects after load and ResourceLibrary objects must be accessible in O(1) time by string lookup. GlopContainers are generally self-contained, and their contents must be accessed through queries through the GlopContainer service (or by a GlopId in O(1)). ResourceLibraries are intended to be used by many services to access necessary data.
 
 ### Command
 Can store and execute player/AI commands.
 
 ### Configuration
-Holds an array of key-value pairs for config.
+Holds an array of key-value pairs for config that can be consumed and held in an object's Properties property.
 
 ## Included Plugins
-Plugins are useful behaviour that relies on core functionality. Some plugins may have plugin dependencies.
+Plugins are useful behaviour that relies on core functionality. Some plugins may have plugin dependencies and all plugins require core functionality.
 
 ### Frame Update Service
 A simple MonoBehaviour that sends an "Update" message with a delta time to all listeners.
 
 ### Agents
-Agents are objects with a location, ID, renderable sprite/model etc. that can have AI behaviour.
+Agents are objects with a location, ID, renderable sprite/model etc., access to pathfinding, a configurable array of ResourceModules, a Properties collection, and optional AI behaviour.
 
 ### Resource Module
-An object that contains some float amount of resource out of a possible max amount of resource, and includes methods for depleting/spending that resource and can trigger events from that. Could be used with any numerical resource, such as health in an RPG game or wood in an RTS.
+An object that contains some float amount of resource out of a possible max amount of resource, and includes methods for depleting/spending that resource and can trigger events from that. Could be used with any numerical resource, such as health in an RPG game, bullets in an FPS, or wood in an RTS.
 
 ### Renderables
 Renderables define animation, sprite and model properties to represent Glop and other object as visual GameObjects in a Unity scene.
 
 ## Disclaimer:
-I'm a computer science student using this to get a good understanding of system design etc. I do not know everything, and appreciate any feedback on the decisions I've made.
+I'm a computer science student using this to get a good understanding of system design etc. My goal is to create a framework within Unity that facilitates quick game development using object oriented principles and unit testing, while not having a disastrous impact on game performance. This is obviously a poor fit for many types of games. I do not know everything, and appreciate any feedback on the decisions I've made.
