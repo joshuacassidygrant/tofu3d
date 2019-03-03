@@ -19,6 +19,7 @@ namespace TofuPlugin.Agents.AgentActions
         public Agent Agent;
         public string Id;
         public string Name;
+        public AgentSensor AgentSensor;
         
         public ActionPhase Phase {
             get {

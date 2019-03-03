@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TofuCore.ResourceLibrary;
-using UnityEngine;
+using TofuPlugin.Agents;
 
 public class AgentTypeLibrary : AbstractResourceLibrary<AgentType> {
     public AgentTypeLibrary(string path, string prefix = "") : base(path, prefix)
@@ -15,11 +14,19 @@ public class AgentTypeLibrary : AbstractResourceLibrary<AgentType> {
         _contents.Add("Unit", new AgentType("Unit", new HashSet<string>
         {
             "Speed"
+        }, new List<string>()
+        {
+            "idle",
+            "move",
+            "attack",
+            "ranged",
+            "heal",
+            "moveToObjective"
         }));
 
         _contents.Add("Structure", new AgentType("Structure", new HashSet<string>
         {
-        }));
+        }, null));
 
 
     }

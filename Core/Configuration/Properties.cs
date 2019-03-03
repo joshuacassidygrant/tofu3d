@@ -32,7 +32,6 @@ namespace TofuCore.Configuration
             }
         }
 
-
         public Dictionary<string, string> GetProperties()
         {
             return _properties;

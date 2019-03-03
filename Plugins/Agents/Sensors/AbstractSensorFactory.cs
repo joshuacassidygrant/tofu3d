@@ -8,8 +8,6 @@ using UnityEngine;
 namespace TofuPlugin.Agents.Sensors
 {
     public abstract class AbstractSensorFactory : AbstractService {
-
-        public abstract AbstractSensor NewAgentSensor(Agent agent);
     }
 
 }

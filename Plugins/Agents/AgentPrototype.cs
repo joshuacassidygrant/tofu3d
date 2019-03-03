@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TofuCore.Configuration;
 using TofuPlugin.Agents.AgentActions;
+using UnityEditor.Experimental.UIElements;
 using UnityEngine;
 
 namespace TofuPlugin.Agents
@@ -10,6 +11,10 @@ namespace TofuPlugin.Agents
         public string Name;
         public string Id;
         public Sprite Sprite;
+        public string AgentType;
+        public int HpMax;
+        public Color BaseColor;
+        public float SizeRadius;
 
         public List<PrototypeActionEntry> Actions;
         public Configuration Config;

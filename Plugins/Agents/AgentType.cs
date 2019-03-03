@@ -1,14 +1,24 @@
 ﻿using System.Collections.Generic;
 
-public class AgentType
+namespace TofuPlugin.Agents
 {
-    public string Name;
-    public HashSet<string> ExpectedProperties;
-
-    public AgentType(string name, HashSet<string> expectedProperties)
+    /**
+     * AgentType can be used to define a default name, properties expected in a config object, and a list of default actions to load.
+     */
+    public class AgentType
     {
-        Name = name;
-        ExpectedProperties = expectedProperties;
-    }
+        public string Name;
+        public HashSet<string> ExpectedProperties;
+        public List<string> DefaultActions;
 
+
+        public AgentType(string name, HashSet<string> expectedProperties, List<string> defaultActions)
+        {
+            Name = name;
+            ExpectedProperties = expectedProperties;
+            DefaultActions = defaultActions;
+        }
+
+    }
 }
+

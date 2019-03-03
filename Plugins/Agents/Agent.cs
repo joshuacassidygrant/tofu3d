@@ -49,13 +49,10 @@ namespace TofuPlugin.Agents
         private Quaternion _rotation = Quaternion.identity;
         private float _moveSpeed = 2f;
 
-        //TEMP?
-        public Configuration Config;
-        public AgentPrototype Prototype;
-
         private HashSet<string> _expectedProperties;
         protected AIBehaviourManager BehaviourManager;
         protected PathRequestService PathRequestService;
+        protected AgentTypeLibrary AgentTypeLibrary;
 
         //TODO: should we also allow other methods of setting size radius? Or move it out of properties?
         public float SizeRadius { get; protected set; }
@@ -67,6 +64,8 @@ namespace TofuPlugin.Agents
         public Vector3 Position { get; set; }
         private Dictionary<string, ResourceModule> _resourceModules;
         public Vector3 NextMoveTarget;
+
+        private AgentSensor _sensor;
 
 
 
@@ -132,13 +131,9 @@ namespace TofuPlugin.Agents
             Position = position;
             SizeRadius = sizeRadius;
 
-            Config = config;
-            Prototype = prototype;
             //Temp
             AgentType = agentType;
             _expectedProperties = agentType.ExpectedProperties;
-
-            if (Config == null && Prototype != null) Config = prototype.Config;
 
             _resourceModules = new Dictionary<string, ResourceModule>();
 
@@ -149,6 +144,45 @@ namespace TofuPlugin.Agents
             foreach (PrototypeActionEntry action in prototype.Actions)
             {
                 AddAction(ActionFactory.BindAction(this, action.ActionId, action.Configuration));
+            }
+             
+            float hpMax = 0f;
+
+
+
+
+        }
+
+        public void ConsumeConfig(Configuration config)
+        {
+            OverwriteProperties(config);
+            CheckProperties();
+        }
+
+        public void ConsumePrototype(AgentPrototype prototype)
+        {
+            if (prototype == null) return;
+
+            AgentType = AgentTypeLibrary.Get(prototype.AgentType);
+            //hpMax = prototype.HpMax;
+            BaseColor = prototype.BaseColor;
+            SizeRadius = prototype.SizeRadius;
+            
+            //Load actions based on agent type
+
+            //Load custom actions from prototype
+        }
+
+        private void OverwriteProperties(Configuration config)
+        {
+            // Will overwrite duplicate properties
+            if (Properties == null)
+            {
+                Properties properties = new Properties(config);
+            }
+            else
+            {
+                Properties.Configure(config);
             }
 
         }
@@ -257,16 +291,19 @@ namespace TofuPlugin.Agents
 
 
 
-        public override void SetMove(ITargetable target, float dist)
+        public void SetMove(ITargetable target, float dist)
         {
-            base.SetMove(target, dist);
             SetMoveTarget(target, dist);
         }
 
 
-        public override void AutoSetController()
+
+        /**
+         * AI Configuration
+         */
+        public void SetSensor(AgentSensor sensor)
         {
-            SetController(new AIUnitController(this, SensorFactory.NewAgentSensor(this), BehaviourManager));
+            _sensor = sensor;
         }
 
         public void SetController(AIAgentController controller)
@@ -274,19 +311,19 @@ namespace TofuPlugin.Agents
             Controller = controller;
             foreach (AgentAction action in Actions)
             {
-                ((UnitAction)action).UnitSensor = (UnitSensor)controller.GetSensor();
+                (action).AgentSensor = (AgentSensor)controller.GetSensor();
             }
 
         }
 
         public override string ToString()
         {
-            return base.ToString() + UnitType.ToString() + Id + " at " + Position.ToString();
+            return base.ToString() + AgentType.ToString() + Id + " at " + Position.ToString();
         }
 
         public virtual void AutoSetController()
         {
-            Controller = new AIAgentController(this, SensorFactory.NewAgentSensor(this));
+            SetController(new AIAgentController(this, _sensor));
         }
 
 
@@ -359,35 +396,19 @@ namespace TofuPlugin.Agents
             _nextPathPoint = point;
         }
 
-        public virtual void SetMove(ITargetable target, float dist)
-        {
-            //
-        }
-
         public override void Initialize()
         {
             base.Initialize();
-            float hpMax = 0f;
 
 
-            if (Prototype != null)
-            {
-                UnitType = Prototype.UnitType;
-                hpMax = Prototype.HpMax;
-                BaseColor = Prototype.BaseColor;
-                SizeRadius = Prototype.SizeRadius;
-            }
-
-            ResourceModule Hp = new ResourceModule("HP", hpMax, hpMax, this, _eventContext);
-            Hp.BindFullDepletionEvent("UnitDies", new EventPayload("Unit", this, _eventContext));
+            ResourceModule Hp = new ResourceModule("HP", hpMax, hpMax, this, EventContext);
+            Hp.BindFullDepletionEvent("UnitDies", new EventPayload("Unit", this, EventContext));
             Hp.SetDepletionEventKey("Damaged");
             Hp.SetReplenishEventKey("Healed");
             AssignResourceModule("HP", Hp);
 
 
 
-            CheckProperties(Config);
-            Properties = new Properties(Config);
 
             LoadDefaultActions();
 
@@ -465,11 +486,6 @@ namespace TofuPlugin.Agents
             }
         }
 
-        public override string ToString()
-        {
-            return "Agent" + Id;
-        }
-
         public Dictionary<string, ResourceModule> GetResourceModules()
         {
             return _resourceModules;
@@ -502,13 +518,13 @@ namespace TofuPlugin.Agents
             return Position;
         }
 
-        private bool CheckProperties(Configuration config)
+        private bool CheckProperties()
         {
-            if (config == null) return true;
+            if (Properties == null) return true;
 
             HashSet<string> _checklist = new HashSet<string>(_expectedProperties);
 
-            foreach (var entry in config)
+            foreach (var entry in Properties.GetProperties())
             {
                 if (_checklist.Contains(entry.Key))
                 {

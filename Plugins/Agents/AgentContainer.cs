@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Scripts.Sensors;
+using TofuCore.Configuration;
 using TofuCore.ContentInjectable;
 using TofuCore.Glops;
 using TofuCore.Service;
@@ -14,12 +15,13 @@ namespace TofuPlugin.Agents
 
         [Dependency][ContentInjectable] protected FactionContainer FactionContainer;
         [Dependency][ContentInjectable] protected FakeAgentActionFactory ActionFactory;
+        [Dependency] protected AgentFactory AgentFactory;
 
 
         public Agent Spawn(AgentPrototype prototype, Vector3 location)
         {
-            Agent agent = new Agent(prototype, location);
-            Register(agent);
+            Configuration config = new Configuration();
+            Agent agent = AgentFactory.BuildAndRegisterNewAgent(this, location, prototype, config);
             return agent;
         }
 
