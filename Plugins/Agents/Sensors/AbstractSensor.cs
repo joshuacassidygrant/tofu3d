@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using TofuCore.Glops;
 using TofuCore.Service;
+using TofuPlugin.Agents.Sensors;
 
 /*
  * Allows queries to be run on objects in the given ServiceContext
  */
-namespace Scripts.Sensors
+namespace TofuPlugin.Agents.Sensors
 {
     public abstract class AbstractSensor
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TofuCore.Configuration;
 using UnityEngine;
 using TofuCore.Service;
@@ -107,7 +108,25 @@ namespace TofuPlugin.Agents.AgentActions
         /*
          * The targetting function determines the best target for an action.
          */
-        public abstract ActionTargetableValueTuple TargetingFunction();
+        public virtual ActionTargetableValueTuple TargetingFunction()
+        {
+            if (AgentSensor == null) return ActionTargetableValueTuple.NULL;
+
+            List<ITargetable> units = GetTargets().OrderBy(ValueFunction).ToList();
+            if (units.Count == 0) return ActionTargetableValueTuple.NULL;
+
+            //Target value refers to how valuable it would be to target the given target
+            //abstract this and use it in the above sorting function
+            float targetValue = ValueFunction(units[0]);
+            float value = Agent.Controller.GetBehaviour().GetUtilityValue(GetUsageTagValues(), targetValue);
+
+            return new ActionTargetableValueTuple(this, units[0], value);
+        }
+
+
+
+        protected abstract IEnumerable<ITargetable> GetTargets();
+        protected abstract float ValueFunction(ITargetable t);
 
         public virtual bool CanUse()
         {

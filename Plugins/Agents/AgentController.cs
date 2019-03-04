@@ -1,13 +1,13 @@
-﻿using Scripts.Sensors;
+﻿using TofuPlugin.Agents.Sensors;
 
 namespace TofuPlugin.Agents
 {
     public abstract class AgentController {
 
         protected IControllableAgent Agent;
-        protected AbstractSensor Sensor;
+        protected AgentSensor Sensor;
 
-        public AgentController(Agent agent, AbstractSensor sensor)
+        public AgentController(Agent agent, AgentSensor sensor)
         {
             Agent = agent;
             Sensor = sensor;

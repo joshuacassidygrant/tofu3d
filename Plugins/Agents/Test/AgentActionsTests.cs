@@ -12,7 +12,7 @@ namespace TofuPlugin.Agents.Tests
     public class AgentActionsTests
     {
         private AgentPrototype _prototype;
-        private FakeAgentActionFactory _fakeActionFactory;
+        private AgentActionFactory _fakeActionFactory;
         private AgentSensorFactory _sensorFactory;
         private Agent _agent;
         private Agent _unit2;
@@ -23,7 +23,7 @@ namespace TofuPlugin.Agents.Tests
         {
             _context = new ServiceContext();
 
-            _fakeActionFactory = new FakeAgentActionFactory();
+            _fakeActionFactory = new AgentActionFactory();
             _fakeActionFactory.BindServiceContext(_context, "AgentActionFactory");
             _fakeActionFactory.Build();
             _fakeActionFactory.Initialize();

@@ -1,27 +1,78 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Scripts.Sensors;
 using TofuCore.Configuration;
 using TofuCore.ContentInjectable;
+using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Service;
-using TofuPlugin.Agents.AgentActions.Fake;
+using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Factions;
+using TofuPlugin.Agents.Sensors;
+using TofuPlugin.Pathfinding;
 using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
     public class AgentContainer : GlopContainer, ISensableContainer {
 
-        [Dependency][ContentInjectable] protected FactionContainer FactionContainer;
-        [Dependency][ContentInjectable] protected FakeAgentActionFactory ActionFactory;
         [Dependency] protected AgentFactory AgentFactory;
+        [Dependency("CreaturesLibrary")] protected AgentPrototypeLibrary CreaturesLibrary;
+        [Dependency("TowersLibrary")] protected AgentPrototypeLibrary TowersLibrary;
 
+        [Dependency] [ContentInjectable] protected FactionContainer FactionContainer;
+        [Dependency] [ContentInjectable] protected AgentActionFactory ActionFactory;
+        [Dependency] [ContentInjectable] protected AIBehaviourManager AiBehaviourManager;
+        [Dependency] [ContentInjectable] protected PathRequestService PathRequestService;
 
-        public Agent Spawn(AgentPrototype prototype, Vector3 location)
+        private List<AgentSpawner> _unitSpawners;
+
+        public override void Build()
         {
-            Configuration config = new Configuration();
+            base.Build();
+            _unitSpawners = new List<AgentSpawner>();
+             
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            BindListeners();
+        }
+
+        private void BindListeners()
+        {
+            BindListener(new TofuEvent("UnitDies"), UnitDies, EventContext);
+        }
+
+        public Agent Spawn(string prototypeId, string agentTypeLabel, Vector3 location, Configuration config = null)
+        {
+            AgentPrototypeLibrary activeLibrary;
+
+            switch (agentTypeLabel)
+            {
+                case "Creature":
+                    activeLibrary = CreaturesLibrary;
+                    break;
+                case "Structure":
+                    activeLibrary = TowersLibrary;
+                    break;
+                default:
+                    return null;
+
+            }
+            if (!activeLibrary.ContainsKey(prototypeId))
+            {
+                Debug.Log("No agent of type " + prototypeId + " in agent library");
+            }
+
+            AgentPrototype prototype = activeLibrary.Get(prototypeId);
+            return Spawn(prototype, location, config);
+        }
+
+        public Agent Spawn(AgentPrototype prototype, Vector3 location, Configuration config = null)
+        {
             Agent agent = AgentFactory.BuildAndRegisterNewAgent(this, location, prototype, config);
+            EventContext.TriggerEvent("SpawnAgent", new EventPayload("Agent", agent, EventContext));
             return agent;
         }
 
@@ -43,6 +94,25 @@ namespace TofuPlugin.Agents
         public List<ISensable> GetAllSensablesWithinRangeOfPoint(Vector3 point, float range)
         {
             return GetAllSensables().Where(x => (point - x.Position).magnitude <= range).ToList();
+        }
+
+        public AgentSpawner CreateSpawner(Dictionary<string, AgentPrototype> units, Vector3 loc)
+        {
+            AgentSpawner spawner = new GameObject().AddComponent<AgentSpawner>();
+            spawner.name = "Spawner";
+            spawner.transform.position = loc;
+            _unitSpawners.Add(spawner);
+            spawner.Init(loc, this);
+            spawner.LoadUnits(units);
+            spawner.StartSpawning();
+            return spawner;
+        }
+
+
+        private void UnitDies(EventPayload payload)
+        {
+            Agent u = payload.GetContent();
+            u.Die();
         }
     }
 }

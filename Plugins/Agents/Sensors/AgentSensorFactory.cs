@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Scripts.Sensors;
-using TofuCore.Service;
-using UnityEngine;
-
-namespace TofuPlugin.Agents.Sensors
+﻿namespace TofuPlugin.Agents.Sensors
 {
 
     public class AgentSensorFactory: AbstractSensorFactory {

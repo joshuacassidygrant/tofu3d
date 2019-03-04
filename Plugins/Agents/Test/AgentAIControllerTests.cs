@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Scripts.Agents.Behaviour;
 using TofuPlugin.Agents;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AgentActions.Fake;

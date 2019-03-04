@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Scripts.Sensors
+namespace TofuPlugin.Agents.Sensors
 {
     /*
      * A Sensable object exists in a Vector3 position and defines

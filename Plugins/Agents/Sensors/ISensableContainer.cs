@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scripts.Sensors
+namespace TofuPlugin.Agents.Sensors
 {
     /*
      * An ISensableContainer contains a queryable collection of ISensable

@@ -1,8 +1,7 @@
-﻿using Scripts.Sensors;
-using TofuPlugin.Agents.AI.Behaviour;
+﻿using TofuPlugin.Agents.AI.Behaviour;
 using TofuPlugin.Agents.Behaviour;
 using TofuPlugin.Agents.Commands;
-using UnityEngine;
+using TofuPlugin.Agents.Sensors;
 
 namespace TofuPlugin.Agents.AI
 {
@@ -12,10 +11,15 @@ namespace TofuPlugin.Agents.AI
     public class AIAgentController : AgentController
     {
         private AIBehaviour _behaviour;
+        protected AIBehaviourManager BehaviourManager;
 
-        public AIAgentController(Agent agent, AbstractSensor sensor): base(agent, sensor)
+        public AIAgentController(Agent agent, AgentSensor sensor, AIBehaviourManager behaviourManager) : base(agent, sensor)
         {
             ClearBehaviour();
+            BehaviourManager = behaviourManager;
+            Agent = agent;
+            Sensor = sensor;
+            SetBehaviour(behaviourManager.ChooseStrategy(agent));
         }
 
         public override void Update()

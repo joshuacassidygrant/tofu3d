@@ -1,45 +1,57 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using TofuCore.Service;
 using TofuCore.Configuration;
-using TofuPlugin.Agents;
-using TofuPlugin.Agents.AgentActions;
 using UnityEngine;
 
-namespace TofuPlugin.Agents.AgentActions.Fake
+namespace TofuPlugin.Agents.AgentActions
 {
-    public class AgentActionFactory : AbstractAgentActionFactory
+    public class AgentActionFactory : AbstractService
     {
+        [Dependency] protected AgentActionLibrary AgentActionLibrary;
 
-        private Dictionary<string, Func<AgentAction>> Actions;
 
-        public override void LoadAgentActions() {
-            Actions = new Dictionary<string, Func<AgentAction>>();
+        protected Dictionary<string, Func<AgentAction>> Actions = new Dictionary<string, Func<AgentAction>>();
 
+        public void LoadAgentActions()
+        {
+            Actions = AgentActionLibrary.GetCatalogue();
         }
 
-        public override AgentAction BindAction(Agent agent, string actionId) {
+        public AgentAction BindAction(Agent agent, string actionId)
+        {
             if (!Actions.ContainsKey(actionId))
             {
-                Debug.Log("Can't find action with key " + actionId);
+                Debug.Log("AgentActionFactory contains no definition for " + actionId);
                 return null;
             }
 
             AgentAction action = Actions[actionId].Invoke();
             action.Agent = agent;
+            action.InjectServiceContext(ServiceContext);
+            action.BindDependencies();
+
+
             return action;
+
         }
 
-        public override AgentAction BindAction(Agent agent, string actionId, Configuration config)
+        public AgentAction BindAction(Agent agent, string actionId,
+            Configuration config)
         {
             AgentAction action = BindAction(agent, actionId);
-            action.Configure(config);
-            return action;
 
+            if (action == null) return null;
+
+            action.Configure(config);
+
+            return action;
         }
 
-        public override void AddAction(string key, Func<AgentAction> actionCreator) {
-            if (Actions.ContainsKey(key)) {
+        public void AddAction(string key, Func<AgentAction> actionCreator)
+        {
+            if (Actions.ContainsKey(key))
+            {
                 Debug.Log("Already have an action with key " + key);
                 return;
             }
@@ -47,6 +59,13 @@ namespace TofuPlugin.Agents.AgentActions.Fake
             Actions.Add(key, actionCreator);
         }
 
-    }
 
+        public override void Initialize()
+        {
+            base.Initialize();
+            LoadAgentActions();
+
+        }
+
+    }
 }

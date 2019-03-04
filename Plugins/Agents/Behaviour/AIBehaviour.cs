@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scripts.Sensors;
 using TofuCore.Service;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
+using TofuPlugin.Agents.Sensors;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.Behaviour
@@ -16,7 +16,7 @@ namespace TofuPlugin.Agents.Behaviour
     public abstract class AIBehaviour
     {
         protected ServiceContext ServiceContext;
-        protected AbstractSensor _sensor;
+        protected AgentSensor Sensor;
         protected IControllableAgent Agent;
         
         public void BindAgent(IControllableAgent agent)
@@ -24,9 +24,9 @@ namespace TofuPlugin.Agents.Behaviour
             Agent = agent;
         }
 
-        public void SetSensor(AbstractSensor sensor)
+        public void SetSensor(AgentSensor sensor)
         {
-            _sensor = sensor;
+            Sensor = sensor;
         }
 
         public AgentAction FindActionById(string id)

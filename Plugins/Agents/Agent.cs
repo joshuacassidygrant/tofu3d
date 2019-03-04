@@ -2,10 +2,8 @@
 using TofuPlugin.Renderable;
 using System.Collections.Generic;
 using System.Linq;
-using Scripts.Sensors;
 using TofuCore.Configuration;
 using TofuCore.Glops;
-using TofuCore.Service;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AI;
 using TofuPlugin.Agents.Commands;
@@ -14,7 +12,6 @@ using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
 using TofuCore.Targetable;
-using TofuPlugin.Agents.AgentActions.Fake;
 using TofuPlugin.Pathfinding;
 
 namespace TofuPlugin.Agents
@@ -50,9 +47,13 @@ namespace TofuPlugin.Agents
         private float _moveSpeed = 2f;
 
         private HashSet<string> _expectedProperties;
+
         protected AIBehaviourManager BehaviourManager;
         protected PathRequestService PathRequestService;
         protected AgentTypeLibrary AgentTypeLibrary;
+        protected AgentSensorFactory SensorFactory;
+        protected AgentActionFactory ActionFactory;
+        protected FactionContainer FactionContainer;
 
         public float SizeRadius { get; protected set; }
 
@@ -117,10 +118,6 @@ namespace TofuPlugin.Agents
         }
 
 
-        protected AgentSensorFactory SensorFactory;
-        protected AbstractAgentActionFactory ActionFactory;
-        protected FactionContainer FactionContainer;
-
 
         /**
          * INITIALIZATION
@@ -143,6 +140,7 @@ namespace TofuPlugin.Agents
             Sprite = prototype.Sprite;
             Name = prototype.Name;
             AgentType = AgentTypeLibrary.Get(prototype.AgentType);
+            _expectedProperties = AgentType.ExpectedProperties;
             BaseColor = prototype.BaseColor;
             SizeRadius = prototype.SizeRadius;
 
@@ -209,7 +207,7 @@ namespace TofuPlugin.Agents
 
         public virtual void AutoSetController()
         {
-            SetController(new AIAgentController(this, _sensor));
+            SetController(new AIAgentController(this, _sensor, BehaviourManager));
         }
 
 

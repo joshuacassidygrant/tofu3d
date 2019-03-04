@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scripts.Sensors;
 using TofuCore.Service;
+using TofuPlugin.Agents.Sensors;
 using UnityEngine;
 
 namespace TofuPlugin.Agents

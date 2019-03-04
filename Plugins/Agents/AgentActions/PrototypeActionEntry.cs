@@ -1,5 +1,4 @@
-﻿using Scripts;
-using TofuCore.Configuration;
+﻿using TofuCore.Configuration;
 
 namespace TofuPlugin.Agents.AgentActions
 {
