@@ -50,7 +50,6 @@ namespace TofuPlugin.Agents
 
         protected AIBehaviourManager BehaviourManager;
         protected PathRequestService PathRequestService;
-        protected AgentTypeLibrary AgentTypeLibrary;
         protected AgentSensorFactory SensorFactory;
         protected AgentActionFactory ActionFactory;
         protected FactionContainer FactionContainer;
@@ -125,6 +124,7 @@ namespace TofuPlugin.Agents
         public Agent()
         {
             _resourceModules = new Dictionary<string, ResourceModule>();
+            _properties = new Properties();
             Actions = new List<AgentAction>();
         }
 
@@ -134,12 +134,12 @@ namespace TofuPlugin.Agents
             CheckProperties();
         }
         
-        public void ConsumePrototype(AgentPrototype prototype)
+        public void ConsumePrototype(AgentType type, AgentPrototype prototype)
         {
             if (prototype == null) return;
             Sprite = prototype.Sprite;
             Name = prototype.Name;
-            AgentType = AgentTypeLibrary.Get(prototype.AgentType);
+            AgentType = type;
             _expectedProperties = AgentType.ExpectedProperties;
             BaseColor = prototype.BaseColor;
             SizeRadius = prototype.SizeRadius;
@@ -160,7 +160,6 @@ namespace TofuPlugin.Agents
             EventContext = injectables.Get("EventContext");
             BehaviourManager = injectables.Get("AIBehaviourManager");
             PathRequestService = injectables.Get("PathRequestService");
-            AgentTypeLibrary = injectables.Get("AgentTypeLibrary");
         }
 
         private void BindResourceModules()
@@ -348,8 +347,6 @@ namespace TofuPlugin.Agents
             if (success)
             {
                 _path = new Path(waypoints, Position, _turnDist, _stoppingDist);
-                /*StopCoroutine("FollowPath");
-                StartCoroutine("FollowPath");*/
             }
         }
 
@@ -448,7 +445,6 @@ namespace TofuPlugin.Agents
             {
                 AnimationStates[key] = value;
             }
-
         }
 
         protected void ClearAnimationStates()
@@ -497,21 +493,7 @@ namespace TofuPlugin.Agents
         private bool CheckProperties()
         {
             if (Properties == null || _expectedProperties == null) return true;
-
-            HashSet<string> _checklist = new HashSet<string>(_expectedProperties);
-
-            foreach (var entry in Properties.GetProperties())
-            {
-                if (_checklist.Contains(entry.Key))
-                {
-                    _checklist.Remove(entry.Key);
-                }
-            }
-
-            if (_checklist.Count == 0) return true;
-
-            Debug.Log("Could not find " + _checklist.Count + " expected properties for unit " + Name + Id);
-            return false;
+            return Properties.Check(_expectedProperties);
         }
 
         private void OverwriteProperties(Configuration config)
@@ -521,11 +503,8 @@ namespace TofuPlugin.Agents
             {
                 Properties = new Properties(config);
             }
-            else
-            {
-                Properties.Configure(config);
-            }
 
+            Properties.Configure(config);
         }
     }
 }

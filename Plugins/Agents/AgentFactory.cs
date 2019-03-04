@@ -14,6 +14,8 @@ namespace  TofuPlugin.Agents
     public class AgentFactory : AbstractService
     {
         [Dependency] protected AgentSensorFactory AgentSensorFactory;
+        [Dependency] protected AgentTypeLibrary AgentTypeLibrary;
+
 
         /**
          * Ensures an agent has all needed configurations and is bound to its container
@@ -22,7 +24,7 @@ namespace  TofuPlugin.Agents
         {
             Agent agent = new Agent();
             container.Register(agent);
-            agent.ConsumePrototype(prototype);
+            agent.ConsumePrototype(AgentTypeLibrary.Get(prototype.AgentType), prototype);
             agent.ConsumeConfig(config);
             agent.Initialize();
 

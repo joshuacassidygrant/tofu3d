@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -98,6 +99,24 @@ namespace TofuCore.Configuration
             }
 
             _properties.Add(id, value.ToString());
+        }
+
+        public bool Check(HashSet<string> expected)
+        {
+            HashSet<string> _checklist = new HashSet<string>(expected);
+
+            foreach (var entry in _properties) 
+            {
+                if (_checklist.Contains(entry.Key))
+                {
+                    _checklist.Remove(entry.Key);
+                }
+            }
+
+            if (_checklist.Count == 0) return true;
+
+            Debug.Log("Could not find " + _checklist.Count + " expected properties for unit " + Name + Id);
+            return false;
         }
     }
 
