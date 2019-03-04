@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using TofuCore.Service;
-using TofuPlugin.Agents.AgentActions.Fake;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
@@ -21,7 +20,7 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
             _context = new ServiceContext();
-            new FakeAgentActionFactory().BindServiceContext(_context, "AgentActionFactory");
+            new AgentActionFactory().BindServiceContext(_context, "AgentActionFactory");
             new FactionContainer().BindServiceContext(_context);
             new AgentSensorFactory().BindServiceContext(_context);
             _agentContainer = new AgentContainer().BindServiceContext(_context);
@@ -43,7 +42,7 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void AgentShouldConstructWithNullPrototype()
         {
-            Agent u = new Agent(null, Vector3.back);
+            Agent u = new Agent();
             Assert.NotNull(u);
         }
 

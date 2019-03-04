@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using TofuPlugin.Agents.AgentActions;
-using TofuPlugin.Agents.AgentActions.Fake;
 using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
@@ -43,8 +42,8 @@ namespace TofuPlugin.Agents.Tests
                     new PrototypeActionEntry("act"),
                     new PrototypeActionEntry("self")
                 };
-            _agent = new Agent(_prototype, Vector3.zero);
-            _unit2 = new Agent( _prototype, Vector3.left);
+            _agent = new Agent();
+            _unit2 = new Agent();
 
 
         }

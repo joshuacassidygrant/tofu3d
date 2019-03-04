@@ -114,7 +114,7 @@ namespace TofuPlugin.Agents
 
         public virtual string GetSortingLayer()
         {
-            return "Agent";
+            return "Unit";
         }
 
 
@@ -160,6 +160,7 @@ namespace TofuPlugin.Agents
             EventContext = injectables.Get("EventContext");
             BehaviourManager = injectables.Get("AIBehaviourManager");
             PathRequestService = injectables.Get("PathRequestService");
+            AgentTypeLibrary = injectables.Get("AgentTypeLibrary");
         }
 
         private void BindResourceModules()
@@ -495,7 +496,7 @@ namespace TofuPlugin.Agents
          */
         private bool CheckProperties()
         {
-            if (Properties == null) return true;
+            if (Properties == null || _expectedProperties == null) return true;
 
             HashSet<string> _checklist = new HashSet<string>(_expectedProperties);
 

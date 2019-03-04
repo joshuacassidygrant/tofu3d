@@ -26,6 +26,8 @@ namespace TofuCore.Configuration
 
         public void Configure(Configuration config)
         {
+            if (config == null) return;
+
             foreach (ConfigurationProperty entry in config.Properties)
             {
                 SetProperty(entry.Key, entry.Value);

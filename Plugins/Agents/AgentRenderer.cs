@@ -9,11 +9,11 @@ namespace TofuPlugin.Agents
 {
     public class AgentRenderer : AbstractRenderer
     {
-
         public void Initialize(Agent agent, ServiceContext context)
         {
-
-            BindListener(EventContext.GetEvent("UnitDies"), UnitDestroyed, EventContext);
+            base.Initialize(agent, context);
+            
+            BindListener(EventContext.GetEvent("AgentDies"), UnitDestroyed, EventContext);
 
 
             SpriteRenderer.color = agent.BaseColor;

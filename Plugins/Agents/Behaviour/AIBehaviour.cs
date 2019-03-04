@@ -67,6 +67,10 @@ namespace TofuPlugin.Agents.Behaviour
             }
 
             atVs.Sort((x, y) => y.Value.CompareTo(x.Value));
+            if (atVs.Count <= 0)
+            {
+                return new AgentCommand(null, null, Mathf.RoundToInt(0));
+            }
             ActionTargetableValueTuple pick = atVs[0];
 
             return new AgentCommand(pick.Action, pick.Targetable, Mathf.RoundToInt(pick.Value));

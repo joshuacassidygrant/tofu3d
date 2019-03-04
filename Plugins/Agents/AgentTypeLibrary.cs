@@ -16,7 +16,7 @@ namespace TofuPlugin.Agents
         public override void LoadResources()
         {
             //TODO: take this out of here
-            _contents.Add("Unit", new AgentType("Unit", new HashSet<string>
+            _contents.Add("Creature", new AgentType("Creature", new HashSet<string>
             {
                 "Speed"
             }, new List<string>

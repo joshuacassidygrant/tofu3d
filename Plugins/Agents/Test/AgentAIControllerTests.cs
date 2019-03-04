@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using TofuPlugin.Agents;
 using TofuPlugin.Agents.AgentActions;
-using TofuPlugin.Agents.AgentActions.Fake;
 using TofuPlugin.Agents.AI.Behaviour;
 using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
@@ -16,7 +15,7 @@ namespace TofuPlugin.Agents.Tests
     public class AgentAIControllerTests
     {
         private AgentPrototype _prototype;
-        private FakeAgentActionFactory _factoryFake;
+        private AgentActionFactory _factoryFake;
         private AgentSensorFactory _sensorFactory;
         private ServiceContext _context;
         private AgentContainer _agentContainer;
@@ -40,7 +39,7 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void TestAgentCreatesOwnAIControllerByDefault()
         {
-            Agent a = new Agent(_prototype, Vector3.zero);
+            Agent a = new Agent();
             Assert.Null(a.Controller);
             _agentContainer.Register(a);
             a.Update(0f);
@@ -52,9 +51,9 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void TestCanChangeAgentStrategy()
         {
-            Agent a = new Agent(_prototype, Vector3.zero);
+            Agent a = new Agent();
             a.Update(0f);
-            a.Controller.SetBehaviour(new AiBehaviourFake());
+            a.Controller.SetBehaviour(new AiBehaviourDefault());
             Assert.AreEqual("AiBehaviourFake", a.Controller.GetBehaviourName());
 
             a.Update(1f);

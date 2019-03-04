@@ -19,10 +19,13 @@ namespace TofuPlugin.Agents
         [Dependency("CreaturesLibrary")] protected AgentPrototypeLibrary CreaturesLibrary;
         [Dependency("TowersLibrary")] protected AgentPrototypeLibrary TowersLibrary;
 
+        [Dependency] [ContentInjectable] private EventContext _eventContext;
         [Dependency] [ContentInjectable] protected FactionContainer FactionContainer;
         [Dependency] [ContentInjectable] protected AgentActionFactory ActionFactory;
+        [Dependency] [ContentInjectable] protected AgentSensorFactory SensorFactory;
         [Dependency] [ContentInjectable] protected AIBehaviourManager AiBehaviourManager;
         [Dependency] [ContentInjectable] protected PathRequestService PathRequestService;
+        [Dependency] [ContentInjectable] protected AgentTypeLibrary AgentTypeLibrary;
 
         private List<AgentSpawner> _unitSpawners;
 
