@@ -25,14 +25,7 @@ namespace TofuCore.ResourceLibrary
         public override void Build()
         {
             base.Build();
-            LoadResources();
         }
-
-        
-
-
-        public virtual void LoadResources() { }
-        public virtual void LateLoadResources() { }
 
         public virtual void LoadResource(string id, T resource)
         {

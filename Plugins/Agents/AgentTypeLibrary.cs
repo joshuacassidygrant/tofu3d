@@ -13,11 +13,6 @@ namespace TofuPlugin.Agents
             _contents = contents;
         }
 
-        public override void LoadResources()
-        {
-
-        }
-
         
     }
 

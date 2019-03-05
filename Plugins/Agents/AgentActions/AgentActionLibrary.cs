@@ -12,9 +12,5 @@ namespace TofuPlugin.Agents
             _contents = agentActions;
         }
 
-        public override void LoadResources()
-        {
-            //Resources are loaded in constructor
-        }
     }
 }

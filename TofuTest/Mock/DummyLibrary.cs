@@ -15,13 +15,6 @@ namespace TofuCore.TestSupport
         {
         }
 
-        public override void LoadResources()
-        {
-            _contents.Add("12", 12);
-            _contents.Add("15", 15);
-            _contents.Add("16", 16);
-        }
-
     }
 
 }
