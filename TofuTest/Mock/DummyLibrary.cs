@@ -11,7 +11,7 @@ namespace TofuCore.TestSupport
     public class DummyLibrary : AbstractResourceLibrary<int>
     {
 
-        public DummyLibrary(string path) : base(path)
+        public DummyLibrary(string path)
         {
         }
 

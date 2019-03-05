@@ -164,7 +164,7 @@ namespace TofuPlugin.Agents
 
         private void BindResourceModules()
         {
-            foreach (AgentTypeLibrary.AgentResourceModuleConfig agentResourceModuleConfig in AgentType
+            foreach (AgentResourceModuleConfig agentResourceModuleConfig in AgentType
                 .ResourceModuleConfigs)
             {
                 AssignResourceModule(agentResourceModuleConfig.Key, agentResourceModuleConfig.GenerateResourceModule(this, EventContext));
@@ -498,12 +498,6 @@ namespace TofuPlugin.Agents
 
         private void OverwriteProperties(Configuration config)
         {
-            // Will overwrite duplicate properties
-            if (Properties == null)
-            {
-                Properties = new Properties(config);
-            }
-
             Properties.Configure(config);
         }
     }

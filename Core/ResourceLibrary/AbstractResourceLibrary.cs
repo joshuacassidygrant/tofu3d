@@ -11,18 +11,14 @@ namespace TofuCore.ResourceLibrary
     public abstract class AbstractResourceLibrary<T> : AbstractService
     {
 
-        protected string Prefix = "";
-        protected string Path;
         protected Type Type;
 
         protected Dictionary<string, T> _contents;
 
 
-        protected AbstractResourceLibrary(string path, string prefix = "")
+        protected AbstractResourceLibrary()
         {
             Type = typeof(T);
-            Path = path;
-            Prefix = prefix;
             _contents = new Dictionary<string, T>();
         }
 
@@ -32,7 +28,11 @@ namespace TofuCore.ResourceLibrary
             LoadResources();
         }
 
-        public abstract void LoadResources();
+        
+
+
+        public virtual void LoadResources() { }
+        public virtual void LateLoadResources() { }
 
         public virtual void LoadResource(string id, T resource)
         {

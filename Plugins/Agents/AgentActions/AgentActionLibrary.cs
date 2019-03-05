@@ -7,7 +7,7 @@ namespace TofuPlugin.Agents
 {
     public class AgentActionLibrary : AbstractResourceLibrary<Func<AgentAction>>
     {
-        public AgentActionLibrary(Dictionary<string, Func<AgentAction>> agentActions) : base("NULL")
+        public AgentActionLibrary(Dictionary<string, Func<AgentAction>> agentActions)
         {
             _contents = agentActions;
         }

@@ -115,7 +115,7 @@ namespace TofuCore.Configuration
 
             if (_checklist.Count == 0) return true;
 
-            Debug.Log("Could not find " + _checklist.Count + " expected properties for unit " + Name + Id);
+            Debug.Log("Could not find " + _checklist.Count + " expected properties");
             return false;
         }
     }

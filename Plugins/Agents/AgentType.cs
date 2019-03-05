@@ -10,10 +10,10 @@ namespace TofuPlugin.Agents
         public string Name;
         public HashSet<string> ExpectedProperties;
         public List<string> DefaultActions;
-        public List<AgentTypeLibrary.AgentResourceModuleConfig> ResourceModuleConfigs;
+        public List<AgentResourceModuleConfig> ResourceModuleConfigs;
 
 
-        public AgentType(string name, HashSet<string> expectedProperties, List<string> defaultActions, List<AgentTypeLibrary.AgentResourceModuleConfig> resourceModuleConfigs)
+        public AgentType(string name, HashSet<string> expectedProperties, List<string> defaultActions, List<AgentResourceModuleConfig> resourceModuleConfigs)
         {
             Name = name;
             ExpectedProperties = expectedProperties;

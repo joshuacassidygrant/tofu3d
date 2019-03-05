@@ -21,7 +21,7 @@ namespace TofuPlugin.Agents.Tests
         {
             _context = new ServiceContext();
             new AgentFactory().BindServiceContext(_context);
-            new AgentActionFactory().BindServiceContext(_context, "AgentActionFactory");
+            new AgentActionFactory().BindServiceContext(_context);
             new FactionContainer().BindServiceContext(_context);
             new AgentSensorFactory().BindServiceContext(_context);
             _agentContainer = new AgentContainer().BindServiceContext(_context);
@@ -46,6 +46,7 @@ namespace TofuPlugin.Agents.Tests
             Agent agent = new Agent();
             Assert.NotNull(agent);
             Assert.NotNull(agent.GetResourceModules());
+            Assert.NotNull(agent.Properties);
 
         }
 
