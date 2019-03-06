@@ -19,13 +19,13 @@ namespace TofuPlugin.Agents.Tests
         [SetUp]
         public void SetUp()
         {
-            _context = new ServiceContext();
+            /*_context = new ServiceContext();
             new AgentFactory().BindServiceContext(_context);
             new AgentActionFactory().BindServiceContext(_context);
             new FactionContainer().BindServiceContext(_context);
             new AgentSensorFactory().BindServiceContext(_context);
             _agentContainer = new AgentContainer().BindServiceContext(_context);
-
+            */
 
             _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
             _prototype.Id = "t1p";
@@ -37,11 +37,11 @@ namespace TofuPlugin.Agents.Tests
             new PrototypeActionEntry("test2")
         };
 
-            _context.FullInitialization();
+            //_context.FullInitialization();
         }
 
         [Test]
-        public void AgentShouldConstruct()
+        public void AgentShouldConstructWithNoPrototypeOrConfig()
         {
             Agent agent = new Agent();
             Assert.NotNull(agent);
@@ -51,18 +51,16 @@ namespace TofuPlugin.Agents.Tests
         }
 
         [Test]
-        public void AgentShouldConstructWithPropertiesAndActions()
+        public void AgentShouldConstructWithEmptyPropertiesAndActions()
         {
-            Agent u = _agentContainer.Spawn(_prototype, Vector3.zero);
+            Agent u = new Agent();
+            u.ConsumePrototype(new AgentType("Test", new HashSet<string>(), new List<string>(), new List<AgentResourceModuleConfig>()), _prototype, new List<AgentAction>());
 
             //Assert
             Assert.AreEqual("T1P", u.GetName());
             Assert.AreEqual(null, u.Sprite);
             Assert.AreEqual(Vector3.zero, u.Position);
-            Assert.AreEqual(2, u.Actions.Count);
-
-            
-
+            Assert.AreEqual(0, u.Actions.Count);
         }
     }
 

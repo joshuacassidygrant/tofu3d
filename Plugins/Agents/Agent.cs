@@ -28,7 +28,7 @@ namespace TofuPlugin.Agents
         /*
          * Add to this only with the AddAction() method to ensure actions are bound to agent
          */
-        public List<AgentAction> Actions { get; }
+        public List<AgentAction> Actions { get; private set; }
         public AgentType AgentType;
         public Color BaseColor;
 
@@ -50,8 +50,6 @@ namespace TofuPlugin.Agents
 
         protected AIBehaviourManager BehaviourManager;
         protected PathRequestService PathRequestService;
-        protected AgentSensorFactory SensorFactory;
-        protected AgentActionFactory ActionFactory;
         protected FactionContainer FactionContainer;
 
         public float SizeRadius { get; protected set; }
@@ -61,7 +59,7 @@ namespace TofuPlugin.Agents
         private Dictionary<string, bool> AnimationStates = new Dictionary<string, bool>();
 
         public Vector3 Position { get; set; }
-        private Dictionary<string, ResourceModule> _resourceModules;
+        private readonly Dictionary<string, ResourceModule> _resourceModules;
         public Vector3 NextMoveTarget;
 
         private AgentSensor _sensor;
@@ -91,14 +89,8 @@ namespace TofuPlugin.Agents
             get; set;
         }
 
-        public Properties Properties {
-            get {
-                return _properties;
-            }
-            protected set {
-                _properties = value;
-            }
-        }
+        public Properties Properties { get; protected set; }
+
 
         public bool Active {
             get; protected set;
@@ -109,14 +101,11 @@ namespace TofuPlugin.Agents
             return Name;
         }
 
-        private Properties _properties;
 
         public virtual string GetSortingLayer()
         {
             return "Unit";
         }
-
-
 
         /**
          * INITIALIZATION
@@ -124,7 +113,7 @@ namespace TofuPlugin.Agents
         public Agent()
         {
             _resourceModules = new Dictionary<string, ResourceModule>();
-            _properties = new Properties();
+            Properties = new Properties();
             Actions = new List<AgentAction>();
         }
 
@@ -134,7 +123,8 @@ namespace TofuPlugin.Agents
             CheckProperties();
         }
         
-        public void ConsumePrototype(AgentType type, AgentPrototype prototype)
+        // Called by AgentFactory
+        public void ConsumePrototype(AgentType type, AgentPrototype prototype, List<AgentAction> boundActions)
         {
             if (prototype == null) return;
             Sprite = prototype.Sprite;
@@ -147,15 +137,13 @@ namespace TofuPlugin.Agents
             ConsumeConfig(prototype.Config);
 
             BindResourceModules();
-            LoadTypeDefaultActions();
-            LoadPrototypeActions(prototype);
+            Actions = boundActions;
+
         }
 
         // Called by AgentFactory from AgentContainer to InjectDependencies
         public override void InjectDependencies(ContentInjectablePayload injectables)
         {
-            SensorFactory = injectables.Get("AgentSensorFactory");
-            ActionFactory = injectables.Get("AgentActionFactory");
             FactionContainer = injectables.Get("FactionContainer");
             EventContext = injectables.Get("EventContext");
             BehaviourManager = injectables.Get("AIBehaviourManager");
@@ -170,25 +158,6 @@ namespace TofuPlugin.Agents
                 AssignResourceModule(agentResourceModuleConfig.Key, agentResourceModuleConfig.GenerateResourceModule(this, EventContext));
             }
         }
-
-        private void LoadTypeDefaultActions()
-        {
-            foreach (string actionId in AgentType.DefaultActions)
-            {
-                AddAction(ActionFactory.BindAction(this, actionId));
-            }
-        }
-
-        private void LoadPrototypeActions(AgentPrototype prototype)
-        {
-            foreach (PrototypeActionEntry actionEntry in prototype.Actions)
-            {
-                AgentAction action = ActionFactory.BindAction(this, actionEntry.ActionId);
-                AddAction(action);
-                action.Configure(actionEntry.Configuration);
-            }
-        }
-
 
         public void SetSensor(AgentSensor sensor)
         {
@@ -209,7 +178,6 @@ namespace TofuPlugin.Agents
         {
             SetController(new AIAgentController(this, _sensor, BehaviourManager));
         }
-
 
         /**
          * UPDATE & COMMON METHODS
@@ -238,7 +206,6 @@ namespace TofuPlugin.Agents
                 FollowPath(frameDelta);
             }
         }
-
 
         public override string ToString()
         {
@@ -270,7 +237,6 @@ namespace TofuPlugin.Agents
                 action.Update(deltaTime);
             }
         }
-
 
         public void AddAction(AgentAction action)
         {
