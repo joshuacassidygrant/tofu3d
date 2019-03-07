@@ -24,19 +24,26 @@ namespace TofuPlugin.Agents
      */
     public class Agent: Glop, IRenderable, ITargetable, IControllableAgent, IConfigurable, ISensable, IResourceModuleOwner
     {
-        protected string Name;
+        public string Name { get; private set; }
+        public bool Active { get; private set; }
+
+        //Services
+        protected AIBehaviourManager BehaviourManager;
+        protected PathRequestService PathRequestService;
+        protected FactionContainer FactionContainer;
+        protected EventContext EventContext;
+
         /*
-         * Add to this only with the AddAction() method to ensure actions are bound to agent
+         * ITargetable and positioning
          */
-        public List<AgentAction> Actions { get; private set; }
-        public AgentType AgentType;
-        public Color BaseColor;
-
+        public Vector3 Position { get; set; }
+        public float SizeRadius { get; protected set; }
         public ITargetable TargetableSelf => this;
-        public AIAgentController Controller;
 
-
-        /*Pathfinding -- REFACTOR */
+        /*
+         * Pathfinding
+         */
+        //TODO: refactor Pathfinding
         private Path _path;
         private float _turnDist = 0.04f;
         private float _stoppingDist = 1f;
@@ -45,82 +52,52 @@ namespace TofuPlugin.Agents
         private float _turnSpeed = 1f;
         private Quaternion _rotation = Quaternion.identity;
         private float _moveSpeed = 2f;
+        public Vector3 NextMoveTarget;
+        //END REFACTOR
 
-        private HashSet<string> _expectedProperties;
-
-        protected AIBehaviourManager BehaviourManager;
-        protected PathRequestService PathRequestService;
-        protected FactionContainer FactionContainer;
-
-        public float SizeRadius { get; protected set; }
-
-        //TODO: should be able to take a 3d model instead
+        /*
+         * Rendering
+         */
+        //TODO: Refactor. Put Sprite and AnimationStates in a component that can interface with IRenderable and accept either a 3d model or a sprite
         public Sprite Sprite { get; set; }
         private Dictionary<string, bool> AnimationStates = new Dictionary<string, bool>();
+        public string GetSortingLayer() { return "Unit"; }
 
-        public Vector3 Position { get; set; }
-        private readonly Dictionary<string, ResourceModule> _resourceModules;
-        public Vector3 NextMoveTarget;
+        /*
+         * Local modules
+         */
+        public AgentSensor Sensor { get; set; }
+        public Dictionary<string, ResourceModule> ResourceModules { get; private set; }
+        public HashSet<string> ExpectedProperties { get; private set; }
+        public AIAgentController Controller { get; private set; }
+        public List<AgentAction> Actions { get; private set; } //Add to this only with the AddAction() method to ensure actions are bound to agent
+        public AgentType AgentType { get; private set; }
+        public Faction Faction { get; set; }
+        public Properties Properties { get; private set; }
 
-        private AgentSensor _sensor;
+        /*
+         * Action/Command storage
+         */
+        //TODO: refactor. should these go in a module?
+        public AgentCommand CurrentCommand {get; set;}
+        public AgentAction CurrentAction {get; set;}
+        public ITargetable CurrentActionTarget {get; set;}
 
-
-
-        protected EventContext EventContext;
-
-        public int GetId()
-        {
-            return Id;
-        }
-
-        public AgentCommand CurrentCommand {
-            get; set;
-        }
-
-        public AgentAction CurrentAction {
-            get; set;
-        }
-
-        public ITargetable CurrentActionTarget {
-            get; set;
-        }
-
-        public Faction Faction {
-            get; set;
-        }
-
-        public Properties Properties { get; protected set; }
-
-
-        public bool Active {
-            get; protected set;
-        }
-
-        public string GetName()
-        {
-            return Name;
-        }
-
-
-        public virtual string GetSortingLayer()
-        {
-            return "Unit";
-        }
 
         /**
          * INITIALIZATION
          */
         public Agent()
         {
-            _resourceModules = new Dictionary<string, ResourceModule>();
+            ResourceModules = new Dictionary<string, ResourceModule>();
             Properties = new Properties();
             Actions = new List<AgentAction>();
         }
 
         public void ConsumeConfig(Configuration config)
         {
-            OverwriteProperties(config);
-            CheckProperties();
+            Properties.Configure(config);
+            Properties.Check(ExpectedProperties);
         }
         
         // Called by AgentFactory
@@ -130,8 +107,7 @@ namespace TofuPlugin.Agents
             Sprite = prototype.Sprite;
             Name = prototype.Name;
             AgentType = type;
-            _expectedProperties = AgentType.ExpectedProperties;
-            BaseColor = prototype.BaseColor;
+            ExpectedProperties = AgentType.ExpectedProperties;
             SizeRadius = prototype.SizeRadius;
 
             ConsumeConfig(prototype.Config);
@@ -159,11 +135,6 @@ namespace TofuPlugin.Agents
             }
         }
 
-        public void SetSensor(AgentSensor sensor)
-        {
-            _sensor = sensor;
-        }
-
         public void SetController(AIAgentController controller)
         {
             Controller = controller;
@@ -176,7 +147,7 @@ namespace TofuPlugin.Agents
 
         public virtual void AutoSetController()
         {
-            SetController(new AIAgentController(this, _sensor, BehaviourManager));
+            SetController(new AIAgentController(this, Sensor, BehaviourManager));
         }
 
         /**
@@ -428,43 +399,29 @@ namespace TofuPlugin.Agents
 
         public Dictionary<string, ResourceModule> GetResourceModules()
         {
-            return _resourceModules;
+            return ResourceModules;
         }
 
         public void AssignResourceModule(string key, ResourceModule module)
         {
-            if (_resourceModules.ContainsKey(key))
+            if (ResourceModules.ContainsKey(key))
             {
                 Debug.Log("Can't assign a second resource module to key " + key);
                 return;
             }
 
-            _resourceModules.Add(key, module);
+            ResourceModules.Add(key, module);
         }
 
         public void RemoveResourceModule(string key)
         {
-            _resourceModules.Remove(key);
+            ResourceModules.Remove(key);
         }
 
         public ResourceModule GetResourceModule(string key)
         {
-            if (!_resourceModules.ContainsKey(key)) return null;
-            return _resourceModules[key];
-        }
-
-        /**
-         * PROPERTIES & CONFIG
-         */
-        private bool CheckProperties()
-        {
-            if (Properties == null || _expectedProperties == null) return true;
-            return Properties.Check(_expectedProperties);
-        }
-
-        private void OverwriteProperties(Configuration config)
-        {
-            Properties.Configure(config);
+            if (!ResourceModules.ContainsKey(key)) return null;
+            return ResourceModules[key];
         }
     }
 }

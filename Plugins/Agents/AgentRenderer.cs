@@ -16,7 +16,8 @@ namespace TofuPlugin.Agents
             BindListener(EventContext.GetEvent("AgentDies"), UnitDestroyed, EventContext);
 
 
-            SpriteRenderer.color = agent.BaseColor;
+            //string colorLabel = agent.Properties.GetProperty("BaseColor", "white");
+            SpriteRenderer.color = Color.white;
 
             if (Renderable == null)
             {
@@ -36,7 +37,7 @@ namespace TofuPlugin.Agents
 
             if (eventPayload.ContentType != "Agent") return;
             Agent agent = eventPayload.GetContent();
-            if (agent.Id == Renderable.GetId())
+            if (agent.Id == Renderable.Id)
             {
                 UnbindListener(EventContext.GetEvent("UnitDies"), UnitDestroyed, EventContext);
                 ToDestroy = true;

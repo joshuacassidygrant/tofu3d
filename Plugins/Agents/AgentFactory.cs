@@ -34,7 +34,7 @@ namespace  TofuPlugin.Agents
             agent.Initialize();
 
             AgentSensor sensor = AgentSensorFactory.NewAgentSensor(agent);
-            agent.SetSensor(sensor);
+            agent.Sensor = sensor;
 
             agent.Position = location;
             return agent;

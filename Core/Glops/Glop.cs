@@ -13,7 +13,7 @@ namespace TofuCore.Glops
      * float telling how much time has passed since the last frame.
      */
     public abstract class Glop {
-        public int Id;
+        public int Id { get; set;}
 
         public virtual void Die()
         {

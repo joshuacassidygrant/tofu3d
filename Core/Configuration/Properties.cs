@@ -103,6 +103,8 @@ namespace TofuCore.Configuration
 
         public bool Check(HashSet<string> expected)
         {
+            if (expected == null) return true;
+
             HashSet<string> _checklist = new HashSet<string>(expected);
 
             foreach (var entry in _properties) 
