@@ -7,7 +7,6 @@ namespace TofuCore.Service
     public abstract class AbstractGameServiceInitializer : MonoBehaviour
     {
 
-        private GameObject _cameraObject;
 
         protected ServiceContext ServiceContext;
 

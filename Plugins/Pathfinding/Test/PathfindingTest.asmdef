@@ -1,0 +1,15 @@
+{
+    "name": "PathfindingTest",
+    "references": [
+        "TofuPlugin",
+        "TofuCore"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

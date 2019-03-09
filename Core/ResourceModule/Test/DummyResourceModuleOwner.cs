@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DummyResourceModuleOwner : IResourceModuleOwner
 {
+    public Vector3 Position { get; }
     private Dictionary<string, ResourceModule> _resourceModules;
 
     public Dictionary<string, ResourceModule> GetResourceModules()
@@ -34,8 +35,4 @@ public class DummyResourceModuleOwner : IResourceModuleOwner
         return _resourceModules[key];
     }
 
-    public Vector3 GetPosition()
-    {
-        return Vector3.zero;
-    }
 }

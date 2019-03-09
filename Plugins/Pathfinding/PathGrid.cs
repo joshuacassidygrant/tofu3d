@@ -30,13 +30,18 @@ namespace TofuPlugin.Pathfinding
         public override void Initialize()
         {
             base.Initialize();
+            ConfigureParameters();
+            CreatePathGrid();
+        }
+
+        void ConfigureParameters()
+        {
             IPathableMapTile[,] terrainTiles = _pathableMapService.GetPathableMapTiles();
             _nodeDiameter = _pathableMapService.TileSize / NodesPerTileSide;
             NodeSizeRadius = _nodeDiameter / 2;
             _gridSizeX = terrainTiles.GetLength(0) * NodesPerTileSide;
             _gridSizeY = terrainTiles.GetLength(1) * NodesPerTileSide;
             _gridWorldSize = new Vector2(_gridSizeX * _pathableMapService.TileSize, _gridSizeY * _pathableMapService.TileSize);
-            CreatePathGrid();
         }
 
         void CreatePathGrid()

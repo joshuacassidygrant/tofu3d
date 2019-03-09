@@ -61,7 +61,7 @@ public class UiTextDynamic : TofuUiBase
             case "ResourceEventPayload":
                 ResourceEventPayload rePayload = payload.GetContent();
                 Player player = rePayload.Target as Player;
-                if (player != null && player.GetName() == PlayerNameSelector)
+                if (player != null && player.Name == PlayerNameSelector)
                 {
                     return rePayload.Amount.ToString();
                 }

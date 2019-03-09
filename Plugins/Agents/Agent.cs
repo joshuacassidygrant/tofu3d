@@ -261,11 +261,6 @@ namespace TofuPlugin.Agents
             }
         }
 
-        public Vector3 GetPosition()
-        {
-            return Position;
-        }
-
         public void SetMoveTarget(ITargetable target, float dist)
         {
             _moveTarget = target;

@@ -9,12 +9,14 @@ namespace TofuCore.Player
     public class Player : Glop, IResourceModuleOwner
     {
         private Dictionary<string, ResourceModule.ResourceModule> _resourceModules;
-        private string _name;
+
+        public string Name { get; private set; }
+        public Vector3 Position { get; private set; }
 
         public Player(string name) : base()
         {
             _resourceModules = new Dictionary<string, ResourceModule.ResourceModule>();
-            _name = name;
+            Name = name;
         }
 
 
@@ -52,17 +54,6 @@ namespace TofuCore.Player
         {
             if (!_resourceModules.ContainsKey(key)) return null;
             return _resourceModules[key];
-        }
-
-        public Vector3 GetPosition()
-        {
-            //TODO: Maybe give this a position?
-            return Vector3.zero;
-        }
-
-        public string GetName()
-        {
-            return _name;
         }
     }
 
