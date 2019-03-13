@@ -100,6 +100,7 @@ namespace TofuCore.Service
         public void FullInitialization()
         {
             ResolveBindings();
+            PrepareAll();
             InitializeAll();
         }
 
@@ -115,6 +116,14 @@ namespace TofuCore.Service
             foreach (KeyValuePair<String, IService> entry in _services)
             {
                 entry.Value.ResolveServiceBindings();
+            }
+        }
+
+        private void PrepareAll()
+        {
+            foreach (KeyValuePair<String, IService> entry in _services)
+            {
+                entry.Value.Prepare();
             }
         }
 

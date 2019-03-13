@@ -83,10 +83,17 @@ namespace TofuCore.Service
             }
         }
 
+        /*
+         * Called BEFORE Initialize, but after resolve service bindings. Set up eventListeners and do other things that require other services before they are initialized
+         */
+        public virtual void Prepare()
+        {
+            //Do something!
+        }
 
         /*
-     * Called after Build and ResolveServiceBindings.
-     */
+        * Called after Build and ResolveServiceBindings.
+        */
         public virtual void Initialize()
         {
             if (Initialized)
@@ -132,11 +139,6 @@ namespace TofuCore.Service
             }
 
             return true;
-        }
-
-        private string toPrivateFieldName(string typeName)
-        {
-            return "_" + Char.ToLowerInvariant(typeName[0]) + typeName.Substring(1);
         }
 
         public void ReceiveEvent(TofuEvent evnt, EventPayload payload)

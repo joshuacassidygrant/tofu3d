@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TofuCore.Events;
 using TofuCore.Service;
 using TofuPlugin.Pathfinding.MapAdaptors;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace TofuPlugin.Pathfinding
     public class PathGrid : AbstractService
     {
         [Dependency("IPathableMapService")] private IPathableMapService _pathableMapService;
+        [Dependency] private EventContext _eventContext;
 
         public int PenaltyBlur = 3; //Set in configurator
         public int NodesPerTileSide = 4; // Set in configurator
@@ -27,11 +29,9 @@ namespace TofuPlugin.Pathfinding
         private float _penaltyMin;
         private float _penaltyMax;
 
-        public override void Initialize()
+        public override void Prepare()
         {
-            base.Initialize();
-            ConfigureParameters();
-            CreatePathGrid();
+            BindListener(_eventContext.GetEvent("MapLoaded"), OnMapServiceLoaded, _eventContext);
         }
 
         void ConfigureParameters()
@@ -49,14 +49,13 @@ namespace TofuPlugin.Pathfinding
             _grid = new PathNode[_gridSizeX, _gridSizeY];
             Vector3 worldBottomLeft = Vector3.zero;
 
-            for (int x = 0; x <= _gridSizeX; x++)
+            for (int x = 0; x < _gridSizeX; x++)
             {
-                for (int y = 0; y <= _gridSizeY; y++)
+                for (int y = 0; y < _gridSizeY; y++)
                 {
                     Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * _nodeDiameter) + Vector3.right * (NodeSizeRadius) +
                                          Vector3.up * (y * _nodeDiameter) + Vector3.up * (NodeSizeRadius);
                     IPathableMapTile tile = _pathableMapService.GetPathableMapTile(worldPoint);
-                    
                     if (tile != null)
                     {
                         _grid[x, y] = new PathNode(tile.Passable, worldPoint, x, y, tile.MovePenalty);
@@ -147,6 +146,12 @@ namespace TofuPlugin.Pathfinding
                     _penaltyMin = Mathf.Max(blurredPenalty, _penaltyMin);
                 }
             }
+        }
+
+        private void OnMapServiceLoaded(EventPayload payload)
+        {
+            ConfigureParameters();
+            CreatePathGrid();
         }
 
         /* Dead code. Move to debugger gameobject if necessary*/

@@ -84,6 +84,14 @@ namespace TofuCore.Service
 
         }
 
+        /*
+         * Called BEFORE Initialize, but after resolve service bindings. Set up eventListeners and do other things that require other services before they are initialized
+         */
+        public virtual void Prepare()
+        {
+            //Do something!
+        }
+
 
         /*
         * Called after Build and ResolveServiceBindings.
