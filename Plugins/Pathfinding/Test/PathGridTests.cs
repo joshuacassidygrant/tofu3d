@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.Service;
+using TofuPlugin.Pathfinding.MapAdaptors;
 
 namespace TofuPlugin.Pathfinding.Test
 {
@@ -42,12 +45,36 @@ namespace TofuPlugin.Pathfinding.Test
         [Test]
         public void TestGridShouldGenerateFromSmallMap()
         {
+            Assert.Null(_pathGrid.Grid);
+
             _fakePathableMapService.SetSimpleMap3x3();
 
-            
+            Assert.NotNull(_pathGrid.Grid);
         }
 
+        [Test]
+        public void TestShouldBeAbleToGetNodesFromSmallGrid()
+        {
+            _pathGrid.NodesPerTileSide = 2;
+            _fakePathableMapService.SetSimpleMap3x3();
 
+            string expected = "000011111111110000";
+            
+            Assert.AreEqual(expected, GetPassableValues(_pathGrid.Grid));
+            
+
+        }
+
+        private string GetPassableValues(PathNode[,] tiles)
+        {
+            string val = "";
+            foreach (PathNode tile in tiles)
+            {
+                val += tile.Walkable ? "1" : "0";
+            }
+
+            return val;
+        }
     }
 
 }

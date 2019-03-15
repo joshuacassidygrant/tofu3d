@@ -18,7 +18,7 @@ namespace TofuPlugin.Pathfinding
         public float NodeSizeRadius;
         public int MaxSize => _gridSizeX * _gridSizeY;
 
-        private PathNode[,] _grid;
+        public PathNode[,] Grid { get; private set; }
         private float _nodeDiameter;
         private int _gridSizeX, _gridSizeY;
         private Vector2 _gridWorldSize;
@@ -46,7 +46,7 @@ namespace TofuPlugin.Pathfinding
 
         void CreatePathGrid()
         {
-            _grid = new PathNode[_gridSizeX, _gridSizeY];
+            Grid = new PathNode[_gridSizeX, _gridSizeY];
             Vector3 worldBottomLeft = Vector3.zero;
 
             for (int x = 0; x < _gridSizeX; x++)
@@ -58,7 +58,7 @@ namespace TofuPlugin.Pathfinding
                     IPathableMapTile tile = _pathableMapService.GetPathableMapTile(worldPoint);
                     if (tile != null)
                     {
-                        _grid[x, y] = new PathNode(tile.Passable, worldPoint, x, y, tile.MovePenalty);
+                        Grid[x, y] = new PathNode(tile.Passable, worldPoint, x, y, tile.MovePenalty);
                     }
                 }
             }
@@ -72,7 +72,7 @@ namespace TofuPlugin.Pathfinding
             int y = Mathf.RoundToInt(worldPosition.y * NodesPerTileSide);
 
 
-            return _grid[Mathf.Clamp(x, 0, _gridSizeX - 1), Mathf.Clamp(y, 0, _gridSizeY - 1)];
+            return Grid[Mathf.Clamp(x, 0, _gridSizeX - 1), Mathf.Clamp(y, 0, _gridSizeY - 1)];
         }
 
         public List<PathNode> GetNeighbours(PathNode node)
@@ -88,7 +88,7 @@ namespace TofuPlugin.Pathfinding
 
                     if (checkX >= 0 && checkX < _gridSizeX && checkY >= 0 && checkY < _gridSizeY)
                     {
-                        neighbours.Add(_grid[checkX, checkY]);
+                        neighbours.Add(Grid[checkX, checkY]);
                     }
                 }
             }
@@ -108,7 +108,7 @@ namespace TofuPlugin.Pathfinding
                 for (int x = -kernelExtents; x <= kernelExtents; x++)
                 {
                     int sampleX = Mathf.Clamp(x, 0, kernelExtents);
-                    penaltiesHorizontalPass[0, y] += _grid[sampleX, y].MovementPenalty;
+                    penaltiesHorizontalPass[0, y] += Grid[sampleX, y].MovementPenalty;
                 }
 
                 for (int x = 1; x < _gridSizeX; x++)
@@ -116,8 +116,8 @@ namespace TofuPlugin.Pathfinding
                     int removeIndex = Mathf.Clamp(x - kernelExtents - 1, 0, _gridSizeX);
                     int addIndex = Mathf.Clamp(x + kernelExtents, 0, _gridSizeX -1);
                     penaltiesHorizontalPass[x, y] = penaltiesHorizontalPass[x - 1, y] -
-                                                    _grid[removeIndex, y].MovementPenalty +
-                                                    _grid[addIndex, y].MovementPenalty;
+                                                    Grid[removeIndex, y].MovementPenalty +
+                                                    Grid[addIndex, y].MovementPenalty;
                 }
             }
 
@@ -130,7 +130,7 @@ namespace TofuPlugin.Pathfinding
                 }
 
                 float blurredPenalty = penaltiesVerticalPass[x, 0] / (kernelSize * kernelSize);
-                _grid[x, 0].MovementPenalty = blurredPenalty;
+                Grid[x, 0].MovementPenalty = blurredPenalty;
 
                 for (int y = 1; y < _gridSizeY; y++)
                 {
@@ -140,7 +140,7 @@ namespace TofuPlugin.Pathfinding
                                                     penaltiesHorizontalPass[x, removeIndex] +
                                                     penaltiesHorizontalPass[x, addIndex];
                     blurredPenalty = penaltiesVerticalPass[x, y] / (kernelSize * kernelSize);
-                    _grid[x, y].MovementPenalty = blurredPenalty;
+                    Grid[x, y].MovementPenalty = blurredPenalty;
                     //UnityEngine.Debug.Log(blurredPenalty);
                     _penaltyMax = Mathf.Min(blurredPenalty, _penaltyMax);
                     _penaltyMin = Mathf.Max(blurredPenalty, _penaltyMin);
