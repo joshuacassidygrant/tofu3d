@@ -15,6 +15,7 @@ namespace TofuPlugin.Pathfinding.Test
     {
         [Dependency] private EventContext _eventContext;
         public FakePathTile[,] Tiles;
+        public float TileSize => 1f;
 
         public void SetMapTiles(FakePathTile[,] tiles)
         {
@@ -50,6 +51,14 @@ namespace TofuPlugin.Pathfinding.Test
             return new FakePathTile(true);
         }
 
+        public void SetLinearMap2x4()
+        {
+            SetMapTiles(LoadFromString(2, 4,
+                 "XX_X"
+                 +"XX_X"));
+
+        }
+
         public void SetSimpleMap3x3()
         {
             SetMapTiles(LoadFromString(3, 3, 
@@ -61,7 +70,8 @@ namespace TofuPlugin.Pathfinding.Test
 
         public FakePathTile[,] LoadFromString(int width, int height, string tileList)
         {
-            FakePathTile[,] tiles = new FakePathTile[2, 2];
+            Debug.Log("loading string " + tileList);
+            FakePathTile[,] tiles = new FakePathTile[width, height];
 
             string text = tileList.Replace("\r\n", "");
             for (int x = 0; x < width; x++)
@@ -98,7 +108,6 @@ namespace TofuPlugin.Pathfinding.Test
             }
         }
 
-        public float TileSize { get; set; }
     }
 
 

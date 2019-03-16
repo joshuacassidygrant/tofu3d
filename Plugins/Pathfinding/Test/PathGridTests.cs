@@ -53,24 +53,66 @@ namespace TofuPlugin.Pathfinding.Test
         }
 
         [Test]
+        public void TestShouldBeAbleToGetNodesFromLinearGrid()
+        {
+            _pathGrid.NodesPerTileSide = 1;
+            _pathGrid.PenaltyBlur = 0;
+            _fakePathableMapService.SetLinearMap2x4();
+            Assert.AreEqual(8, _pathGrid.Grid.Length);
+
+            string expected = "00100010";
+
+            Assert.AreEqual(expected, GetPassableValues(_pathGrid.Grid));
+
+
+        }
+
+        [Test]
+        public void TestShouldBeAbleToGetNodesFromLinearGrid2X()
+        {
+            _pathGrid.NodesPerTileSide = 2;
+            _pathGrid.PenaltyBlur = 0;
+            _fakePathableMapService.SetLinearMap2x4();
+            Assert.AreEqual(32, _pathGrid.Grid.Length);
+
+            string expected = "00001100000011000000110000001100";
+
+            Assert.AreEqual(expected, GetPassableValues(_pathGrid.Grid));
+
+
+        }
+
+        [Test]
         public void TestShouldBeAbleToGetNodesFromSmallGrid()
         {
             _pathGrid.NodesPerTileSide = 2;
             _fakePathableMapService.SetSimpleMap3x3();
 
-            string expected = "000011111111110000";
+            string expected = "0011111111110000";
             
             Assert.AreEqual(expected, GetPassableValues(_pathGrid.Grid));
             
 
         }
 
-        private string GetPassableValues(PathNode[,] tiles)
+        private string GetPassableValues(PathNode[,] nodes)
         {
             string val = "";
-            foreach (PathNode tile in tiles)
+            for (int j = nodes.GetLength(1) - 1; j >= 0; j--)
             {
-                val += tile.Walkable ? "1" : "0";
+                for (int i = 0; i < nodes.GetLength(0); i++)
+                {
+
+                    PathNode node = nodes[i, j];
+                    if (node.Walkable)
+                    {
+                        val += "1";
+                    }
+                    else
+                    {
+                        val += "0";
+                    }
+                }
             }
 
             return val;

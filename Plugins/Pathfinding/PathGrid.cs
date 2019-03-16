@@ -97,6 +97,8 @@ namespace TofuPlugin.Pathfinding
 
         public void BlurPenaltyMap(int blurSize)
         {
+            if (blurSize == 0) return;
+
             int kernelSize = blurSize * 2 + 1;
             int kernelExtents = (kernelSize - 1) / 2;
 
