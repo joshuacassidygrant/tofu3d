@@ -19,15 +19,14 @@ namespace TofuPlugin.Pathfinding
         public int MaxSize => _gridSizeX * _gridSizeY;
 
         public PathNode[,] Grid { get; private set; }
-        private float _nodeDiameter;
+        public float NodeDiameter;
         private int _gridSizeX, _gridSizeY;
-        private Vector2 _gridWorldSize;
+        public Vector2 GridWorldSize;
 
 
         //Debugging:
-        public bool DisplayGridGizmos = true;
-        private float _penaltyMin;
-        private float _penaltyMax;
+        public float PenaltyMin;
+        public float PenaltyMax;
 
         public override void Prepare()
         {
@@ -37,11 +36,11 @@ namespace TofuPlugin.Pathfinding
         void ConfigureParameters()
         {
             IPathableMapTile[,] terrainTiles = _pathableMapService.GetPathableMapTiles();
-            _nodeDiameter = _pathableMapService.TileSize / NodesPerTileSide;
-            NodeSizeRadius = _nodeDiameter / 2;
+            NodeDiameter = _pathableMapService.TileSize / NodesPerTileSide;
+            NodeSizeRadius = NodeDiameter / 2;
             _gridSizeX = terrainTiles.GetLength(0) * NodesPerTileSide;
             _gridSizeY = terrainTiles.GetLength(1) * NodesPerTileSide;
-            _gridWorldSize = new Vector2(_gridSizeX * _pathableMapService.TileSize, _gridSizeY * _pathableMapService.TileSize);
+            GridWorldSize = new Vector2(_gridSizeX * _pathableMapService.TileSize, _gridSizeY * _pathableMapService.TileSize);
         }
 
         void CreatePathGrid()
@@ -53,8 +52,8 @@ namespace TofuPlugin.Pathfinding
             {
                 for (int y = 0; y < _gridSizeY; y++)
                 {
-                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * _nodeDiameter) + Vector3.right * (NodeSizeRadius) +
-                                         Vector3.up * (y * _nodeDiameter) + Vector3.up * (NodeSizeRadius);
+                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * NodeDiameter) + Vector3.right * (NodeSizeRadius) +
+                                         Vector3.up * (y * NodeDiameter) + Vector3.up * (NodeSizeRadius);
                     IPathableMapTile tile = _pathableMapService.GetPathableMapTile(worldPoint);
                     if (tile != null)
                     {
@@ -144,8 +143,8 @@ namespace TofuPlugin.Pathfinding
                     blurredPenalty = penaltiesVerticalPass[x, y] / (kernelSize * kernelSize);
                     Grid[x, y].MovementPenalty = blurredPenalty;
                     //UnityEngine.Debug.Log(blurredPenalty);
-                    _penaltyMax = Mathf.Min(blurredPenalty, _penaltyMax);
-                    _penaltyMin = Mathf.Max(blurredPenalty, _penaltyMin);
+                    PenaltyMax = Mathf.Min(blurredPenalty, PenaltyMax);
+                    PenaltyMin = Mathf.Max(blurredPenalty, PenaltyMin);
                 }
             }
         }
@@ -156,24 +155,5 @@ namespace TofuPlugin.Pathfinding
             CreatePathGrid();
         }
 
-        /* Dead code. Move to debugger gameobject if necessary*/
-        /*
-        void OnDrawGizmos()
-        {
-            Gizmos.DrawWireCube(new Vector3(0, 0, 0), new Vector3(_gridWorldSize.x/2, _gridWorldSize.y/2, 0));
-            if (_grid != null && DisplayGridGizmos)
-            {
-                foreach (PathNode node in _grid)
-                {
-                    if (DisplayGridGizmos) {
-                        Gizmos.color = Color.Lerp(Color.black, Color.white,
-                            Mathf.InverseLerp(_penaltyMin, _penaltyMax, node.MovementPenalty));
-                            //Gizmos.color = node.Walkable ? Gizmos.color : Color.red;
-                            if (node.Walkable) Gizmos.DrawCube(node.Position, Vector3.one * (_nodeDiameter - 0.1f));
-                        
-                    }
-                }
-            }
-        }*/
     }
 }

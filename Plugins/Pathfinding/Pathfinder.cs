@@ -103,6 +103,7 @@ namespace TofuPlugin.Pathfinding
 
         Vector3[] SimplifyPath(List<PathNode> path)
         {
+            if (path.Count < 1) return path.Select(x => x.Position).ToArray();
             List<Vector3> wayPoints = new List<Vector3>();
             wayPoints.Add(path[0].Position);
             Vector2 directionOld = Vector2.zero;

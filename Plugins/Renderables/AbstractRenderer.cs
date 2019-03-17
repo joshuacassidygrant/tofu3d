@@ -102,7 +102,10 @@ namespace TofuPlugin.Renderable
         {
             evntContext.RemoveEventListener(evnt, this);
             if (_listenersToUnbind == null) _listenersToUnbind = new Dictionary<TofuEvent, Action<EventPayload>>();
-            _listenersToUnbind.Add(evnt, action);
+            if (!_listenersToUnbind.ContainsKey(evnt))
+            {
+                _listenersToUnbind.Add(evnt, action);
+            }
 
         }
 
@@ -111,7 +114,10 @@ namespace TofuPlugin.Renderable
             if (_listenersToUnbind == null) return;
             foreach (KeyValuePair<TofuEvent, Action<EventPayload>> entry in _listenersToUnbind)
             {
-                _boundListeners[entry.Key].Remove(entry.Value);
+                if (_boundListeners.ContainsKey(entry.Key))
+                {
+                    _boundListeners[entry.Key].Remove(entry.Value);
+                }
             }
         }
 

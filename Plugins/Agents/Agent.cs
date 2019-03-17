@@ -44,7 +44,7 @@ namespace TofuPlugin.Agents
          * Pathfinding
          */
         //TODO: refactor Pathfinding
-        private Path _path;
+        public Path Path;
         private float _turnDist = 0.04f;
         private float _stoppingDist = 1f;
         private ITargetable _moveTarget;
@@ -172,7 +172,7 @@ namespace TofuPlugin.Agents
                 }*/
             }
 
-            if (_moveTarget != null && _path != null)
+            if (_moveTarget != null && Path != null)
             {
                 FollowPath(frameDelta);
             }
@@ -226,29 +226,29 @@ namespace TofuPlugin.Agents
         {
             bool followingPath = true;
             int pathIndex = 0;
-            Vector3 nextPoint = (_path.LookPoints[0]);
+            Vector3 nextPoint = (Path.LookPoints[0]);
 
             float speedPercent = 1f;
 
             Vector2 pos2D = new Vector2(Position.x, Position.y);
-            while (_path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D))
+            while (Path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D))
             {
-                if (pathIndex == _path.FinishLineIndex)
+                if (pathIndex == Path.FinishLineIndex)
                 {
                     followingPath = false;
                 }
                 else
                 {
                     pathIndex++;
-                    nextPoint = _path.LookPoints[pathIndex];
+                    nextPoint = Path.LookPoints[pathIndex];
                 }
             }
 
             if (followingPath)
             {
-                if (pathIndex >= _path.slowDownIndex && _stoppingDist > 0)
+                if (pathIndex >= Path.slowDownIndex && _stoppingDist > 0)
                 {
-                    speedPercent = Mathf.Clamp01(_path.TurnBoundaries[_path.FinishLineIndex].DistanceFromPoint(pos2D) / _stoppingDist);
+                    speedPercent = Mathf.Clamp01(Path.TurnBoundaries[Path.FinishLineIndex].DistanceFromPoint(pos2D) / _stoppingDist);
                     if (speedPercent <= 0.01)
                     {
                         followingPath = false;
@@ -278,7 +278,7 @@ namespace TofuPlugin.Agents
         {
             if (success)
             {
-                _path = new Path(waypoints, Position, _turnDist, _stoppingDist);
+                Path = new Path(waypoints, Position, _turnDist, _stoppingDist);
             }
         }
 
@@ -301,11 +301,6 @@ namespace TofuPlugin.Agents
         public void SetNextPathPoint(Vector3 point)
         {
             _nextPathPoint = point;
-        }
-
-        public void MoveInDirection(Vector3 direction, float time)
-        {
-            Position = Position + direction * Properties.GetProperty("Speed", 1f) * time;
         }
 
         public void MoveTo(Vector3 position)

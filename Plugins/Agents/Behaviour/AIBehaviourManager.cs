@@ -19,8 +19,8 @@ namespace TofuPlugin.Agents {
         public AIBehaviour ChooseStrategy(Agent _u)
         {
             //TODO: this
-            //return _behaviours.Values.ToList()[UnityEngine.Random.Range(1, _behaviours.Count)].Invoke();
-            return _behaviours["AiBehaviourMoveToObjective"].Invoke();
+            return _behaviours.Values.ToList()[UnityEngine.Random.Range(1, _behaviours.Count)].Invoke();
+                //return _behaviours["AiBehaviourMoveToObjective"].Invoke();
         }
 
         public void SetDefaultStrategy(string defaultName)

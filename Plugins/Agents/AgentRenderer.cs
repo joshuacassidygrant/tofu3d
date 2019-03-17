@@ -30,8 +30,6 @@ namespace TofuPlugin.Agents
 
         }
 
-
-
         protected void UnitDestroyed(EventPayload eventPayload)
         {
 
@@ -44,7 +42,19 @@ namespace TofuPlugin.Agents
             }
         }
 
+        private void OnDrawGizmosSelected()
+        {
+            if (Renderable is Agent)
+            {
+                Agent a = (Agent) Renderable;
+                Gizmos.color = Color.cyan;
+                foreach (Vector3 lp in a.Path.LookPoints)
+                {
+                    Gizmos.DrawCube(lp, new Vector3(0.2f, 0.2f, 0.5f));
+                }
 
+            }
+        }
 
     }
 }

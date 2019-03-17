@@ -2,6 +2,7 @@
 using TofuPlugin.Agents.Behaviour;
 using TofuPlugin.Agents.Commands;
 using TofuPlugin.Agents.Sensors;
+using UnityEngine;
 
 namespace TofuPlugin.Agents.AI
 {

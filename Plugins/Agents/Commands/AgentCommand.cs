@@ -1,4 +1,6 @@
-﻿using TofuCore.Command;
+﻿using System.Collections;
+using System.Collections.Generic;
+using TofuCore.Command;
 using TofuCore.Targetable;
 using TofuPlugin.Agents.AgentActions;
 
@@ -16,6 +18,7 @@ namespace TofuPlugin.Agents.Commands
     {
 
         public AgentAction Action;
+        public Stack<AgentAction> ActionStack;
         public ITargetable Target;
         public int Priority;
 
@@ -35,7 +38,8 @@ namespace TofuPlugin.Agents.Commands
         {
             if (Action.Ready())
             {
-                //TODO: check all action preconditions here -- in range, enough power etc
+                //TODO: check all action preconditions here -- in range, resource costs, condition preconditions, etc
+                // If not satisfied, add the precondition to the action stack.
                 if (!Action.InRange(Target))
                 {
                     //TODO: Get the best mobility action and path towards target (later -- this would need a new pathing system if it had to allow for blinks etc)
