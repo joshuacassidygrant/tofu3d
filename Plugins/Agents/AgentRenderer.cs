@@ -47,12 +47,19 @@ namespace TofuPlugin.Agents
             if (Renderable is Agent)
             {
                 Agent a = (Agent) Renderable;
-                Gizmos.color = Color.cyan;
-                foreach (Vector3 lp in a.Path.LookPoints)
-                {
-                    Gizmos.DrawCube(lp, new Vector3(0.2f, 0.2f, 0.5f));
-                }
 
+                if (a.Path == null) return;
+
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawCube(a.Path.LookPoints[0], new Vector3(0.2f, 0.2f, 0.5f));
+                Gizmos.DrawLine(a.Position, a.Path.LookPoints[0]);
+
+
+                for (int i = 1; i < a.Path.LookPoints.Length; i++)
+                {
+                    Gizmos.DrawLine(a.Path.LookPoints[i-1], a.Path.LookPoints[i]);
+                    Gizmos.DrawCube(a.Path.LookPoints[i], new Vector3(0.2f, 0.2f, 0.5f));
+                }
             }
         }
 
