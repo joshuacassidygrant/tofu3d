@@ -1,5 +1,6 @@
 ﻿using TofuCore.Events;
 using TofuCore.Service;
+using TofuPlugin.Pathfinding;
 using TofuPlugin.Renderable;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -47,18 +48,20 @@ namespace TofuPlugin.Agents
             if (Renderable is Agent)
             {
                 Agent a = (Agent) Renderable;
+                Path p = a.Mobility.Path;
 
-                if (a.Path == null) return;
+                if (p == null) return;
 
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(a.Path.LookPoints[0], new Vector3(0.2f, 0.2f, 0.5f));
-                Gizmos.DrawLine(a.Position, a.Path.LookPoints[0]);
+                Gizmos.DrawCube(p.LookPoints[0], new Vector3(0.2f, 0.2f, 0.5f));
+                Gizmos.DrawLine(a.Position, p.LookPoints[0]);
+                Debug.Log(a.Controller.GetBehaviourName());
 
 
-                for (int i = 1; i < a.Path.LookPoints.Length; i++)
+                for (int i = 1; i < p.LookPoints.Length; i++)
                 {
-                    Gizmos.DrawLine(a.Path.LookPoints[i-1], a.Path.LookPoints[i]);
-                    Gizmos.DrawCube(a.Path.LookPoints[i], new Vector3(0.2f, 0.2f, 0.5f));
+                    Gizmos.DrawLine(p.LookPoints[i-1], p.LookPoints[i]);
+                    Gizmos.DrawCube(p.LookPoints[i], new Vector3(0.2f, 0.2f, 0.5f));
                 }
             }
         }

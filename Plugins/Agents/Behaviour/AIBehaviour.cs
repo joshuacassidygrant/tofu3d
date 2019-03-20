@@ -85,7 +85,7 @@ namespace TofuPlugin.Agents.Behaviour
         public float GetBehaviourCoefficient(string tag)
         {
             if (BehaviourCoefficients.ContainsKey(tag)) return BehaviourCoefficients[tag];
-            return 1f;
+            return AgentConstants.BehaviourCoefficientMinimum;
         }
 
         public float GetUtilityValue(Dictionary<string, float> actionUsageTagValues, float targetValue)

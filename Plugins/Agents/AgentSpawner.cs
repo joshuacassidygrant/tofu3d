@@ -48,8 +48,13 @@ namespace TofuPlugin.Agents
         {
             while (_spawning)
             {
+                if (_faction == null)
+                {
+                    Debug.Log("No faction found for spawner.");
+                    yield return null;
+                }
                 _sinceLastSpawn += Time.deltaTime;
-                if (_sinceLastSpawn >= SpawnFrequency && _faction != null)
+                if (_sinceLastSpawn >= SpawnFrequency)
                 {
                     _sinceLastSpawn = 0;
                     Agent u = _agentContainer.Spawn(new List<string>(_loadedUnits.Keys)[Random.Range(0, _loadedUnits.Count)], "Creature", _position);

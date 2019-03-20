@@ -8,9 +8,6 @@ namespace TofuPlugin.Agents.Components
 {
     public class AgentMobilityComponent
     {
-        //CONSTANTS TODO: MOVE
-        const float POSITION_TOLERANCE = 0.1f;
-        private const float MOVE_STEP_MAX = 0.5f;
 
         public Agent Agent { get;}
         public Path Path { get; private set; }
@@ -42,7 +39,7 @@ namespace TofuPlugin.Agents.Components
 
         private void HandleMovement(float frameDelta)
         {
-            if (MoveTarget == null || Vector3.Distance(Agent.Position, MoveTarget.Position) <= POSITION_TOLERANCE || (Path != null && _currentPathIndex >= Path.LookPoints.Length)) return; //No move target or at current target; return.
+            if (MoveTarget == null || Vector3.Distance(Agent.Position, MoveTarget.Position) <= AgentConstants.PositionTolerance || (Path != null && _currentPathIndex >= Path.LookPoints.Length)) return; //No move target or at current target; return.
 
             if (Path == null)
             {
@@ -56,19 +53,19 @@ namespace TofuPlugin.Agents.Components
             }
 
             //Path and _moveTarget must be true, and the agent is not at _moveTarget
-            if (_nextMovePoint == null || Vector3.Distance(Agent.Position, _nextMovePoint.Position) <= POSITION_TOLERANCE)
+            if (_nextMovePoint == null || Vector3.Distance(Agent.Position, _nextMovePoint.Position) <= AgentConstants.PositionTolerance)
             {
                 /*
                  * Find a chunk distance to take from path.
                  */
-                float pointDistance = MOVE_STEP_MAX;
+                float pointDistance = AgentConstants.MoveStepMax;
                 //TODO: Distance should be attenuated from current position in relation to path end to allow for more gentle corrections to be made up close.
 
                 /*
                  * Grab a move point up to chunk value away.
                  */
                 Vector3 nextWayPoint = Path.LookPoints[_currentPathIndex];
-                if (Vector3.Distance(Agent.Position, nextWayPoint) <= POSITION_TOLERANCE)
+                if (Vector3.Distance(Agent.Position, nextWayPoint) <= AgentConstants.PositionTolerance)
                 {
                     _nextMovePoint = new TargetablePosition(nextWayPoint);
                     _currentPathIndex++;
