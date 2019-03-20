@@ -12,10 +12,10 @@ namespace TofuPlugin.Pathfinding
         public readonly int FinishLineIndex;
         public readonly int slowDownIndex;
 
-        public Path(Vector3[] waypoints, Vector3 startPos, float turnDist, float stoppingDistance)
+        public Path(Vector3[] waypoints /*, Vector3 startPos, float turnDist, float stoppingDistance*/)
         {
             LookPoints = waypoints;
-            TurnBoundaries = new PathLine[LookPoints.Length];
+            /*TurnBoundaries = new PathLine[LookPoints.Length];
             FinishLineIndex = TurnBoundaries.Length - 1;
 
             Vector2 previousPoint = Vector3ToVector2(startPos);
@@ -37,7 +37,7 @@ namespace TofuPlugin.Pathfinding
                     slowDownIndex = i;
                     break;
                 }
-            }
+            }*/
         }
 
         Vector2 Vector3ToVector2(Vector3 v3)

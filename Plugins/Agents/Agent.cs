@@ -13,6 +13,7 @@ using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
 using TofuCore.Targetable;
+using TofuPlugin.Agents.Components;
 using TofuPlugin.Pathfinding;
 
 namespace TofuPlugin.Agents
@@ -31,6 +32,7 @@ namespace TofuPlugin.Agents
         //Services
         protected AIBehaviourManager BehaviourManager;
         protected PathRequestService PathRequestService;
+        //protected PositioningService PositioningService;
         protected FactionContainer FactionContainer;
         protected EventContext EventContext;
 
@@ -44,6 +46,7 @@ namespace TofuPlugin.Agents
         /*
          * Pathfinding
          */
+
         //TODO: refactor Pathfinding
         public Path Path;
         private float _turnDist = 0.04f;
@@ -83,6 +86,8 @@ namespace TofuPlugin.Agents
         public AgentType AgentType { get; private set; }
         public Faction Faction { get; set; }
         public Properties Properties { get; private set; }
+        public AgentMobilityComponent Mobility;
+
 
         /*
          * Action/Command storage
@@ -123,6 +128,7 @@ namespace TofuPlugin.Agents
 
             BindResourceModules();
             Actions = boundActions;
+            Mobility = new AgentMobilityComponent(this, PathRequestService);
 
         }
 
@@ -181,7 +187,7 @@ namespace TofuPlugin.Agents
                 }*/
             }
 
-            HandleMovement(frameDelta);
+            Mobility.Update(frameDelta);
         }
 
         public override string ToString()
@@ -228,141 +234,7 @@ namespace TofuPlugin.Agents
         /**
          * PATHFINDING AND MOVEMENT
          */
-        private void HandleMovement(float frameDelta)
-        {
-            if (MoveTarget == null || Vector3.Distance(Position, MoveTarget.Position) <= PositionTolerance || (Path != null && _currentPathIndex >= Path.LookPoints.Length)) return; //No move target or at current target; return.
-
-            if (Path == null)
-            {
-                if (!_pathRequested)
-                {
-                    RequestPathTo(MoveTarget.Position);
-                    _pathRequested = true;
-                }
-
-                return;
-            }
-
-            //Path and _moveTarget must be true, and the agent is not at _moveTarget
-            if (_nextMovePoint == null || Vector3.Distance(Position, _nextMovePoint.Position) <= PositionTolerance)
-            {
-                /*
-                 * Find a chunk distance to take from path.
-                 */
-                float pointDistance = MovementStepMax;
-                //TODO: Distance should be attenuated from current position in relation to path end to allow for more gentle corrections to be made up close.
-     
-                /*
-                 * Grab a move point up to chunk value away.
-                 */
-                Vector3 nextWayPoint = Path.LookPoints[_currentPathIndex];
-                if (Vector3.Distance(Position, nextWayPoint) <= PositionTolerance)
-                {
-                    _nextMovePoint = new TargetablePosition(nextWayPoint);
-                    _currentPathIndex++;
-                }
-                else
-                {
-                    _nextMovePoint = new TargetablePosition(Vector3.LerpUnclamped(Position, nextWayPoint, pointDistance));
-                }
-
-
-            }
-
-            Move(frameDelta);
-            
-        }
-
-        private void FollowPath(float frameDelta)
-        {
-            bool followingPath = true;
-            int pathIndex = 0;
-            Vector3 nextPoint = (Path.LookPoints[0]);
-
-            float speedPercent = 1f;
-
-            Vector2 pos2D = new Vector2(Position.x, Position.y);
-            while (Path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D))
-            {
-                if (pathIndex == Path.FinishLineIndex)
-                {
-                    followingPath = false;
-                }
-                else
-                {
-                    pathIndex++;
-                    nextPoint = Path.LookPoints[pathIndex];
-                }
-            }
-
-            if (followingPath)
-            {
-                if (pathIndex >= Path.slowDownIndex && _stoppingDist > 0)
-                {
-                    speedPercent = Mathf.Clamp01(Path.TurnBoundaries[Path.FinishLineIndex].DistanceFromPoint(pos2D) / _stoppingDist);
-                    if (speedPercent <= 0.01)
-                    {
-                        followingPath = false;
-                    }
-                }
-
-                Vector3 direction = (nextPoint - Position).normalized;
-                Vector3 add = direction * _pathPointDistance * _moveSpeed * speedPercent;
-               // SetNextMovePoint(Position + add);
-                //Position += add;
-            }
-        }
-
-        public void SetMoveTarget(ITargetable target, float dist)
-        {
-            MoveTarget = target;
-            _moveTargetDist = dist;
-            RequestPathTo(target.Position);
-        }
-
-        private void Move(float deltaTime)
-        {
-            Vector3 direction = (_nextMovePoint.Position - Position).normalized;
-            Vector3 add = direction * deltaTime * _moveSpeed;
-            Position += add;
-        }
-
-        public void RequestPathTo(Vector3 point)
-        {
-            PathRequest request = new PathRequest(Position, point, OnPathFound);
-            PathRequestService.RequestPath(request);
-        }
-
-        public void OnPathFound(Vector3[] waypoints, bool success)
-        {
-            _pathRequested = false;
-            if (success)
-            {
-                Path = new Path(waypoints, Position, _turnDist, _stoppingDist);
-                _currentPathIndex = 0;
-            }
-        }
-
-        //Pathfinding
-        //TEMPORARY
-        //TODO: REMOVE THIS
-        private Vector3 _nextPathPoint = Vector3.zero;
-
-        public Vector3 GetNextPathPoint()
-        {
-            return _nextPathPoint;
-        }
-
-        public void SetNextPathPoint(Vector3 point)
-        {
-            _nextPathPoint = point;
-        }
-
-        public void MoveTo(Vector3 position)
-        {
-            Position = position;
-        }
-
+        
         //TEMP
         public AgentAction GetMoveAction()
         {

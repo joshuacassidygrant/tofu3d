@@ -49,7 +49,7 @@ namespace TofuPlugin.Agents
             while (_spawning)
             {
                 _sinceLastSpawn += Time.deltaTime;
-                if (_sinceLastSpawn >= SpawnFrequency)
+                if (_sinceLastSpawn >= SpawnFrequency && _faction != null)
                 {
                     _sinceLastSpawn = 0;
                     Agent u = _agentContainer.Spawn(new List<string>(_loadedUnits.Keys)[Random.Range(0, _loadedUnits.Count)], "Creature", _position);

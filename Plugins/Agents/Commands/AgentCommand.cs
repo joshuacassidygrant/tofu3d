@@ -49,7 +49,7 @@ namespace TofuPlugin.Agents.Commands
                     //Action.Agent.GetMoveAction().TriggerAction(Target);
                     if (Action.Agent.MoveTarget != Target)
                     {
-                        Action.Agent.SetMoveTarget(Target, 0.1f);
+                        Action.Agent.Mobility.SetMoveTarget(Target, 0.1f);
                     }
                     return false;
                 }
