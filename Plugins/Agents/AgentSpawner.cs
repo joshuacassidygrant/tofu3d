@@ -9,13 +9,13 @@ namespace TofuPlugin.Agents
     {
 
         private Dictionary<string, AgentPrototype> _loadedUnits;
-        private float _sinceLastSpawn = 0f;
+        private float _sinceLastSpawn = 0;
         private AgentContainer _agentContainer;
         private bool _spawning = false;
         private Vector3 _position;
 
         //TESTING
-        public float SpawnFrequency = 2f;
+        public float SpawnFrequency = 5f;
         private float _variance = 0.1f;
         private Faction _faction;
 
@@ -23,6 +23,7 @@ namespace TofuPlugin.Agents
         {
             _agentContainer = agentContainer;
             _position = position;
+            //_sinceLastSpawn = SpawnFrequency;
         }
 
         //TESTING

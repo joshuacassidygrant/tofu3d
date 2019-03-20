@@ -47,7 +47,10 @@ namespace TofuPlugin.Agents.Commands
                     //Action.Agent.GetMobilityActions();
                     //TEMP:
                     //Action.Agent.GetMoveAction().TriggerAction(Target);
-                    Action.Agent.SetMove(Target, 0.1f);
+                    if (Action.Agent.MoveTarget != Target)
+                    {
+                        Action.Agent.SetMoveTarget(Target, 0.1f);
+                    }
                     return false;
                 }
 

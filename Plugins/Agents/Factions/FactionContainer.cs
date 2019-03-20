@@ -60,7 +60,7 @@ namespace TofuPlugin.Agents.Factions
         public FactionRelationshipLevel GetFactionRelationship(Agent agent, Faction faction)
         {
             if (agent.Faction == faction) return Same;
-
+            if (faction == null) return Unaffiliated;
             return GetFactionRelationship(agent.Faction.GetRelationship(faction));
         }
 

@@ -48,18 +48,18 @@ namespace TofuPlugin.Agents
         public Path Path;
         private float _turnDist = 0.04f;
         private float _stoppingDist = 1f;
-        private ITargetable _moveTarget;
         private float _moveTargetDist;
         private float _turnSpeed = 1f;
         private Quaternion _rotation = Quaternion.identity;
         private float _moveSpeed = 2f;
         public Vector3 NextMoveTarget;
 
-        public float PositionTolerance = 0.01f;
+        public ITargetable MoveTarget;
+        public float PositionTolerance = 0.05f;
         public float MovementStepMax = 0.5f;
         private bool _pathRequested;
         private int _currentPathIndex;
-        private Vector3 _nextMovePoint;
+        private ITargetable _nextMovePoint;
 
         private float _pathPointDistance = 0.5f;
         //END REFACTOR
@@ -230,13 +230,13 @@ namespace TofuPlugin.Agents
          */
         private void HandleMovement(float frameDelta)
         {
-            if (_moveTarget == null || Vector3.Distance(Position, _moveTarget.Position) <= PositionTolerance) return; //No move target or at current target; return.
+            if (MoveTarget == null || Vector3.Distance(Position, MoveTarget.Position) <= PositionTolerance || (Path != null && _currentPathIndex >= Path.LookPoints.Length)) return; //No move target or at current target; return.
 
             if (Path == null)
             {
                 if (!_pathRequested)
                 {
-                    RequestPathTo(_moveTarget.Position);
+                    RequestPathTo(MoveTarget.Position);
                     _pathRequested = true;
                 }
 
@@ -244,7 +244,7 @@ namespace TofuPlugin.Agents
             }
 
             //Path and _moveTarget must be true, and the agent is not at _moveTarget
-            if (_nextMovePoint == null || Vector3.Distance(Position, _nextMovePoint) <= PositionTolerance)
+            if (_nextMovePoint == null || Vector3.Distance(Position, _nextMovePoint.Position) <= PositionTolerance)
             {
                 /*
                  * Find a chunk distance to take from path.
@@ -258,11 +258,12 @@ namespace TofuPlugin.Agents
                 Vector3 nextWayPoint = Path.LookPoints[_currentPathIndex];
                 if (Vector3.Distance(Position, nextWayPoint) <= PositionTolerance)
                 {
-                    _nextMovePoint = nextWayPoint;
+                    _nextMovePoint = new TargetablePosition(nextWayPoint);
+                    _currentPathIndex++;
                 }
                 else
                 {
-                    _nextMovePoint = Vector3.LerpUnclamped(Position, nextWayPoint, pointDistance);
+                    _nextMovePoint = new TargetablePosition(Vector3.LerpUnclamped(Position, nextWayPoint, pointDistance));
                 }
 
 
@@ -307,26 +308,21 @@ namespace TofuPlugin.Agents
 
                 Vector3 direction = (nextPoint - Position).normalized;
                 Vector3 add = direction * _pathPointDistance * _moveSpeed * speedPercent;
-                SetNextMovePoint(Position + add);
+               // SetNextMovePoint(Position + add);
                 //Position += add;
             }
         }
 
         public void SetMoveTarget(ITargetable target, float dist)
         {
-            _moveTarget = target;
+            MoveTarget = target;
             _moveTargetDist = dist;
             RequestPathTo(target.Position);
         }
 
-        private void SetNextMovePoint(Vector3 point)
-        {
-            _nextMovePoint = point;
-        }
-
         private void Move(float deltaTime)
         {
-            Vector3 direction = (_nextMovePoint - Position).normalized;
+            Vector3 direction = (_nextMovePoint.Position - Position).normalized;
             Vector3 add = direction * deltaTime * _moveSpeed;
             Position += add;
         }
@@ -345,12 +341,6 @@ namespace TofuPlugin.Agents
                 Path = new Path(waypoints, Position, _turnDist, _stoppingDist);
                 _currentPathIndex = 0;
             }
-        }
-
-
-        public void SetMove(ITargetable target, float dist)
-        {
-            SetMoveTarget(target, dist);
         }
 
         //Pathfinding
