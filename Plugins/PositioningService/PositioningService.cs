@@ -27,8 +27,8 @@ namespace TofuPlugin.PositioningService
         public bool SpaceAtPosition(ITargetable targetable, List<ITargetable> ignore)
         {
             //TODO: fix this
-            return _targetableContainers.TrueForAll(xc => xc.GetTargetables()
-                .Any(x => !TargetableUtilities.DoTargetablesOverlap(x, targetable) || ignore.Contains(x)));
+            return !_targetableContainers.Any(xc => xc.GetTargetables()
+                .Any(x => TargetableUtilities.DoTargetablesOverlap(x, targetable) && !ignore.Contains(x)));
 
         }
 
