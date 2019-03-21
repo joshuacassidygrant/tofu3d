@@ -13,10 +13,14 @@ namespace TofuPlugin.Agents
         protected Agent Agent;
         public float SenseRange;
 
+        //TEMPORRARY
+        private AgentContainer AgentContainer;
+
 
         public AgentSensor(ServiceContext context, Agent agent) : base(context) {
             Agent = agent;
-            Manager = Context.Fetch("AgentContainer");
+            //Manager = Context.Fetch("AgentContainer");
+            AgentContainer = Context.Fetch("AgentContainer");
         }
 
         public override List<ISensable> GetAllSensables()
@@ -25,8 +29,8 @@ namespace TofuPlugin.Agents
         }
 
         public List<Agent> GetAgentsInRange(float range) {
-            AgentContainer agentManager = (AgentContainer)Manager;
-            return agentManager.GetAllAgentsInRangeOfPoint(Agent.Position, range).ToList();
+            //TODO: this!
+            return AgentContainer.GetAllAgentsInRangeOfPoint(Agent.Position, range).ToList();
         }
 
         public List<Agent> GetAgentsInRangeWithFactionPermission(float range, string permission)

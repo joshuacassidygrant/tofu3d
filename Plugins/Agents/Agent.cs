@@ -32,7 +32,7 @@ namespace TofuPlugin.Agents
         //Services
         protected AIBehaviourManager BehaviourManager;
         protected PathRequestService PathRequestService;
-        //protected PositioningService PositioningService;
+        protected PositioningService.PositioningService PositioningService;
         protected FactionContainer FactionContainer;
         protected EventContext EventContext;
 
@@ -128,7 +128,7 @@ namespace TofuPlugin.Agents
 
             BindResourceModules();
             Actions = boundActions;
-            Mobility = new AgentMobilityComponent(this, PathRequestService);
+            Mobility = new AgentMobilityComponent(this, PathRequestService, PositioningService);
 
         }
 
@@ -139,6 +139,7 @@ namespace TofuPlugin.Agents
             EventContext = injectables.Get("EventContext");
             BehaviourManager = injectables.Get("AIBehaviourManager");
             PathRequestService = injectables.Get("PathRequestService");
+            PositioningService = injectables.Get("PositioningService");
         }
 
         private void BindResourceModules()

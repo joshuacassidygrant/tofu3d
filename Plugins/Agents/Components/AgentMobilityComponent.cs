@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TofuCore.Targetable;
 using TofuPlugin.Pathfinding;
+using TofuPlugin.PositioningService;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.Components
@@ -14,8 +15,7 @@ namespace TofuPlugin.Agents.Components
         public ITargetable MoveTarget { get; private set; }
 
         private PathRequestService _pathRequestService;
-        //TODO: add this. See move action.
-        //private PositioningService _positioningService;
+        private PositioningService.PositioningService _positioningService;
 
         private bool _pathRequested;
         private ITargetable _nextMovePoint;
@@ -26,10 +26,11 @@ namespace TofuPlugin.Agents.Components
         private float MoveSpeed => Agent.Properties.GetProperty("Speed", 0f);
 
 
-        public AgentMobilityComponent(Agent agent, PathRequestService pathRequestService)
+        public AgentMobilityComponent(Agent agent, PathRequestService pathRequestService, PositioningService.PositioningService positioningService)
         {
             Agent = agent;
             _pathRequestService = pathRequestService;
+            _positioningService = positioningService;
         }
 
         public void Update(float deltaTime)
@@ -93,7 +94,14 @@ namespace TofuPlugin.Agents.Components
         {
             Vector3 direction = (_nextMovePoint.Position - Agent.Position).normalized;
             Vector3 add = direction * deltaTime * MoveSpeed;
-            Agent.Position += add;
+            ITargetable newPos = new TargetablePosition(Agent.Position + add);
+
+            if (_positioningService.SpaceAtPosition(newPos, new List<ITargetable> { Agent }))
+            {
+                Agent.Position = newPos.Position;
+            }
+            
+
         }
 
         public void RequestPathTo(Vector3 point)

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TofuCore.Glops;
 using TofuCore.Service;
+using TofuCore.Targetable;
 using TofuPlugin.Agents.Sensors;
 
 /*
@@ -11,7 +12,8 @@ namespace TofuPlugin.Agents.Sensors
     public abstract class AbstractSensor
     {
         //TODO: this should be an array of sensible managers
-        protected GlopContainer Manager;
+        //TODO: this should use the positioning service
+        protected GlopContainer<ITargetable> Manager;
         protected ServiceContext Context;
 
         

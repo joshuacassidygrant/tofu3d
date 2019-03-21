@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents.Factions
 {
-    public class FactionContainer : GlopContainer
+    public class FactionContainer : GlopContainer<Faction>
     {
 
         public FactionRelationshipLevel Unaffiliated;

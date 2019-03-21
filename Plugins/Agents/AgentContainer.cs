@@ -5,6 +5,7 @@ using TofuCore.ContentInjectable;
 using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Service;
+using TofuCore.Targetable;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Factions;
 using TofuPlugin.Agents.Sensors;
@@ -13,7 +14,7 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
-    public class AgentContainer : GlopContainer, ISensableContainer {
+    public class AgentContainer : GlopContainer<Agent>, ISensableContainer, ITargetableContainer {
 
         [Dependency] protected AgentFactory AgentFactory;
         [Dependency("CreaturesLibrary")] protected AgentPrototypeLibrary CreaturesLibrary;
@@ -23,6 +24,7 @@ namespace TofuPlugin.Agents
         [Dependency] [ContentInjectable] protected FactionContainer FactionContainer;
         [Dependency] [ContentInjectable] protected AIBehaviourManager AiBehaviourManager;
         [Dependency] [ContentInjectable] protected PathRequestService PathRequestService;
+        [Dependency] [ContentInjectable] protected PositioningService.PositioningService PositioningService;
 
         private List<AgentSpawner> _unitSpawners;
 
@@ -113,6 +115,11 @@ namespace TofuPlugin.Agents
         {
             Agent u = payload.GetContent();
             u.Die();
+        }
+
+        public List<ITargetable> GetTargetables()
+        {
+            return GetContents().Cast<ITargetable>().ToList();
         }
     }
 }

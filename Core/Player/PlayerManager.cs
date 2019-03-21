@@ -4,7 +4,7 @@ using TofuCore.Glops;
 
 namespace TofuCore.Player
 {
-    public class PlayerContainer : GlopContainer
+    public class PlayerContainer : GlopContainer<Player>
     {
         private Dictionary<string, Player> _playersByString;
 
