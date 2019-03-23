@@ -1,6 +1,6 @@
 ﻿using System;
 using TofuCore.Events;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using UnityEngine;
 
 

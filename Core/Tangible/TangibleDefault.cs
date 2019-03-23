@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TofuCore.Targetable
+namespace TofuCore.Tangible
 {
-    public class TargetableDefault : ITargetable
+    public class TangibleDefault : ITangible
     {
         public Vector3 Position => Vector3.zero;
         public bool Active => true;

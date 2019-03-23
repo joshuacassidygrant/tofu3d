@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TofuCore.Service;
+using TofuCore.Tangible;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
 
@@ -23,9 +24,9 @@ namespace TofuPlugin.Agents
             AgentContainer = Context.Fetch("AgentContainer");
         }
 
-        public override List<ISensable> GetAllSensables()
+        public override List<ITangible> GetAllTargetables()
         {
-            return new List<ISensable>();
+            return new List<ITangible>();
         }
 
         public List<Agent> GetAgentsInRange(float range) {

@@ -68,7 +68,7 @@ namespace TofuPlugin.Agents.Tests
         {
             //TODO: this
             AgentAction selfAction = _agent.Actions[1];
-            //ITargetable target = selfAction.TargetingFunction();
+            //ITangible target = selfAction.TargetingFunction();
             //Assert.AreEqual(target, _agent);
         }
 

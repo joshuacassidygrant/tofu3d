@@ -2,7 +2,7 @@
 using System.Linq;
 using TofuCore.Glops;
 using TofuCore.Service;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Agents;
 using TofuPlugin.Pathfinding.MapAdaptors;
 
@@ -14,21 +14,21 @@ namespace TofuPlugin.PositioningService
     public class PositioningService : AbstractService
     {
 
-        private List<ITargetableContainer> _targetableContainers = new List<ITargetableContainer>();
+        private List<ITangibleContainer> _targetableContainers = new List<ITangibleContainer>();
 
         [Dependency] private AgentContainer _agentContainer;
         [Dependency] private IPathableMapService _mapService;
 
-        public void RegisterTargetableContainer(ITargetableContainer targetableContainer)
+        public void RegisterTargetableContainer(ITangibleContainer tangibleContainer)
         {
-            _targetableContainers.Add(targetableContainer);
+            _targetableContainers.Add(tangibleContainer);
         }
 
-        public bool SpaceAtPosition(ITargetable targetable, List<ITargetable> ignore)
+        public bool SpaceAtPosition(ITangible tangible, List<ITangible> ignore)
         {
             //TODO: fix this
-            return !_targetableContainers.Any(xc => xc.GetTargetables()
-                .Any(x => TargetableUtilities.DoTargetablesOverlap(x, targetable) && !ignore.Contains(x)));
+            return !_targetableContainers.Any(xc => xc.GetAllTangibles()
+                .Any(x => TangibleUtilities.DoTangiblesOverlap(x, tangible) && !ignore.Contains(x)));
 
         }
 

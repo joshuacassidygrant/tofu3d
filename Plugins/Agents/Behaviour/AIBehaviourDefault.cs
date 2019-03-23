@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Behaviour;
 using TofuPlugin.Agents.Commands;
@@ -19,10 +19,10 @@ namespace TofuPlugin.Agents.AI.Behaviour
 
             if (action == null)
             {
-                return new AgentCommand(action, new TargetableDefault(), 0);
+                return new AgentCommand(action, new TangibleDefault(), 0);
             }
 
-            return new AgentCommand(action, new TargetableDefault(), 0);
+            return new AgentCommand(action, new TangibleDefault(), 0);
 
         }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TofuCore.Command;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Agents.AgentActions;
 
 namespace TofuPlugin.Agents.Commands
@@ -19,10 +19,10 @@ namespace TofuPlugin.Agents.Commands
 
         public AgentAction Action;
         public Stack<AgentAction> ActionStack;
-        public ITargetable Target;
+        public ITangible Target;
         public int Priority;
 
-        public AgentCommand(AgentAction action, ITargetable target, int priority)
+        public AgentCommand(AgentAction action, ITangible target, int priority)
         {
             Action = action;
             Target = target;

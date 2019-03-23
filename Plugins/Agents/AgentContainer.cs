@@ -5,7 +5,7 @@ using TofuCore.ContentInjectable;
 using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Service;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Factions;
 using TofuPlugin.Agents.Sensors;
@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
-    public class AgentContainer : GlopContainer<Agent>, ISensableContainer, ITargetableContainer {
+    public class AgentContainer : GlopContainer<Agent>, ITangibleContainer {
 
         [Dependency] protected AgentFactory AgentFactory;
         [Dependency("CreaturesLibrary")] protected AgentPrototypeLibrary CreaturesLibrary;
@@ -89,13 +89,13 @@ namespace TofuPlugin.Agents
             return GetContents().Cast<Agent>().ToList();
         }
 
-        public List<ISensable> GetAllSensables() {
-            return GetContents().Cast<ISensable>().ToList();
+        public List<ITangible> GetAllTangibles() {
+            return GetContents().Cast<ITangible>().ToList();
         }
 
-        public List<ISensable> GetAllSensablesWithinRangeOfPoint(Vector3 point, float range)
+        public List<ITangible> GetAllTangiblesWithinRangeOfPoint(Vector3 point, float range)
         {
-            return GetAllSensables().Where(x => (point - x.Position).magnitude <= range).ToList();
+            return GetAllTangibles().Where(x => (point - x.Position).magnitude <= range).ToList();
         }
 
         public AgentSpawner CreateSpawner(Dictionary<string, AgentPrototype> units, Vector3 loc)
@@ -117,9 +117,6 @@ namespace TofuPlugin.Agents
             u.Die();
         }
 
-        public List<ITargetable> GetTargetables()
-        {
-            return GetContents().Cast<ITargetable>().ToList();
-        }
+
     }
 }

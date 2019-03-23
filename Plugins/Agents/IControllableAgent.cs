@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Commands;
 using UnityEngine;
@@ -10,7 +10,7 @@ namespace TofuPlugin.Agents
     {
         List<AgentAction> Actions { get; }
         void AddAction(AgentAction action);
-        ITargetable TargetableSelf { get; }
+        ITangible TangibleSelf { get; }
         void ReceiveCommand(AgentCommand command);
         Vector3 Position {
             get;
@@ -23,7 +23,7 @@ namespace TofuPlugin.Agents
             get;
             set;
         }
-        ITargetable CurrentActionTarget {
+        ITangible CurrentActionTarget {
             get;
             set;
         }

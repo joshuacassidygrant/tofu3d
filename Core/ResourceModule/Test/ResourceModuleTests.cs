@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuCore.TestSupport;
 using UnityEngine;
 

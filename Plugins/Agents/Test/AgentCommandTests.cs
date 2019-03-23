@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Agents.AgentActions.Test;
 using TofuPlugin.Agents.Commands;
 
@@ -19,7 +19,7 @@ namespace TofuPlugin.Agents.AgentActions.Tests
         [Test]
         public void TestAgentCommandConstructorShouldWork()
         {
-            AgentCommand command = new AgentCommand(_action1, new TargetableDefault(), 10);
+            AgentCommand command = new AgentCommand(_action1, new TangibleDefault(), 10);
             
             Assert.AreEqual(_action1, command.Action);
             Assert.AreEqual(10, command.Priority);

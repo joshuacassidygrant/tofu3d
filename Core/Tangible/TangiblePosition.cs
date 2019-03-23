@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TofuCore.Targetable
+namespace TofuCore.Tangible
 {
-    public class TargetablePosition : ITargetable
+    public class TangiblePosition : ITangible
     {
         private readonly Vector3 _position;
         float x => _position.x;
@@ -12,7 +12,7 @@ namespace TofuCore.Targetable
         float z => _position.z;
 
 
-        public TargetablePosition(Vector3 position, float radius = 0f)
+        public TangiblePosition(Vector3 position, float radius = 0f)
         {
             _position = position;
             _sizeRadius = radius;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 
 namespace TofuPlugin.Agents.AgentActions.Test {
 
@@ -17,15 +17,15 @@ namespace TofuPlugin.Agents.AgentActions.Test {
 
         public override ActionTargetableValueTuple TargetingFunction()
         {
-            return new ActionTargetableValueTuple(this, Agent.TargetableSelf, 1f);
+            return new ActionTargetableValueTuple(this, Agent.TangibleSelf, 1f);
         }
 
-        protected override IEnumerable<ITargetable> GetTargets()
+        protected override IEnumerable<ITangible> GetTargets()
         {
             throw new System.NotImplementedException();
         }
 
-        protected override float ValueFunction(ITargetable t)
+        protected override float ValueFunction(ITangible t)
         {
             throw new System.NotImplementedException();
         }

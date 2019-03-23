@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TofuCore.Glops;
 using TofuCore.Service;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Agents.Sensors;
 
 /*
@@ -13,7 +13,7 @@ namespace TofuPlugin.Agents.Sensors
     {
         //TODO: this should be an array of sensible managers
         //TODO: this should use the positioning service
-        protected GlopContainer<ITargetable> Manager;
+        protected GlopContainer<ITangible> Manager;
         protected ServiceContext Context;
 
         
@@ -23,7 +23,7 @@ namespace TofuPlugin.Agents.Sensors
             Context = context;
         }
 
-        public abstract List<ISensable> GetAllSensables();
+        public abstract List<ITangible> GetAllTargetables();
 
     }
 }

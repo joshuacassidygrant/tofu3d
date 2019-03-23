@@ -1,4 +1,4 @@
-﻿using TofuCore.Targetable;
+﻿using TofuCore.Tangible;
 using TofuPlugin.Agents.AgentActions;
 
 namespace TofuPlugin.Agents
@@ -6,13 +6,13 @@ namespace TofuPlugin.Agents
     public struct ActionTargetableValueTuple
     {
         public AgentAction Action;
-        public ITargetable Targetable;
+        public ITangible Tangible;
         public float Value;
 
-        public ActionTargetableValueTuple(AgentAction action, ITargetable targetable, float value)
+        public ActionTargetableValueTuple(AgentAction action, ITangible tangible, float value)
         {
             Action = action;
-            Targetable = targetable;
+            Tangible = tangible;
             Value = value;
         }
 

@@ -3,7 +3,7 @@ using System.Linq;
 using TofuCore.Configuration;
 using UnityEngine;
 using TofuCore.Service;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 
 namespace TofuPlugin.Agents.AgentActions
 {
@@ -79,7 +79,7 @@ namespace TofuPlugin.Agents.AgentActions
 
         //An action must be triggered by a command (to set a target) before it can be used.
         public bool Triggered;
-        public ITargetable StoredTarget;
+        public ITangible StoredTarget;
 
         public ServiceContext ServiceContext;
 
@@ -112,7 +112,7 @@ namespace TofuPlugin.Agents.AgentActions
         {
             if (AgentSensor == null) return ActionTargetableValueTuple.NULL;
 
-            List<ITargetable> units = GetTargets().OrderBy(ValueFunction).ToList();
+            List<ITangible> units = GetTargets().OrderBy(ValueFunction).ToList();
             if (units.Count == 0) return ActionTargetableValueTuple.NULL;
 
             //Target value refers to how valuable it would be to target the given target
@@ -125,24 +125,24 @@ namespace TofuPlugin.Agents.AgentActions
 
 
 
-        protected abstract IEnumerable<ITargetable> GetTargets();
-        protected abstract float ValueFunction(ITargetable t);
+        protected abstract IEnumerable<ITangible> GetTargets();
+        protected abstract float ValueFunction(ITangible t);
 
         public virtual bool CanUse()
         {
             return 
                 (Cooldown <= 0 &&
-                TargetingFunction().Targetable != null);
+                TargetingFunction().Tangible != null);
         }
 
 
-        public virtual void TriggerAction(ITargetable target)
+        public virtual void TriggerAction(ITangible target)
         {
             Triggered = true;
             StoredTarget = target;
         }
 
-        public virtual void FireAction(ITargetable target, float deltaTime) {
+        public virtual void FireAction(ITangible target, float deltaTime) {
             CurrentCooldown = Cooldown;
         }
 
@@ -192,9 +192,9 @@ namespace TofuPlugin.Agents.AgentActions
             return Phase == ActionPhase.READY && !Triggered;
         }
 
-        public bool InRange(ITargetable target)
+        public bool InRange(ITangible target)
         {
-            return TargetableUtilities.GetDistanceBetween(Agent, target) <= Range;
+            return TangibleUtilities.GetDistanceBetween(Agent, target) <= Range;
         }
 
 

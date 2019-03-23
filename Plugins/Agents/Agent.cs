@@ -12,7 +12,7 @@ using TofuPlugin.Agents.Sensors;
 using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Agents.Components;
 using TofuPlugin.Pathfinding;
 
@@ -24,7 +24,7 @@ namespace TofuPlugin.Agents
      * or player input. Agents are managed by an agent manager class and rendered by an agent
      * renderer.
      */
-    public class Agent: Glop, IRenderable, ITargetable, IControllableAgent, IConfigurable, ISensable, IResourceModuleOwner
+    public class Agent: Glop, IRenderable, ITangible, IControllableAgent, IConfigurable, IResourceModuleOwner
     {
         public string Name { get; private set; }
         public bool Active { get; private set; }
@@ -37,11 +37,11 @@ namespace TofuPlugin.Agents
         protected EventContext EventContext;
 
         /*
-         * ITargetable and positioning
+         * ITangible and positioning
          */
         public Vector3 Position { get; set; }
         public float SizeRadius { get; protected set; }
-        public ITargetable TargetableSelf => this;
+        public ITangible TangibleSelf => this;
 
         /*
          * Pathfinding
@@ -57,12 +57,12 @@ namespace TofuPlugin.Agents
         private float _moveSpeed = 2f;
         public Vector3 NextMoveTarget;
 
-        public ITargetable MoveTarget;
+        public ITangible MoveTarget;
         public float PositionTolerance = 0.05f;
         public float MovementStepMax = 0.5f;
         private bool _pathRequested;
         private int _currentPathIndex;
-        private ITargetable _nextMovePoint;
+        private ITangible _nextMovePoint;
 
         private float _pathPointDistance = 0.5f;
         //END REFACTOR
@@ -95,7 +95,7 @@ namespace TofuPlugin.Agents
         //TODO: refactor. should these go in a module?
         public AgentCommand CurrentCommand {get; set;}
         public AgentAction CurrentAction {get; set;}
-        public ITargetable CurrentActionTarget {get; set;}
+        public ITangible CurrentActionTarget {get; set;}
 
 
         /**
@@ -184,7 +184,7 @@ namespace TofuPlugin.Agents
                 SetAnimationStates();
                 /*if (CurrentCommand.Action.Phase == ActionPhase.FOCUS && CurrentCommand.Action.Name != "Move")
                 {
-                    EventContext.TriggerEvent("StringPop", new EventPayload("EventPayloadStringTargettable", new EventPayloadStringTargettable(this, "F"), EventContext));
+                    EventContext.TriggerEvent("StringPop", new EventPayload("EventPayloadStringTangible", new EventPayloadStringTangible(this, "F"), EventContext));
                 }*/
             }
 

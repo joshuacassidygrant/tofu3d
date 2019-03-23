@@ -73,7 +73,7 @@ namespace TofuPlugin.Agents.Behaviour
             }
             ActionTargetableValueTuple pick = atVs[0];
 
-            return new AgentCommand(pick.Action, pick.Targetable, Mathf.RoundToInt(pick.Value));
+            return new AgentCommand(pick.Action, pick.Tangible, Mathf.RoundToInt(pick.Value));
 
         }
 

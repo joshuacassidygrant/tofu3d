@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TofuCore.Targetable;
+using TofuCore.Tangible;
 using TofuPlugin.Pathfinding;
 using TofuPlugin.PositioningService;
 using UnityEngine;
@@ -12,13 +12,13 @@ namespace TofuPlugin.Agents.Components
 
         public Agent Agent { get;}
         public Path Path { get; private set; }
-        public ITargetable MoveTarget { get; private set; }
+        public ITangible MoveTarget { get; private set; }
 
         private PathRequestService _pathRequestService;
         private PositioningService.PositioningService _positioningService;
 
         private bool _pathRequested;
-        private ITargetable _nextMovePoint;
+        private ITangible _nextMovePoint;
         private int _currentPathIndex;
 
         //The distance to get within:
@@ -68,12 +68,12 @@ namespace TofuPlugin.Agents.Components
                 Vector3 nextWayPoint = Path.LookPoints[_currentPathIndex];
                 if (Vector3.Distance(Agent.Position, nextWayPoint) <= AgentConstants.PositionTolerance)
                 {
-                    _nextMovePoint = new TargetablePosition(nextWayPoint);
+                    _nextMovePoint = new TangiblePosition(nextWayPoint);
                     _currentPathIndex++;
                 }
                 else
                 {
-                    _nextMovePoint = new TargetablePosition(Vector3.LerpUnclamped(Agent.Position, nextWayPoint, pointDistance));
+                    _nextMovePoint = new TangiblePosition(Vector3.LerpUnclamped(Agent.Position, nextWayPoint, pointDistance));
                 }
 
 
@@ -83,7 +83,7 @@ namespace TofuPlugin.Agents.Components
 
         }
 
-        public void SetMoveTarget(ITargetable target, float dist)
+        public void SetMoveTarget(ITangible target, float dist)
         {
             MoveTarget = target;
             _moveTargetDist = dist;
@@ -94,9 +94,9 @@ namespace TofuPlugin.Agents.Components
         {
             Vector3 direction = (_nextMovePoint.Position - Agent.Position).normalized;
             Vector3 add = direction * deltaTime * MoveSpeed;
-            ITargetable newPos = new TargetablePosition(Agent.Position + add);
+            ITangible newPos = new TangiblePosition(Agent.Position + add);
 
-            if (_positioningService.SpaceAtPosition(newPos, new List<ITargetable> { Agent }))
+            if (_positioningService.SpaceAtPosition(newPos, new List<ITangible> { Agent }))
             {
                 Agent.Position = newPos.Position;
             }

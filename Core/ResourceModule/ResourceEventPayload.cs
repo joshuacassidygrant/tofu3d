@@ -1,4 +1,4 @@
-﻿using TofuCore.Targetable;
+﻿using TofuCore.Tangible;
 using UnityEngine;
 
 namespace TofuCore.ResourceModule
