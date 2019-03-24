@@ -13,6 +13,7 @@ namespace TofuPlugin.Agents.Components
         public Agent Agent { get;}
         public Path Path { get; private set; }
         public ITangible MoveTarget { get; private set; }
+        
 
         private PathRequestService _pathRequestService;
         private PositioningService _positioningService;
@@ -20,13 +21,14 @@ namespace TofuPlugin.Agents.Components
         private bool _pathRequested;
         private ITangible _nextMovePoint;
         private int _currentPathIndex;
+        private Vector3 _moveTargetPositionOnLastPathRequest;
 
         //The distance to get within:
         private float _moveTargetDist;
         private float MoveSpeed => Agent.Properties.GetProperty("Speed", 0f);
 
 
-        public AgentMobilityComponent(Agent agent, PathRequestService pathRequestService, PositioningServices.PositioningService positioningService)
+        public AgentMobilityComponent(Agent agent, PathRequestService pathRequestService, PositioningService positioningService)
         {
             Agent = agent;
             _pathRequestService = pathRequestService;
@@ -77,6 +79,12 @@ namespace TofuPlugin.Agents.Components
                 {
                     _nextMovePoint = new TangiblePosition(Vector3.LerpUnclamped(Agent.Position, nextWayPoint, pointDistance));
                 }
+
+                if (Vector3.Distance(MoveTarget.Position, _moveTargetPositionOnLastPathRequest) >
+                    AgentConstants.RepathDistance)
+                {
+                    RequestPathTo(MoveTarget.Position);
+                }
             }
 
             Move(frameDelta);
@@ -88,6 +96,12 @@ namespace TofuPlugin.Agents.Components
             MoveTarget = target;
             _moveTargetDist = dist;
             RequestPathTo(target.Position);
+        }
+
+        public void UnsetMoveTarget()
+        {
+            MoveTarget = null;
+            Path = null;
         }
 
         private void Move(float deltaTime)
@@ -107,6 +121,7 @@ namespace TofuPlugin.Agents.Components
         public void RequestPathTo(Vector3 point)
         {
             PathRequest request = new PathRequest(Agent.Position, point, OnPathFound);
+            _moveTargetPositionOnLastPathRequest = point;
             _pathRequestService.RequestPath(request);
         }
 

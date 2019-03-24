@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TofuCore.Configuration;
+using TofuCore.Events;
 using UnityEngine;
 using TofuCore.Service;
 using TofuCore.Tangible;
@@ -159,8 +160,17 @@ namespace TofuPlugin.Agents.AgentActions
                     CurrentCooldown = Mathf.Max(0, CurrentCooldown - deltaTime);
                     break;
                 case ActionPhase.FOCUS:
-                    CurrentFocusTime += deltaTime;
-                    Debug.Log(Agent.Id + " " + Name + " : " + CurrentFocusTime + "/" + FocusTime);
+                    if (Agent.CurrentAction == this)
+                    {
+                        CurrentFocusTime += deltaTime;
+                    }
+                    else
+                    {
+                        CurrentFocusTime = 0;
+                        
+                        Debug.Log("Lost focus");
+                    }
+
                     if (CurrentFocusTime >= FocusTime)
                     {
                         CurrentFocusTime = 0;

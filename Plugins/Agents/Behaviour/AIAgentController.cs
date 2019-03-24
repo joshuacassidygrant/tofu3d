@@ -32,13 +32,13 @@ namespace TofuPlugin.Agents.AI
             {
                 Interrupt();
             }
-
+            
             AgentCommand newCommand = NextCommand();
 
-            if (Agent.CurrentCommand == null || 
-               (newCommand != null && newCommand.Priority > Agent.CurrentCommand.Priority))
+            if (Agent.CurrentCommand == null || Agent.CurrentCommand.IsFinished() ||
+               (Agent.CurrentCommand != null && newCommand.Priority > Agent.CurrentCommand.Priority + AgentConstants.PriorityShiftThreshold))
             {
-                Agent.CurrentCommand = NextCommand();
+                Agent.CurrentCommand = newCommand;
                 Agent.CurrentAction = null;
             }
 

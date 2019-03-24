@@ -31,8 +31,14 @@ namespace TofuPlugin.Agents.Commands
 
         public virtual bool Executable()
         {
-            return Target != null && Target.Active;
-        }  
+            return Target != null /*&& Target.Active*/;
+        }
+
+        public bool IsFinished()
+        {
+            return Action.CurrentCooldown > 0;
+            //return ActionStack.Count == 0;
+        }
 
         public override bool TryExecute()
         {
@@ -42,8 +48,6 @@ namespace TofuPlugin.Agents.Commands
                 // If not satisfied, add the precondition to the action stack.
                 if (!Action.InRange(Target))
                 {
-                    //TODO: Get the best mobility action and path towards target (later -- this would need a new pathing system if it had to allow for blinks etc)
-                    //TODO: allow for unit size
                     //Action.Agent.GetMobilityActions();
                     //TEMP:
                     //Action.Agent.GetMoveAction().TriggerAction(Target);
@@ -52,6 +56,10 @@ namespace TofuPlugin.Agents.Commands
                         Action.Agent.Mobility.SetMoveTarget(Target, 0.1f);
                     }
                     return false;
+                }
+                else
+                {
+                    Action.Agent.Mobility.UnsetMoveTarget();
                 }
 
                 Action.TriggerAction(Target);
