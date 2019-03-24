@@ -95,10 +95,18 @@ namespace TofuPlugin.Pathfinding
             }
 
 
-            Vector3[] wayPoints = SimplifyPath(path);
+            //TODO: Get simplify working without having units end up getting caught on map corners
+            //Vector3[] wayPoints = SimplifyPath(path);
+            Vector3[] wayPoints = NotSimplifyPath(path);
+
             Array.Reverse(wayPoints);
             return wayPoints;
 
+        }
+
+        Vector3[] NotSimplifyPath(List<PathNode> path)
+        {
+            return path.Select(x => x.Position).ToArray();
         }
 
         Vector3[] SimplifyPath(List<PathNode> path)
@@ -117,10 +125,15 @@ namespace TofuPlugin.Pathfinding
                 }
 
                 directionOld = directionNew;
+
+
             }
             
             return wayPoints.ToArray();
         }
+
+
+
 
         int GetDistance(PathNode n1, PathNode n2)
         {
