@@ -160,7 +160,7 @@ namespace TofuPlugin.Agents.AgentActions
                     break;
                 case ActionPhase.FOCUS:
                     CurrentFocusTime += deltaTime;
-                    
+                    Debug.Log(Agent.Id + " " + Name + " : " + CurrentFocusTime + "/" + FocusTime);
                     if (CurrentFocusTime >= FocusTime)
                     {
                         CurrentFocusTime = 0;

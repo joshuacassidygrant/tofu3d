@@ -55,8 +55,6 @@ namespace TofuPlugin.Agents
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawCube(p.LookPoints[0], new Vector3(0.2f, 0.2f, 0.5f));
                 Gizmos.DrawLine(a.Position, p.LookPoints[0]);
-                Debug.Log(a.Controller.GetBehaviourName());
-
 
                 for (int i = 1; i < p.LookPoints.Length; i++)
                 {

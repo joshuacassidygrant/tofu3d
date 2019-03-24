@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TofuCore.Tangible;
+using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Pathfinding;
-using TofuPlugin.PositioningService;
+using TofuPlugin.PositioningServices;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.Components
@@ -15,7 +15,7 @@ namespace TofuPlugin.Agents.Components
         public ITangible MoveTarget { get; private set; }
 
         private PathRequestService _pathRequestService;
-        private PositioningService.PositioningService _positioningService;
+        private PositioningService _positioningService;
 
         private bool _pathRequested;
         private ITangible _nextMovePoint;
@@ -26,7 +26,7 @@ namespace TofuPlugin.Agents.Components
         private float MoveSpeed => Agent.Properties.GetProperty("Speed", 0f);
 
 
-        public AgentMobilityComponent(Agent agent, PathRequestService pathRequestService, PositioningService.PositioningService positioningService)
+        public AgentMobilityComponent(Agent agent, PathRequestService pathRequestService, PositioningServices.PositioningService positioningService)
         {
             Agent = agent;
             _pathRequestService = pathRequestService;
@@ -40,8 +40,10 @@ namespace TofuPlugin.Agents.Components
 
         private void HandleMovement(float frameDelta)
         {
-            if (MoveTarget == null || Vector3.Distance(Agent.Position, MoveTarget.Position) <= AgentConstants.PositionTolerance || (Path != null && _currentPathIndex >= Path.LookPoints.Length)) return; //No move target or at current target; return.
-
+            if (MoveTarget == null 
+                || Vector3.Distance(Agent.Position, MoveTarget.Position) <= AgentConstants.PositionTolerance 
+                || (Path != null && _currentPathIndex >= Path.LookPoints.Length) 
+                || Agent.CurrentAction.Phase == ActionPhase.FOCUS) return; //No move target or at current target; return.
             if (Path == null)
             {
                 if (!_pathRequested)
@@ -75,8 +77,6 @@ namespace TofuPlugin.Agents.Components
                 {
                     _nextMovePoint = new TangiblePosition(Vector3.LerpUnclamped(Agent.Position, nextWayPoint, pointDistance));
                 }
-
-
             }
 
             Move(frameDelta);
@@ -119,27 +119,6 @@ namespace TofuPlugin.Agents.Components
                 _currentPathIndex = 0;
             }
         }
-
-        //Pathfinding
-        //TEMPORARY
-        //TODO: REMOVE THIS
-        /*private Vector3 _nextPathPoint = Vector3.zero;
-
-        public Vector3 GetNextPathPoint()
-        {
-            return _nextPathPoint;
-        }
-
-        public void SetNextPathPoint(Vector3 point)
-        {
-            _nextPathPoint = point;
-        }
-
-        public void MoveTo(Vector3 position)
-        {
-            Position = position;
-        }*/
-
 
     }
 

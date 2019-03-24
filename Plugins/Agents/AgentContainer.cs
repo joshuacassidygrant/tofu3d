@@ -24,7 +24,7 @@ namespace TofuPlugin.Agents
         [Dependency] [ContentInjectable] protected FactionContainer FactionContainer;
         [Dependency] [ContentInjectable] protected AIBehaviourManager AiBehaviourManager;
         [Dependency] [ContentInjectable] protected PathRequestService PathRequestService;
-        [Dependency] [ContentInjectable] protected PositioningService.PositioningService PositioningService;
+        [Dependency] [ContentInjectable] protected PositioningServices.PositioningService PositioningService;
 
         private List<AgentSpawner> _unitSpawners;
 

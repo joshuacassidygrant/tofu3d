@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using TofuPlugin.Renderable;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +7,18 @@ using TofuCore.Glops;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.AI;
 using TofuPlugin.Agents.Commands;
-using TofuPlugin.Agents.Sensors;
 using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
 using TofuCore.Tangible;
 using TofuPlugin.Agents.Components;
 using TofuPlugin.Pathfinding;
+using TofuPlugin.PositioningServices;
 
 namespace TofuPlugin.Agents
 {
     /*
-     * Holds the state for a single instantiated Agent. Subclass to get property checking.
+     * Holds the state and manages functional subcomponents for a single instantiated Agent.
      * Agents are objects that have a position, a name/Id, and are commandable by an attached AI
      * or player input. Agents are managed by an agent manager class and rendered by an agent
      * renderer.
@@ -32,7 +31,7 @@ namespace TofuPlugin.Agents
         //Services
         protected AIBehaviourManager BehaviourManager;
         protected PathRequestService PathRequestService;
-        protected PositioningService.PositioningService PositioningService;
+        protected PositioningService PositioningService;
         protected FactionContainer FactionContainer;
         protected EventContext EventContext;
 
@@ -42,30 +41,6 @@ namespace TofuPlugin.Agents
         public Vector3 Position { get; set; }
         public float SizeRadius { get; protected set; }
         public ITangible TangibleSelf => this;
-
-        /*
-         * Pathfinding
-         */
-
-        //TODO: refactor Pathfinding
-        public Path Path;
-        private float _turnDist = 0.04f;
-        private float _stoppingDist = 1f;
-        private float _moveTargetDist;
-        private float _turnSpeed = 1f;
-        private Quaternion _rotation = Quaternion.identity;
-        private float _moveSpeed = 2f;
-        public Vector3 NextMoveTarget;
-
-        public ITangible MoveTarget;
-        public float PositionTolerance = 0.05f;
-        public float MovementStepMax = 0.5f;
-        private bool _pathRequested;
-        private int _currentPathIndex;
-        private ITangible _nextMovePoint;
-
-        private float _pathPointDistance = 0.5f;
-        //END REFACTOR
 
         /*
          * Rendering
@@ -87,7 +62,6 @@ namespace TofuPlugin.Agents
         public Faction Faction { get; set; }
         public Properties Properties { get; private set; }
         public AgentMobilityComponent Mobility;
-
 
         /*
          * Action/Command storage
@@ -182,12 +156,7 @@ namespace TofuPlugin.Agents
                 //Once action is set and targeted, agent is responsible for carrying it out
                 CurrentCommand.TryExecute();
                 SetAnimationStates();
-                /*if (CurrentCommand.Action.Phase == ActionPhase.FOCUS && CurrentCommand.Action.Name != "Move")
-                {
-                    EventContext.TriggerEvent("StringPop", new EventPayload("EventPayloadStringTangible", new EventPayloadStringTangible(this, "F"), EventContext));
-                }*/
             }
-
             Mobility.Update(frameDelta);
         }
 
@@ -232,16 +201,7 @@ namespace TofuPlugin.Agents
             Actions.Add(action);
         }
 
-        /**
-         * PATHFINDING AND MOVEMENT
-         */
         
-        //TEMP
-        public AgentAction GetMoveAction()
-        {
-            return Actions.FirstOrDefault(x => x.Id == "move");
-        }
-
         /**
          * FACTION METHODS
          */

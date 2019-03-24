@@ -9,7 +9,7 @@ using TofuPlugin.Pathfinding.MapAdaptors;
 /*
  * For checking if positions with regards to the Map and other units.
  */
-namespace TofuPlugin.PositioningService
+namespace TofuPlugin.PositioningServices
 {
     public class PositioningService : AbstractService
     {
