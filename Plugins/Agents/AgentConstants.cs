@@ -23,5 +23,7 @@ namespace TofuPlugin.Agents
         public const float PositionTolerance = 0.1f;
         public const float MoveStepMax = 0.5f;
         public const float RepathDistance = 0.5f;
+        //The number of new angles to check when the intended position is occupied. Must be even. 8 will result in up to 8 scans 45 degrees apart.
+        public const int PositionJostleScanSteps = 8;  
     }
 }

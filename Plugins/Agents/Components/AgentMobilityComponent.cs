@@ -114,9 +114,15 @@ namespace TofuPlugin.Agents.Components
             {
                 Agent.Position = newPos.Position;
             }
-            
+            else
+            {
+                newPos = _positioningService.GetNearestClearSpace(Agent, add, new List<ITangible> {Agent});
+                Agent.Position = newPos.Position;
+            }
 
+            
         }
+
 
         public void RequestPathTo(Vector3 point)
         {
