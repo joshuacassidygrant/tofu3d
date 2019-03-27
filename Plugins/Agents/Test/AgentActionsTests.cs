@@ -7,6 +7,8 @@ using TofuPlugin.Agents.Sensors;
 using UnityEngine;
 using TofuPlugin.Agents.AgentActions.Test;
 using NSubstitute;
+using TofuCore.Command;
+using TofuPlugin.Agents.Commands;
 
 namespace TofuPlugin.Agents.Tests
 {
@@ -71,6 +73,8 @@ namespace TofuPlugin.Agents.Tests
         public void TestActionShouldPassThroughPhases()
         {
             AgentAction selfAction = _agent.Actions[1];
+            _agent.Actions.RemoveAt(0); //Removes other action for easier debugging
+            _agent.CurrentCommand = new AgentCommand(selfAction, _agent, 10);
             selfAction.Cooldown = 5f;
             selfAction.FocusTime = 2f;
 

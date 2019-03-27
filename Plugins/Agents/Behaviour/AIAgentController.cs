@@ -50,7 +50,7 @@ namespace TofuPlugin.Agents.AI
                 Agent.CurrentAction = null;
             }
 
-            if (Agent.CurrentAction == null)
+            if (Agent.CurrentAction == null && Agent.CurrentCommand != null)
             {
                 Agent.CurrentAction = Agent.CurrentCommand.Action;
                 Agent.CurrentActionTarget = Agent.CurrentCommand.Target;
@@ -71,7 +71,7 @@ namespace TofuPlugin.Agents.AI
 
         public string GetBehaviourName()
         {
-            return _behaviour.GetType().Name;
+            return _behaviour.GetName();
         }
 
         public void SetBehaviour(AIBehaviour behaviour)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NSubstitute;
 using NUnit.Framework;
 using TofuPlugin.Agents;
 using TofuPlugin.Agents.AgentActions;
@@ -9,6 +10,7 @@ using TofuPlugin.Agents.Sensors;
 using UnityEngine;
 using TofuPlugin.Agents.Factions;
 using TofuCore.Events;
+using TofuPlugin.Agents.Behaviour;
 
 namespace TofuPlugin.Agents.Tests
 {
@@ -41,7 +43,7 @@ namespace TofuPlugin.Agents.Tests
         {
             Agent a = new Agent();
             Assert.Null(a.Controller);
-            _agentContainer.Register(a);
+            a.Sensor = new AgentSensor(_context, a);
             a.Update(0f);
             Assert.NotNull(a.Controller);
             Assert.NotNull(a.Controller.GetSensor());
@@ -53,11 +55,15 @@ namespace TofuPlugin.Agents.Tests
         {
             Agent a = new Agent();
             a.Update(0f);
-            a.Controller.SetBehaviour(new AiBehaviourDefault());
-            Assert.AreEqual("AiBehaviourFake", a.Controller.GetBehaviourName());
+
+            AIBehaviour subBehaviour = Substitute.For<AIBehaviour>();
+            subBehaviour.GetName().Returns("AiBehaviourSub");
+
+            a.Controller.SetBehaviour(subBehaviour);
+            Assert.AreEqual("AiBehaviourSub", a.Controller.GetBehaviourName());
 
             a.Update(1f);
-            Assert.AreEqual("AiBehaviourFake", a.Controller.GetBehaviourName());
+            Assert.AreEqual("AiBehaviourSub", a.Controller.GetBehaviourName());
 
             a.Controller.ClearBehaviour();
             Assert.AreEqual("AiBehaviourDefault", a.Controller.GetBehaviourName());

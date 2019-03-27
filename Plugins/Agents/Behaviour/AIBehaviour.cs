@@ -100,5 +100,9 @@ namespace TofuPlugin.Agents.Behaviour
             return atvLive.Values.Sum() * targetValue;
         }
 
+        public virtual string GetName()
+        {
+            return GetType().Name;
+        }
     }
 }
