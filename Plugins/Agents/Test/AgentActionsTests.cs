@@ -5,6 +5,7 @@ using TofuCore.Service;
 using TofuPlugin.Agents.Sensors;
 using UnityEngine;
 using TofuPlugin.Agents.AgentActions.Test;
+using NSubstitute;
 
 namespace TofuPlugin.Agents.Tests
 {
@@ -16,10 +17,12 @@ namespace TofuPlugin.Agents.Tests
         private Agent _agent;
         private Agent _unit2;
         private ServiceContext _context;
+        
 
         [SetUp]
         public void SetUp()
         {
+
             _context = new ServiceContext();
 
             _fakeActionFactory = new AgentActionFactory();
@@ -44,7 +47,6 @@ namespace TofuPlugin.Agents.Tests
                 };
             _agent = new Agent();
             _unit2 = new Agent();
-
 
         }
 
@@ -97,8 +99,6 @@ namespace TofuPlugin.Agents.Tests
             Assert.AreEqual(ActionPhase.READY, selfAction.Phase);
 
         }
-
-
 
 
     }
