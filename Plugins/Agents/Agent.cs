@@ -157,7 +157,8 @@ namespace TofuPlugin.Agents
                 CurrentCommand.TryExecute();
                 SetAnimationStates();
             }
-            Mobility.Update(frameDelta);
+
+            Mobility?.Update(frameDelta);
         }
 
         public override string ToString()

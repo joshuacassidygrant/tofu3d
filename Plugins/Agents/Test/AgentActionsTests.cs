@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using TofuPlugin.Agents.AgentActions;
 using TofuCore.Service;
@@ -11,11 +12,11 @@ namespace TofuPlugin.Agents.Tests
 {
     public class AgentActionsTests
     {
-        private AgentPrototype _prototype;
-        private AgentActionFactory _fakeActionFactory;
-        private AgentSensorFactory _sensorFactory;
+        //private AgentPrototype _prototype;
+
+        private AgentContainer _subContainer;
         private Agent _agent;
-        private Agent _unit2;
+        private Agent _agent2;
         private ServiceContext _context;
         
 
@@ -24,37 +25,29 @@ namespace TofuPlugin.Agents.Tests
         {
 
             _context = new ServiceContext();
+            _subContainer = Substitute.For<AgentContainer>().BindServiceContext(_context);
+            
 
-            _fakeActionFactory = new AgentActionFactory();
-            _fakeActionFactory.BindServiceContext(_context, "AgentActionFactory");
-            _fakeActionFactory.Build();
-            _fakeActionFactory.Initialize();
-            _fakeActionFactory.AddAction("act", () => new AgentActionFake("act", "Act"));
-            _fakeActionFactory.AddAction("self", () => new AgentSelfActionFake("self", "SelfAct"));
-
-            _sensorFactory = new AgentSensorFactory();
-            _sensorFactory.BindServiceContext(_context);
-
-            _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
-
-            _prototype.Id = "test";
-            _prototype.Name = "test";
-            _prototype.Actions =
-                new List<PrototypeActionEntry>
-                {
-                    new PrototypeActionEntry("act"),
-                    new PrototypeActionEntry("self")
-                };
             _agent = new Agent();
-            _unit2 = new Agent();
+            _agent2 = new Agent();
+
+            BindActionHelper(_agent, new AgentActionFake("act", "Act"));
+            BindActionHelper(_agent, new AgentSelfActionFake("self", "SelfAct"));
+            BindActionHelper(_agent2, new AgentActionFake("act", "Act"));
+            BindActionHelper(_agent2, new AgentSelfActionFake("self", "SelfAct"));
+
+            _agent.Sensor = new AgentSensor(_context, _agent);
+            _agent2.Sensor = new AgentSensor(_context, _agent2);
 
         }
+
+
 
         [Test]
         public void TwoUnitsShouldNotShareTheSameAction() {
 
             //TODO: this
-            Assert.AreNotSame(_agent.Actions[0], _unit2.Actions[0]);
+            Assert.AreNotSame(_agent.Actions[0], _agent2.Actions[0]);
         }
 
         [Test]
@@ -100,6 +93,13 @@ namespace TofuPlugin.Agents.Tests
 
         }
 
+        private void BindActionHelper(Agent agent, AgentAction action)
+        {
+            action.Agent = agent;
+            action.InjectServiceContext(_context);
+            action.BindDependencies();
+            agent.Actions.Add(action);
+        }
 
     }
 }

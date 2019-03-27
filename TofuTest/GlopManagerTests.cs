@@ -65,6 +65,7 @@ namespace TofuTests
 
             fake1.BindServiceContext(_context);
             fake2.BindServiceContext(_context, "OtherOne");
+            _context.FullInitialization();
 
             int start = _context.LastGlopId;
 

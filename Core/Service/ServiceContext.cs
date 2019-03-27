@@ -17,14 +17,14 @@ namespace TofuCore.Service
 
         private Dictionary<string, IService> _services;
         private Dictionary<string, string> _aliases;
-        private List<GlopContainer<Glop>> _glopManagers;
+        private List<IGlopContainer> _glopManagers;
         private ServiceFactory _factory;
 
         public ServiceContext()
         {
             _services = new Dictionary<string, IService>();
             _aliases = new Dictionary<string, string>();
-            _glopManagers = new List<GlopContainer<Glop>>();
+            _glopManagers = new List<IGlopContainer>();
             _factory = new ServiceFactory(this);
             LastGlopId = 0x1;
 
@@ -46,9 +46,9 @@ namespace TofuCore.Service
             service = _factory.Build(service);
             _services.Add(name, service);
 
-            if (service is GlopContainer<Glop>)
+            if (service is IGlopContainer glopContainer)
             {
-                _glopManagers.Add((GlopContainer<Glop>)service);
+                _glopManagers.Add(glopContainer);
             }
         }
 

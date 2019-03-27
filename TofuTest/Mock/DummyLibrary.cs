@@ -15,6 +15,14 @@ namespace TofuCore.TestSupport
         {
         }
 
+        public void Load(List<int> vals)
+        {
+            foreach (int val in vals)
+            {
+                _contents.Add(val.ToString(), val);
+            }
+        }
+
     }
 
 }

@@ -31,9 +31,7 @@ namespace TofuPlugin.Agents.AgentActions
             action.InjectServiceContext(ServiceContext);
             action.BindDependencies();
 
-
             return action;
-
         }
 
         public AgentAction BindAction(Agent agent, string actionId,

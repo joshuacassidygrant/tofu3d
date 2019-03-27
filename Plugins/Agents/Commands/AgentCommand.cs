@@ -36,7 +36,7 @@ namespace TofuPlugin.Agents.Commands
 
         public bool IsFinished()
         {
-            return Action.CurrentCooldown > 0;
+            return Action == null || Action.CurrentCooldown > 0;
             //return ActionStack.Count == 0;
         }
 

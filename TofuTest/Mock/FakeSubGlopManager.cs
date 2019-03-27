@@ -2,7 +2,7 @@
 
 namespace TofuTests.Mock
 {
-    public class FakeSubGlopManager : GlopContainer<FakeGlop> {
+    public class FakeSubGlopManager : GlopContainer<Glop> {
 
         public int UseNextId()
         {

@@ -140,6 +140,7 @@ namespace TofuPlugin.Agents.AgentActions
         public virtual void TriggerAction(ITangible target)
         {
             Triggered = true;
+            Agent.CurrentAction = this;
             StoredTarget = target;
         }
 

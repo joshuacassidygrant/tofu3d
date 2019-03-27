@@ -20,7 +20,15 @@ namespace TofuPlugin.Agents.AI
             BehaviourManager = behaviourManager;
             Agent = agent;
             Sensor = sensor;
-            SetBehaviour(behaviourManager.ChooseStrategy(agent));
+
+            if (behaviourManager != null)
+            {
+                SetBehaviour(behaviourManager.ChooseStrategy(agent));
+            }
+            else
+            {
+                Debug.Log("Behaviour manager is null!");
+            }
         }
 
         public override void Update()
