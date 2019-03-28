@@ -23,7 +23,7 @@ namespace TofuPlugin.Agents
      * or player input. Agents are managed by an agent manager class and rendered by an agent
      * renderer.
      */
-    public class Agent: Glop, IRenderable, ITangible, IControllableAgent, IConfigurable, IResourceModuleOwner
+    public class Agent: Glop, IRenderable, ITangible, IControllableAgent, IConfigurable, IResourceModuleOwner, IFactionBelongable
     {
         public string Name { get; private set; }
         public bool Active { get; private set; }
@@ -207,17 +207,17 @@ namespace TofuPlugin.Agents
          * FACTION METHODS
          */
 
-        public FactionRelationshipLevel GetRelationshipWith(Agent agent)
+        public FactionRelationshipLevel GetRelationshipWith(IFactionBelongable agent)
         {
             return FactionContainer.GetFactionRelationship(this, agent);
         }
 
-        public List<string> GetFactionPermissions(Agent agent)
+        public List<string> GetFactionPermissions(IFactionBelongable agent)
         {
             return GetRelationshipWith(agent).Permissions;
         }
 
-        public bool PermissionToDo(string factionAction, Agent agent)
+        public bool PermissionToDo(string factionAction, IFactionBelongable agent)
         {
             return GetFactionPermissions(agent).Contains(factionAction);
         }

@@ -57,14 +57,14 @@ namespace TofuPlugin.Agents.Factions
             return GetContents().Cast<Faction>().FirstOrDefault(x => (x.IdName == idName));
         }
 
-        public FactionRelationshipLevel GetFactionRelationship(Agent agent, Faction faction)
+        public FactionRelationshipLevel GetFactionRelationship(IFactionBelongable agent, Faction faction)
         {
             if (agent.Faction == faction) return Same;
             if (faction == null) return Unaffiliated;
             return GetFactionRelationship(agent.Faction.GetRelationship(faction));
         }
 
-        public FactionRelationshipLevel GetFactionRelationship(Agent agent, Agent other)
+        public FactionRelationshipLevel GetFactionRelationship(IFactionBelongable agent, IFactionBelongable other)
         {
             return GetFactionRelationship(agent, other.Faction);
         }
