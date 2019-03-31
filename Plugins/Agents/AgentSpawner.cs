@@ -58,7 +58,7 @@ namespace TofuPlugin.Agents
                 {
                     _sinceLastSpawn = 0;
                     Agent u = _agentContainer.Spawn(new List<string>(_loadedUnits.Keys)[Random.Range(0, _loadedUnits.Count)], "Creature", _position);
-                    u.Faction = _faction;
+                    u.FactionComponent.Faction = _faction;
                 }
                 yield return null;
             }

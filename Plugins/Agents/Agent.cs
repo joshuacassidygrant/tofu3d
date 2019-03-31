@@ -59,9 +59,11 @@ namespace TofuPlugin.Agents
         public AIAgentController Controller { get; private set; }
         public List<AgentAction> Actions { get; private set; } //Add to this only with the AddAction() method to ensure actions are bound to agent
         public AgentType AgentType { get; private set; }
-        public Faction Faction { get; set; }
         public Properties Properties { get; private set; }
         public AgentMobilityComponent Mobility;
+
+        public IFactionComponent FactionComponent { get; private set; }
+        public Faction Faction => FactionComponent.Faction;
 
         /*
          * Action/Command storage
@@ -102,7 +104,9 @@ namespace TofuPlugin.Agents
 
             BindResourceModules();
             Actions = boundActions;
+
             Mobility = new AgentMobilityComponent(this, PathRequestService, PositioningService);
+            FactionComponent = new FactionComponent(this, FactionContainer);
 
         }
 
@@ -202,26 +206,7 @@ namespace TofuPlugin.Agents
             Actions.Add(action);
         }
 
-        
-        /**
-         * FACTION METHODS
-         */
-
-        public FactionRelationshipLevel GetRelationshipWith(IFactionBelongable agent)
-        {
-            return FactionContainer.GetFactionRelationship(this, agent);
-        }
-
-        public List<string> GetFactionPermissions(IFactionBelongable agent)
-        {
-            return GetRelationshipWith(agent).Permissions;
-        }
-
-        public bool PermissionToDo(string factionAction, IFactionBelongable agent)
-        {
-            return GetFactionPermissions(agent).Contains(factionAction);
-        }
-
+       
 
 
         /**

@@ -36,7 +36,7 @@ namespace TofuPlugin.Agents
 
         public List<Agent> GetAgentsInRangeWithFactionPermission(float range, string permission)
         {
-            return GetAgentsInRange(range, (other => Agent.PermissionToDo(permission, other)));
+            return GetAgentsInRange(range, (other => Agent.FactionComponent.PermissionToDo(permission, other)));
         }
 
         public List<Agent> GetAgentsInRange(float range, Func<Agent, bool> predicate) {

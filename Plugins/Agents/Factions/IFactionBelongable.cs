@@ -7,13 +7,10 @@ namespace TofuPlugin.Agents.Factions
 {
     public interface IFactionBelongable
     {
+        IFactionComponent FactionComponent { get; }
         Faction Faction { get; }
 
-        FactionRelationshipLevel GetRelationshipWith(IFactionBelongable ifb);
 
-        List<string> GetFactionPermissions(IFactionBelongable ifb);
-
-        bool PermissionToDo(string factionAction, IFactionBelongable ifb);
     }
 
 }

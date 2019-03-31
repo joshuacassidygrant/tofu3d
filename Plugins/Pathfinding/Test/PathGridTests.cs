@@ -67,7 +67,7 @@ namespace TofuPlugin.Pathfinding.Test
 
         }
 
-        [Test]
+        /*[Test]
         public void TestShouldBeAbleToGetNodesFromLinearGrid2X()
         {
             _pathGrid.NodesPerTileSide = 2;
@@ -93,7 +93,7 @@ namespace TofuPlugin.Pathfinding.Test
             Assert.AreEqual(expected, GetPassableValues(_pathGrid.Grid));
             
 
-        }
+        }*/
 
         private string GetPassableValues(PathNode[,] nodes)
         {
