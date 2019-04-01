@@ -46,10 +46,14 @@ namespace  TofuPlugin.Agents
             List<AgentAction> boundActions = new List<AgentAction>();
 
             AgentType agentType = AgentTypeLibrary.Get(prototype.AgentType);
-            foreach (string actionId in agentType.DefaultActions)
+            if (agentType.DefaultActions != null)
             {
-                boundActions.Add(AgentActionFactory.BindAction(agent, actionId));
+                foreach (string actionId in agentType.DefaultActions)
+                {
+                    boundActions.Add(AgentActionFactory.BindAction(agent, actionId));
+                }
             }
+
 
             foreach (PrototypeActionEntry actionEntry in prototype.Actions)
             {
