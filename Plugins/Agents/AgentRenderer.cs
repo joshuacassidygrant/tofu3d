@@ -27,7 +27,10 @@ namespace TofuPlugin.Agents
             SetLayer(agent.GetSortingLayer());
 
             //Temp
-            Anim.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Creatures/TinySpiritController");
+            if (agent.Animator != null)
+            {
+                Anim.runtimeAnimatorController = agent.Animator;
+            }
 
         }
 

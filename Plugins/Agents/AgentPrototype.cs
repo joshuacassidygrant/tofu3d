@@ -12,6 +12,7 @@ namespace TofuPlugin.Agents
         public string Name;
         public string Id;
         public Sprite Sprite;
+        public RuntimeAnimatorController Animator;
         public string AgentType;
         public int HpMax;
         public Color BaseColor;

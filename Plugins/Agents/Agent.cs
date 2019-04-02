@@ -47,6 +47,7 @@ namespace TofuPlugin.Agents
          */
         //TODO: Refactor. Put Sprite and AnimationStates in a component that can interface with IRenderable and accept either a 3d model or a sprite
         public Sprite Sprite { get; set; }
+        public RuntimeAnimatorController Animator { get; set; }
         private Dictionary<string, bool> AnimationStates = new Dictionary<string, bool>();
         public string GetSortingLayer() { return "Unit"; }
 
@@ -99,6 +100,7 @@ namespace TofuPlugin.Agents
             AgentType = type;
             ExpectedProperties = AgentType.ExpectedProperties;
             SizeRadius = prototype.SizeRadius;
+            Animator = prototype.Animator;
 
             ConsumeConfig(prototype.Config);
 
