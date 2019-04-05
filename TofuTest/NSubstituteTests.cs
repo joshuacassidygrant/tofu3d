@@ -19,5 +19,13 @@ namespace TofuTests
 
             Assert.AreEqual("Substitute", sub.GetServiceName());
         }
+
+        [Test]
+        public void TestMoqFakesService()
+        {
+            var moq = new Moq.Mock<IService>();
+            moq.Setup(x => x.GetServiceName()).Returns("aaa");
+            Assert.AreEqual("aaa", moq.Object.GetServiceName());
+        }
     }
 }
