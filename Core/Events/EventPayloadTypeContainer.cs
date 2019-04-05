@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TofuCore.Events
 {
-    public class EventPayloadTypeContainer
+    public class EventPayloadTypeContainer : IEventPayloadTypeContainer
     {
 
         private Dictionary<string, Func<dynamic, bool>> _typeDefaultChecks =

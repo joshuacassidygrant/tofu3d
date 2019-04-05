@@ -4,7 +4,7 @@ using TofuCore.Glops;
 using TofuCore.Service;
 using UnityEngine;
 
-namespace TofuTests.Mock
+namespace TofuTests.TestSupport
 {
     public class FakeGlop : Glop
     {

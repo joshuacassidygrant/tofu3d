@@ -37,9 +37,9 @@ namespace TofuCore.ResourceModule
 
         private float _value;
         private float _max;
-        private readonly EventContext _eventContext;
+        private readonly IEventContext _eventContext;
 
-        public ResourceModule(string name, float max, float val, IResourceModuleOwner owner, EventContext eventContext)
+        public ResourceModule(string name, float max, float val, IResourceModuleOwner owner, IEventContext eventContext)
         {
             Name = name;
             _value = val;

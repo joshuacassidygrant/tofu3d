@@ -10,13 +10,11 @@ using UnityEngine;
  */
 namespace TofuCore.Events
 {
-    public class EventContext : AbstractService
+    public class EventContext : AbstractService, IEventContext
     {
-
-
         private Dictionary<TofuEvent, List<IListener>> _eventListeners;
         private EventList _events;
-        private EventPayloadTypeContainer _eventPayloadTypeContainer;
+        private IEventPayloadTypeContainer _eventPayloadTypeContainer;
         private Dictionary<TofuEvent, IListener> _eventListenersToRemove;
         [Dependency] protected EventLogger EventLogger;
 
@@ -28,7 +26,7 @@ namespace TofuCore.Events
             _eventPayloadTypeContainer = new EventPayloadTypeContainer();
         }
 
-        public EventPayloadTypeContainer GetPayloadTypeContainer()
+        public IEventPayloadTypeContainer GetPayloadTypeContainer()
         {
             return _eventPayloadTypeContainer;
         }

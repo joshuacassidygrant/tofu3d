@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NSubstitute;
+using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
 using TofuCore.Tangible;
@@ -7,15 +9,15 @@ using UnityEngine;
 
 public class ResourceModuleTests {
 
-    private EventContext _eventContext;
+    private IEventContext _eventContext;
 
     [SetUp]
     public void SetUp()
     {
-        _eventContext = new EventContext();
-        _eventContext.Initialize();
-        _eventContext.Build();
-        _eventContext.GetPayloadTypeContainer().RegisterPayloadContentType("ResourceEventPayload", (x => x is ResourceEventPayload));
+        IEventPayloadTypeContainer _eventPayloadTypeContainer = Substitute.For<IEventPayloadTypeContainer>();
+        _eventPayloadTypeContainer.IsRegistered("ResourceEventPayload").Returns(true);
+        _eventContext = Substitute.For<IEventContext>();
+        _eventContext.GetPayloadTypeContainer().Returns(_eventPayloadTypeContainer);
 
 
     }

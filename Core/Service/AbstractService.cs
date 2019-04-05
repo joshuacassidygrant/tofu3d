@@ -159,7 +159,7 @@ namespace TofuCore.Service
             }
         }
 
-        public void BindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext)
+        public void BindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
         {
             if (_boundListeners == null) _boundListeners = new Dictionary<TofuEvent, List<Action<EventPayload>>>();
 
@@ -169,7 +169,7 @@ namespace TofuCore.Service
             _boundListeners[evnt].Add(action);
         }
 
-        public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext)
+        public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
         {
             evntContext.RemoveEventListener(evnt, this);
             _boundListeners[evnt].Remove(action);

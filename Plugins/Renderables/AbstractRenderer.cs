@@ -88,7 +88,7 @@ namespace TofuPlugin.Renderable
             FlushListeners();
         }
 
-        public void BindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext)
+        public void BindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
         {
             if (_boundListeners == null) _boundListeners = new Dictionary<TofuEvent, List<Action<EventPayload>>>();
 
@@ -98,7 +98,7 @@ namespace TofuPlugin.Renderable
             _boundListeners[evnt].Add(action);
         }
 
-        public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, EventContext evntContext)
+        public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
         {
             evntContext.RemoveEventListener(evnt, this);
             if (_listenersToUnbind == null) _listenersToUnbind = new Dictionary<TofuEvent, Action<EventPayload>>();

@@ -5,7 +5,7 @@ using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Service;
-using TofuTests.Mock;
+using TofuTests.TestSupport;
 using UnityEngine;
 
 namespace TofuTests

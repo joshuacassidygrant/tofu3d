@@ -1,6 +1,6 @@
 ﻿using TofuCore.Glops;
 
-namespace TofuTests.Mock
+namespace TofuTests.TestSupport
 {
     public class FakeSubGlopManager : GlopContainer<Glop> {
 
