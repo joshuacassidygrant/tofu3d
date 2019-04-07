@@ -1,11 +1,8 @@
-﻿using Moq;
-using NSubstitute;
+﻿using NSubstitute;
 using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
-using TofuCore.Tangible;
 using TofuCore.TestSupport;
-using UnityEngine;
 
 public class ResourceModuleTests {
 
@@ -18,8 +15,7 @@ public class ResourceModuleTests {
         _eventPayloadTypeContainer.IsRegistered("ResourceEventPayload").Returns(true);
         _eventContext = Substitute.For<IEventContext>();
         _eventContext.GetPayloadTypeContainer().Returns(_eventPayloadTypeContainer);
-
-
+        _eventContext.GetEvent("DummyCalled").Returns(new TofuEvent("DummyCalled"));
     }
 
     [Test]
@@ -56,11 +52,10 @@ public class ResourceModuleTests {
         ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, new DummyResourceModuleOwner(), _eventContext);
         resourceModule.Deplete(1f, "DummyCalled", new EventPayload("String", "depleted", _eventContext));
 
-        Assert.AreEqual(0, ds1.DummyActionsCalled);
+        _eventContext.Received(0).TriggerEvent("DummyCalled", Arg.Any<EventPayload>());
 
         resourceModule.Deplete(9.1f, "DummyCalled", new EventPayload("String", "depleted", _eventContext));
-        Assert.AreEqual(1, ds1.DummyActionsCalled);
-
+        _eventContext.Received(1).TriggerEvent("DummyCalled", Arg.Any<EventPayload>());s
     }
 
     [Test]
