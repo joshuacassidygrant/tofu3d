@@ -16,7 +16,7 @@ namespace TofuCore.Service
     public abstract class AbstractService : IService, IListener, IContentInjectable
     { 
         protected bool Initialized = false;
-        protected ServiceContext ServiceContext;
+        protected IServiceContext ServiceContext;
         protected ContentInjectablePayload ContentInjectables;
         private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
 
@@ -106,7 +106,7 @@ namespace TofuCore.Service
             Initialized = true;
         }
 
-        public dynamic BindServiceContext(ServiceContext serviceContext, string bindingName = null)
+        public dynamic BindServiceContext(IServiceContext serviceContext, string bindingName = null)
         {
             if (bindingName == null) bindingName = GetType().Name;
             ServiceContext = serviceContext;

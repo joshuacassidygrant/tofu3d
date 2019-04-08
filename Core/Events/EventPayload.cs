@@ -20,15 +20,11 @@ namespace TofuCore.Events
         {
             ContentType = contentType;
             _content = content;
-
-            _payloadTypeContainer = eventContext.GetPayloadTypeContainer();
             
-            if (!_payloadTypeContainer.CheckContentAs(content, contentType))
+            if (!eventContext.CheckPayloadContentAs(content, contentType))
             {
                 Debug.LogWarning("Can't store content " + content.ToString() + " as " + contentType);
             }
-
-            
         }
 
 

@@ -10,12 +10,6 @@ namespace TofuCore.Events
         TofuEvent GetEvent(string name);
         void HelperBindEventListener(TofuEvent evnt, IListener listener);
         void RemoveEventListener(TofuEvent evnt, IListener listener);
-        void ResolveServiceBindings();
-        void Prepare();
-        void Initialize();
-        dynamic BindServiceContext(ServiceContext serviceContext, string bindingName = null);
-        string GetServiceName();
-        bool CheckDependencies();
-        void ReceiveEvent(TofuEvent evnt, EventPayload payload);
+        bool CheckPayloadContentAs(dynamic content, string type);
     }
 }

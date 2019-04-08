@@ -10,7 +10,7 @@ namespace TofuPlugin.UI
     public class TofuUiBase : MonoBehaviour
     {
         protected UIBindingService UiBindingService;
-        protected ServiceContext ServiceContext;
+        protected IServiceContext ServiceContext;
         protected EventContext EventContext;
 
         protected void BindServiceContext() {

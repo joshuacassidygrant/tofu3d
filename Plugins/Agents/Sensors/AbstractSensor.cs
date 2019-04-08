@@ -14,11 +14,11 @@ namespace TofuPlugin.Agents.Sensors
         //TODO: this should be an array of sensible managers
         //TODO: this should use the positioning service
         protected GlopContainer<ITangible> Manager;
-        protected ServiceContext Context;
+        protected IServiceContext Context;
 
         
 
-        public AbstractSensor(ServiceContext context)
+        public AbstractSensor(IServiceContext context)
         {
             Context = context;
         }

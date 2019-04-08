@@ -10,7 +10,7 @@ namespace TofuPlugin.UI {
 
     public class UIBindingService : AbstractMonoService
     {
-        public ServiceContext GetServiceContext()
+        public IServiceContext GetServiceContext()
         {
             return ServiceContext;
         }

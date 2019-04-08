@@ -18,7 +18,7 @@ namespace TofuPlugin.Agents
         private AgentContainer AgentContainer;
 
 
-        public AgentSensor(ServiceContext context, Agent agent) : base(context) {
+        public AgentSensor(IServiceContext context, Agent agent) : base(context) {
             Agent = agent;
             //Manager = Context.Fetch("AgentContainer");
             AgentContainer = Context.Fetch("AgentContainer");

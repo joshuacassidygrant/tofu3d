@@ -10,7 +10,7 @@ namespace TofuPlugin.Agents
 {
     public class AgentRenderer : AbstractRenderer
     {
-        public void Initialize(Agent agent, ServiceContext context)
+        public void Initialize(Agent agent, IServiceContext context)
         {
             base.Initialize(agent, context);
             

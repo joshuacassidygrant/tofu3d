@@ -1,6 +1,5 @@
 ﻿using System;
 using TofuCore.Events;
-using TofuCore.Tangible;
 using UnityEngine;
 
 
@@ -8,10 +7,7 @@ namespace TofuCore.ResourceModule
 {
     public class ResourceModule
     {
-
-
         public readonly string Name;
-        
 
         public int IValue => Mathf.RoundToInt(_value);
         public int IMax => Mathf.RoundToInt(_max);

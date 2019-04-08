@@ -12,7 +12,7 @@ namespace TofuPlugin.Renderable
 
         protected IRenderable Renderable;
         protected SpriteRenderer SpriteRenderer;
-        protected ServiceContext ServiceContext;
+        protected IServiceContext ServiceContext;
         protected EventContext EventContext;
         protected bool ToDestroy;
 
@@ -50,7 +50,7 @@ namespace TofuPlugin.Renderable
             }
         }
 
-        public void Initialize(IRenderable renderable, ServiceContext context)
+        public void Initialize(IRenderable renderable, IServiceContext context)
         {
             Renderable = renderable;
             SpriteRenderer = gameObject.AddComponent<SpriteRenderer>();

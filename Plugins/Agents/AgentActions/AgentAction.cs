@@ -82,7 +82,7 @@ namespace TofuPlugin.Agents.AgentActions
         public bool Triggered;
         public ITangible StoredTarget;
 
-        public ServiceContext ServiceContext;
+        public IServiceContext ServiceContext;
 
         public Properties Properties {
             get { return _properties; }
@@ -185,7 +185,7 @@ namespace TofuPlugin.Agents.AgentActions
             }
         }
 
-        public void InjectServiceContext(ServiceContext serviceContext)
+        public void InjectServiceContext(IServiceContext serviceContext)
         {
             ServiceContext = serviceContext;
         }

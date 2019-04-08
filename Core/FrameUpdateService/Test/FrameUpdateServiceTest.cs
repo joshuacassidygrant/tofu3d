@@ -1,7 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System.Runtime.Remoting.Messaging;
+using NSubstitute;
+using NSubstitute.Core.Arguments;
+using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.Service;
-using TofuCore.TestSupport;
 using UnityEngine;
 
 namespace TofuTests
@@ -9,39 +11,32 @@ namespace TofuTests
     public class FrameUpdateServiceTest
     {
 
-        ServiceContext _serviceContext;
-        TofuCore.FrameUpdateService.FrameUpdateService _frameUpdateService;
-        EventContext _eventContext;
-        DummyServiceOne _dummyService;
+        private TofuCore.FrameUpdateService.FrameUpdateService _frameUpdateService;
+        private IEventContext _subEventContext;
+        private IServiceContext _subServiceContext;
 
         [SetUp]
         public void SetUp()
         {
-            _serviceContext = new ServiceContext();
-            _eventContext = _serviceContext.Fetch("EventContext");
-            _eventContext.BindServiceContext(_serviceContext);
-            _frameUpdateService = new GameObject().AddComponent<TofuCore.FrameUpdateService.FrameUpdateService>();
-            _frameUpdateService.BindServiceContext(_serviceContext);
-            _dummyService = new DummyServiceOne();
-            _dummyService.BindServiceContext(_serviceContext);
-            _serviceContext.FullInitialization();
-        }
 
-        [Test]
-        public void TestFrameUpdateServiceShouldHaveBoundDependencies()
-        {
-            Assert.True(_frameUpdateService.CheckDependencies());
+            _subServiceContext = Substitute.For<IServiceContext>();
+            _subServiceContext.Fetch("EventContext").Returns(_subEventContext);
+            _subEventContext = Substitute.For<IEventContext>();
+            _subEventContext.When(x => x.TriggerEvent(Arg.Any<string>(), Arg.Any<EventPayload>())).Do(x => { });
+            _subEventContext.CheckPayloadContentAs(Arg.Any<float>(), "Float").Returns(true);
+            _frameUpdateService = new GameObject().AddComponent<TofuCore.FrameUpdateService.FrameUpdateService>();
+            _frameUpdateService.BindServiceContext(_subServiceContext);
+
+
         }
 
         [Test]
         public void TestFrameUpdateForceUpdateTriggersEvent()
         {
-            _dummyService.BindListener(_eventContext.GetEvent("FrameUpdate"), _dummyService.DummyEventAction, _eventContext);
             _frameUpdateService.ForceUpdate(0.1f);
             _frameUpdateService.ForceUpdate(0.12f);
             _frameUpdateService.ForceUpdate(0.15f);
-            Assert.AreEqual(3, _dummyService.DummyActionsCalled);
-            Assert.AreEqual(0.37f, _dummyService.DummyActionsCapturedFloats);
+            _subEventContext.Received(3).TriggerEvent("DummyCalled", Arg.Any<EventPayload>());
         }
 
 

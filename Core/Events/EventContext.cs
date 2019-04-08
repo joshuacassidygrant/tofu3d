@@ -86,6 +86,11 @@ namespace TofuCore.Events
 
         }
 
+        public bool CheckPayloadContentAs(dynamic content, string type)
+        {
+            return _eventPayloadTypeContainer.CheckContentAs(content, type);
+        }
+
         private void FlushListeners()
         {
             if (_eventListenersToRemove == null) return;

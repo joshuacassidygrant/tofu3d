@@ -11,9 +11,9 @@ using UnityEngine;
  */
 namespace TofuCore.Service
 {
-    public class ServiceContext
+    public class ServiceContext : IServiceContext
     {
-        public int LastGlopId;
+        public int LastGlopId { get; set; }
 
         private Dictionary<string, IService> _services;
         private Dictionary<string, string> _aliases;
