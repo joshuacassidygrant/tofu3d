@@ -24,7 +24,7 @@ public struct AgentResourceModuleConfig
     public ResourceModule GenerateResourceModule(Agent agent, EventContext eventContext)
     {
         ResourceModule resourceModule = new ResourceModule("HP", agent.Properties.GetProperty("HpMax", 0), agent.Properties.GetProperty("HpMax", 0), agent, eventContext);
-        resourceModule.BindFullDepletionEvent(FullDepletionEventName, new EventPayload(PayloadContentTypeName, agent, eventContext));
+        resourceModule.BindFullDepletionEvent(FullDepletionEventName, new EventPayload(PayloadContentTypeName, agent));
         resourceModule.SetDepletionEventKey(DepletionEventName);
         resourceModule.SetReplenishEventKey(ReplenishEventName);
         return resourceModule;

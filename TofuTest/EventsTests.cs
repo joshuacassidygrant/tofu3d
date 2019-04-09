@@ -55,13 +55,13 @@ namespace TofuTests
             Assert.AreEqual(0, _eventTesterService.MollycoddleCalled);
             Assert.AreEqual(0, _eventTesterService.ZarfCalled);
 
-            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("String", "test", _eventContext));
-            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("String", "test", _eventContext));
+            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("String", "test"));
+            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("String", "test"));
 
             Assert.AreEqual(2, _eventTesterService.MollycoddleCalled);
             Assert.AreEqual(0, _eventTesterService.ZarfCalled);
 
-            _eventContext.TriggerEvent("Zarf", new EventPayload("String", "test", _eventContext));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("String", "test"));
 
             Assert.AreEqual(2, _eventTesterService.MollycoddleCalled);
             Assert.AreEqual(1, _eventTesterService.ZarfCalled);
@@ -75,11 +75,11 @@ namespace TofuTests
         {
             _eventTesterService.BindListener(_eventContext.GetEvent("MollyCoddle"), _eventTesterService.Mollycoddled, _eventContext);
             Assert.AreEqual(0, _eventTesterService.MollycoddleCalled);
-            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("Boolean", false, _eventContext));
+            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("Boolean", false));
             Assert.AreEqual(1, _eventTesterService.MollycoddleCalled);
             _eventTesterService.UnbindListener(_eventContext.GetEvent("MollyCoddle"), _eventTesterService.Mollycoddled, _eventContext);
-            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("Boolean", false, _eventContext));
-            _eventContext.TriggerEvent("Zarf", new EventPayload("Boolean", false, _eventContext));
+            _eventContext.TriggerEvent("MollyCoddle", new EventPayload("Boolean", false));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Boolean", false));
             Assert.AreEqual(1, _eventTesterService.MollycoddleCalled);
         }
 
@@ -88,7 +88,7 @@ namespace TofuTests
         {
             _eventTesterService.BindListener(_eventContext.GetEvent("Zarf"), _eventTesterService.Zarfed, _eventContext);
             Assert.AreEqual(0, _eventTesterService.ZarfCalled);
-            _eventContext.TriggerEvent("Zarf", new EventPayload("String", "Test", _eventContext));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("String", "Test"));
             Assert.AreEqual(1, _eventTesterService.ZarfCalled);
             Assert.AreEqual("Test", _eventTesterService.LastZarfPayload);
 
@@ -100,7 +100,7 @@ namespace TofuTests
         {
             _eventTesterService.BindListener(_eventContext.GetEvent("Zarf"), _eventTesterService.Zarfed, _eventContext);
             Assert.AreEqual(0, _eventTesterService.ZarfCalled);
-            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42, _eventContext));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42));
             Assert.AreEqual(1, _eventTesterService.ZarfCalled);
             Assert.AreNotEqual("42", _eventTesterService.LastZarfPayload);
             Assert.Null(_eventTesterService.LastZarfPayload);
@@ -114,7 +114,7 @@ namespace TofuTests
             try
             {
                 _eventTesterService.BindListener(_eventContext.GetEvent("Flom"), _eventTesterService.Zarfed, _eventContext);
-                _eventContext.TriggerEvent("Flom", new EventPayload("AnUndeclaredType", "zoom", _eventContext));
+                _eventContext.TriggerEvent("Flom", new EventPayload("AnUndeclaredType", "zoom"));
 
             }
             catch (Exception e)
@@ -127,9 +127,9 @@ namespace TofuTests
         public void EventLoggerServiceShouldCollectTriggeredEvents()
         {
             _eventTesterService.BindListener(_eventContext.GetEvent("Zarf"), _eventTesterService.Zarfed, _eventContext);
-            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42, _eventContext));
-            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42, _eventContext));
-            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42, _eventContext));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42));
+            _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42));
 
             Assert.AreEqual(3, _eventLogger.Logs.Count);
             Assert.AreEqual("Zarf", _eventLogger.Logs[0].Event);

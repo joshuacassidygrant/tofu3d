@@ -14,7 +14,7 @@ namespace TofuPlugin.Pathfinding.Test
     {
         private ServiceContext _serviceContext;
         private PathGrid _pathGrid;
-        private EventContext _eventContext;
+        private IEventContext _eventContext;
         private FakePathableMapService _fakePathableMapService;
 
         [SetUp]
@@ -22,7 +22,6 @@ namespace TofuPlugin.Pathfinding.Test
         {
             _serviceContext = new ServiceContext();
             _eventContext = _serviceContext.Fetch("EventContext");
-            _eventContext.GetPayloadTypeContainer().RegisterPayloadContentType("Null", o => o == null);
             _pathGrid = new PathGrid().BindServiceContext(_serviceContext);
             _fakePathableMapService = new FakePathableMapService().BindServiceContext(_serviceContext, "IPathableMapService");
             _serviceContext.FullInitialization();

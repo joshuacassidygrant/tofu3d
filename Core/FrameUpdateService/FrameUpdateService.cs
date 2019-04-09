@@ -2,12 +2,12 @@
 using TofuCore.Service;
 using UnityEngine;
 
-namespace TofuCore.FrameUpdateService
+namespace TofuCore.FrameUpdateServices
 {
     public class FrameUpdateService : AbstractMonoService
     {
 
-        [Dependency] protected EventContext EventContext;
+        [Dependency] protected IEventContext EventContext;
 
         void Update()
         {
@@ -22,7 +22,7 @@ namespace TofuCore.FrameUpdateService
 
         void UpdateTime(float seconds)
         {
-            EventPayload deltaTimePayload = new EventPayload("Float", seconds, EventContext);
+            EventPayload deltaTimePayload = new EventPayload("Float", seconds);
             EventContext.TriggerEvent("FrameUpdate", deltaTimePayload);
         }
     }

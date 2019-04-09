@@ -14,17 +14,12 @@ namespace TofuCore.Events
         public string ContentType { get; }
 
         private dynamic _content;
-        private IEventPayloadTypeContainer _payloadTypeContainer;
 
-        public EventPayload(string contentType, dynamic content, IEventContext eventContext)
+        public EventPayload(string contentType, dynamic content)
         {
             ContentType = contentType;
             _content = content;
             
-            if (!eventContext.CheckPayloadContentAs(content, contentType))
-            {
-                Debug.LogWarning("Can't store content " + content.ToString() + " as " + contentType);
-            }
         }
 
 

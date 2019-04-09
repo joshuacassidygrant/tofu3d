@@ -74,7 +74,7 @@ namespace TofuPlugin.Agents
         public Agent Spawn(AgentPrototype prototype, Vector3 location, Configuration config = null)
         {
             Agent agent = AgentFactory.BuildAndRegisterNewAgent(this, location, prototype, config);
-            EventContext.TriggerEvent("SpawnAgent", new EventPayload("Agent", agent, EventContext));
+            EventContext.TriggerEvent("SpawnAgent", new EventPayload("Agent", agent));
             return agent;
         }
 

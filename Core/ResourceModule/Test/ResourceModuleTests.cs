@@ -10,10 +10,7 @@ public class ResourceModuleTests {
     [SetUp]
     public void SetUp()
     {
-        IEventPayloadTypeContainer _eventPayloadTypeContainer = Substitute.For<IEventPayloadTypeContainer>();
-        _eventPayloadTypeContainer.IsRegistered("ResourceEventPayload").Returns(true);
         _subEventContext = Substitute.For<IEventContext>();
-        _subEventContext.GetPayloadTypeContainer().Returns(_eventPayloadTypeContainer);
         _subEventContext.GetEvent("DummyCalled").Returns(new TofuEvent("DummyCalled"));
     }
 
@@ -44,11 +41,11 @@ public class ResourceModuleTests {
         subListener.BindListener(_subEventContext.GetEvent("DummyCalled"), null, _subEventContext);
         ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, new DummyResourceModuleOwner(), _subEventContext);
 
-        resourceModule.Deplete(1f, "DummyCalled", new EventPayload("String", "depleted", _subEventContext));
+        resourceModule.Deplete(1f, "DummyCalled", new EventPayload("String", "depleted"));
 
         _subEventContext.Received(0).TriggerEvent("DummyCalled", Arg.Any<EventPayload>());
 
-        resourceModule.Deplete(9.1f, "DummyCalled", new EventPayload("String", "depleted", _subEventContext));
+        resourceModule.Deplete(9.1f, "DummyCalled", new EventPayload("String", "depleted"));
 
         _subEventContext.Received(1).TriggerEvent("DummyCalled", Arg.Any<EventPayload>());
     }

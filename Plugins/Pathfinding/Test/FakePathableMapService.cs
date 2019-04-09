@@ -20,7 +20,7 @@ namespace TofuPlugin.Pathfinding.Test
         public void SetMapTiles(FakePathTile[,] tiles)
         {
             Tiles = tiles;
-            _eventContext.TriggerEvent("MapLoaded", new EventPayload("Null", null, _eventContext));
+            _eventContext.TriggerEvent("MapLoaded", new EventPayload("Null", null));
         }
 
         public IPathableMapTile GetPathableMapTile(Vector3 worldPoint) {

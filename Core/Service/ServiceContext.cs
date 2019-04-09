@@ -138,6 +138,7 @@ namespace TofuCore.Service
         private void BindCoreServices()
         {
             new EventContext().BindServiceContext(this);
+            AddAlias("EventContext", "IEventContext");
 
         }
 
