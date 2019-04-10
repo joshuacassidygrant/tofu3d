@@ -5,7 +5,14 @@ using UnityEngine;
 
 namespace TofuCore.Events
 {
-    public class EventLogger: AbstractService
+    public interface IEventLogger
+    {
+        void LogEvent(float timeStamp, string evnt, string payloadType);
+        void DumpCallCounts();
+        void DumpCallHistory();
+    }
+
+    public class EventLogger: AbstractService, IEventLogger
     {
 
         public Dictionary<string, Dictionary<string, int>> EventsCalledToPayloadTypesCounts = new Dictionary<string, Dictionary<string, int>>();

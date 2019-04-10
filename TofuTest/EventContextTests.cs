@@ -1,4 +1,5 @@
 ﻿using System;
+using NSubstitute;
 using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.Service;
@@ -9,27 +10,79 @@ using Assert = NUnit.Framework.Assert;
 
 namespace TofuTests
 {
-    public class EventsTests
+    public class EventContextTests
     {
-
-        private ServiceContext _serviceContext;
+        // Object under test
         private EventContext _eventContext;
-        private EventTesterService _eventTesterService;
-        private EventLogger _eventLogger;
+
+        private IServiceContext _subServiceContext;
+        private IListener _subListener1;
+        private IListener _subListener2;
+        private IEventLogger _subEventLogger;
+        private IEventPayloadTypeLibrary _subPayloadTypeLibrary;
+
 
         [SetUp]
         public void SetUp()
         {
-            _serviceContext = new ServiceContext();
 
-            _eventTesterService = new EventTesterService().BindServiceContext(_serviceContext);
-            _eventLogger = new EventLogger().BindServiceContext(_serviceContext);
+            _eventContext = new EventContext();
 
-            _eventContext = _serviceContext.Fetch("EventContext");
-            _serviceContext.FullInitialization();
+            _subEventLogger = Substitute.For<IEventLogger>();
+            _subPayloadTypeLibrary = Substitute.For<IEventPayloadTypeLibrary>();
+            _subListener1 = Substitute.For<IListener>();
+            _subListener2 = Substitute.For<IListener>();
+            
+
+            _subServiceContext = Substitute.For<IServiceContext>();
+            _subServiceContext.Has("IEventLogger").Returns(true);
+            _subServiceContext.Has("IEventPayloadTypeLibrary").Returns(true);
+            _subServiceContext.Fetch("IEventLogger").Returns(_subEventLogger);
+            _subServiceContext.Fetch("IEventPayloadTypeLibrary").Returns(_subPayloadTypeLibrary);
+
+            _eventContext.BindServiceContext(_subServiceContext);
+            _eventContext.Build();
+            _eventContext.ResolveServiceBindings();
+            _eventContext.Initialize();
         }
 
-        [TearDown]
+        [Test]
+        public void TestEventContextHasAllDependenciesSatisfied()
+        {
+            Assert.True(_eventContext.CheckDependencies());   
+        }
+
+        [Test]
+        public void TestEventAutoRegisters()
+        {
+            Assert.NotNull(_eventContext.GetEvent("Zarf"));
+            Assert.NotNull(_eventContext.GetEvent("Bamg"));
+        }
+
+        [Test]
+        public void TestNullEventIllegal()
+        {
+            try
+            {
+                Assert.NotNull(_eventContext.GetEvent(null));
+                Assert.Fail();
+            }
+            catch (ArgumentNullException e)
+            {
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public void TestEventListenerBinds()
+        {
+            //TODO:
+            _subListener1.BindListener(_eventContext.GetEvent("Event1"), null, _eventContext); //Can we rid ourselves of this extra call to event context?
+        }
+
+
+
+        /*[TearDown]
         public void TearDown()
         {
             _serviceContext = null;
@@ -131,10 +184,10 @@ namespace TofuTests
             _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42));
             _eventContext.TriggerEvent("Zarf", new EventPayload("Integer", 42));
 
-            Assert.AreEqual(3, _eventLogger.Logs.Count);
-            Assert.AreEqual("Zarf", _eventLogger.Logs[0].Event);
-            Assert.AreEqual("Integer", _eventLogger.Logs[0].PayloadType);
+            Assert.AreEqual(3, _subEventLogger.Logs.Count);
+            Assert.AreEqual("Zarf", _subEventLogger.Logs[0].Event);
+            Assert.AreEqual("Integer", _subEventLogger.Logs[0].PayloadType);
         }
-
+        */
     }
 }

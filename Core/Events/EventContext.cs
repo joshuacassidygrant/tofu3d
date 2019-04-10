@@ -14,17 +14,22 @@ namespace TofuCore.Events
     {
         private Dictionary<TofuEvent, List<IListener>> _eventListeners;
         private EventList _events;
-        private EventPayloadTypeContainer _eventPayloadTypeContainer;
         private Dictionary<TofuEvent, IListener> _eventListenersToRemove;
         [Dependency] protected IEventPayloadTypeLibrary EventPayloadLibrary;
-        [Dependency] protected EventLogger EventLogger;
+        [Dependency] protected IEventLogger EventLogger;
 
+        // Set Up
         public override void Build()
         {
             base.Build();
             _eventListeners = new Dictionary<TofuEvent, List<IListener>>();
             _events = new EventList();
-            _eventPayloadTypeContainer = new EventPayloadTypeContainer();
+        }
+
+        // Event Management
+        public TofuEvent GetEvent(string name)
+        {
+            return _events.Get(name);
         }
 
         public void TriggerEvent(string eventKey, EventPayload payload)
@@ -54,10 +59,7 @@ namespace TofuCore.Events
 
         }
 
-        public TofuEvent GetEvent(string name)
-        {
-            return _events.Get(name);
-        }
+        //Event Listener Management
 
         public void HelperBindEventListener(TofuEvent evnt, IListener listener)
         {
@@ -85,11 +87,6 @@ namespace TofuCore.Events
             _eventListenersToRemove.Add(evnt, listener);
 
 
-        }
-
-        public bool CheckPayloadContentAs(dynamic content, string type)
-        {
-            return _eventPayloadTypeContainer.CheckContentAs(content, type);
         }
 
         private void FlushListeners()
