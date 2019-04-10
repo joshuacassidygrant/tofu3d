@@ -148,6 +148,33 @@ namespace TofuTests
 
         }
 
+        [Test]
+        public void TestContextShouldBeAbleToFindGlopInMultipleManagers()
+        {
+            /*FakeSubGlopManager fake1 = new FakeSubGlopManager();
+            FakeSubGlopManager fake2 = new FakeSubGlopManager();
+
+            fake1.BindServiceContext(_context);
+            fake2.BindServiceContext(_context, "OtherOne");
+            _context.FullInitialization();
+
+            int start = _context.LastGlopId;
+
+            for (int i = 0; i < 10; i++)
+            {
+                fake1.SpawnFakeGlop();
+                fake2.SpawnFakeGlop();
+                fake2.SpawnFakeGlop();
+                fake1.SpawnFakeGlop();
+            }
+
+            Assert.NotNull(_context.FindGlopById(start));
+            Assert.NotNull(_context.FindGlopById(start + 20));
+            Assert.NotNull(_context.FindGlopById(start + 21));
+            Assert.NotNull(_context.FindGlopById(start + 22));
+            Assert.NotNull(_context.FindGlopById(start + 38));*/
+        }
+
 
     }
 }

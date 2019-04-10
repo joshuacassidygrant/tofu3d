@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TofuCore.Events;
 using TofuCore.Service;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace TofuCore.Glops
 {
@@ -16,7 +17,7 @@ namespace TofuCore.Glops
         T Value { get; }
 
         private Dictionary<int, Glop> _contents;
-        [Dependency] protected EventContext EventContext;
+        [Dependency] protected IEventContext EventContext;
 
         public override void Initialize() {
             BindListener(EventContext.GetEvent("FrameUpdate"), OnUpdateFrame, EventContext);
@@ -83,6 +84,12 @@ namespace TofuCore.Glops
          */
         public void Register(Glop glop)
         {
+            if (glop == null)
+            {
+                Debug.Log("Tried to register a null Glop!");
+                return;
+            }
+
             int id = GenerateGlopId();
             glop.Id = id;
             glop.InjectDependencies(ContentInjectables);
@@ -96,7 +103,7 @@ namespace TofuCore.Glops
         }
 
 
-        protected void Destroy(Glop glop)
+        public void Destroy(Glop glop)
         {
             if (HasId(glop.Id))
             {

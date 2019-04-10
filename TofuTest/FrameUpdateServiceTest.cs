@@ -30,15 +30,20 @@ namespace TofuTests
         }
 
         [Test]
+        public void TestFrameUpdateServiceHasAllDependencies()
+        {
+            Assert.True(_frameUpdateService.CheckDependencies());
+        }
+
+        [Test]
         public void TestFrameUpdateForceUpdateTriggersEvent()
         {
+            _subEventContext.Received(0).TriggerEvent("FrameUpdate", Arg.Any<EventPayload>());
             _frameUpdateService.ForceUpdate(0.1f);
             _frameUpdateService.ForceUpdate(0.12f);
             _frameUpdateService.ForceUpdate(0.15f);
             _subEventContext.Received(3).TriggerEvent("FrameUpdate", Arg.Any<EventPayload>());
         }
-
-
 
     }
 }
