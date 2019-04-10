@@ -103,7 +103,6 @@ namespace TofuTests
         {
             _glopContainer.Register(null);
 
-
             Assert.AreEqual(0, _glopContainer.CountActive());
         }
 
