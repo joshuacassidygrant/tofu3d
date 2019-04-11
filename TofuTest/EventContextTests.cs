@@ -77,7 +77,7 @@ namespace TofuTests
         public void TestEventListenerBinds()
         {
             //TODO:
-            _subListener1.BindListener(_eventContext.GetEvent("Event1"), null, _eventContext); //Can we rid ourselves of this extra call to event context?
+            _subListener1.BindListener("Event1", null, _eventContext); //Can we rid ourselves of this extra call to event context?
         }
 
 

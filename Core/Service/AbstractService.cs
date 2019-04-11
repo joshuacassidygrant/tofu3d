@@ -159,6 +159,12 @@ namespace TofuCore.Service
             }
         }
 
+        public void BindListener(string eventId, Action<EventPayload> action, IEventContext evntContext)
+        {
+            BindListener(evntContext.GetEvent(eventId), action, evntContext);
+        }
+
+
         public void BindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
         {
             if (_boundListeners == null) _boundListeners = new Dictionary<TofuEvent, List<Action<EventPayload>>>();
