@@ -13,9 +13,9 @@ namespace TofuCore.Events
 
         public string ContentType { get; }
 
-        private dynamic _content;
+        private readonly object _content;
 
-        public EventPayload(string contentType, dynamic content)
+        public EventPayload(string contentType, object content)
         {
             ContentType = contentType;
             _content = content;
