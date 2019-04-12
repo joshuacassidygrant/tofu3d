@@ -14,7 +14,7 @@ namespace TofuPlugin.Agents
         {
             base.Initialize(agent, context);
             
-            BindListener(EventContext.GetEvent("AgentDies"), UnitDestroyed, EventContext);
+            BindListener("AgentDies", UnitDestroyed, EventContext);
 
 
             //string colorLabel = agent.Properties.GetProperty("BaseColor", "white");

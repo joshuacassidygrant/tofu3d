@@ -38,7 +38,7 @@ public class ResourceModuleTests {
     public void TestEventShouldBeSentWhenTriggeredOnDepletion()
     {
         IListener subListener = Substitute.For<IListener>();
-        subListener.BindListener(_subEventContext.GetEvent("DummyCalled"), null, _subEventContext);
+        subListener.BindListener("DummyCalled", null, _subEventContext);
         ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, new DummyResourceModuleOwner(), _subEventContext);
 
         resourceModule.Deplete(1f, "DummyCalled", new EventPayload("String", "depleted"));

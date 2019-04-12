@@ -30,7 +30,7 @@ namespace TofuPlugin.Pathfinding
 
         public override void Prepare()
         {
-            BindListener(_eventContext.GetEvent("MapLoaded"), OnMapServiceLoaded, _eventContext);
+            BindListener("MapLoaded", OnMapServiceLoaded, _eventContext);
         }
 
         void ConfigureParameters()

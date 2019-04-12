@@ -43,7 +43,7 @@ namespace TofuPlugin.Agents
 
         private void BindListeners()
         {
-            BindListener(new TofuEvent("UnitDies"), UnitDies, EventContext);
+            BindListener("UnitDies", UnitDies, EventContext);
         }
 
         public Agent Spawn(string prototypeId, string agentTypeLabel, Vector3 location, Configuration config = null)

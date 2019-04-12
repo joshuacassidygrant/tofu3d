@@ -171,13 +171,13 @@ namespace TofuCore.Service
 
             if (!_boundListeners.ContainsKey(evnt)) _boundListeners.Add(evnt, new List<Action<EventPayload>>());
 
-            evntContext.HelperBindEventListener(evnt, this);
+            evntContext.ContextBindEventListener(evnt, this);
             _boundListeners[evnt].Add(action);
         }
 
         public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
         {
-            evntContext.RemoveEventListener(evnt, this);
+            evntContext.ContextRemoveEventListener(evnt, this);
             _boundListeners[evnt].Remove(action);
 
         }

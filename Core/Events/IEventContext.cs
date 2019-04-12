@@ -7,7 +7,7 @@ namespace TofuCore.Events
     {
         void TriggerEvent(string eventKey, EventPayload payload);
         TofuEvent GetEvent(string name);
-        void HelperBindEventListener(TofuEvent evnt, IListener listener);
-        void RemoveEventListener(TofuEvent evnt, IListener listener);
+        void ContextBindEventListener(TofuEvent evnt, IListener listener);
+        void ContextRemoveEventListener(TofuEvent evnt, IListener listener);
     }
 }

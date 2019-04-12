@@ -16,7 +16,7 @@ namespace TofuPlugin.Pathfinding
         public override void Initialize()
         {
             base.Initialize();
-            BindListener(_eventContext.GetEvent("FrameUpdate"), OnFrameUpdate, _eventContext);
+            BindListener("FrameUpdate", OnFrameUpdate, _eventContext);
         }
 
         public void RequestPath(PathRequest request)

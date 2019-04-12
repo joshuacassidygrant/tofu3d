@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TofuCore.Service;
 using UnityEngine;
 
@@ -34,9 +35,13 @@ namespace TofuCore.Events
 
         public void TriggerEvent(string eventKey, EventPayload payload)
         {
+
             if (EventPayloadLibrary != null)
             {
-                EventPayloadLibrary.ValidatePayload(payload);
+                if (!EventPayloadLibrary.ValidatePayload(payload))
+                {
+                    throw new ArgumentException("Invalid payload!");
+                }
             }
 
             FlushListeners();
@@ -61,7 +66,12 @@ namespace TofuCore.Events
 
         //Event Listener Management
 
-        public void HelperBindEventListener(TofuEvent evnt, IListener listener)
+        public void ContextBindEventListener(string evntId, IListener listener)
+        {
+            ContextBindEventListener(GetEvent(evntId), listener);
+        }
+
+        public void ContextBindEventListener(TofuEvent evnt, IListener listener)
         {
             if (!_eventListeners.ContainsKey(evnt))
             {
@@ -71,7 +81,12 @@ namespace TofuCore.Events
             _eventListeners[evnt].Add(listener);
         }
 
-        public void RemoveEventListener(TofuEvent evnt, IListener listener)
+        public void ContextRemoveEventListener(string evntId, IListener listener)
+        {
+            ContextRemoveEventListener(GetEvent(evntId), listener);
+        }
+
+        public void ContextRemoveEventListener(TofuEvent evnt, IListener listener)
         {
             if (!_eventListeners.ContainsKey(evnt) || !_eventListeners[evnt].Contains(listener))
             {

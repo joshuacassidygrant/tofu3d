@@ -1,5 +1,6 @@
 ﻿using System;
 using NSubstitute;
+using NSubstitute.Core.Arguments;
 using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.Service;
@@ -40,6 +41,8 @@ namespace TofuTests
             _subServiceContext.Fetch("IEventLogger").Returns(_subEventLogger);
             _subServiceContext.Fetch("IEventPayloadTypeLibrary").Returns(_subPayloadTypeLibrary);
 
+            _subPayloadTypeLibrary.ValidatePayload(Arg.Any<EventPayload>()).Returns(true);
+
             _eventContext.BindServiceContext(_subServiceContext);
             _eventContext.Build();
             _eventContext.ResolveServiceBindings();
@@ -76,11 +79,74 @@ namespace TofuTests
         [Test]
         public void TestEventListenerBinds()
         {
-            //TODO:
-            _subListener1.BindListener("Event1", null, _eventContext); //Can we rid ourselves of this extra call to event context?
+            _eventContext.ContextBindEventListener("Event1", _subListener1);
+            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
+            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
+            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
+
+            //Assert
+            _subListener1.Received(3).ReceiveEvent(_eventContext.GetEvent("Event1"), Arg.Any<EventPayload>());
         }
 
+        [Test]
+        public void TestEventListenerUnbinds()
+        {
+            _eventContext.ContextBindEventListener("Event1", _subListener1);
+            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
+            _eventContext.ContextRemoveEventListener("Event1", _subListener1);
+            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
+            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
 
+            //Assert
+            _subListener1.Received(1).ReceiveEvent(_eventContext.GetEvent("Event1"), Arg.Any<EventPayload>());
+        }
+
+        [Test]
+        public void TestEventWithNoListenersCalls()
+        {
+            _eventContext.TriggerEvent("Ziff", new EventPayload("null", null));
+
+            //Assert
+            _subListener1.Received(0).ReceiveEvent(_eventContext.GetEvent("Ziff"), Arg.Any<EventPayload>());
+            _subListener2.Received(0).ReceiveEvent(_eventContext.GetEvent("Ziff"), Arg.Any<EventPayload>());
+        }
+
+        [Test]
+        public void TestEventWithNullIdFails()
+        {
+            try
+            {
+                _eventContext.TriggerEvent(null, new EventPayload("null", null));
+                Assert.Fail();
+            }
+            catch (ArgumentNullException e)
+            {
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public void TestEventWithNullPayloadOkay()
+        {
+            _eventContext.TriggerEvent("Zarp", null);
+
+            _subPayloadTypeLibrary.Received(1).ValidatePayload(Arg.Any<EventPayload>());
+        }
+
+        [Test]
+        public void TestEventIllegalPayload()
+        {
+            _subPayloadTypeLibrary.ValidatePayload(Arg.Any<EventPayload>()).Returns(false);
+            try
+            {
+                _eventContext.TriggerEvent("Faf", new EventPayload("null", null));
+                Assert.Fail();
+            }
+            catch (ArgumentException e)
+            {
+                Assert.Pass();
+            }
+        }
 
         /*[TearDown]
         public void TearDown()
