@@ -6,7 +6,7 @@ using TofuCore.Service;
 using TofuCore.TestSupport;
 using UnityEngine;
 
-namespace TofuTests
+namespace TofuTest
 {
     public class ServiceContextTests {
 

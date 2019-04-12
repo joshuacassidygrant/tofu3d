@@ -6,7 +6,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TofuCore.Service;
 
-namespace TofuTests
+namespace TofuTest
 {
     public class MockingServiceIntegrationTests
     {

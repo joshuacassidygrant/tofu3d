@@ -4,7 +4,7 @@ using TofuCore.Service;
 using TofuCore.Tangible;
 using UnityEngine;
 
-namespace TofuTests
+namespace TofuTest
 {
     public class ITargetableTests
     {

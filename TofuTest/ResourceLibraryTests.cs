@@ -4,7 +4,7 @@ using NUnit.Framework;
 using TofuCore.Service;
 using TofuCore.TestSupport;
 
-namespace TofuTests
+namespace TofuTest
 {
 
     public class ContentLibraryTests

@@ -5,7 +5,7 @@ using TofuCore.Configuration;
 using UnityEditor.VersionControl;
 using UnityEngine;
 
-namespace TofuTests
+namespace TofuTest
 {
     public class ConfigTests
     {

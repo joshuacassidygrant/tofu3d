@@ -4,7 +4,7 @@ using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Service;
 
-namespace TofuTests
+namespace TofuTest
 {
     public class GlopContainerTests
     {

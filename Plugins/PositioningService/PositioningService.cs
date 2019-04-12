@@ -5,7 +5,7 @@ using TofuCore.Service;
 using TofuCore.Tangible;
 using TofuPlugin.Agents;
 using TofuPlugin.Pathfinding.MapAdaptors;
-using TofuTests;
+using TofuTest;
 using UnityEngine;
 
 /*

@@ -7,7 +7,7 @@ using TofuCore.FrameUpdateServices;
 using TofuCore.Service;
 using UnityEngine;
 
-namespace TofuTests
+namespace TofuTest
 {
     public class FrameUpdateServiceTest
     {
