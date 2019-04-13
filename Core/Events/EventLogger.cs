@@ -14,7 +14,6 @@ namespace TofuCore.Events
 
     public class EventLogger: AbstractService, IEventLogger
     {
-
         public Dictionary<string, Dictionary<string, int>> EventsCalledToPayloadTypesCounts = new Dictionary<string, Dictionary<string, int>>();
         public List<EventLog> Logs = new List<EventLog>();
 
