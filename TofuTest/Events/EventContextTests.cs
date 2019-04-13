@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
 using TofuCore.Events;
@@ -28,13 +29,12 @@ namespace TofuTest.Events
             _subPayloadTypeLibrary = Substitute.For<IEventPayloadTypeLibrary>();
             _subListener1 = Substitute.For<IListener>();
             _subListener2 = Substitute.For<IListener>();
-            
 
-            _subServiceContext = Substitute.For<IServiceContext>();
-            _subServiceContext.Has("IEventLogger").Returns(true);
-            _subServiceContext.Has("IEventPayloadTypeLibrary").Returns(true);
-            _subServiceContext.Fetch("IEventLogger").Returns(_subEventLogger);
-            _subServiceContext.Fetch("IEventPayloadTypeLibrary").Returns(_subPayloadTypeLibrary);
+            _subServiceContext = TestUtilities.BuildSubServiceContextWithServices(new Dictionary<string, object>
+            {
+                {"IEventLogger", _subEventLogger},
+                {"IEventPayloadTypeLibrary", _subPayloadTypeLibrary}
+            });
 
             _subPayloadTypeLibrary.ValidatePayload(Arg.Any<EventPayload>()).Returns(true);
 

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using NSubstitute;
 using NSubstitute.Core.Arguments;
 using NUnit.Framework;
@@ -20,9 +21,11 @@ namespace TofuTest
         public void SetUp()
         {
             _subEventContext = Substitute.For<IEventContext>();
-            _subServiceContext = Substitute.For<IServiceContext>();
-            _subServiceContext.Has("IEventContext").Returns(true);
-            _subServiceContext.Fetch("IEventContext").Returns(_subEventContext);
+            _subServiceContext = TestUtilities.BuildSubServiceContextWithServices(new Dictionary<string, object>()
+            {
+                {"IEventContext", _subEventContext}
+            });
+
             _subEventContext.When(x => x.TriggerEvent(Arg.Any<string>(), Arg.Any<EventPayload>())).Do(x => { });
             _frameUpdateService = new GameObject().AddComponent<FrameUpdateService>();
             _frameUpdateService.BindServiceContext(_subServiceContext);
