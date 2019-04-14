@@ -26,7 +26,7 @@ namespace TofuCore.ResourceModule
         {
             get
             {
-                if (_max == 0) return 0;
+                if (Math.Abs(_max) < 0.01f) return 0;
                 return _value / _max;
             }
         }
@@ -44,6 +44,10 @@ namespace TofuCore.ResourceModule
             _owner = owner;
         }
 
+        /**
+         * Depletes the resource module. Unlike "Spend", "Deplete" can go below 0. If deplete hits 0 or below, it can fire a special event (passed in)
+         * as well as a deplete event with a resource module payload.
+         */
         public void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null)
         {
 
@@ -70,6 +74,50 @@ namespace TofuCore.ResourceModule
 
         }
 
+        /**
+         * Spends the resource. True if resource >= to amount to spend; false if not. No change if not spent.
+         */
+        public bool Spend(float amount)
+        {
+            if (CanSpend(amount))
+            {
+                _value -= amount;
+                FireChangeEvent();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool CanSpend(float amount)
+        {
+            return _value - amount >= 0;
+        }
+
+        /**
+         * Adds to the resource's pool. If keepOverrun is true, can add past the maximum.
+         */
+        public void Replenish(float amount, bool keepOverrun = false)
+        {
+            if (!keepOverrun)
+            {
+                _value = Mathf.Min(_value + amount, FMax);
+            }
+            else
+            {
+                _value = _value + amount;
+            }
+
+            FireChangeEvent();
+            if (_replenishEventKey != null)
+            {
+                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, _owner, (int)Math.Round(amount))));
+            }
+        }
+
+        /**
+         * For binding events:
+         */
         public void BindFullDepletionEvent(string key, EventPayload payload)
         {
             _fullDepletionEventKey = key;
@@ -91,23 +139,9 @@ namespace TofuCore.ResourceModule
             _changeEventKey = key;
         }
 
-        public bool Spend(float amount)
-        {
-            if (CanSpend(amount))
-            {
-                _value -= amount;
-                FireChangeEvent();
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool CanSpend(float amount)
-        {
-            return _value - amount >= 0;
-        }
-
+        /**
+         * Getters/Setters
+         */
         public void SetMax(float amount)
         {
             _max = amount;
@@ -127,19 +161,13 @@ namespace TofuCore.ResourceModule
             FireChangeEvent();
         }
 
-        public void Replenish(float amount)
-        {
-            _value = Mathf.Min(_value + amount, FMax);
-            FireChangeEvent();
-            if (_replenishEventKey != null)
-            {
-                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, _owner, (int)Math.Round(amount))));
-            }
-        }
+        /**
+         * Helpers
+         */
 
         private void FireChangeEvent()
         {
-            if (String.IsNullOrEmpty(_changeEventKey)) return;
+            if (string.IsNullOrEmpty(_changeEventKey)) return;
             _eventContext.TriggerEvent(_changeEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, _owner, IValue)));
 
         }
