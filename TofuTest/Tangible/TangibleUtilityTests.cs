@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TofuTest
 {
-    public class ITargetableTests
+    public class TangibleUtilityTests
     {
         private ServiceContext _context;
         private ITangible _t1;
