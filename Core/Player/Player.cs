@@ -8,14 +8,14 @@ namespace TofuCore.Player
 {
     public class Player : Glop, IResourceModuleOwner
     {
-        private Dictionary<string, ResourceModule.ResourceModule> _resourceModules;
+        private readonly Dictionary<string, IResourceModule> _resourceModules;
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public Vector3 Position { get; private set; }
 
         public Player(string name) : base()
         {
-            _resourceModules = new Dictionary<string, ResourceModule.ResourceModule>();
+            _resourceModules = new Dictionary<string, IResourceModule>();
             Name = name;
         }
 
@@ -29,12 +29,12 @@ namespace TofuCore.Player
         }
 
 
-        public Dictionary<string, ResourceModule.ResourceModule> GetResourceModules()
+        public Dictionary<string, IResourceModule> GetResourceModules()
         {
             return _resourceModules;
         }
 
-        public void AssignResourceModule(string key, ResourceModule.ResourceModule module)
+        public void AssignResourceModule(string key, IResourceModule module)
         {
             if (_resourceModules.ContainsKey(key))
             {
@@ -50,7 +50,7 @@ namespace TofuCore.Player
             _resourceModules.Remove(key);
         }
 
-        public ResourceModule.ResourceModule GetResourceModule(string key)
+        public IResourceModule GetResourceModule(string key)
         {
             if (!_resourceModules.ContainsKey(key)) return null;
             return _resourceModules[key];

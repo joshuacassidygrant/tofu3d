@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IResourceModuleOwner
 {
-    Dictionary<string, ResourceModule> GetResourceModules();
-    void AssignResourceModule(string key, ResourceModule module);
+    Dictionary<string, IResourceModule> GetResourceModules();
+    void AssignResourceModule(string key, IResourceModule module);
     void RemoveResourceModule(string key);
-    ResourceModule GetResourceModule(string key);
+    IResourceModule GetResourceModule(string key);
     Vector3 Position { get; }
 }

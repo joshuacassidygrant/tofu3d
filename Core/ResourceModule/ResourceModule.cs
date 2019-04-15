@@ -5,7 +5,27 @@ using UnityEngine;
 
 namespace TofuCore.ResourceModule
 {
-    public class ResourceModule
+    public interface IResourceModule
+    {
+        int IValue { get; }
+        int IMax { get; }
+        float FValue { get; }
+        float FMax { get; }
+        float Percent { get; }
+        void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null);
+        bool Spend(float amount);
+        bool CanSpend(float amount);
+        void Replenish(float amount, bool keepOverrun = false);
+        void BindFullDepletionEvent(string key, EventPayload payload);
+        void SetDepletionEventKey(string key);
+        void SetReplenishEventKey(string key);
+        void SetChangeEventKey(string key);
+        void SetMax(float amount);
+        void SetValue(float amount);
+        void SetMaxRetainPercent(float amount);
+    }
+
+    public class ResourceModule : IResourceModule
     {
         public readonly string Name;
 

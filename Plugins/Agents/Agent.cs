@@ -55,7 +55,7 @@ namespace TofuPlugin.Agents
          * Local modules
          */
         public AgentSensor Sensor { get; set; }
-        public Dictionary<string, ResourceModule> ResourceModules { get; private set; }
+        public Dictionary<string, IResourceModule> ResourceModules { get; private set; }
         public HashSet<string> ExpectedProperties { get; private set; }
         public AIAgentController Controller { get; private set; }
         public List<AgentAction> Actions { get; private set; } //Add to this only with the AddAction() method to ensure actions are bound to agent
@@ -80,7 +80,7 @@ namespace TofuPlugin.Agents
          */
         public Agent()
         {
-            ResourceModules = new Dictionary<string, ResourceModule>();
+            ResourceModules = new Dictionary<string, IResourceModule>();
             Properties = new Properties();
             Actions = new List<AgentAction>();
         }
@@ -263,12 +263,12 @@ namespace TofuPlugin.Agents
          * RESOURCE MODULES
          */
 
-        public Dictionary<string, ResourceModule> GetResourceModules()
+        public Dictionary<string, IResourceModule> GetResourceModules()
         {
             return ResourceModules;
         }
 
-        public void AssignResourceModule(string key, ResourceModule module)
+        public void AssignResourceModule(string key, IResourceModule module)
         {
             if (ResourceModules.ContainsKey(key))
             {
@@ -284,7 +284,7 @@ namespace TofuPlugin.Agents
             ResourceModules.Remove(key);
         }
 
-        public ResourceModule GetResourceModule(string key)
+        public IResourceModule GetResourceModule(string key)
         {
             if (!ResourceModules.ContainsKey(key)) return null;
             return ResourceModules[key];
