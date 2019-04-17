@@ -6,7 +6,7 @@ using TofuCore.Player;
 using TofuCore.ResourceModule;
 using UnityEngine;
 
-namespace TofuTests
+namespace TofuTest.PlayerTests
 {
     public class PlayerTests
     {
