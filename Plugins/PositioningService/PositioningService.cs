@@ -16,21 +16,26 @@ namespace TofuPlugin.PositioningServices
     public class PositioningService : AbstractService
     {
 
-        private List<ITangibleContainer> _tangibleContainers = new List<ITangibleContainer>();
+        public List<ITangibleContainer> TangibleContainers { get; private set; }
 
-        [Dependency] private AgentContainer _agentContainer;
         [Dependency] private IPathableMapService _mapService;
+
+        public PositioningService()
+        {
+            TangibleContainers = new List<ITangibleContainer>();
+        }
 
         public void RegisterTargetableContainer(ITangibleContainer tangibleContainer)
         {
-            _tangibleContainers.Add(tangibleContainer);
+            TangibleContainers.Add(tangibleContainer);
         }
 
         public bool SpaceAtPosition(ITangible tangible, List<ITangible> ignore)
         {
             //TODO: fix this
+            //TODO: currently, only checks 1 map tile, not all map tiles in radius.
             return _mapService.GetPathableMapTile(tangible.Position).Passable 
-            && !_tangibleContainers.Any(xc => xc.GetAllTangibles()
+            && !TangibleContainers.Any(xc => xc.GetAllTangibles()
                 .Any(x => TangibleUtilities.DoTangiblesOverlap(x, tangible) && !ignore.Contains(x)));
 
         }
