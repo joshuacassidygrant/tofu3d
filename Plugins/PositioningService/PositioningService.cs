@@ -13,8 +13,10 @@ using UnityEngine;
  */
 namespace TofuPlugin.PositioningServices
 {
+
     public class PositioningService : AbstractService
     {
+        public float ScanSize = 180f / AgentConstants.PositionJostleScanSteps;
 
         public List<ITangibleContainer> TangibleContainers { get; private set; }
 
@@ -42,7 +44,6 @@ namespace TofuPlugin.PositioningServices
 
         public ITangible GetNearestClearSpace(ITangible position, Vector3 direction, List<ITangible> ignore)
         {
-            float scanSize = 180f / AgentConstants.PositionJostleScanSteps;
 
             //TODO: optimize this
             //Use when attempt direction has failed, we will check other possible directions by rotating the attempt around the origin point.
@@ -51,7 +52,7 @@ namespace TofuPlugin.PositioningServices
             {
 
                 //Positive direction
-                Vector3 newDirection = Quaternion.Euler(scanSize * i, 0, 0) * direction;
+                Vector3 newDirection = Quaternion.Euler(ScanSize * i, 0, 0) * direction;
                 Vector3 newPoint = position.Position + newDirection;
                 TangiblePosition newPos = new TangiblePosition(newPoint);
                 if (SpaceAtPosition(newPos, ignore))
@@ -60,7 +61,7 @@ namespace TofuPlugin.PositioningServices
                 }
 
                 //Negative direction
-                newDirection = Quaternion.Euler(scanSize * i * -1f, 0, 0) * direction;
+                newDirection = Quaternion.Euler(ScanSize * i * -1f, 0, 0) * direction;
                 newPoint = position.Position + newDirection;
                 newPos = new TangiblePosition(newPoint);
                 if (SpaceAtPosition(newPos, ignore))
