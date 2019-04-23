@@ -52,18 +52,20 @@ namespace TofuPlugin.PositioningServices
             {
 
                 //Positive direction
-                Vector3 newDirection = Quaternion.Euler(ScanSize * i, 0, 0) * direction;
+                Vector3 newDirection = Quaternion.Euler(0, 0, ScanSize * i) * direction;
                 Vector3 newPoint = position.Position + newDirection;
                 TangiblePosition newPos = new TangiblePosition(newPoint);
+                //Debug.Log(newPoint);
                 if (SpaceAtPosition(newPos, ignore))
                 {
                     return newPos;
                 }
 
                 //Negative direction
-                newDirection = Quaternion.Euler(ScanSize * i * -1f, 0, 0) * direction;
+                newDirection = Quaternion.Euler(0, 0, ScanSize * i * -1f) * direction;
                 newPoint = position.Position + newDirection;
                 newPos = new TangiblePosition(newPoint);
+                //Debug.Log(newPoint);
                 if (SpaceAtPosition(newPos, ignore))
                 {
                     return newPos;

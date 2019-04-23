@@ -158,7 +158,15 @@ namespace TofuTest.PositioningServiceTest
             Assert.True(_positioningService.SpaceAtPosition(new TangiblePosition(new Vector3(0.5f, 0.5f, 0.5f), 0.1f), _ignoreList));
         }
 
-        //TODO: Tests for GetNearestClearSpace
+        [Test]
+        public void TestGetNearestClearSpace()
+        {
+            _subPathableMapService.GetPathableMapTile(Arg.Any<Vector3>()).Passable.Returns(false);
+
+            _positioningService.GetNearestClearSpace(_pawn, Vector3.up, _ignoreList);
+
+        }
+
 
 
     }
