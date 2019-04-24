@@ -4,6 +4,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TofuCore.Service;
 using TofuCore.Tangible;
+using TofuPlugin.Agents;
 using TofuPlugin.Pathfinding.MapAdaptors;
 using TofuPlugin.PositioningServices;
 using UnityEditor.VersionControl;
@@ -159,13 +160,48 @@ namespace TofuTest.PositioningServiceTest
         }
 
         [Test]
-        public void TestGetNearestClearSpace()
+        public void TestGetNearestClearSpaceIncrementsHalfCircle()
         {
-            _subPathableMapService.GetPathableMapTile(Arg.Any<Vector3>()).Passable.Returns(false);
+            float degreeDelta = 180f / AgentConstants.PositionJostleScanSteps;
 
-            _positioningService.GetNearestClearSpace(_pawn, Vector3.up, _ignoreList);
+            _subPathableMapService.GetPathableMapTile(Arg.Any<Vector3>()).Passable.Returns(true);
+
+
+            ITangible obstruction = Substitute.For<ITangible>();
+            obstruction.Position.Returns(Vector3.up);
+            obstruction.SizeRadius.Returns(0.05f);
+            List<ITangible> obstructionList1 = new List<ITangible> { obstruction };
+            _tangibleContainer1.GetAllTangibles().Returns(obstructionList1);
+            _tangibleContainer2.GetAllTangibles().Returns(new List<ITangible>());
+
+
+            Vector3 pos;
+            Vector3 test;
+
+            for (int i = 1; i <= AgentConstants.PositionJostleScanSteps; i++)
+            {
+                int sign = (i % 2 == 0) ? -1 : 1;
+                float degs = 90f + Mathf.CeilToInt(i / 2f) * sign * degreeDelta;
+                float rads = (degs) * Mathf.PI / 180;
+                pos = _positioningService.GetNearestClearSpace(_pawn, Vector3.up, _ignoreList).Position;
+                test = new Vector3(Mathf.Cos(rads), Mathf.Sin(rads), 0f);
+                Assert.True(Vector3.Distance(pos, test) < 0.1f);
+                
+                //Try next position
+                ITangible newObstruction = Substitute.For<ITangible>();
+                newObstruction.Position.Returns(pos);
+                newObstruction.SizeRadius.Returns(0.05f);
+                obstructionList1.Add(newObstruction);
+            }
+
+            //Obstructed in full 180 degree angle in front; moves nowhere.
+            Assert.AreEqual(Vector3.zero, _positioningService.GetNearestClearSpace(_pawn, Vector3.up, _ignoreList).Position);
+
+
 
         }
+
+
 
 
 

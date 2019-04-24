@@ -48,14 +48,13 @@ namespace TofuPlugin.PositioningServices
             //TODO: optimize this
             //Use when attempt direction has failed, we will check other possible directions by rotating the attempt around the origin point.
             //Rotate attempt direction back and forth until we find a moveable direction.
-            for (int i = 1; i < AgentConstants.PositionJostleScanSteps / 2; i++)
+            for (int i = 1; i < (AgentConstants.PositionJostleScanSteps / 2) + 1; i++)
             {
 
                 //Positive direction
                 Vector3 newDirection = Quaternion.Euler(0, 0, ScanSize * i) * direction;
                 Vector3 newPoint = position.Position + newDirection;
                 TangiblePosition newPos = new TangiblePosition(newPoint);
-                //Debug.Log(newPoint);
                 if (SpaceAtPosition(newPos, ignore))
                 {
                     return newPos;
@@ -65,13 +64,13 @@ namespace TofuPlugin.PositioningServices
                 newDirection = Quaternion.Euler(0, 0, ScanSize * i * -1f) * direction;
                 newPoint = position.Position + newDirection;
                 newPos = new TangiblePosition(newPoint);
-                //Debug.Log(newPoint);
                 if (SpaceAtPosition(newPos, ignore))
                 {
                     return newPos;
                 }
             }
 
+            //TODO: something when it breaks out like this
             return position;
         }
 
