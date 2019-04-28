@@ -56,7 +56,7 @@ namespace TofuPlugin.Agents
          */
         public AgentSensor Sensor { get; set; }
         public Dictionary<string, IResourceModule> ResourceModules { get; private set; }
-        public HashSet<string> ExpectedProperties { get; private set; }
+        public HashSet<string> ExpectedProperties { get; protected set; }
         public AIAgentController Controller { get; private set; }
         public List<AgentAction> Actions { get; private set; } //Add to this only with the AddAction() method to ensure actions are bound to agent
         public AgentType AgentType { get; private set; }
