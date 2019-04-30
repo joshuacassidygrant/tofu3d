@@ -1,4 +1,6 @@
-﻿namespace TofuPlugin.Agents.Sensors
+﻿using TofuCore.Sensors;
+
+namespace TofuPlugin.Agents.Sensors
 {
 
     public class AgentSensorFactory: AbstractSensorFactory {

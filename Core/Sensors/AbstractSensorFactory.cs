@@ -1,6 +1,6 @@
 ﻿using TofuCore.Service;
 
-namespace TofuPlugin.Agents.Sensors
+namespace TofuCore.Sensors
 {
     public abstract class AbstractSensorFactory : AbstractService {
     }

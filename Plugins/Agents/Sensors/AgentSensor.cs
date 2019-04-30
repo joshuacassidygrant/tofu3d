@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TofuCore.Sensors;
 using TofuCore.Service;
 using TofuCore.Tangible;
-using TofuPlugin.Agents.Sensors;
 using UnityEngine;
 
 namespace TofuPlugin.Agents

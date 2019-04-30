@@ -1,4 +1,4 @@
-﻿using TofuPlugin.Agents.Sensors;
+﻿using TofuCore.Sensors;
 
 namespace TofuPlugin.Agents
 {
