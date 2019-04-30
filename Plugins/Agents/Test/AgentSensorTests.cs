@@ -14,35 +14,51 @@ namespace TofuPlugin.Agents.Tests
 {
     public class AgentSensorTests
     {
-        private ServiceContext _context;
+        private IServiceContext _context;
         private AgentSensor _sensor;
         private AgentSensorFactory _sensorFactory;
         private ITangibleContainer _tangibleContainer;
-        private Agent _agent;
-        private EventContext _eventContext;
+        private IAgentContainer _agentContainer;
+        private IAgent _agent;
+        private IEventContext _eventContext;
 
-        //TODO: legacy tests, rewrite
 
         [SetUp]
         public void SetUp()
         {
-         
-            /*_context = new ServiceContext();
-            _eventContext = _context.Fetch("EventContext");
-            _sensorFactory = new AgentSensorFactory();
-            _sensorFactory.BindServiceContext(_context);
-            _agentManager = new AgentContainer();
-            _agentManager.BindServiceContext(_context);
+            _agentContainer = Substitute.For<IAgentContainer>();
+            _tangibleContainer = Substitute.For<ITangibleContainer>();
+            _eventContext = Substitute.For<IEventContext>();
+            _agent = Substitute.For<IAgent>();
 
-            _eventContext.GetPayloadTypeContainer().RegisterPayloadContentType("Agent", (x => x is Agent));
+            _context = TestUtilities.BuildSubServiceContextWithServices(new Dictionary<string, object>
+            {
+                {"IAgentContainer", _agentContainer },
+                {"IEventContext", _eventContext },
+                {"ITangibleContainer", _tangibleContainer}
+            });
 
-            _context.FullInitialization();
-
-            _agent = _agentManager.Spawn(AgentPrototype.GetNew(), Vector3.zero);
-            _sensor = new AgentSensor(_context, _agent);*/
+            _sensor = new AgentSensor(_context, _agent);
         }
 
+        [Test]
+        public void TestSensorConstructs()
+        {
+            Assert.NotNull(_sensor);
+            Assert.AreEqual(_agent, _sensor.Agent);
+            Assert.AreEqual(0f, _sensor.SenseRange, 0.001f);
+        }
 
+        [Test]
+        public void TestSetGetSensorRange()
+        {
+            _sensor.SenseRange = 10f;
+            Assert.AreEqual(10f, _sensor.SenseRange);
+
+            _sensor.SenseRange = 50f;
+            Assert.AreEqual(50f, _sensor.SenseRange);
+
+        }
 
         /*[Test]
         public void SensorShouldDetectNoOtherAgentsInRangeWhenNoAgentsSpawned()

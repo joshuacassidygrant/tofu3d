@@ -11,17 +11,16 @@ namespace TofuPlugin.Agents
     public class AgentSensor : AbstractSensor
     {
 
-        protected Agent Agent;
-        public float SenseRange;
+        public IAgent Agent;
+        public float SenseRange { get; set; }
 
         //TEMPORRARY
-        private AgentContainer AgentContainer;
+        private IAgentContainer AgentContainer;
 
 
-        public AgentSensor(IServiceContext context, Agent agent) : base(context) {
+        public AgentSensor(IServiceContext context, IAgent agent) : base(context) {
             Agent = agent;
-            //Manager = Context.Fetch("AgentContainer");
-            AgentContainer = Context.Fetch("AgentContainer");
+            AgentContainer = Context.Fetch("IAgentContainer");
         }
 
         public override List<ITangible> GetAllTargetables()

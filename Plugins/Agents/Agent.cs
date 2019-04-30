@@ -23,7 +23,49 @@ namespace TofuPlugin.Agents
      * or player input. Agents are managed by an agent manager class and rendered by an agent
      * renderer.
      */
-    public class Agent: Glop, IRenderable, ITangible, IControllableAgent, IConfigurable, IResourceModuleOwner, IFactionBelongable
+    public interface IAgent
+    {
+        string Name { get; }
+        bool Active { get; }
+        Vector3 Position { get; set; }
+        float SizeRadius { get; }
+        ITangible TangibleSelf { get; }
+        Sprite Sprite { get; set; }
+        RuntimeAnimatorController Animator { get; set; }
+        AgentSensor Sensor { get; set; }
+        Dictionary<string, IResourceModule> ResourceModules { get; }
+        HashSet<string> ExpectedProperties { get; }
+        AIAgentController Controller { get; }
+        List<AgentAction> Actions { get; } //Add to this only with the AddAction() method to ensure actions are bound to agent
+        AgentType AgentType { get; }
+        Properties Properties { get; }
+        IFactionComponent FactionComponent { get; }
+        Faction Faction { get; }
+        AgentCommand CurrentCommand { get; set; }
+        AgentAction CurrentAction { get; set; }
+        ITangible CurrentActionTarget { get; set; }
+        int Id { get; set; }
+        bool Garbage { get; }
+        string GetSortingLayer();
+        void ConsumeConfig(Configuration config);
+        void ConsumePrototype(AgentType type, AgentPrototype prototype, List<AgentAction> boundActions);
+        void InjectDependencies(ContentInjectablePayload injectables);
+        void SetController(AIAgentController controller);
+        void AutoSetController();
+        void Update(float frameDelta);
+        string ToString();
+        void Die();
+        void ReceiveCommand(AgentCommand command);
+        void AddAction(AgentAction action);
+        Dictionary<string, bool> GetAnimationStateBools();
+        Dictionary<string, IResourceModule> GetResourceModules();
+        void AssignResourceModule(string key, IResourceModule module);
+        void RemoveResourceModule(string key);
+        IResourceModule GetResourceModule(string key);
+        void Initialize();
+    }
+
+    public class Agent: Glop, IRenderable, ITangible, IControllableAgent, IConfigurable, IResourceModuleOwner, IFactionBelongable, IAgent
     {
         public string Name { get; private set; }
         public bool Active { get; private set; }

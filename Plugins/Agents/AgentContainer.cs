@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TofuCore.Configuration;
 using TofuCore.ContentInjectable;
@@ -14,7 +15,38 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
-    public class AgentContainer : GlopContainer<Agent>, ITangibleContainer {
+    public interface IAgentContainer
+    {
+        void Build();
+        void Initialize();
+        Agent Spawn(string prototypeId, string agentTypeLabel, Vector3 location, Configuration config = null);
+        Agent Spawn(AgentPrototype prototype, Vector3 location, Configuration config = null);
+        List<Agent> GetAllAgentsInRangeOfPoint(Vector3 point, float range);
+        List<Agent> GetAgents();
+        List<ITangible> GetAllTangibles();
+        List<ITangible> GetAllTangiblesWithinRangeOfPoint(Vector3 point, float range);
+        AgentSpawner CreateSpawner(Dictionary<string, AgentPrototype> units, Vector3 loc);
+        void OnUpdateFrame(EventPayload payload);
+        int CountActive();
+        List<Glop> GetContents();
+        Glop GetGlopById(int id);
+        bool HasId(int id);
+        void Register(Glop glop);
+        int GenerateGlopId();
+        void Destroy(Glop glop);
+        void ResolveServiceBindings();
+        void Prepare();
+        dynamic BindServiceContext(IServiceContext serviceContext, string bindingName = null);
+        string GetServiceName();
+        bool CheckDependencies();
+        void ReceiveEvent(TofuEvent evnt, EventPayload payload);
+        void BindListener(string eventId, Action<EventPayload> action, IEventContext evntContext);
+        void BindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext);
+        void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext);
+    }
+
+    public class AgentContainer : GlopContainer<Agent>, ITangibleContainer, IAgentContainer
+    {
 
         [Dependency] protected AgentFactory AgentFactory;
         [Dependency("CreaturesLibrary")] protected AgentPrototypeLibrary CreaturesLibrary;
