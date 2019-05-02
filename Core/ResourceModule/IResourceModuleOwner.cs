@@ -9,4 +9,5 @@ public interface IResourceModuleOwner
     void RemoveResourceModule(string key);
     IResourceModule GetResourceModule(string key);
     Vector3 Position { get; }
+    int Id { get; }
 }

@@ -189,6 +189,7 @@ namespace TofuCore.ResourceModule
         {
             if (string.IsNullOrEmpty(_changeEventKey)) return;
             _eventContext.TriggerEvent(_changeEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, _owner, IValue)));
+            _eventContext.TriggerEvent(_changeEventKey, new EventPayload("ResourceStateEventPayload", new ResourceStateEventPayload(Color.white, _owner, IValue, IMax)));
 
         }
 
