@@ -11,6 +11,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
 {
     public string EventKey;
     public int OwnerGlopId;
+    public IResourceModule Module;
 
     public Transform Inner;
     public float MaxScale;
@@ -25,7 +26,12 @@ public class UIResourceModuleVialDisplay : TofuUiBase
 
     }
 
-
+    public void InitializeDisplay(IResourceModule module)
+    {
+        Module = module;
+        OwnerGlopId = module.Owner.Id;
+        Rerender(module.Percent);
+    }
 
     private void BindEventListener()
     {

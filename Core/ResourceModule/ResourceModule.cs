@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Security.Policy;
 using TofuCore.Events;
+using TofuCore.Glops;
 using UnityEngine;
 
 
@@ -12,6 +14,7 @@ namespace TofuCore.ResourceModule
         float FValue { get; }
         float FMax { get; }
         float Percent { get; }
+        IResourceModuleOwner Owner { get; }
         void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null);
         bool Spend(float amount);
         bool CanSpend(float amount);
@@ -19,7 +22,8 @@ namespace TofuCore.ResourceModule
         void BindFullDepletionEvent(string key, EventPayload payload);
         void SetDepletionEventKey(string key);
         void SetReplenishEventKey(string key);
-        void SetChangeEventKey(string key);
+        void SetChangeDeltaEventKey(string key);
+        void SetStateChangeEventKey(string key);
         void SetMax(float amount);
         void SetValue(float amount);
         void SetMaxRetainPercent(float amount);
@@ -38,9 +42,9 @@ namespace TofuCore.ResourceModule
         private string _fullDepletionEventKey;
         private EventPayload _fullDepletionEventPayload;
         private string _replenishEventKey;
-        private string _changeEventKey;
+        private string _changeDeltaEventKey;
+        private string _stateChangeEventKey;
 
-        private IResourceModuleOwner _owner;
 
         public float Percent
         {
@@ -50,6 +54,8 @@ namespace TofuCore.ResourceModule
                 return _value / _max;
             }
         }
+
+        public IResourceModuleOwner Owner { get; private set; }
 
         private float _value;
         private float _max;
@@ -61,7 +67,7 @@ namespace TofuCore.ResourceModule
             _value = val;
             _max = max;
             _eventContext = eventContext;
-            _owner = owner;
+            Owner = owner;
         }
 
         /**
@@ -76,7 +82,7 @@ namespace TofuCore.ResourceModule
 
             if (_depletionEventKey != null)
             {
-                _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, _owner, (int)Math.Round(amount))));
+                _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, (int)Math.Round(amount))));
             }
 
             if (_value <= 0)
@@ -131,7 +137,7 @@ namespace TofuCore.ResourceModule
             FireChangeEvent();
             if (_replenishEventKey != null)
             {
-                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, _owner, (int)Math.Round(amount))));
+                _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, Owner, (int)Math.Round(amount))));
             }
         }
 
@@ -154,9 +160,14 @@ namespace TofuCore.ResourceModule
             _replenishEventKey = key;
         }
 
-        public void SetChangeEventKey(string key)
+        public void SetChangeDeltaEventKey(string key)
         {
-            _changeEventKey = key;
+            _changeDeltaEventKey = key;
+        }
+
+        public void SetStateChangeEventKey(string key)
+        {
+            _stateChangeEventKey = key;
         }
 
         /**
@@ -187,9 +198,9 @@ namespace TofuCore.ResourceModule
 
         private void FireChangeEvent()
         {
-            if (string.IsNullOrEmpty(_changeEventKey)) return;
-            _eventContext.TriggerEvent(_changeEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, _owner, IValue)));
-            _eventContext.TriggerEvent(_changeEventKey, new EventPayload("ResourceStateEventPayload", new ResourceStateEventPayload(Color.white, _owner, IValue, IMax)));
+            if (string.IsNullOrEmpty(_changeDeltaEventKey)) return;
+            _eventContext.TriggerEvent(_changeDeltaEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, IValue)));
+            _eventContext.TriggerEvent((_stateChangeEventKey), new EventPayload("ResourceStateEventPayload", new ResourceStateEventPayload(Color.white, Owner, IValue, IMax)));
 
         }
 

@@ -60,23 +60,27 @@ namespace TofuTest.ResourceModules
         {
             ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, _subResourceModuleOwner, _subEventContext);
             resourceModule.BindFullDepletionEvent("DepleteEvent", new EventPayload("null", null));
-            resourceModule.SetChangeEventKey("ChangeEvent");
+            resourceModule.SetChangeDeltaEventKey("ChangeEvent");
+            resourceModule.SetStateChangeEventKey("StateChangeEvent");
 
             resourceModule.Deplete(1f, "DepleteEvent2", new EventPayload("String", "depleted"));
 
             _subEventContext.Received(1).TriggerEvent("ChangeEvent", Arg.Any<EventPayload>());
+            _subEventContext.Received(1).TriggerEvent("StateChangeEvent", Arg.Any<EventPayload>());
             _subEventContext.Received(0).TriggerEvent("DepleteEvent", Arg.Any<EventPayload>());
             _subEventContext.Received(0).TriggerEvent("DepleteEvent2", Arg.Any<EventPayload>());
 
             resourceModule.Deplete(9f, "DepleteEvent2", new EventPayload("String", "depleted"));
 
             _subEventContext.Received(2).TriggerEvent("ChangeEvent", Arg.Any<EventPayload>());
+            _subEventContext.Received(2).TriggerEvent("StateChangeEvent", Arg.Any<EventPayload>());
             _subEventContext.Received(1).TriggerEvent("DepleteEvent", Arg.Any<EventPayload>());
             _subEventContext.Received(1).TriggerEvent("DepleteEvent2", Arg.Any<EventPayload>());
 
             resourceModule.Deplete(1f, null, null);
 
             _subEventContext.Received(3).TriggerEvent("ChangeEvent", Arg.Any<EventPayload>());
+            _subEventContext.Received(3).TriggerEvent("StateChangeEvent", Arg.Any<EventPayload>());
             _subEventContext.Received(2).TriggerEvent("DepleteEvent", Arg.Any<EventPayload>());
             _subEventContext.Received(1).TriggerEvent("DepleteEvent2", Arg.Any<EventPayload>());
         }
@@ -86,14 +90,17 @@ namespace TofuTest.ResourceModules
         {
             ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, _subResourceModuleOwner, _subEventContext);
             resourceModule.SetReplenishEventKey("ReplenishEvent");
-            resourceModule.SetChangeEventKey("ChangeEvent");
+            resourceModule.SetChangeDeltaEventKey("ChangeEvent");
+            resourceModule.SetStateChangeEventKey("StateChangeEvent");
 
             resourceModule.Spend(2f);
             _subEventContext.Received(1).TriggerEvent("ChangeEvent", Arg.Any<EventPayload>());
+            _subEventContext.Received(1).TriggerEvent("StateChangeEvent", Arg.Any<EventPayload>());
             _subEventContext.Received(0).TriggerEvent("ReplenishEvent", Arg.Any<EventPayload>());
 
             resourceModule.Replenish(4f);
             _subEventContext.Received(2).TriggerEvent("ChangeEvent", Arg.Any<EventPayload>());
+            _subEventContext.Received(2).TriggerEvent("StateChangeEvent", Arg.Any<EventPayload>());
             _subEventContext.Received(1).TriggerEvent("ReplenishEvent", Arg.Any<EventPayload>());
             Assert.AreEqual(6, resourceModule.IValue);
             Assert.AreEqual(0.6f, resourceModule.Percent, 0.001f);
