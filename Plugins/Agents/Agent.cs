@@ -25,7 +25,7 @@ namespace TofuPlugin.Agents
      */
     public interface IAgent
     {
-        string Name { get; }
+        string Name { get; set; }
         bool Active { get; }
         Vector3 Position { get; set; }
         float SizeRadius { get; }
@@ -67,7 +67,7 @@ namespace TofuPlugin.Agents
 
     public class Agent: Glop, IRenderable, ITangible, IControllableAgent, IConfigurable, IResourceModuleOwner, IFactionBelongable, IAgent
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public bool Active { get; private set; }
 
         //Services
