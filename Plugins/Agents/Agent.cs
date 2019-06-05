@@ -40,7 +40,7 @@ namespace TofuPlugin.Agents
         AgentType AgentType { get; }
         Properties Properties { get; }
         IFactionComponent FactionComponent { get; }
-        Faction Faction { get; }
+        Faction Faction { get; set; }
         AgentCommand CurrentCommand { get; set; }
         AgentAction CurrentAction { get; set; }
         ITangible CurrentActionTarget { get; set; }
@@ -106,7 +106,20 @@ namespace TofuPlugin.Agents
         public AgentMobilityComponent Mobility;
 
         public IFactionComponent FactionComponent { get; private set; }
-        public Faction Faction => FactionComponent.Faction;
+
+        public Faction Faction
+        {
+            get => FactionComponent?.Faction;
+            set
+            {
+                if (FactionComponent == null)
+                {
+                    FactionComponent = new FactionComponent(this, FactionContainer);
+                }
+                FactionComponent.Faction = value;
+            }
+        }
+    
 
         /*
          * Action/Command storage

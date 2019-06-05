@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TofuCore.Events;
 using UnityEngine;
 
 namespace TofuCore.Service
@@ -18,6 +19,9 @@ namespace TofuCore.Service
             RegisterPayloads();
             BindServices();
             InitServices();
+
+            IEventContext eventContext = ServiceContext.Fetch("EventContext");
+            eventContext.TriggerEvent("GameServicesInitialized", null);
         }
 
         protected abstract void HandleUnityObjects();

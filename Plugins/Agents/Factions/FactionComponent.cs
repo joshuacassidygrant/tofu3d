@@ -14,7 +14,12 @@ namespace TofuPlugin.Agents.Factions
             _factionContainer = factionContainer;
         }
 
-        public Faction Faction { get; set; }
+        public Faction Faction
+        {
+            get => _faction;
+            set => _faction = value;
+        }
+        private Faction _faction;
 
         private readonly IFactionBelongable _boundBelongable;
         private readonly FactionContainer _factionContainer;
