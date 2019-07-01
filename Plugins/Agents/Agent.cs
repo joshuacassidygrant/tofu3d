@@ -224,7 +224,7 @@ namespace TofuPlugin.Agents
 
         public override string ToString()
         {
-            return base.ToString() + AgentType.ToString() + Id + " at " + Position.ToString();
+            return base.ToString() + Name.ToString();
         }
 
         public override void Die()
