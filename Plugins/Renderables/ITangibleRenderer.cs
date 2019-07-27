@@ -5,4 +5,6 @@
 public interface ITangibleRenderer 
 {
     ITangible Tangible { get; }
+    void ShowTargetableHighlight(bool on);
+    
 }
