@@ -7,9 +7,7 @@ using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Service;
 using TofuCore.Tangible;
-using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Factions;
-using TofuPlugin.Agents.Sensors;
 using TofuPlugin.Pathfinding;
 using UnityEngine;
 
