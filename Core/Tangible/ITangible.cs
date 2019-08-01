@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace TofuCore.Tangible
 {
@@ -7,6 +8,7 @@ namespace TofuCore.Tangible
      */
     public interface ITangible
     {
+        string Name { get; }
         Vector3 Position { get; }
         bool Active { get; }
         float SizeRadius { get; }

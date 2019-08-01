@@ -6,6 +6,7 @@ namespace TofuCore.Tangible
 {
     public class TangiblePosition : ITangible
     {
+        public string Name => "Position (" + x.ToString() + "," + y.ToString() + "," + z.ToString() + ")";
         private readonly Vector3 _position;
         float x => _position.x;
         float y => _position.y;
