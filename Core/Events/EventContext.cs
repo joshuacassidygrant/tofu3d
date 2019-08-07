@@ -35,7 +35,6 @@ namespace TofuCore.Events
 
         public void TriggerEvent(string eventKey, EventPayload payload)
         {
-
             if (EventPayloadLibrary != null)
             {
                 if (!EventPayloadLibrary.ValidatePayload(payload))

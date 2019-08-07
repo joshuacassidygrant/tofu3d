@@ -12,5 +12,6 @@ namespace TofuCore.Tangible
         Vector3 Position { get; }
         bool Active { get; }
         float SizeRadius { get; }
+        int Id { get; }
     }
 }
