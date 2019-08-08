@@ -85,9 +85,9 @@ namespace TofuCore.Service
         }
         
         //Glop functions
-        public Glops.Glop FindGlopById(int id)
+        public Glop FindGlopById(int id)
         {
-            foreach (GlopContainer<Glop> manager in _glopManagers)
+            foreach (IGlopContainer manager in _glopManagers)
             {
                 if (manager.HasId(id)) return manager.GetGlopById(id);
             }

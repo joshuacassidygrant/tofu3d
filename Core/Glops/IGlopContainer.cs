@@ -7,4 +7,5 @@ public interface IGlopContainer
 {
     List<Glop> GetContents();
     Glop GetGlopById(int id);
+    bool HasId(int id);
 }
