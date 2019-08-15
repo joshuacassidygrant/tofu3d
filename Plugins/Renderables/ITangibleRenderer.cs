@@ -9,5 +9,6 @@ public interface ITangibleRenderer
     ITangible Tangible { get; }
     Vector3 Position { get; }
     void ShowTargetableHighlight(bool on);
-    
+    void TriggerTipWindow();
+
 }
