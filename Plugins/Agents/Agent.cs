@@ -138,6 +138,8 @@ namespace TofuPlugin.Agents
             ResourceModules = new Dictionary<string, IResourceModule>();
             Properties = new Properties();
             Actions = new List<AgentAction>();
+
+            Active = true;
         }
 
         public void ConsumeConfig(Configuration config)
