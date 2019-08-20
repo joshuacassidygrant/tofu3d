@@ -20,7 +20,10 @@ namespace TofuCore.Glops
             Garbage = true;
         }
 
-        public abstract void InjectDependencies(ContentInjectablePayload injectables);
+        public virtual void InjectDependencies(ContentInjectablePayload injectables)
+        {
+            // Inject dependencies from container.
+        }
 
         /**
          * To be called after dependencies are injected and Glop is registered to container.
@@ -33,7 +36,10 @@ namespace TofuCore.Glops
         public bool Garbage { get; protected set; }
 
 
-        public abstract void Update(float frameDelta);
+        public virtual void Update(float frameDelta)
+        {
+            // Update based on passed time
+        }
 
 
     }
