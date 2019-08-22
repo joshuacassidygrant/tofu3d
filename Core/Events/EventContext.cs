@@ -33,6 +33,11 @@ namespace TofuCore.Events
             return _events.Get(name);
         }
 
+        public void TriggerEvent(string eventKey)
+        {
+            TriggerEvent(eventKey, new EventPayload("Null", null));
+        }
+
         public void TriggerEvent(string eventKey, EventPayload payload)
         {
             if (EventPayloadLibrary != null)
