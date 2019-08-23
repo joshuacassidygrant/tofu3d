@@ -18,7 +18,25 @@ namespace TofuCore.Configuration
         public List<ConfigurationProperty>.Enumerator GetEnumerator()
         {
             return Properties.GetEnumerator();
-        } 
+        }
+
+        public Configuration(Dictionary<string, string> kvps)
+        {
+            if (kvps == null)
+            {
+                return;
+            }
+
+            foreach (KeyValuePair<string, string> kvp in kvps)
+            {
+                AddProperty(kvp.Key, kvp.Value);
+            }
+        }
+
+        public Configuration()
+        {
+
+        }
     }
 
     [System.Serializable]
