@@ -50,8 +50,12 @@ public class UIResourceModuleVialDisplay : TofuUiBase
 
     private void Rerender(float percent)
     {
-        percent = Mathf.Min(1f, percent);
-        Inner.localScale = new Vector3(Inner.localScale.x, Inner.localScale.y, MaxScale * percent);
+        if (Inner != null)
+        {
+            percent = Mathf.Min(1f, percent);
+            Inner.localScale = new Vector3(Inner.localScale.x, Inner.localScale.y, MaxScale * percent);
+
+        }
 
     }
 }

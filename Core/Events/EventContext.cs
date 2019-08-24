@@ -103,7 +103,10 @@ namespace TofuCore.Events
                 _eventListenersToRemove = new Dictionary<TofuEvent, IListener>();
             }
 
-            _eventListenersToRemove.Add(evnt, listener);
+            if (!_eventListenersToRemove.ContainsKey(evnt))
+            {
+                _eventListenersToRemove.Add(evnt, listener);
+            }
 
 
         }

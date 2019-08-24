@@ -175,8 +175,12 @@ namespace TofuCore.Service
             _boundListeners[evnt].Add(action);
         }
 
+        public void UnbindListener(string eventId, Action<EventPayload> action, IEventContext evntContext) {
+            UnbindListener(evntContext.GetEvent(eventId), action, evntContext);
+        }
+
         public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
-        {
+        {   
             evntContext.ContextRemoveEventListener(evnt, this);
             _boundListeners[evnt].Remove(action);
 
