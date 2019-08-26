@@ -27,6 +27,7 @@ namespace TofuCore.ResourceModule
         void SetMax(float amount);
         void SetValue(float amount);
         void SetMaxRetainPercent(float amount);
+        Material LoadMaterial();
     }
 
     public class ResourceModule : IResourceModule
@@ -37,6 +38,7 @@ namespace TofuCore.ResourceModule
         public int IMax => Mathf.RoundToInt(_max);
         public float FValue => _value;
         public float FMax => _max;
+        public string MaterialName;
 
         private string _depletionEventKey;
         private string _fullDepletionEventKey;
@@ -61,11 +63,12 @@ namespace TofuCore.ResourceModule
         private float _max;
         private readonly IEventContext _eventContext;
 
-        public ResourceModule(string name, float max, float val, IResourceModuleOwner owner, IEventContext eventContext)
+        public ResourceModule(string name, float max, float val, string materialName, IResourceModuleOwner owner, IEventContext eventContext)
         {
             Name = name;
             _value = val;
             _max = max;
+            MaterialName = materialName;
             _eventContext = eventContext;
             Owner = owner;
         }
@@ -190,6 +193,11 @@ namespace TofuCore.ResourceModule
             SetMax(amount);
             _value = FMax * percent;
             FireChangeEvent();
+        }
+
+        public Material LoadMaterial()
+        {
+            return Resources.Load<Material>($"Materials/{MaterialName}");
         }
 
         /**

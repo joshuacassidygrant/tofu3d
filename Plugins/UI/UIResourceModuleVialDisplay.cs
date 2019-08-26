@@ -31,6 +31,15 @@ public class UIResourceModuleVialDisplay : TofuUiBase
         Module = module;
         OwnerGlopId = module.Owner.Id;
         Rerender(module.Percent);
+        Material mat = module.LoadMaterial();
+        if (mat != null)
+        {
+            Inner.gameObject.GetComponent<MeshRenderer>().material = mat;
+        }
+        else
+        {
+            Debug.Log("Couldn't find material");
+        }
     }
 
     private void BindEventListener()
