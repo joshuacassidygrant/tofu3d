@@ -16,7 +16,7 @@ namespace TofuCore.Glops
     {
         T Value { get; }
 
-        private Dictionary<int, Glop> _contents;
+        protected Dictionary<int, Glop> _contents;
         [Dependency] protected IEventContext EventContext;
 
         public override void Initialize() {
