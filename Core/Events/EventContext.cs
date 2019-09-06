@@ -77,6 +77,11 @@ namespace TofuCore.Events
 
         public void ContextBindEventListener(TofuEvent evnt, IListener listener)
         {
+            if (listener == this)
+            {
+                Debug.LogWarning("Trying to bind EventContext as its own listener.");
+            }
+
             if (!_eventListeners.ContainsKey(evnt))
             {
                 _eventListeners.Add(evnt, new List<IListener>());
