@@ -28,7 +28,7 @@ namespace TofuPlugin.Agents {
             _default = defaultName;
             if (!_behaviours.ContainsKey(defaultName))
             {
-                Debug.Log("No default strategy found for " + defaultName);
+                //Debug.Log("No default strategy found for " + defaultName);
             }
         }
 

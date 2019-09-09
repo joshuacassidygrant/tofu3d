@@ -175,8 +175,8 @@ namespace TofuPlugin.Agents
             FactionContainer = injectables.Get("FactionContainer");
             EventContext = injectables.Get("EventContext");
             BehaviourManager = injectables.Get("AIBehaviourManager");
-            PathRequestService = injectables.Get("PathRequestService");
-            PositioningService = injectables.Get("PositioningService");
+            //PathRequestService = injectables.Get("PathRequestService");
+            //PositioningService = injectables.Get("PositioningService");
         }
 
         private void BindResourceModules()

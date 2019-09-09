@@ -37,7 +37,7 @@ namespace TofuCore.Events
         {
             if (!IsRegistered(name))
             {
-                Debug.Log("No event registered for " + name + ", creating one");
+                //Debug.Log("No event registered for " + name + ", creating one");
                 TofuEvent evnt = new TofuEvent(name);
                 _events.Add(name, evnt);
                 return evnt;

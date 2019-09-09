@@ -62,7 +62,15 @@ namespace TofuCore.Events
 
             if (EventLogger != null)
             {
-                EventLogger.LogEvent(Time.time, eventKey, payload.ContentType);
+                if (payload == null)
+                {
+                    EventLogger.LogEvent(Time.time, eventKey, "NULL");
+
+                }
+                else
+                {
+                    EventLogger.LogEvent(Time.time, eventKey, payload.ContentType);
+                }
             }
 
 

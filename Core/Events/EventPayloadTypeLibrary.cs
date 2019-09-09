@@ -31,6 +31,7 @@ namespace TofuCore.Events
 
         public bool ValidatePayload(EventPayload payload)
         {
+            if (payload == null) return true;
             return CheckContentAs(payload.ContentType, payload.GetContent());
         }
     }
