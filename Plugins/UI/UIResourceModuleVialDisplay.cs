@@ -44,7 +44,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
 
     private void BindEventListener()
     {
-        EventContext.BindListener(EventContext.GetEvent(EventKey), OnReceiveUpdate, EventContext);
+        BindListener(EventContext.GetEvent(EventKey), OnReceiveUpdate, EventContext);
     }
 
     private void OnReceiveUpdate(EventPayload payload)
