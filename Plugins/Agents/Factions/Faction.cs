@@ -17,6 +17,18 @@ namespace TofuPlugin.Agents.Factions
 
         public string IdName;
         private string _name;
+
+        private string _iconId;
+        public string IconId
+        {
+            get => _iconId;
+            set
+            {
+                _iconId = value;
+                Icon = Resources.Load<Sprite>("Art/FactionIcons/" + value);
+            }
+        }
+        public Sprite Icon { get; private set; }
         public Player Controller;
 
         public Faction(string idName, string niceName) : base()
