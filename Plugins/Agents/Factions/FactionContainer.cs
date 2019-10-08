@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TofuCore.ContentInjectable;
+using TofuCore.Events;
 using TofuCore.Glops;
+using TofuCore.Service;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.Factions
 {
     public class FactionContainer : GlopContainer<Faction>
     {
+
+        [Dependency] [ContentInjectable] protected EventContext EventContext;
 
         public FactionRelationshipLevel Unaffiliated;
         public FactionRelationshipLevel Same;

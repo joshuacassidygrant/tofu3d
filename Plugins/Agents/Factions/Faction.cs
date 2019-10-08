@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Player;
 using TofuCore.Service;
@@ -18,6 +19,8 @@ namespace TofuPlugin.Agents.Factions
         public string IdName;
         private string _name;
 
+        protected EventContext EventContext;
+
         public virtual Sprite Icon { get; protected set; }
         public Player Controller;
 
@@ -26,6 +29,11 @@ namespace TofuPlugin.Agents.Factions
             IdName = idName;
             _name = niceName;
             _relationships = new Dictionary<Faction, int>();
+        }
+
+        public override void InjectDependencies(ContentInjectablePayload injectables)
+        {
+            EventContext = injectables.Get("EventContext");
         }
 
         public void SetMutualRelationship (Faction faction, int value)
@@ -86,9 +94,6 @@ namespace TofuPlugin.Agents.Factions
         }
 
 
-        public override void InjectDependencies(ContentInjectablePayload injectables)
-        {
-        }
 
         public override void Update(float frameDelta)
         {
