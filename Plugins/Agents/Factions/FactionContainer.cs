@@ -13,6 +13,7 @@ namespace TofuPlugin.Agents.Factions
     {
 
         [Dependency] [ContentInjectable] protected EventContext EventContext;
+        [Dependency] [ContentInjectable] protected FactionContainer Self;
 
         public FactionRelationshipLevel Unaffiliated;
         public FactionRelationshipLevel Same;
@@ -22,6 +23,7 @@ namespace TofuPlugin.Agents.Factions
             _relationships = new List<FactionRelationshipLevel>();
             Unaffiliated = new FactionRelationshipLevel(0, "Unaffiliated", new List<string>());
             Same = new FactionRelationshipLevel(0, "Same", new List<string>());
+            Self = this;
         }
 
         public void SetSame(FactionRelationshipLevel level)
