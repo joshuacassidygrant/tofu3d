@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Mime;
+﻿using TMPro;
 using TofuCore.Events;
 using TofuCore.Player;
 using TofuCore.ResourceModule;
@@ -9,15 +6,15 @@ using TofuPlugin.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UiTextDynamic : TofuUiBase
+public class UiTextDynamic : TofuUiBase, IListener
 {
-
     public string EventKey;
     public string PayloadType;
     public int DecimalPointsForFloat = 0;
     public string PlayerNameSelector;
 
     private Text _text;
+    public TMP_Text _textMesh;
 
 	private void Start ()
     {
@@ -28,18 +25,27 @@ public class UiTextDynamic : TofuUiBase
         }
 
         _text = GetComponentInChildren<Text>();
+        _textMesh = GetComponent<TMP_Text>();
+
     }
 
     private void BindEventListener()
     {
-        EventContext.BindListener(EventContext.GetEvent(EventKey), OnReceiveUpdate, EventContext);
+        BindListener(EventContext.GetEvent(EventKey), OnReceiveUpdate, EventContext);
     }
 
     private void OnReceiveUpdate(EventPayload payload)
     {
         if (payload.ContentType != PayloadType) return;
         string value = HandleType(payload);
-        _text.text = value;
+
+        if (_text != null)
+        {
+            _text.text = value;
+        } else if (_textMesh != null)
+        {
+            _textMesh.text = value;
+        }
 
     }
 
