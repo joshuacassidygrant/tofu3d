@@ -12,18 +12,27 @@ namespace TofuPlugin.UI
 
         public string EventName;
 
-        private Button _button;
+        protected Button Button;
+
+        void Awake()
+        {
+              Button = GetComponent<Button>();
+        }
 
         void Start()
         {
-            _button = GetComponent<Button>();
-            _button.onClick.AddListener(OnClick);
+            Button.onClick.AddListener(OnClick);
             BindServiceContext();
         }
 
         private void OnClick()
         {
             EventContext.TriggerEvent(EventName);
+        }
+
+        protected void SetTrigger(string eventName)
+        {
+            EventName = eventName;
         }
 
 
