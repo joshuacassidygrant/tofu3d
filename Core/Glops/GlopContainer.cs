@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TofuCore.Events;
 using TofuCore.Service;
@@ -12,7 +10,7 @@ namespace TofuCore.Glops
      * A GLOP Container holds and manages GLOP objects (TOFU's generic object type).
      * It contains methods for storing, retrieving and updating its child glops.
      */
-    public class GlopContainer<T> : AbstractService, IGlopContainer
+    public class GlopContainer<T> : AbstractService, IGlopContainer, IGlopStream
     {
         T Value { get; }
 
