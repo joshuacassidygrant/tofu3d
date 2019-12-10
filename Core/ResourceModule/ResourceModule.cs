@@ -28,6 +28,7 @@ namespace TofuCore.ResourceModule
         void SetValue(float amount);
         void SetMaxRetainPercent(float amount);
         Material LoadMaterial();
+        string GetCurrentMaxRatioString();
     }
 
     public class ResourceModule : IResourceModule
@@ -210,6 +211,16 @@ namespace TofuCore.ResourceModule
             _eventContext.TriggerEvent(_changeDeltaEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, IValue)));
             _eventContext.TriggerEvent((_stateChangeEventKey), new EventPayload("ResourceStateEventPayload", new ResourceStateEventPayload(Color.white, Owner, IValue, IMax)));
 
+        }
+
+
+        /**
+         * Display
+         */
+
+        public string GetCurrentMaxRatioString()
+        {
+            return $"{IValue}/{IMax}";
         }
 
     }
