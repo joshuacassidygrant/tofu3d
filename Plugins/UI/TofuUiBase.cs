@@ -15,7 +15,10 @@ namespace TofuPlugin.UI
         protected EventContext EventContext;
         private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners = new Dictionary<TofuEvent, List<Action<EventPayload>>>();
 
-        protected void BindServiceContext() {
+        protected void BindServiceContext()
+        {
+            if (ServiceContext != null) return;
+
             if (UiBindingService == null)
             {
                 UiBindingService = FindObjectOfType<UIBindingService>();
