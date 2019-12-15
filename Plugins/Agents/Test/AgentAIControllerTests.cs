@@ -16,7 +16,6 @@ namespace TofuPlugin.Agents.Tests
 {
     public class AgentAIControllerTests
     {
-        private AgentPrototype _prototype;
         private AgentActionFactory _factoryFake;
         private AgentSensorFactory _sensorFactory;
         private ServiceContext _context;
@@ -27,12 +26,12 @@ namespace TofuPlugin.Agents.Tests
         {
             _context = new ServiceContext();
 
-            _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
+            /*_prototype = ScriptableObject.CreateInstance<AgentPrototype>();
             _prototype.Id = "t1p";
             _prototype.Name = "T1P";
             _prototype.Sprite = null;
             _prototype.Actions = new List<PrototypeActionEntry>();
-
+            */
             _sensorFactory = new AgentSensorFactory().BindServiceContext(_context);
             _agentContainer = new AgentContainer().BindServiceContext(_context);
 

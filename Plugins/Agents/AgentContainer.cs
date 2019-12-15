@@ -18,12 +18,10 @@ namespace TofuPlugin.Agents
         void Build();
         void Initialize();
         Agent Spawn(string prototypeId, string agentTypeLabel, Vector3 location, Configuration config = null);
-        Agent Spawn(AgentPrototype prototype, Vector3 location, Configuration config = null);
         List<Agent> GetAllAgentsInRangeOfPoint(Vector3 point, float range);
         List<Agent> GetAgents();
         List<ITangible> GetAllTangibles();
         List<ITangible> GetAllTangiblesWithinRangeOfPoint(Vector3 point, float range);
-        AgentSpawner CreateSpawner(Dictionary<string, AgentPrototype> units, Vector3 loc);
         void OnUpdateFrame(EventPayload payload);
         int CountActive();
         List<Glop> GetContents();
@@ -43,12 +41,10 @@ namespace TofuPlugin.Agents
         void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext);
     }
 
-    public class AgentContainer : GlopContainer<Agent>, ITangibleContainer, IAgentContainer
+    public class AgentContainer : GlopContainer<Agent> /*, ITangibleContainer, IAgentContainer*/
     {
 
         [Dependency] protected AgentFactory AgentFactory;
-        [Dependency("CreaturesLibrary")] protected AgentPrototypeLibrary CreaturesLibrary;
-        [Dependency("TowersLibrary")] protected AgentPrototypeLibrary TowersLibrary;
 
         [Dependency] [ContentInjectable] private EventContext _eventContext;
         [Dependency] [ContentInjectable] protected FactionContainer FactionContainer;
@@ -56,29 +52,27 @@ namespace TofuPlugin.Agents
         //[Dependency] [ContentInjectable] protected PathRequestService PathRequestService;
         //[Dependency] [ContentInjectable] protected PositioningServices.PositioningService PositioningService;
 
-        private List<AgentSpawner> _unitSpawners;
 
         public override void Build()
         {
             base.Build();
-            _unitSpawners = new List<AgentSpawner>();
              
         }
 
         public override void Initialize()
         {
             base.Initialize();
-            BindListeners();
+            //BindListeners();
         }
 
-        private void BindListeners()
+        /*private void BindListeners()
         {
             BindListener("UnitDies", UnitDies, EventContext);
-        }
+        }*/
 
         public Agent Spawn(string prototypeId, string agentTypeLabel, Vector3 location, Configuration config = null)
         {
-            AgentPrototypeLibrary activeLibrary;
+            /*AgentPrototypeLibrary activeLibrary;
 
             switch (agentTypeLabel)
             {
@@ -98,9 +92,10 @@ namespace TofuPlugin.Agents
             }
 
             AgentPrototype prototype = activeLibrary.Get(prototypeId);
-            return Spawn(prototype, location, config);
+            return Spawn(prototype, location, config);*/
+            return null;
         }
-
+        /*
         public Agent Spawn(AgentPrototype prototype, Vector3 location, Configuration config = null)
         {
             Agent agent = AgentFactory.BuildAndRegisterNewAgent(this, location, prototype, config);
@@ -146,7 +141,7 @@ namespace TofuPlugin.Agents
             Agent u = payload.GetContent();
             u.Die();
         }
-
+        */
 
     }
 }

@@ -2,7 +2,6 @@
 using TofuCore.Tangible;
 using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Pathfinding;
-using TofuPlugin.PositioningServices;
 using UnityEngine;
 
 namespace TofuPlugin.Agents.Components
@@ -16,7 +15,7 @@ namespace TofuPlugin.Agents.Components
         
 
         private PathRequestService _pathRequestService;
-        private PositioningService _positioningService;
+        //private PositioningService _positioningService;
 
         private bool _pathRequested;
         private ITangible _nextMovePoint;
@@ -28,11 +27,11 @@ namespace TofuPlugin.Agents.Components
         private float MoveSpeed => Agent.Properties.GetProperty("Speed", 0f);
 
 
-        public AgentMobilityComponent(Agent agent, PathRequestService pathRequestService, PositioningService positioningService)
+        public AgentMobilityComponent(Agent agent, PathRequestService pathRequestService)
         {
             Agent = agent;
             _pathRequestService = pathRequestService;
-            _positioningService = positioningService;
+            //_positioningService = positioningService;
         }
 
         public void Update(float deltaTime)
@@ -110,7 +109,7 @@ namespace TofuPlugin.Agents.Components
             Vector3 add = direction * deltaTime * MoveSpeed;
             ITangible newPos = new TangiblePosition(Agent.Position + add);
 
-            if (_positioningService.SpaceAtPosition(newPos, new List<ITangible> { Agent }))
+            /*if (_positioningService.SpaceAtPosition(newPos, new List<ITangible> { Agent }))
             {
                 Agent.Position = newPos.Position;
             }
@@ -118,7 +117,7 @@ namespace TofuPlugin.Agents.Components
             {
                 newPos = _positioningService.GetNearestClearSpace(Agent, add, new List<ITangible> {Agent});
                 Agent.Position = newPos.Position;
-            }
+            }*/
 
             
         }

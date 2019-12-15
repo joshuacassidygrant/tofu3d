@@ -13,7 +13,6 @@ using TofuCore.ResourceModule;
 using TofuCore.Tangible;
 using TofuPlugin.Agents.Components;
 using TofuPlugin.Pathfinding;
-using TofuPlugin.PositioningServices;
 
 namespace TofuPlugin.Agents
 {
@@ -48,7 +47,6 @@ namespace TofuPlugin.Agents
         bool Garbage { get; }
         string GetSortingLayer();
         void ConsumeConfig(Configuration config);
-        void ConsumePrototype(AgentType type, AgentPrototype prototype, List<AgentAction> boundActions);
         void InjectDependencies(ContentInjectablePayload injectables);
         void SetController(AIAgentController controller);
         void AutoSetController();
@@ -73,7 +71,6 @@ namespace TofuPlugin.Agents
         //Services
         protected AIBehaviourManager BehaviourManager;
         protected PathRequestService PathRequestService;
-        protected PositioningService PositioningService;
         protected FactionContainer FactionContainer;
         protected EventContext EventContext;
 
@@ -148,26 +145,6 @@ namespace TofuPlugin.Agents
             Properties.Check(ExpectedProperties);
         }
         
-        // Called by AgentFactory
-        public void ConsumePrototype(AgentType type, AgentPrototype prototype, List<AgentAction> boundActions)
-        {
-            if (prototype == null) return;
-            Sprite = prototype.Sprite;
-            Name = prototype.Name;
-            AgentType = type;
-            ExpectedProperties = AgentType.ExpectedProperties;
-            SizeRadius = prototype.SizeRadius;
-            Animator = prototype.Animator;
-
-            ConsumeConfig(prototype.Config);
-
-            BindResourceModules();
-            Actions = boundActions;
-
-            Mobility = new AgentMobilityComponent(this, PathRequestService, PositioningService);
-            FactionComponent = new FactionComponent(this, FactionContainer);
-
-        }
 
         // Called by AgentFactory from AgentContainer to InjectDependencies
         public override void InjectDependencies(ContentInjectablePayload injectables)

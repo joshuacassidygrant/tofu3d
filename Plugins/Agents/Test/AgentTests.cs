@@ -17,7 +17,6 @@ namespace TofuPlugin.Agents.Tests
      */
     public class AgentTests
     {
-        private AgentPrototype _prototype;
         private ServiceContext _context;
         private AgentContainer _agentContainer;
         private Configuration _config;
@@ -26,7 +25,7 @@ namespace TofuPlugin.Agents.Tests
         public void SetUp()
         {
 
-            _prototype = ScriptableObject.CreateInstance<AgentPrototype>();
+            /*_prototype = ScriptableObject.CreateInstance<AgentPrototype>();
             _prototype.Id = "t1p";
             _prototype.Name = "T1P";
             _prototype.Sprite = null;
@@ -34,7 +33,7 @@ namespace TofuPlugin.Agents.Tests
             {
                 new PrototypeActionEntry("test1"),
                 new PrototypeActionEntry("test2")
-            };
+            };*/
 
             _config = new Configuration();
             _config.AddProperty("testInt", 3);
@@ -54,18 +53,6 @@ namespace TofuPlugin.Agents.Tests
             Assert.NotNull(agent);
         }
 
-        [Test]
-        public void AgentShouldConsumePrototype()
-        {
-            Agent agent = new Agent();
-            agent.ConsumePrototype(new AgentType("Test", new HashSet<string>(), new List<string>(), new List<AgentResourceModuleConfig>()), _prototype, new List<AgentAction>());
-
-            //Assert
-            Assert.AreEqual("T1P", agent.Name);
-            Assert.AreEqual(null, agent.Sprite);
-            Assert.AreEqual(Vector3.zero, agent.Position);
-            Assert.AreEqual(0, agent.Actions.Count);
-        }
 
         [Test]
         public void AgentShouldConsumeConfig()

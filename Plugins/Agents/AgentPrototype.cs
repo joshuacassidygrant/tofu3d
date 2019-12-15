@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents
 {
-    [CreateAssetMenu(fileName = "AgentPrototype", menuName = "Data/AgentPrototype", order = 1)]
-    public class AgentPrototype : ScriptableObject {
+    //[CreateAssetMenu(fileName = "AgentPrototype", menuName = "Data/AgentPrototype", order = 1)]
+    /*public class AgentPrototype : ScriptableObject {
 
         public string Name;
         public string Id;
@@ -25,5 +25,5 @@ namespace TofuPlugin.Agents
         {
             return CreateInstance<AgentPrototype>();
         }
-    }
+    }*/
 }
