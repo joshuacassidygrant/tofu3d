@@ -33,6 +33,17 @@ namespace TofuCore.Configuration
             }
         }
 
+        public Configuration(Dictionary<string, dynamic> kvps)
+        {
+            if (kvps == null) {
+                return;
+            }
+
+            foreach (KeyValuePair<string, dynamic> kvp in kvps) {
+                AddProperty(kvp.Key, kvp.Value);
+            }
+        }
+
         public Configuration()
         {
 

@@ -180,6 +180,7 @@ namespace TofuCore.ResourceModule
         public void SetMax(float amount)
         {
             _max = amount;
+            _value = Mathf.Min(_max, _value);
         }
 
         public void SetValue(float amount)
