@@ -107,7 +107,7 @@ namespace TofuCore.Events
         {
             if (!_eventListeners.ContainsKey(evnt) || !_eventListeners[evnt].Contains(listener))
             {
-                Debug.Log("Not bound.");
+                //Debug.Log("Not bound.");
                 return;
             }
 
