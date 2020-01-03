@@ -1,12 +1,8 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using NSubstitute;
-using NSubstitute.ClearExtensions;
 using TofuCore.Player;
 using TofuCore.Service;
-using TofuPlugin.Agents.AgentActions;
 using TofuPlugin.Agents.Factions;
-using UnityEngine;
 
 namespace TofuPlugin.Agents.Tests
 {

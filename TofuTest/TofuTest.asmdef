@@ -1,14 +1,25 @@
 {
     "name": "TofuTest",
     "references": [
-        "TofuCore"
-    ],
-    "optionalUnityReferences": [
-        "TestAssemblies"
+        "TofuCore",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "NSubstitute"
     ],
     "includePlatforms": [
         "Editor"
     ],
     "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "NSubstitute.dll",
+        "System.Threading.Tasks.Extensions.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": []
 }
