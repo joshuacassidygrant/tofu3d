@@ -208,6 +208,11 @@ namespace TofuCore.ResourceModule
 
         private void FireChangeEvent()
         {
+            if (_eventContext == null)
+            {
+                Debug.LogWarning("No EventContext bound.");
+                return;
+            } 
             if (string.IsNullOrEmpty(_changeDeltaEventKey)) return;
             _eventContext.TriggerEvent(_changeDeltaEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, IValue)));
             _eventContext.TriggerEvent((_stateChangeEventKey), new EventPayload("ResourceStateEventPayload", new ResourceStateEventPayload(Color.white, Owner, IValue, IMax)));
