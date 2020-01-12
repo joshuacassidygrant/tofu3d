@@ -11,7 +11,6 @@ namespace TofuPlugin.Agents.Factions
     public class Faction: Glop
     {
 
-        //Who controls this allegiance
 
         //List of other allegiances and their relationships
         private Dictionary<Faction, int> _relationships;
@@ -19,21 +18,17 @@ namespace TofuPlugin.Agents.Factions
         public string IdName;
         private string _name;
 
-        protected EventContext EventContext;
-
         public virtual Sprite Icon { get; protected set; }
         public Player Controller;
 
-        public Faction(string idName, string niceName) : base()
+        protected FactionContainer FactionContainer;
+
+        public Faction(FactionContainer container, string idName, string niceName) : base()
         {
+            FactionContainer = container;
             IdName = idName;
             _name = niceName;
             _relationships = new Dictionary<Faction, int>();
-        }
-
-        public override void InjectDependencies(ContentInjectablePayload injectables)
-        {
-            EventContext = injectables.Get("EventContext");
         }
 
         public void SetMutualRelationship (Faction faction, int value)

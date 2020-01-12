@@ -78,7 +78,7 @@ namespace TofuPlugin.Agents.Tests
             payload.Add("PathRequestService", new PathRequestService());
 
             Agent agent = new Agent();
-            agent.InjectDependencies(payload);
+            //agent.InjectDependencies(payload);
             //Pass if fine
            
 

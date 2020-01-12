@@ -90,7 +90,6 @@ namespace TofuCore.Glops
 
             int id = GenerateGlopId();
             glop.Id = id;
-            glop.InjectDependencies(ContentInjectables);
             glop.Initialize();
             _contents.Add(id, glop);
         }

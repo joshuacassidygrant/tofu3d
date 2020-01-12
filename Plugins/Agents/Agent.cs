@@ -47,7 +47,6 @@ namespace TofuPlugin.Agents
         bool Garbage { get; }
         string GetSortingLayer();
         void ConsumeConfig(Configuration config);
-        void InjectDependencies(ContentInjectablePayload injectables);
         void SetController(AIAgentController controller);
         void AutoSetController();
         void Update(float frameDelta);
@@ -68,11 +67,7 @@ namespace TofuPlugin.Agents
         public string Name { get; set; }
         public bool Active { get; private set; }
 
-        //Services
-        protected AIBehaviourManager BehaviourManager;
-        protected PathRequestService PathRequestService;
-        protected FactionContainer FactionContainer;
-        protected EventContext EventContext;
+        protected AgentContainer AgentContainer;
 
         /*
          * ITangible and positioning
@@ -111,7 +106,7 @@ namespace TofuPlugin.Agents
             {
                 if (FactionComponent == null)
                 {
-                    FactionComponent = new FactionComponent(this, FactionContainer);
+                    //FactionComponent = new FactionComponent(this, FactionContainer);
                 }
                 FactionComponent.Faction = value;
             }
@@ -146,22 +141,12 @@ namespace TofuPlugin.Agents
         }
         
 
-        // Called by AgentFactory from AgentContainer to InjectDependencies
-        public override void InjectDependencies(ContentInjectablePayload injectables)
-        {
-            FactionContainer = injectables.Get("FactionContainer");
-            EventContext = injectables.Get("EventContext");
-            BehaviourManager = injectables.Get("AIBehaviourManager");
-            //PathRequestService = injectables.Get("PathRequestService");
-            //PositioningService = injectables.Get("PositioningService");
-        }
-
         private void BindResourceModules()
         {
             foreach (AgentResourceModuleConfig agentResourceModuleConfig in AgentType
                 .ResourceModuleConfigs)
             {
-                AssignResourceModule(agentResourceModuleConfig.Key, agentResourceModuleConfig.GenerateResourceModule(this, EventContext));
+                //AssignResourceModule(agentResourceModuleConfig.Key, agentResourceModuleConfig.GenerateResourceModule(this, EventContext));
             }
         }
 
@@ -177,7 +162,7 @@ namespace TofuPlugin.Agents
 
         public virtual void AutoSetController()
         {
-            SetController(new AIAgentController(this, Sensor, BehaviourManager));
+            //SetController(new AIAgentController(this, Sensor, BehaviourManager));
         }
 
         /**

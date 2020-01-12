@@ -20,10 +20,6 @@ namespace TofuCore.Player
         }
 
 
-        public override void InjectDependencies(ContentInjectablePayload injectables)
-        {
-        }
-
         public override void Update(float frameDelta)
         {
         }

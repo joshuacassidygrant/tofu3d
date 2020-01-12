@@ -54,7 +54,7 @@ namespace TofuPlugin.Agents.Factions
 
         public Faction Create(string idName, string niceName)
         {
-            Faction faction = new Faction(idName, niceName);
+            Faction faction = new Faction(this, idName, niceName);
             Register(faction);
             return faction;
         }

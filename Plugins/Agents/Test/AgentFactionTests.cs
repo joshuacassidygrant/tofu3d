@@ -32,18 +32,18 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void NewFactionShouldHaveFields()
         {
-            Faction faction = new Faction("testIdName", "Test Faction");
+            Faction faction = new Faction(_factionContainer, "testIdName", "Test Faction");
 
             Assert.AreEqual("testIdName", faction.IdName);
             Assert.AreEqual("Test Faction", faction.GetName());
-            Assert.AreEqual(0, faction.GetRelationship(new Faction("f", "f")));
+            Assert.AreEqual(0, faction.GetRelationship(new Faction(_factionContainer, "f", "f")));
             
         }
 
         [Test]
         public void ShouldBeAbleToSetControllerOfFaction()
         {
-            Faction faction = new Faction("testIdName", "Test Faction");
+            Faction faction = new Faction(_factionContainer, "testIdName", "Test Faction");
 
             Assert.Null(faction.Controller);
 
@@ -56,8 +56,8 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void SetMutualFactionRelationshipShouldWorkMutualUnmutual()
         {
-            Faction faction = new Faction("testIdName", "Test Faction");
-            Faction faction2 = new Faction("testIdName2", "Test Faction2");
+            Faction faction = new Faction(_factionContainer, "testIdName", "Test Faction");
+            Faction faction2 = new Faction(_factionContainer, "testIdName2", "Test Faction2");
 
             faction.SetMutualRelationship(faction2, 33);
 
@@ -73,8 +73,8 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void SetFactionRelationshipDeltaShouldWorkMutualUnmutual()
         {
-            Faction faction = new Faction("testIdName", "Test Faction");
-            Faction faction2 = new Faction("testIdName2", "Test Faction2");
+            Faction faction = new Faction(_factionContainer, "testIdName", "Test Faction");
+            Faction faction2 = new Faction(_factionContainer, "testIdName2", "Test Faction2");
 
             faction.SetMutualRelationship(faction2, 5);
             faction.ChangeMutualRelationship(faction2, 20);
@@ -97,7 +97,7 @@ namespace TofuPlugin.Agents.Tests
         [Test]
         public void SetSelfRelationshipShouldThrowException()
         {
-            Faction faction = new Faction("testIdName", "Test Faction");
+            Faction faction = new Faction(_factionContainer, "testIdName", "Test Faction");
         
             try
             {

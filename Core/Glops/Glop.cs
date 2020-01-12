@@ -20,11 +20,6 @@ namespace TofuCore.Glops
             Garbage = true;
         }
 
-        public virtual void InjectDependencies(ContentInjectablePayload injectables)
-        {
-            // Inject dependencies from container.
-        }
-
         /**
          * To be called after dependencies are injected and Glop is registered to container.
          */
