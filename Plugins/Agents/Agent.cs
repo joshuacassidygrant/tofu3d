@@ -67,8 +67,6 @@ namespace TofuPlugin.Agents
         public string Name { get; set; }
         public bool Active { get; private set; }
 
-        protected AgentContainer AgentContainer;
-
         /*
          * ITangible and positioning
          */
