@@ -26,7 +26,6 @@ public class UiTextDynamic : TofuUiBase, IListener
 
         _text = GetComponentInChildren<Text>();
         _textMesh = GetComponent<TMP_Text>();
-
     }
 
     private void BindEventListener()
@@ -38,7 +37,7 @@ public class UiTextDynamic : TofuUiBase, IListener
     {
         if (payload.ContentType != PayloadType) return;
         string value = HandleType(payload);
-
+        
         if (_text != null)
         {
             _text.text = value;
