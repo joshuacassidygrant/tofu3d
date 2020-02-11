@@ -2,6 +2,7 @@
 using TofuCore.Events;
 using TofuCore.Player;
 using TofuCore.ResourceModule;
+using TofuCore.Strings;
 using TofuPlugin.UI;
 using UnityEngine;
 using UnityEngine.UI;
