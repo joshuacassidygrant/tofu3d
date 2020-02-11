@@ -14,6 +14,8 @@ public class UiTextDynamic : TofuUiBase, IListener
     public int DecimalPointsForFloat = 0;
     public string PlayerNameSelector;
 
+    protected StringsService StringsService;
+
     private Text _text;
     public TMP_Text _textMesh;
 
@@ -27,6 +29,7 @@ public class UiTextDynamic : TofuUiBase, IListener
 
         _text = GetComponentInChildren<Text>();
         _textMesh = GetComponent<TMP_Text>();
+        StringsService = ServiceContext.Fetch("StringsService");
     }
 
     private void BindEventListener()
@@ -73,6 +76,10 @@ public class UiTextDynamic : TofuUiBase, IListener
                 }
 
                 return _text.text;
+            case "StringsRequest":
+                StringsRequest sR = payload.GetContent();
+                return StringsService.Format(sR.StringId, sR.Values);
+
             default:
                 return "Type not found";
         }

@@ -15,7 +15,7 @@ namespace TofuCore.Strings
             _strings = new Dictionary<string, string>();
 
             //test
-            _strings.Add("pnames_TURN", "{0}'s turn.");
+            _strings.Add("PNAMES_turn", "{0}'s turn.");
         }
 
         public void SetLanguage(string language)
