@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using TofuCore.Service;
 using UnityEngine;
 
@@ -8,21 +9,28 @@ namespace TofuCore.Strings
     {
         private Dictionary<string, string> _strings;
         private string CurrentLanguage;
+        
 
-        public override void Initialize()
+        public StringsService(string defaultLanguage)
         {
-            base.Initialize();
-            _strings = new Dictionary<string, string>();
-
-            //test
-            _strings.Add("PNAMES_turn", "{0}'s turn.");
+            SetLanguage(defaultLanguage);
         }
 
         public void SetLanguage(string language)
         {
             CurrentLanguage = language;
-            // TODO:
-            // load in new language to _strings dicto
+
+            _strings = ReadJson("Strings/" + language);
+        }
+
+        private Dictionary<string, string> ReadJson(string path)
+        {
+            TextAsset text = Resources.Load<TextAsset>(path);
+            if (text == null)
+            {
+                Debug.LogWarning($"No text resource for path {path}");
+            }
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(text.text);
         }
 
         public string Format(string id, params object[] values)
