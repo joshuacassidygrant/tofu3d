@@ -40,11 +40,19 @@ namespace TofuCore.Service
             _services.Remove(name);
         }
 
-        public void Bind(string name, IService service)
+        public void Bind(string name, IService service, bool overwrite = true)
         {
-            if (_services.ContainsKey(name)) throw new ServiceDoubleBindException();
             service = _factory.Build(service);
-            _services.Add(name, service);
+
+            if (_services.ContainsKey(name))
+            {
+                if (!overwrite) throw new ServiceDoubleBindException();
+                _services[name] = service;
+            }
+            else
+            {
+                _services.Add(name, service);
+            }
 
             if (service is IGlopContainer glopContainer)
             {
@@ -81,7 +89,14 @@ namespace TofuCore.Service
 
         public void AddAlias(string key, string alias)
         {
-            _aliases.Add(alias, key);
+            if (_aliases.ContainsKey(alias))
+            {
+                _aliases[alias] = key;
+            }
+            else
+            {
+                _aliases.Add(alias, key);
+            }
         }
         
         //Glop functions
@@ -108,7 +123,10 @@ namespace TofuCore.Service
         public void FullInitialization(IService service)
         {
             ResolveBindings();
-            service.Initialize();
+            if (!service.Initialized || service.RebindMode != RebindMode.REBIND_IGNORE)
+            {
+                service.Initialize();
+            }
         }
 
         private void ResolveBindings()
@@ -131,7 +149,9 @@ namespace TofuCore.Service
         {
             foreach (KeyValuePair<String, IService> entry in _services)
             {
-                entry.Value.Initialize();
+                if (!entry.Value.Initialized || entry.Value.RebindMode != RebindMode.REBIND_IGNORE) {
+                    entry.Value.Initialize();
+                }
             }
         }
 

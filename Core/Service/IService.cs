@@ -14,7 +14,8 @@ namespace TofuCore.Service
         void Initialize();
         dynamic BindServiceContext(IServiceContext serviceContext, string bindingName);
         string GetServiceName();
+        bool Initialized { get; }
+        RebindMode RebindMode { get; }
         
-    
     }
 }

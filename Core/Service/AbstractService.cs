@@ -14,11 +14,14 @@ using UnityEngine;
 namespace TofuCore.Service
 {
     public abstract class AbstractService : IService, IListener, IContentInjectable
-    { 
-        protected bool Initialized = false;
+    {
+        public bool Initialized => _initialized;
         protected IServiceContext ServiceContext;
         protected ContentInjectablePayload ContentInjectables;
         private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
+        public virtual RebindMode RebindMode => RebindMode.REBIND_IGNORE;
+
+        private bool _initialized = false;
 
         /*
      * Build sets up all internal workings of the class.
@@ -100,10 +103,9 @@ namespace TofuCore.Service
         {
             if (Initialized)
             {
-                Debug.Log("Trying to initialize " + GetType().ToString() + " multiple times!");
-                throw new MultipleInitializationException();
+                return;
             }
-            Initialized = true;
+            _initialized = true;
         }
 
         public dynamic BindServiceContext(IServiceContext serviceContext, string bindingName = null)
@@ -113,7 +115,7 @@ namespace TofuCore.Service
 
             try
             {
-                serviceContext.Bind(bindingName, this);
+                serviceContext.Bind(bindingName, this, true);
             }
             catch (ServiceDoubleBindException e)
             {
