@@ -6,7 +6,7 @@
     public interface IContextConfigurator
     {
 
-        void Configure(ServiceContext context);
+        void Configure(IServiceContext context);
 
     }
 
