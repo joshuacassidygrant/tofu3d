@@ -6,6 +6,7 @@ using UnityEngine;
 public interface IGlopContainer
 {
     List<Glop> GetContents();
+    Dictionary<int, Glop> GetContentsIndexed();
     Glop GetGlopById(int id);
     bool HasId(int id);
 }

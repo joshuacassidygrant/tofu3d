@@ -1,4 +1,5 @@
-﻿using TofuCore.Glops;
+﻿using System.Collections.Generic;
+using TofuCore.Glops;
 
 namespace TofuCore.Service
 {
@@ -13,5 +14,6 @@ namespace TofuCore.Service
         void FullInitialization();
         void FullInitialization(IService service);
         int LastGlopId { get; set; }
+        Dictionary<string, IGlopContainer> GetGlopContainers();
     }
 }

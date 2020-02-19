@@ -63,6 +63,11 @@ namespace TofuCore.Glops
             return _contents.Values.ToList();
         }
 
+        public Dictionary<int, Glop> GetContentsIndexed()
+        {
+            return _contents;
+        }
+
         public Glop GetGlopById(int id)
         {
             if (HasId(id))

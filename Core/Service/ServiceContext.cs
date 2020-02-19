@@ -17,14 +17,14 @@ namespace TofuCore.Service
 
         private Dictionary<string, IService> _services;
         private Dictionary<string, string> _aliases;
-        private List<IGlopContainer> _glopManagers;
+        private List<IGlopContainer> _glopContainers;
         private ServiceFactory _factory;
 
         public ServiceContext()
         {
             _services = new Dictionary<string, IService>();
             _aliases = new Dictionary<string, string>();
-            _glopManagers = new List<IGlopContainer>();
+            _glopContainers = new List<IGlopContainer>();
             _factory = new ServiceFactory(this);
             LastGlopId = 0x1;
 
@@ -56,7 +56,7 @@ namespace TofuCore.Service
 
             if (service is IGlopContainer glopContainer)
             {
-                _glopManagers.Add(glopContainer);
+                _glopContainers.Add(glopContainer);
             }
         }
 
@@ -102,7 +102,7 @@ namespace TofuCore.Service
         //Glop functions
         public Glop FindGlopById(int id)
         {
-            foreach (IGlopContainer manager in _glopManagers)
+            foreach (IGlopContainer manager in _glopContainers)
             {
                 if (manager.HasId(id)) return manager.GetGlopById(id);
             }
@@ -160,6 +160,19 @@ namespace TofuCore.Service
             new EventContext().BindServiceContext(this);
             AddAlias("EventContext", "IEventContext");
 
+        }
+
+        public Dictionary<string, IGlopContainer> GetGlopContainers()
+        {
+            Dictionary<string, IGlopContainer> containers = new Dictionary<string, IGlopContainer>();
+            foreach (KeyValuePair<string, IService> entry in _services)
+            {
+                if (entry.Value is IGlopContainer glopContainer)
+                {
+                    containers.Add(entry.Key, glopContainer);
+                }
+            }
+            return containers;
         }
 
 
