@@ -6,13 +6,7 @@ namespace TofuCore.Player
 {
     public class PlayerContainer : GlopContainer<Player>
     {
-        private Dictionary<string, Player> _playersByString;
-
-        public override void Initialize()
-        {
-            base.Initialize();
-            _playersByString = new Dictionary<string, Player>();
-        }
+        private Dictionary<string, Player> _playersByString = new Dictionary<string, Player>();
 
         public Player Create(string idName)
         {
