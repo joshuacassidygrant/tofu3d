@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Player;
@@ -8,6 +9,7 @@ using UnityEngine;
 
 namespace TofuPlugin.Agents.Factions
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Faction: Glop
     {
 
@@ -15,19 +17,19 @@ namespace TofuPlugin.Agents.Factions
         //List of other allegiances and their relationships
         private Dictionary<Faction, int> _relationships;
 
-        public string IdName;
-        private string _name;
+        [JsonProperty] public string IdName;
+        [JsonProperty] public string Name { get; set; }
 
-        public virtual Sprite Icon { get; protected set; }
-        public Player Controller;
+        [JsonIgnore] public virtual Sprite Icon { get; protected set; }
+        [JsonProperty] public Player Controller;
 
-        protected FactionContainer FactionContainer;
+        [JsonIgnore] protected FactionContainer FactionContainer;
 
         public Faction(FactionContainer container, string idName, string niceName) : base()
         {
             FactionContainer = container;
             IdName = idName;
-            _name = niceName;
+            Name = niceName;
             _relationships = new Dictionary<Faction, int>();
         }
 
@@ -79,7 +81,7 @@ namespace TofuPlugin.Agents.Factions
 
         public string GetName()
         {
-            return _name;
+            return Name;
         }
 
         public int GetRelationship(Faction faction)

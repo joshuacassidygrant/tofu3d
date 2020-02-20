@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Policy;
+using Newtonsoft.Json;
 using TofuCore.Events;
 using TofuCore.Glops;
 using UnityEngine;
@@ -31,44 +32,44 @@ namespace TofuCore.ResourceModule
         string GetCurrentMaxRatioString();
     }
 
+    [JsonObject(MemberSerialization.OptIn)]
     public class ResourceModule : IResourceModule
     {
-        public readonly string Name;
+        [JsonProperty] public readonly string Name;
+        [JsonProperty] public IResourceModuleOwner Owner { get; private set; }
+        [JsonProperty] public float Value { get; private set; }
+        [JsonProperty] public float Max { get; private set; }
 
-        public int IValue => Mathf.RoundToInt(_value);
-        public int IMax => Mathf.RoundToInt(_max);
-        public float FValue => _value;
-        public float FMax => _max;
-        public string MaterialName;
+        [JsonIgnore] public int IValue => Mathf.RoundToInt(Value);
+        [JsonIgnore] public int IMax => Mathf.RoundToInt(Max);
+        [JsonIgnore] public float FValue => Value;
+        [JsonIgnore] public float FMax => Max;
+        [JsonIgnore] public string MaterialName;
 
-        private string _depletionEventKey;
-        private string _fullDepletionEventKey;
-        private EventPayload _fullDepletionEventPayload;
-        private string _replenishEventKey;
-        private string _changeDeltaEventKey;
-        private string _stateChangeEventKey;
+        [JsonIgnore] private string _depletionEventKey;
+        [JsonIgnore] private string _fullDepletionEventKey;
+        [JsonIgnore] private EventPayload _fullDepletionEventPayload;
+        [JsonIgnore] private string _replenishEventKey;
+        [JsonIgnore] private string _changeDeltaEventKey;
+        [JsonIgnore] private string _stateChangeEventKey;
 
-
+        [JsonIgnore]
         public float Percent
         {
             get
             {
-                if (Math.Abs(_max) < 0.01f) return 0;
-                return _value / _max;
+                if (Math.Abs(Max) < 0.01f) return 0;
+                return Value / Max;
             }
         }
 
-        public IResourceModuleOwner Owner { get; private set; }
-
-        private float _value;
-        private float _max;
-        private readonly IEventContext _eventContext;
+        [JsonIgnore] private readonly IEventContext _eventContext;
 
         public ResourceModule(string name, float max, float val, string materialName, IResourceModuleOwner owner, IEventContext eventContext)
         {
             Name = name;
-            _value = val;
-            _max = max;
+            Value = val;
+            Max = max;
             MaterialName = materialName;
             _eventContext = eventContext;
             Owner = owner;
@@ -81,7 +82,7 @@ namespace TofuCore.ResourceModule
         public void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null)
         {
 
-            _value -= amount;
+            Value -= amount;
             FireChangeEvent();
 
             if (_depletionEventKey != null)
@@ -89,14 +90,14 @@ namespace TofuCore.ResourceModule
                 _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, (int)Math.Round(amount))));
             }
 
-            if (_value <= 0)
+            if (Value <= 0)
             {
                 if (_fullDepletionEventKey != null && _fullDepletionEventPayload != null)
                 {
                     _eventContext.TriggerEvent(_fullDepletionEventKey, _fullDepletionEventPayload);
                 }
 
-                if (additionalDepletionEventKey != null && _value <= 0)
+                if (additionalDepletionEventKey != null && Value <= 0)
                 {
                     _eventContext.TriggerEvent(additionalDepletionEventKey, additionalPayload);
                 }
@@ -111,7 +112,7 @@ namespace TofuCore.ResourceModule
         {
             if (CanSpend(amount))
             {
-                _value -= amount;
+                Value -= amount;
                 FireChangeEvent();
                 return true;
             }
@@ -121,7 +122,7 @@ namespace TofuCore.ResourceModule
 
         public bool CanSpend(float amount)
         {
-            return _value - amount >= 0;
+            return Value - amount >= 0;
         }
 
         /**
@@ -131,11 +132,11 @@ namespace TofuCore.ResourceModule
         {
             if (!keepOverrun)
             {
-                _value = Mathf.Min(_value + amount, FMax);
+                Value = Mathf.Min(Value + amount, FMax);
             }
             else
             {
-                _value = _value + amount;
+                Value = Value + amount;
             }
 
             FireChangeEvent();
@@ -179,13 +180,13 @@ namespace TofuCore.ResourceModule
          */
         public void SetMax(float amount)
         {
-            _max = amount;
-            _value = Mathf.Min(_max, _value);
+            Max = amount;
+            Value = Mathf.Min(Max, Value);
         }
 
         public void SetValue(float amount)
         {
-            _value = amount;
+            Value = amount;
             FireChangeEvent();
         }
 
@@ -193,7 +194,7 @@ namespace TofuCore.ResourceModule
         {
             float percent = Percent;
             SetMax(amount);
-            _value = FMax * percent;
+            Value = FMax * percent;
             FireChangeEvent();
         }
 

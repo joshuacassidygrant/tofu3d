@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using TofuCore.Glops;
 using TofuCore.Service;
 using TofuCore.ResourceModule;
@@ -6,12 +7,12 @@ using UnityEngine;
 
 namespace TofuCore.Player
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Player : Glop, IResourceModuleOwner
     {
-        private readonly Dictionary<string, IResourceModule> _resourceModules;
-
-        public string Name { get; set; }
-        public Vector3 Position { get; private set; }
+        [JsonProperty] private readonly Dictionary<string, IResourceModule> _resourceModules;
+        [JsonProperty] public string Name { get; set; }
+        [JsonProperty] public Vector3 Position { get; private set; }
 
         public Player(string name) : base()
         {
