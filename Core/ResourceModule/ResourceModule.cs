@@ -36,9 +36,10 @@ namespace TofuCore.ResourceModule
     public class ResourceModule : IResourceModule
     {
         [JsonProperty] public readonly string Name;
-        [JsonProperty] public IResourceModuleOwner Owner { get; private set; }
         [JsonProperty] public float Value { get; private set; }
         [JsonProperty] public float Max { get; private set; }
+
+        [JsonIgnore] public IResourceModuleOwner Owner { get; set; }
 
         [JsonIgnore] public int IValue => Mathf.RoundToInt(Value);
         [JsonIgnore] public int IMax => Mathf.RoundToInt(Max);
@@ -63,6 +64,7 @@ namespace TofuCore.ResourceModule
             }
         }
 
+
         [JsonIgnore] private readonly IEventContext _eventContext;
 
         public ResourceModule(string name, float max, float val, string materialName, IResourceModuleOwner owner, IEventContext eventContext)
@@ -73,6 +75,13 @@ namespace TofuCore.ResourceModule
             MaterialName = materialName;
             _eventContext = eventContext;
             Owner = owner;
+        }
+
+        public ResourceModule(string name, float max, float val)
+        {
+            Name = name;
+            Value = val;
+            Max = max;
         }
 
         /**
