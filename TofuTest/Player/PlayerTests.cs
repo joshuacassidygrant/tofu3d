@@ -34,30 +34,5 @@ namespace TofuTest.PlayerTests
             Assert.AreEqual("TestName2", _player1.Name);
         }
 
-        [Test]
-        public void TestAssignResourceModule()
-        {
-            IResourceModule subModule = Substitute.For<IResourceModule>();
-            _player1.AssignResourceModule("Module1", subModule);
-
-            Assert.NotNull(_player1.GetResourceModule("Module1"));
-            Assert.AreEqual(1, _player1.GetResourceModules().Count);
-            Assert.True(_player1.GetResourceModules().ContainsKey("Module1"));
-        }
-
-        [Test]
-        public void TestRemoveResourceModule()
-        {
-            IResourceModule subModule = Substitute.For<IResourceModule>();
-            _player1.AssignResourceModule("Module1", subModule);
-
-            Assert.NotNull(_player1.GetResourceModule("Module1"));
-
-            _player1.RemoveResourceModule("Module1");
-
-            Assert.AreEqual(0, _player1.GetResourceModules().Count);
-            Assert.Null(_player1.GetResourceModule("Module1"));
-        }
-
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TofuCore.Events;
 using TofuCore.Service;
 using Debug = UnityEngine.Debug;
@@ -10,8 +12,7 @@ namespace TofuCore.Glops
      * A GLOP Container holds and manages GLOP objects (TOFU's generic object type).
      * It contains methods for storing, retrieving and updating its child glops.
      */
-    public class GlopContainer<T> : AbstractService, IGlopContainer, IGlopStream
-    {
+    public class GlopContainer<T>: AbstractService, IGlopContainer, IGlopStream {
         T Value { get; }
 
         protected Dictionary<int, Glop> _contents;
@@ -99,6 +100,22 @@ namespace TofuCore.Glops
             _contents.Add(id, glop);
         }
 
+        public void RegisterFromLoad(int id, T val)
+        {
+            Glop glop = val as Glop;
+
+            if (glop == null) {
+                Debug.Log("Tried to register a null Glop!");
+                return;
+            }
+
+            //int id = GenerateGlopId();
+            //glop.Id = id;
+            //glop.Initialize();
+            
+            _contents.Add(id, glop);
+        }
+
         public int GenerateGlopId()
         {
             return ServiceContext.LastGlopId++;
@@ -114,6 +131,15 @@ namespace TofuCore.Glops
             }
 
             Debug.Log("No GLOP found with id " + glop.Id);
+        }
+
+        public virtual void FillFromSerializedData(Dictionary<int, JObject> jsonGlopList)
+        {
+            foreach (KeyValuePair<int, JObject> jsonGlop in jsonGlopList)
+            {
+                T val = JsonConvert.DeserializeObject<T>(jsonGlop.Value.ToString());
+                RegisterFromLoad(jsonGlop.Key, val);
+            }
         }
     }
 }
