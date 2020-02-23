@@ -100,7 +100,7 @@ namespace TofuCore.Glops
             _contents.Add(id, glop);
         }
 
-        public void RegisterFromLoad(int id, T val)
+        public virtual void RegisterFromLoad(int id, T val)
         {
             Glop glop = val as Glop;
 
@@ -109,10 +109,6 @@ namespace TofuCore.Glops
                 return;
             }
 
-            //int id = GenerateGlopId();
-            //glop.Id = id;
-            //glop.Initialize();
-            
             _contents.Add(id, glop);
         }
 

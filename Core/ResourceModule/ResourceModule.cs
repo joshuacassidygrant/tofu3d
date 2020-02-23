@@ -15,7 +15,7 @@ namespace TofuCore.ResourceModule
         float FValue { get; }
         float FMax { get; }
         float Percent { get; }
-        IResourceModuleOwner Owner { get; }
+        IResourceModuleOwner Owner { get; set; }
         void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null);
         bool Spend(float amount);
         bool CanSpend(float amount);
@@ -30,6 +30,7 @@ namespace TofuCore.ResourceModule
         void SetMaxRetainPercent(float amount);
         Material LoadMaterial();
         string GetCurrentMaxRatioString();
+        string MaterialName { get; set; }
     }
 
     [JsonObject(MemberSerialization.OptIn)]
@@ -45,7 +46,7 @@ namespace TofuCore.ResourceModule
         [JsonIgnore] public int IMax => Mathf.RoundToInt(Max);
         [JsonIgnore] public float FValue => Value;
         [JsonIgnore] public float FMax => Max;
-        [JsonIgnore] public string MaterialName;
+        [JsonIgnore] public string MaterialName { get; set; }
 
         [JsonIgnore] private string _depletionEventKey;
         [JsonIgnore] private string _fullDepletionEventKey;

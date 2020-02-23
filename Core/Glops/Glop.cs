@@ -28,6 +28,11 @@ namespace TofuCore.Glops
             // Do something!
         }
 
+        public virtual void InitializeFromLoad()
+        {
+            // Do something!
+        }
+
         public bool Garbage { get; protected set; }
 
 
