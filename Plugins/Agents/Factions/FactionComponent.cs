@@ -8,8 +8,9 @@ namespace TofuPlugin.Agents.Factions
     public class FactionComponent: IFactionComponent
     {
 
-        public FactionComponent(IFactionBelongable belongable, FactionContainer factionContainer)
+        public FactionComponent(int factionId, IFactionBelongable belongable, FactionContainer factionContainer)
         {
+            Faction = (Faction)factionContainer.GetGlopById(factionId);
             _boundBelongable = belongable;
             _factionContainer = factionContainer;
         }

@@ -8,7 +8,8 @@ namespace TofuPlugin.Agents.Factions
     public interface IFactionBelongable
     {
         IFactionComponent FactionComponent { get; }
-        Faction Faction { get; }
+        Faction Faction { get; set; }
+        int FactionId { get; set; }
 
 
     }

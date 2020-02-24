@@ -117,6 +117,10 @@ namespace TofuCore.Glops
             return ServiceContext.LastGlopId++;
         }
 
+        public List<T> ResolveGlopList(List<int> ids)
+        {
+            return ids.Select(x => _contents[x]).Cast<T>().ToList();
+        }
 
         public void Destroy(Glop glop)
         {

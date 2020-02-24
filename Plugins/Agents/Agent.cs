@@ -109,7 +109,9 @@ namespace TofuPlugin.Agents
                 FactionComponent.Faction = value;
             }
         }
-    
+
+        public int FactionId { get; set; }
+
 
         /*
          * Action/Command storage

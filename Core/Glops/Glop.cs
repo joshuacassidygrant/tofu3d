@@ -11,6 +11,10 @@ namespace TofuCore.Glops
      *
      * GLOPs receive updates from their managers, generally with a framedelta
      * float telling how much time has passed since the last frame.
+     *
+     * GLOPs should be contain serializable data, serializable integer references
+     * to other glops by ID. Other data must be constructible from factories and
+     * contained references.
      */
     public abstract class Glop {
         public int Id { get; set;}
