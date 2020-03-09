@@ -64,7 +64,7 @@ namespace TofuCore.Glops
             return _contents.Values.ToList();
         }
 
-        public Dictionary<int, Glop> GetContentsIndexed()
+        public virtual Dictionary<int, Glop> GetContentsIndexed()
         {
             return _contents;
         }
