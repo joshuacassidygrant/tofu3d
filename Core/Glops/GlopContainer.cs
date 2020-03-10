@@ -20,6 +20,7 @@ namespace TofuCore.Glops
 
         public override void Initialize() {
             BindListener(EventContext.GetEvent("FrameUpdate"), OnUpdateFrame, EventContext);
+            BindListener("GlopsDeserialized", HandleGlopsDeserialized, EventContext);
         }
 
         public void OnUpdateFrame(EventPayload payload) {
@@ -110,6 +111,17 @@ namespace TofuCore.Glops
             }
 
             _contents.Add(id, glop);
+        }
+
+        private void HandleGlopsDeserialized(EventPayload payload)
+        {
+            if (payload != null) return;
+            ReinitializeContents();
+        }
+
+        public virtual void ReinitializeContents()
+        {
+            // Called after glops loaded to trigger any internal inter-glop resolutions etc.
         }
 
         public int GenerateGlopId()
