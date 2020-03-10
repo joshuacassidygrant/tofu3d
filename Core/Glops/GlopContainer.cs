@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -65,6 +66,7 @@ namespace TofuCore.Glops
             return _contents.Values.ToList();
         }
 
+
         public virtual Dictionary<int, Glop> GetContentsIndexed()
         {
             return _contents;
@@ -77,6 +79,28 @@ namespace TofuCore.Glops
                 return _contents[id];
             }
             return null;
+        }
+
+        public T Get(int id)
+        {
+            if (!_contents.ContainsKey(id))
+            {
+                Debug.LogWarning($"Couldn't find {id} in container.");
+                return default(T);
+            }
+
+            return (T)(object)_contents[id];
+        }
+
+        public List<T> GetAll(List<int> ids) {
+            List<T> vals = new List<T>();
+            try {
+                ids.ForEach(i => vals.Add((T)(object)_contents[i]));
+            } catch (Exception e) {
+                Debug.LogWarning(e);
+            }
+
+            return vals;
         }
 
         public bool HasId(int id)

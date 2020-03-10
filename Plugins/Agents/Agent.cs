@@ -38,7 +38,6 @@ namespace TofuPlugin.Agents
         List<AgentAction> Actions { get; } //Add to this only with the AddAction() method to ensure actions are bound to agent
         AgentType AgentType { get; }
         Properties Properties { get; }
-        IFactionComponent FactionComponent { get; }
         Faction Faction { get; set; }
         AgentCommand CurrentCommand { get; set; }
         AgentAction CurrentAction { get; set; }
@@ -62,7 +61,7 @@ namespace TofuPlugin.Agents
         void Initialize();
     }
 
-    public class Agent: Glop, IRenderable, ITangible, IControllableAgent, IConfigurable, IResourceModuleOwner, IFactionBelongable, IAgent
+    public class Agent: Glop, IRenderable, ITangible, IControllableAgent, IConfigurable, IResourceModuleOwner, IAgent
     {
         public string Name { get; set; }
         public bool Active { get; private set; }
@@ -95,20 +94,8 @@ namespace TofuPlugin.Agents
         public Properties Properties { get; private set; }
         public AgentMobilityComponent Mobility;
 
-        public IFactionComponent FactionComponent { get; private set; }
 
-        public Faction Faction
-        {
-            get => FactionComponent?.Faction;
-            set
-            {
-                if (FactionComponent == null)
-                {
-                    //FactionComponent = new FactionComponent(this, FactionContainer);
-                }
-                FactionComponent.Faction = value;
-            }
-        }
+        public Faction Faction { get; set; }
 
         public int FactionId { get; set; }
 
