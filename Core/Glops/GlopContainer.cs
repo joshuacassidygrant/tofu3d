@@ -19,9 +19,16 @@ namespace TofuCore.Glops
         protected Dictionary<int, Glop> _contents;
         [Dependency] protected IEventContext EventContext;
 
+
         public override void Initialize() {
             BindListener(EventContext.GetEvent("FrameUpdate"), OnUpdateFrame, EventContext);
+        }
+
+        public override void Prepare()
+        {
+            base.Prepare();
             BindListener("GlopsDeserialized", HandleGlopsDeserialized, EventContext);
+
         }
 
         public void OnUpdateFrame(EventPayload payload) {
