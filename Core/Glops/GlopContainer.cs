@@ -139,7 +139,8 @@ namespace TofuCore.Glops
 
         private void HandleGlopsDeserialized(EventPayload payload)
         {
-            if (payload != null) return;
+            Debug.Log(this);
+            if (payload.ContentType != "Null") return;
             ReinitializeContents();
         }
 
