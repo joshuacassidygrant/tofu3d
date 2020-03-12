@@ -32,7 +32,8 @@ namespace TofuCore.Glops
             // Do something!
         }
 
-        public virtual void InitializeFromLoad()
+
+        public virtual void ResolveAfterDeserialize(IServiceContext context)
         {
             // Do something!
         }

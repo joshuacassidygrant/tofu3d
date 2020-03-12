@@ -151,7 +151,9 @@ namespace TofuCore.Glops
 
         public virtual void ReinitializeContents()
         {
-            // Called after glops loaded to trigger any internal inter-glop resolutions etc.
+            foreach (Glop glop in _contents.Values) {
+                glop.ResolveAfterDeserialize(ServiceContext);
+            }
         }
 
         public int GenerateGlopId()
