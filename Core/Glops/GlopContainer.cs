@@ -28,7 +28,6 @@ namespace TofuCore.Glops
         {
             base.Prepare();
             BindListener("GlopsDeserialized", HandleGlopsDeserialized, EventContext);
-
         }
 
         public void OnUpdateFrame(EventPayload payload) {
@@ -146,7 +145,6 @@ namespace TofuCore.Glops
 
         private void HandleGlopsDeserialized(EventPayload payload)
         {
-            Debug.Log(this);
             if (payload.ContentType != "Null") return;
             ReinitializeContents();
         }
