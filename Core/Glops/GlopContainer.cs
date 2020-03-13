@@ -15,10 +15,10 @@ namespace TofuCore.Glops
      */
     public class GlopContainer<T>: AbstractService, IGlopContainer, IGlopStream {
         T Value { get; }
+        public T Default = default(T);
 
         protected Dictionary<int, Glop> _contents;
         [Dependency] protected IEventContext EventContext;
-
 
         public override void Initialize() {
             BindListener(EventContext.GetEvent("FrameUpdate"), OnUpdateFrame, EventContext);
@@ -28,6 +28,11 @@ namespace TofuCore.Glops
         {
             base.Prepare();
             BindListener("GlopsDeserialized", HandleGlopsDeserialized, EventContext);
+        }
+
+        public void SetDefault(T def)
+        {
+            Default = def;
         }
 
         public void OnUpdateFrame(EventPayload payload) {
@@ -80,6 +85,10 @@ namespace TofuCore.Glops
 
         public Glop GetGlopById(int id)
         {
+            if (id == 0) {
+                return (Glop)(object)Default;
+            }
+
             if (HasId(id))
             {
                 return _contents[id];
@@ -89,6 +98,11 @@ namespace TofuCore.Glops
 
         public T Get(int id)
         {
+            if (id == 0)
+            {
+                return Default;
+            }
+
             if (!_contents.ContainsKey(id))
             {
                 Debug.LogWarning($"Couldn't find {id} in container.");
@@ -136,7 +150,13 @@ namespace TofuCore.Glops
             Glop glop = val as Glop;
 
             if (glop == null) {
-                Debug.Log("Tried to register a null Glop!");
+                Debug.Log($"Tried to register a null Glop to id {id} in {this}!");
+                return;
+            }
+
+            if (_contents.ContainsKey(id))
+            {
+                Debug.Log($"Already registered a glop with id {id} in {this}");
                 return;
             }
 
