@@ -1,7 +1,7 @@
 # tofu3d
 ### A Testable Object-Oriented Framework for Unity3D 
 
-v0.0.5
+v0.0.6
 
 <img align="left" width=128 height=128 src="./TOFULogoSmall.png" alt="tofu3d">
 
@@ -30,11 +30,15 @@ A service (in either MonoBehaviour or plain flavours) can be bound to a ServiceC
 Events are passed around in an EventContext with dynamic event payloads. Event listeners and triggers must all be bound in terms of an event context, which is a service in itself.
 
 ### Glops
-A Glop (Generalized Local Object or Process) is a single object that is contained in a GlopContainer. Generally, Glop is subclassed to represent any major managed, live data in a Tofu game.
+A Glop (Generalized Local Object or Process) is a single object that is contained in a GlopContainer. Generally, Glop is subclassed to represent all live data in a tofu game.
+
+GlopContainers are responsible for holding all Glops and acting as their interface to other services.
+
+On data serialization, GlopContainers dump their content Glops to be serialized. On deserialization, each GlopContainer must call for its Glops to "resolve" after they receive data so that they can rebuild inter-Glop links and rebind any necessary services.
 
 ### Resource Libraries
 Resource libraries allow the serving and storage of items of a specified type. Each resource library is a service. 
-Use ResourceLibraries to load and store data from formats like XML or JSON, to load in prefabs, to maintain custom enum-like classes or to serve media like strings, sprites, textures, models and sound.
+Use ResourceLibraries to load and store data from formats like XML or JSON, to load in prefabs, to maintain custom enum-like classes or to serve media like strings, sprites, textures, models, functions and sound.
 
 Resource libraries are similar to GlopContainers in that they contain and serve objects; however, a ResourceLibrary does not ever update its objects after load and ResourceLibrary objects must be accessible in O(1) time by string lookup. GlopContainers are generally self-contained, and their contents must be accessed through queries through the GlopContainer service (or by a GlopId in O(1)). ResourceLibraries are intended to be used by many services to access necessary data.
 
