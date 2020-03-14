@@ -197,6 +197,17 @@ namespace TofuCore.Glops
             Debug.Log("No GLOP found with id " + glop.Id);
         }
 
+        public void DestroyAllByIds(List<int> ids)
+        {
+            foreach (int id in ids)
+            {
+                if (HasId(id)) {
+                    _contents[id].Die();
+                    _contents.Remove(id);
+                }
+            }
+        }
+
         public virtual void FillFromSerializedData(Dictionary<int, JObject> jsonGlopList)
         {
             foreach (KeyValuePair<int, JObject> jsonGlop in jsonGlopList)
