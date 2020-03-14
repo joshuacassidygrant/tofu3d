@@ -31,6 +31,7 @@ namespace TofuCore.ResourceModule
         Material LoadMaterial();
         string GetCurrentMaxRatioString();
         string MaterialName { get; set; }
+        void BindEventContext(IEventContext eventContext);
     }
 
     [JsonObject(MemberSerialization.OptIn)]
@@ -66,7 +67,7 @@ namespace TofuCore.ResourceModule
         }
 
 
-        [JsonIgnore] private readonly IEventContext _eventContext;
+        [JsonIgnore] private IEventContext _eventContext;
 
         public ResourceModule(string name, float max, float val, string materialName, IResourceModuleOwner owner, IEventContext eventContext)
         {
@@ -211,6 +212,11 @@ namespace TofuCore.ResourceModule
         public Material LoadMaterial()
         {
             return Resources.Load<Material>($"Materials/{MaterialName}");
+        }
+
+        public void BindEventContext(IEventContext eventContext)
+        {
+            _eventContext = eventContext;
         }
 
         /**
