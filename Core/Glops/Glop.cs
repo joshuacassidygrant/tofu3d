@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TofuCore.Service;
 using UnityEngine;
 
@@ -16,7 +17,9 @@ namespace TofuCore.Glops
      * to other glops by ID. Other data must be constructible from factories and
      * contained references.
      */
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class Glop {
+        [JsonProperty]
         public int Id { get; set;}
 
         public virtual void Die()
