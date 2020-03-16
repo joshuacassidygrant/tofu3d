@@ -174,6 +174,7 @@ namespace TofuCore.Glops
             foreach (Glop glop in _contents.Values) {
                 glop.ResolveAfterDeserialize(ServiceContext);
             }
+            EventContext.TriggerEvent("ContainerResolved");
         }
 
         public int GenerateGlopId()
