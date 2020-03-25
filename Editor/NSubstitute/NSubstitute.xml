@@ -453,8 +453,8 @@
         </member>
         <member name="M:NSubstitute.Core.DependencyInjection.INSubContainer.Customize">
             <summary>
-            Creates a new container based on the current one,
-            which can be configured to override the existing registrations without affecting the existing container.
+            Creates a new manager based on the current one,
+            which can be configured to override the existing registrations without affecting the existing manager.
             </summary>
         </member>
         <member name="M:NSubstitute.Core.DependencyInjection.INSubContainer.CreateScope">
@@ -473,7 +473,7 @@
                     - <see cref="F:NSubstitute.Core.DependencyInjection.NSubLifetime.Transient"/>
                     - <see cref="F:NSubstitute.Core.DependencyInjection.NSubLifetime.PerScope"/>
                     - <see cref="F:NSubstitute.Core.DependencyInjection.NSubLifetime.Singleton"/>
-                - Immutability (via interfaces) and customization by creating a nested container
+                - Immutability (via interfaces) and customization by creating a nested manager
             </summary>
         </member>
         <member name="F:NSubstitute.Core.DependencyInjection.NSubLifetime.Singleton">
@@ -494,7 +494,7 @@
         </member>
         <member name="P:NSubstitute.Core.DependencyInjection.NSubstituteDefaultFactory.DefaultContainer">
             <summary>
-            The default NSubstitute registrations. Feel free to configure the existing container to customize
+            The default NSubstitute registrations. Feel free to configure the existing manager to customize
             and override NSubstitute parts.
             </summary>
         </member>
@@ -550,7 +550,7 @@
             if a detailed description can not be provided for the argument.
             </summary>
             <param name="argument"></param>
-            <returns>Description of the non-match, or <see cref="F:System.String.Empty" /> if no description can be provided.</returns>
+            <returns>DescriptionId of the non-match, or <see cref="F:System.String.Empty" /> if no description can be provided.</returns>
         </member>
         <member name="P:NSubstitute.Core.ISubstitutionContext.ThreadContext">
             <summary>
