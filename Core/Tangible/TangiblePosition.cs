@@ -24,6 +24,7 @@ namespace TofuCore.Tangible
         public float SizeRadius => _sizeRadius;
         private float _sizeRadius;
         public int Id => 0;
+        public bool Hidden => false;
     }
 
 }

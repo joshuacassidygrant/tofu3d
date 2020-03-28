@@ -13,5 +13,6 @@ namespace TofuCore.Tangible
         bool Active { get; }
         float SizeRadius { get; }
         int Id { get; }
+        bool Hidden { get; }
     }
 }

@@ -73,6 +73,7 @@ namespace TofuPlugin.Agents
         public float SizeRadius { get; protected set; }
         public ITangible TangibleSelf => this;
 
+        public bool Hidden => false;
         /*
          * Rendering
          */
