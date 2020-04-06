@@ -35,6 +35,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
         Rerender(module.Percent);
         InnerMaterial.color = module.BaseColor;
         InnerMaterial.SetColor("_Emissive", module.GlowColor);
+        InnerMaterial.SetColor("_SecondaryColor", module.SecondaryColor);
         /*Material mat = module.LoadMaterial();
         if (mat != null)
         {

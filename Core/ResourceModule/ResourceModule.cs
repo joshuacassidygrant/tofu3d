@@ -31,11 +31,11 @@ namespace TofuCore.ResourceModule
         void SetMaxRetainPercent(float amount);
         Color BaseColor { get; }
         Color GlowColor { get; }
-
-        Material LoadMaterial();
+        Color SecondaryColor { get; }
         string GetCurrentMaxRatioString();
         string MaterialName { get; set; }
         void BindEventContext(IEventContext eventContext);
+        void SetColors(Color baseColor, Color secColor, Color glowColor);
     }
 
     [JsonObject(MemberSerialization.OptIn)]
@@ -73,13 +73,12 @@ namespace TofuCore.ResourceModule
 
         [JsonIgnore] private IEventContext _eventContext;
 
-        public ResourceModule(string name, float max, float val, Color baseColor, Color glowColor, IResourceModuleOwner owner, IEventContext eventContext)
+        public ResourceModule(string name, float max, float val, IResourceModuleOwner owner, IEventContext eventContext)
         {
             Name = name;
             Value = val;
             Max = max;
-            BaseColor = baseColor;
-            GlowColor = glowColor;
+
             _eventContext = eventContext;
             Owner = owner;
         }
@@ -89,6 +88,13 @@ namespace TofuCore.ResourceModule
             Name = name;
             Value = val;
             Max = max;
+        }
+
+        public void SetColors(Color baseColor, Color secColor, Color glowColor)
+        {
+            BaseColor = baseColor;
+            GlowColor = glowColor;
+            SecondaryColor = secColor;
         }
 
         /**
@@ -214,8 +220,9 @@ namespace TofuCore.ResourceModule
             FireChangeEvent();
         }
 
-        public Color BaseColor { get; }
-        public Color GlowColor { get; }
+        public Color BaseColor { get; private set; }
+        public Color GlowColor { get; private set; }
+        public Color SecondaryColor { get; private set; }
 
         public Material LoadMaterial()
         {
