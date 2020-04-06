@@ -14,6 +14,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
     public IResourceModule Module;
 
     public Transform Inner;
+    private Material InnerMaterial;
     public float MaxScale;
 
     private void Start()
@@ -30,8 +31,11 @@ public class UIResourceModuleVialDisplay : TofuUiBase
     {
         Module = module;
         OwnerGlopId = module.Owner.Id;
+        InnerMaterial = Inner.GetComponent<MeshRenderer>().material;
         Rerender(module.Percent);
-        Material mat = module.LoadMaterial();
+        InnerMaterial.color = module.BaseColor;
+        InnerMaterial.SetColor("_Emissive", module.GlowColor);
+        /*Material mat = module.LoadMaterial();
         if (mat != null)
         {
             Inner.gameObject.GetComponent<MeshRenderer>().material = mat;
@@ -39,7 +43,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
         else
         {
             Debug.Log("Couldn't find material");
-        }
+        }*/
     }
 
     private void BindEventListener()
@@ -49,6 +53,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
 
     private void OnReceiveUpdate(EventPayload payload)
     {
+
         if (payload.ContentType != "ResourceStateEventPayload") return;
         ResourceStateEventPayload resourceState = payload.GetContent();
         if (resourceState.Target.Id != OwnerGlopId) return;
@@ -62,7 +67,8 @@ public class UIResourceModuleVialDisplay : TofuUiBase
         if (Inner != null)
         {
             percent = Mathf.Min(1f, percent);
-            Inner.localScale = new Vector3(Inner.localScale.x, Inner.localScale.y, MaxScale * percent);
+            InnerMaterial.SetFloat("_Fullness", percent);
+            //Inner.localScale = new Vector3(Inner.localScale.x, Inner.localScale.y, MaxScale * percent);
 
         }
 

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using TofuCore.Events;
 using TofuCore.Glops;
 using UnityEngine;
+using UnityEngine.Experimental.XR;
 
 
 namespace TofuCore.ResourceModule
@@ -28,6 +29,9 @@ namespace TofuCore.ResourceModule
         void SetMax(float amount);
         void SetValue(float amount);
         void SetMaxRetainPercent(float amount);
+        Color BaseColor { get; }
+        Color GlowColor { get; }
+
         Material LoadMaterial();
         string GetCurrentMaxRatioString();
         string MaterialName { get; set; }
@@ -69,12 +73,13 @@ namespace TofuCore.ResourceModule
 
         [JsonIgnore] private IEventContext _eventContext;
 
-        public ResourceModule(string name, float max, float val, string materialName, IResourceModuleOwner owner, IEventContext eventContext)
+        public ResourceModule(string name, float max, float val, Color baseColor, Color glowColor, IResourceModuleOwner owner, IEventContext eventContext)
         {
             Name = name;
             Value = val;
             Max = max;
-            MaterialName = materialName;
+            BaseColor = baseColor;
+            GlowColor = glowColor;
             _eventContext = eventContext;
             Owner = owner;
         }
@@ -208,6 +213,9 @@ namespace TofuCore.ResourceModule
             Value = FMax * percent;
             FireChangeEvent();
         }
+
+        public Color BaseColor { get; }
+        public Color GlowColor { get; }
 
         public Material LoadMaterial()
         {

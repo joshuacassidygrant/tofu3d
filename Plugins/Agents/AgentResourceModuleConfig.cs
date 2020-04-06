@@ -1,6 +1,7 @@
 ﻿using TofuCore.Events;
 using TofuCore.ResourceModule;
 using TofuPlugin.Agents;
+using UnityEngine;
 
 public struct AgentResourceModuleConfig
 {
@@ -23,7 +24,7 @@ public struct AgentResourceModuleConfig
 
     public ResourceModule GenerateResourceModule(Agent agent, EventContext eventContext)
     {
-        ResourceModule resourceModule = new ResourceModule(Key, agent.Properties.GetProperty(ConfigPropertyMax, 0), agent.Properties.GetProperty(ConfigPropertyMax, 0), "vitality", agent, eventContext);
+        ResourceModule resourceModule = new ResourceModule(Key, agent.Properties.GetProperty(ConfigPropertyMax, 0), agent.Properties.GetProperty(ConfigPropertyMax, 0), Color.white, Color.white, agent, eventContext);
         resourceModule.BindFullDepletionEvent(FullDepletionEventName, new EventPayload(PayloadContentTypeName, agent));
         resourceModule.SetDepletionEventKey(DepletionEventName);
         resourceModule.SetReplenishEventKey(ReplenishEventName);

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
+using UnityEngine;
 
 namespace TofuTest.ResourceModules
 {
@@ -24,7 +25,7 @@ namespace TofuTest.ResourceModules
         [Test]
         public void TestResourceModuleShouldBeConstructed()
         {
-            ResourceModule resourceModule = new ResourceModule("Test", 100f, 40f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Test", 100f, 40f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
 
             Assert.AreEqual("Test", resourceModule.Name);
             Assert.AreEqual(100f, resourceModule.FMax);
@@ -37,28 +38,28 @@ namespace TofuTest.ResourceModules
         [Test]
         public void TestResourcePercentReturns0WhenMaxIs0()
         {
-            ResourceModule resourceModule = new ResourceModule("Test", 0, 40f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Test", 0, 40f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
             Assert.AreEqual(0, resourceModule.Percent);
         }
 
         [Test]
         public void TestResourcePercentReturns0WhenMaxIsVeryCloseTo0()
         {
-            ResourceModule resourceModule = new ResourceModule("Test", 0.0001f, 40f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Test", 0.0001f, 40f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
             Assert.AreEqual(0, resourceModule.Percent);
         }
 
         [Test]
         public void TestResourcePercentReturnsHigherThan1WhenOverMax()
         {
-            ResourceModule resourceModule = new ResourceModule("Test", 100f,150f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Test", 100f,150f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
             Assert.AreEqual(1.5, resourceModule.Percent);
         }
 
         [Test]
         public void TestEventsShouldBeSentWhenTriggeredOnDepletion()
         {
-            ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
             resourceModule.BindFullDepletionEvent("DepleteEvent", new EventPayload("null", null));
             resourceModule.SetChangeDeltaEventKey("ChangeEvent");
             resourceModule.SetStateChangeEventKey("StateChangeEvent");
@@ -88,7 +89,7 @@ namespace TofuTest.ResourceModules
         [Test]
         public void TestEventsShouldBeSentWhenTriggeredOnReplenishAndSpend()
         {
-            ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Test", 10f, 4f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
             resourceModule.SetReplenishEventKey("ReplenishEvent");
             resourceModule.SetChangeDeltaEventKey("ChangeEvent");
             resourceModule.SetStateChangeEventKey("StateChangeEvent");
@@ -110,7 +111,7 @@ namespace TofuTest.ResourceModules
         public void TestCanSpendFalse()
         {
             ResourceModule resourceModule =
-                new ResourceModule("Buns", 100f, 100f, "vitality", _subResourceModuleOwner, _subEventContext);
+                new ResourceModule("Buns", 100f, 100f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
 
             bool succ = resourceModule.Spend(90f);
 
@@ -122,7 +123,7 @@ namespace TofuTest.ResourceModules
         [Test]
         public void TestSpendShouldFailWhenNotEnoughResource() {
             ResourceModule resourceModule =
-                new ResourceModule("Buns", 5f, 5f, "vitality", _subResourceModuleOwner, _subEventContext);
+                new ResourceModule("Buns", 5f, 5f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
 
             Assert.False(resourceModule.Spend(10f));
         }
@@ -131,7 +132,7 @@ namespace TofuTest.ResourceModules
         public void TestSpendShouldSucceedWhenJustEnoughResource()
         {
             ResourceModule resourceModule =
-                new ResourceModule("Buns", 5f, 5f, "vitality", _subResourceModuleOwner, _subEventContext);
+                new ResourceModule("Buns", 5f, 5f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
 
             Assert.True(resourceModule.Spend(5f));
         }
@@ -139,7 +140,7 @@ namespace TofuTest.ResourceModules
         [Test]
         public void TestSetMaxShouldSetMaxButNotVal()
         {
-            ResourceModule resourceModule = new ResourceModule("Zoms", 100f, 100f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Zoms", 100f, 100f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
 
             Assert.AreEqual(100, resourceModule.IMax);
 
@@ -152,7 +153,7 @@ namespace TofuTest.ResourceModules
         [Test]
         public void TestSetMaxRetainPercentShouldSetMaxAndVal()
         {
-            ResourceModule resourceModule = new ResourceModule("Zoms", 100f, 100f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Zoms", 100f, 100f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
 
             resourceModule.SetMaxRetainPercent(200f);
 
@@ -164,7 +165,7 @@ namespace TofuTest.ResourceModules
         [Test]
         public void TestReplenishShouldOnlyOverrunWhenTrue()
         {
-            ResourceModule resourceModule = new ResourceModule("Glif", 100f, 99f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Glif", 100f, 99f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
             resourceModule.Replenish(2f);
 
             Assert.AreEqual(100f, resourceModule.FValue);
@@ -177,7 +178,7 @@ namespace TofuTest.ResourceModules
         [Test]
         public void TestSetValueShouldSetValue()
         {
-            ResourceModule resourceModule = new ResourceModule("Blans", 100f, 100f, "vitality", _subResourceModuleOwner, _subEventContext);
+            ResourceModule resourceModule = new ResourceModule("Blans", 100f, 100f, Color.white, Color.white, _subResourceModuleOwner, _subEventContext);
 
             resourceModule.SetValue(1f);
             Assert.AreEqual(1f, resourceModule.FValue);
