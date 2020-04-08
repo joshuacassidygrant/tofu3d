@@ -17,8 +17,9 @@ namespace TofuPlugin.Agents
 
         public GameObject DoInstantiate(GameObject obj, Vector3 place)
         {
+            
             ObjectsInstantiated++;
-            return obj;
+            return Instantiate(obj);
 
         }
 
