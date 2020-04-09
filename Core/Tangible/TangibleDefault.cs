@@ -12,6 +12,7 @@ namespace TofuCore.Tangible
         public float SizeRadius => 0f;
         public int Id => 0;
         public bool Hidden => false;
+        public List<string> Tags => new List<string>();
     }
 }
 

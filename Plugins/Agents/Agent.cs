@@ -74,6 +74,9 @@ namespace TofuPlugin.Agents
         public ITangible TangibleSelf => this;
 
         public bool Hidden => false;
+
+        public List<string> Tags => new List<string>();
+
         /*
          * Rendering
          */

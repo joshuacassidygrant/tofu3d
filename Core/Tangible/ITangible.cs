@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TofuCore.Tangible
@@ -14,5 +15,6 @@ namespace TofuCore.Tangible
         float SizeRadius { get; }
         int Id { get; }
         bool Hidden { get; }
+        List<string> Tags { get; }
     }
 }
