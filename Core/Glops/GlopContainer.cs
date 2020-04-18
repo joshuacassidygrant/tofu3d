@@ -193,6 +193,7 @@ namespace TofuCore.Glops
             {
                 glop.Die();
                 _contents.Remove(glop.Id);
+                return;
             }
 
             Debug.Log("No GLOP found with id " + glop.Id);
