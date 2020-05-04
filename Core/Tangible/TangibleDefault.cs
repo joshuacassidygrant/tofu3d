@@ -13,6 +13,7 @@ namespace TofuCore.Tangible
         public int Id => 0;
         public bool Hidden => false;
         public List<string> Tags => new List<string>();
+        public Sprite Sprite => null;
     }
 }
 
