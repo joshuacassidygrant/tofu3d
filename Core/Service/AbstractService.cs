@@ -20,6 +20,8 @@ namespace TofuCore.Service
         protected ContentInjectablePayload ContentInjectables;
         private Dictionary<TofuEvent, List<Action<EventPayload>>> _boundListeners;
         public virtual RebindMode RebindMode => RebindMode.REBIND_IGNORE;
+        [Dependency] protected EventContext _eventContext;
+        private Dictionary<TofuEvent, Action<EventPayload>> _listenersToUnbind;
 
         private bool _initialized = false;
 
@@ -155,10 +157,18 @@ namespace TofuCore.Service
                 Debug.Log("Expected event " + evnt + " but found no action bound");
             }
 
+            _listenersToUnbind = new Dictionary<TofuEvent, Action<EventPayload>>();
+
             foreach (Action<EventPayload> action in _boundListeners[evnt])
             {
                 action.Invoke(payload);
             }
+
+            foreach (KeyValuePair<TofuEvent, Action<EventPayload>> kvp in _listenersToUnbind) {
+                UnbindListener(kvp.Key, kvp.Value, _eventContext);
+            }
+
+            _listenersToUnbind = null;
         }
 
         public void BindListener(string eventId, Action<EventPayload> action, IEventContext evntContext)
@@ -189,6 +199,14 @@ namespace TofuCore.Service
                 _boundListeners[evnt].Remove(action);
             }
 
+        }
+
+        public void UnbindListenerDeferred(string eventId, Action<EventPayload> action, IEventContext evntContext) {
+            if (_listenersToUnbind != null) {
+                _listenersToUnbind.Add(evntContext.GetEvent(eventId), action);
+            } else {
+                UnbindListener(evntContext.GetEvent(eventId), action, evntContext);
+            }
         }
     }
 }

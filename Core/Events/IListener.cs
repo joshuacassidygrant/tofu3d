@@ -7,5 +7,6 @@ namespace TofuCore.Events
         void BindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext);
         void BindListener(string evntId, Action<EventPayload> action, IEventContext evntContext);
         void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext);
+        void UnbindListenerDeferred(string evntId, Action<EventPayload> action, IEventContext evntContext);
     }
 }

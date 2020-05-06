@@ -138,5 +138,13 @@ namespace TofuPlugin.Renderable
         {
             return Renderable;
         }
+
+        public void UnbindListenerDeferred(string eventId, Action<EventPayload> action, IEventContext evntContext) {
+            if (_listenersToUnbind != null) {
+                _listenersToUnbind.Add(evntContext.GetEvent(eventId), action);
+            } else {
+                UnbindListener(evntContext.GetEvent(eventId), action, evntContext);
+            }
+        }
     }
 }

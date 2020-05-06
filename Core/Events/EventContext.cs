@@ -54,7 +54,9 @@ namespace TofuCore.Events
             if (!_eventListeners.ContainsKey(evnt) || _eventListeners[evnt].Count == 0) return;
             _events.Get(evnt.Name).HasBeenCalled();
 
-            foreach (IListener listener in _eventListeners[evnt])
+            List<IListener> listeners = new List<IListener>(_eventListeners[evnt]);
+
+            foreach (IListener listener in listeners)
             {
                 listener.ReceiveEvent(evnt, payload);
             }
@@ -126,6 +128,7 @@ namespace TofuCore.Events
 
         private void FlushListeners()
         {
+            Debug.Log("flush");
             if (_eventListenersToRemove == null) return;
 
             foreach (KeyValuePair<TofuEvent, IListener> entry in _eventListenersToRemove)

@@ -7,7 +7,7 @@ using TofuPlugin.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UiTextDynamic : TofuUiBase, IListener
+public class UiTextDynamic : TofuUiBase
 {
     public string EventKey;
     public string PayloadType;
