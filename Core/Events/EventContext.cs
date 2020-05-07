@@ -128,7 +128,6 @@ namespace TofuCore.Events
 
         private void FlushListeners()
         {
-            Debug.Log("flush");
             if (_eventListenersToRemove == null) return;
 
             foreach (KeyValuePair<TofuEvent, IListener> entry in _eventListenersToRemove)
