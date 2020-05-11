@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TofuCore.Events;
 using TofuCore.Exceptions;
+using TofuCore.FrameUpdateServices;
 using TofuCore.Glops;
 using UnityEngine;
 
@@ -159,6 +160,7 @@ namespace TofuCore.Service
         {
             new EventContext().BindServiceContext(this);
             AddAlias("EventContext", "IEventContext");
+            NewServiceGameObject("FrameUpdateService").AddComponent<FrameUpdateService>().BindServiceContext(this);
 
         }
 
@@ -175,7 +177,11 @@ namespace TofuCore.Service
             return containers;
         }
 
-
+        private static GameObject NewServiceGameObject(string typeName) {
+            GameObject obj = new GameObject();
+            obj.name = typeName;
+            return obj;
+        }
 
     }
 }

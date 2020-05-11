@@ -23,6 +23,7 @@ namespace TofuCore.FrameUpdateServices
         void UpdateTime(float seconds)
         {
             EventPayload deltaTimePayload = new EventPayload("Float", seconds);
+            EventContext.Tick();
             EventContext.TriggerEvent("FrameUpdate", deltaTimePayload);
         }
     }

@@ -18,6 +18,7 @@ namespace TofuCore.Events
         private Dictionary<TofuEvent, IListener> _eventListenersToRemove;
         [Dependency] protected IEventPayloadTypeLibrary EventPayloadLibrary;
         [Dependency] protected IEventLogger EventLogger;
+        
 
         // Set Up
         public override void Build()
@@ -26,6 +27,14 @@ namespace TofuCore.Events
             _eventListeners = new Dictionary<TofuEvent, List<IListener>>();
             _events = new EventList();
         }
+
+        // Run from FrameUpdateService BEFORE calling frame update events.
+        public void Tick()
+        {
+            FlushListeners();
+        }
+
+        
 
         // Event Management
         public TofuEvent GetEvent(string name)
@@ -60,7 +69,6 @@ namespace TofuCore.Events
             {
                 listener.ReceiveEvent(evnt, payload);
             }
-            FlushListeners();
 
             if (EventLogger != null)
             {
