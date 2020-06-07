@@ -10,6 +10,6 @@ namespace TofuCore.Events
         TofuEvent GetEvent(string name);
         void ContextBindEventListener(TofuEvent evnt, IListener listener);
         void ContextRemoveEventListener(TofuEvent evnt, IListener listener);
-        void Tick();
+        void PreUpdate();
     }
 }

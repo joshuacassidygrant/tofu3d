@@ -29,7 +29,7 @@ namespace TofuCore.Events
         }
 
         // Run from FrameUpdateService BEFORE calling frame update events.
-        public void Tick()
+        public void PreUpdate()
         {
             FlushListeners();
         }
