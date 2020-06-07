@@ -1,5 +1,8 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -9,6 +12,7 @@ public class TofuConfigCreator
     public static string CoreFolder = "Assets/tofu3d/Core";
     public static string PluginsFolder = "Assets/tofu3d/Plugins";
     public static string ScriptsFolder = "Assets/Scripts";
+    public static string EventsConfigFileName = "eventList.txt";
 
     [MenuItem("Assets/Generate Tofu3d Scripts", false, -1)]
     static void Create()
@@ -40,37 +44,47 @@ public class TofuConfigCreator
 
     public static void GenerateEventsEnum(string path)
     {
-        string[] eventListPaths = {CoreFolder + "/eventList", PluginsFolder + "/eventList", ScriptsFolder + "/eventList"};
+        string[] eventListPaths = {CoreFolder + "/" + EventsConfigFileName, PluginsFolder + "/" + EventsConfigFileName, ScriptsFolder + "/" + EventsConfigFileName };
 
-
-        var content = @"
+        StringBuilder sb = new StringBuilder();
+        sb.Append(@"
 using System;
 
 public enum EventKey {
-";
+");
+
+        HashSet<string> eventKeySet = new HashSet<string>();
 
         foreach (string eventListPath in eventListPaths)
         {
             StreamReader input = new StreamReader(eventListPath);
             while (!input.EndOfStream)
             {
-                string line = input.ReadLine();
-                if (line == null) break;
-                line = line.Replace("\n", "").Replace("\r", "");
-                if (!LegalEnumCheck(line))
+                string key = input.ReadLine();
+                if (key == null) break;
+                key = key.Replace("\n", "").Replace("\r", "");
+                if (!LegalEnumCheck(key))
                 {
-                    Debug.LogWarning("Can't read enum name for events:" + line);
+                    Debug.LogWarning("Can't read enum name for events:" + key);
+                } else if (eventKeySet.Contains(key))
+                {
+                    Debug.LogWarning("Ignoring duplicate event key value: " + key);
                 }
                 else
                 {
-                    content += line + ",\n";
+                    eventKeySet.Add(key);
+                    sb.Append(key);
+                    sb.Append(",");
+                    sb.Append(Environment.NewLine);
                 }
             }
+            input.Close();
         }
+        
 
-        content += "}";
+        sb.Append("}");
 
-        File.WriteAllText(path, content);
+        File.WriteAllText(path, sb.ToString());
         AssetDatabase.ImportAsset(path);
     }
 
@@ -82,6 +96,7 @@ public enum EventKey {
 
     public static bool LegalEnumCheck(string name)
     {
+        if (name == "") return false;
         Regex rg = new Regex("[^a-zA-Z0-9_]");
         return !rg.IsMatch(name);
     }

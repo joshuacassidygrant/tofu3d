@@ -53,8 +53,8 @@ namespace TofuTest.Events
         [Test]
         public void TestEventAutoRegisters()
         {
-            Assert.NotNull(_eventContext.GetEvent("Zarf"));
-            Assert.NotNull(_eventContext.GetEvent("Bamg"));
+            Assert.NotNull(_eventContext.GetEvent("Test"));
+            Assert.NotNull(_eventContext.GetEvent("Test2"));
         }
 
         [Test]
@@ -74,36 +74,36 @@ namespace TofuTest.Events
         [Test]
         public void TestEventListenerBinds()
         {
-            _eventContext.ContextBindEventListener("Event1", _subListener1);
-            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
-            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
-            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
+            _eventContext.ContextBindEventListener("Test", _subListener1);
+            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
+            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
+            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
 
             //Assert
-            _subListener1.Received(3).ReceiveEvent(_eventContext.GetEvent("Event1"), Arg.Any<EventPayload>());
+            _subListener1.Received(3).ReceiveEvent(_eventContext.GetEvent("Test"), Arg.Any<EventPayload>());
         }
 
         [Test]
         public void TestEventListenerUnbinds()
         {
-            _eventContext.ContextBindEventListener("Event1", _subListener1);
-            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
-            _eventContext.ContextRemoveEventListener("Event1", _subListener1);
-            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
-            _eventContext.TriggerEvent("Event1", new EventPayload("null", null));
+            _eventContext.ContextBindEventListener("Test", _subListener1);
+            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
+            _eventContext.ContextRemoveEventListener("Test", _subListener1);
+            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
+            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
 
             //Assert
-            _subListener1.Received(1).ReceiveEvent(_eventContext.GetEvent("Event1"), Arg.Any<EventPayload>());
+            _subListener1.Received(1).ReceiveEvent(_eventContext.GetEvent("Test"), Arg.Any<EventPayload>());
         }
 
         [Test]
         public void TestEventWithNoListenersCalls()
         {
-            _eventContext.TriggerEvent("Ziff", new EventPayload("null", null));
+            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
 
             //Assert
-            _subListener1.Received(0).ReceiveEvent(_eventContext.GetEvent("Ziff"), Arg.Any<EventPayload>());
-            _subListener2.Received(0).ReceiveEvent(_eventContext.GetEvent("Ziff"), Arg.Any<EventPayload>());
+            _subListener1.Received(0).ReceiveEvent(_eventContext.GetEvent("Test"), Arg.Any<EventPayload>());
+            _subListener2.Received(0).ReceiveEvent(_eventContext.GetEvent("Test"), Arg.Any<EventPayload>());
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace TofuTest.Events
         [Test]
         public void TestEventWithNullPayloadOkay()
         {
-            _eventContext.TriggerEvent("Zarp", null);
+            _eventContext.TriggerEvent("Test", null);
 
             _subPayloadTypeLibrary.Received(1).ValidatePayload(Arg.Any<EventPayload>());
         }
@@ -134,7 +134,7 @@ namespace TofuTest.Events
             _subPayloadTypeLibrary.ValidatePayload(Arg.Any<EventPayload>()).Returns(false);
             try
             {
-                _eventContext.TriggerEvent("Faf", new EventPayload("null", null));
+                _eventContext.TriggerEvent("Test", new EventPayload("null", null));
                 Assert.Fail();
             }
             catch (ArgumentException e)
