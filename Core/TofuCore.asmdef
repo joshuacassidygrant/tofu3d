@@ -1,8 +1,14 @@
 {
     "name": "TofuCore",
-    "references": [],
-    "optionalUnityReferences": [],
+    "references": [
+        "GUID:76a230e405148c34e8a7b0f94689b3e1"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
 }

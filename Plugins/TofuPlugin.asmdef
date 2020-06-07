@@ -3,9 +3,9 @@
     "references": [
         "TofuCore",
         "TofuTest",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "TofuConfig"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
