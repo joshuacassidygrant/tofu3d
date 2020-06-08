@@ -6,99 +6,94 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public class TofuConfigCreator
+namespace TofuCore.Editor.Setup
 {
-    public static string FolderName = "tofuConfig";
-    public static string CoreFolder = "Assets/tofu3d/Core";
-    public static string PluginsFolder = "Assets/tofu3d/Plugins";
-    public static string ScriptsFolder = "Assets/Scripts";
-    public static string EventsConfigFileName = "eventList.txt";
 
-    [MenuItem("Assets/Generate Tofu3d Scripts", false, -1)]
-    static void Create()
-    {
-        DeleteConfigFolder();
-        string newFolderPath = CreateFolderAndAsmdef();
+    public class TofuConfigCreator {
+        public static string FolderName = "tofuConfig";
+        public static string CoreFolder = "Assets/tofu3d/Core";
+        public static string PluginsFolder = "Assets/tofu3d/Plugins";
+        public static string ScriptsFolder = "Assets/Scripts";
+        public static string EventsConfigFileName = "eventList.txt";
 
-        GenerateEventsEnum(newFolderPath + "/EventName.cs");
+        /**
+         * Run this to create/regenerate a separate tofuconfig folder with an asmdef,
+         * then federate all content from eventList.txt files under tofu3d/Core, tofu3d/Plugins, Scripts
+         * into a single Events enum.
+         */
+        [MenuItem("Assets/Generate Tofu3d Scripts", false, -1)]
+        static void Create() {
+            DeleteConfigFolder();
+            string newFolderPath = CreateFolderAndAsmdef();
 
+            GenerateEventsEnum(newFolderPath + "/EventName.cs");
+        }
 
-    }
+        private static string CreateFolderAndAsmdef() {
+            string guid = AssetDatabase.CreateFolder("Assets", FolderName);
+            string newFolderPath = AssetDatabase.GUIDToAssetPath(guid);
 
-    private static string CreateFolderAndAsmdef()
-    {
-        string guid = AssetDatabase.CreateFolder("Assets", FolderName);
-        string newFolderPath = AssetDatabase.GUIDToAssetPath(guid);
+            string asmPath = newFolderPath + "/TofuConfig.asmdef";
 
-        string asmPath = newFolderPath + "/TofuConfig.asmdef";
-
-        string asmContent = @"
+            string asmContent = @"
             {
 	            ""name"": ""TofuConfig""
             }
         ";
-        File.WriteAllText(asmPath, asmContent);
-        AssetDatabase.ImportAsset(asmPath);
-        return newFolderPath;
-    }
+            File.WriteAllText(asmPath, asmContent);
+            AssetDatabase.ImportAsset(asmPath);
+            return newFolderPath;
+        }
 
-    public static void GenerateEventsEnum(string path)
-    {
-        string[] eventListPaths = {CoreFolder + "/" + EventsConfigFileName, PluginsFolder + "/" + EventsConfigFileName, ScriptsFolder + "/" + EventsConfigFileName };
+        public static void GenerateEventsEnum(string path) {
+            string[] eventListPaths = { CoreFolder + "/" + EventsConfigFileName, PluginsFolder + "/" + EventsConfigFileName, ScriptsFolder + "/" + EventsConfigFileName };
 
-        StringBuilder sb = new StringBuilder();
-        sb.Append(@"
+            StringBuilder sb = new StringBuilder();
+            sb.Append(@"
 namespace TofuConfig
 {
     public enum EventName
     {
 ");
 
-        HashSet<string> eventKeySet = new HashSet<string>();
+            HashSet<string> eventKeySet = new HashSet<string>();
 
-        foreach (string eventListPath in eventListPaths)
-        {
-            StreamReader input = new StreamReader(eventListPath);
-            while (!input.EndOfStream)
-            {
-                string key = input.ReadLine();
-                if (key == null) break;
-                key = key.Replace("\n", "").Replace("\r", "");
-                if (!LegalEnumCheck(key))
-                {
-                    Debug.LogWarning("Can't read enum name for events:" + key);
-                } else if (eventKeySet.Contains(key))
-                {
-                    Debug.LogWarning("Ignoring duplicate event key value: " + key);
+            foreach (string eventListPath in eventListPaths) {
+                StreamReader input = new StreamReader(eventListPath);
+                while (!input.EndOfStream) {
+                    string key = input.ReadLine();
+                    if (key == null) break;
+                    key = key.Replace("\n", "").Replace("\r", "");
+                    if (!LegalEnumCheck(key)) {
+                        Debug.LogWarning("Can't read enum name for events:" + key);
+                    } else if (eventKeySet.Contains(key)) {
+                        Debug.LogWarning("Ignoring duplicate event key value: " + key);
+                    } else {
+                        eventKeySet.Add(key);
+                        sb.Append(key);
+                        sb.Append(",");
+                        sb.Append(Environment.NewLine);
+                    }
                 }
-                else
-                {
-                    eventKeySet.Add(key);
-                    sb.Append(key);
-                    sb.Append(",");
-                    sb.Append(Environment.NewLine);
-                }
+                input.Close();
             }
-            input.Close();
+
+
+            sb.Append("}}");
+
+            File.WriteAllText(path, sb.ToString());
+            AssetDatabase.ImportAsset(path);
         }
-        
 
-        sb.Append("}}");
+        public static void DeleteConfigFolder() {
+            AssetDatabase.DeleteAsset("Assets/" + FolderName);
+        }
 
-        File.WriteAllText(path, sb.ToString());
-        AssetDatabase.ImportAsset(path);
+        public static bool LegalEnumCheck(string name) {
+            if (name == "") return false;
+            Regex rg = new Regex("[^a-zA-Z0-9_]");
+            return !rg.IsMatch(name);
+        }
     }
 
-
-    public static void DeleteConfigFolder()
-    {
-        AssetDatabase.DeleteAsset("Assets/" + FolderName);
-    }
-
-    public static bool LegalEnumCheck(string name)
-    {
-        if (name == "") return false;
-        Regex rg = new Regex("[^a-zA-Z0-9_]");
-        return !rg.IsMatch(name);
-    }
 }
