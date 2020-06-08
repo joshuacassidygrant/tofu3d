@@ -1,4 +1,5 @@
-﻿using TofuCore.Events;
+﻿using TofuConfig;
+using TofuCore.Events;
 using TofuCore.ResourceModule;
 using TofuPlugin.Agents;
 using UnityEngine;
@@ -7,12 +8,12 @@ public struct AgentResourceModuleConfig
 {
     public string Key;
     public string ConfigPropertyMax;
-    public string FullDepletionEventName;
+    public EventKey FullDepletionEventName;
     public string PayloadContentTypeName;
-    public string DepletionEventName;
-    public string ReplenishEventName;
+    public EventKey DepletionEventName;
+    public EventKey ReplenishEventName;
 
-    public AgentResourceModuleConfig(string key, string configPropertyMax, string fullDepletionEvent, string payloadContentType, string depletionEventName, string replenishEventName)
+    public AgentResourceModuleConfig(string key, string configPropertyMax, EventKey fullDepletionEvent, string payloadContentType, EventKey depletionEventName, EventKey replenishEventName)
     {
         Key = key;
         ConfigPropertyMax = configPropertyMax;

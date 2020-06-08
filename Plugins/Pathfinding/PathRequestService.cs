@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Service;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace TofuPlugin.Pathfinding
         public override void Initialize()
         {
             base.Initialize();
-            BindListener("FrameUpdate", OnFrameUpdate, _eventContext);
+            BindListener(EventKey.FrameUpdate, OnFrameUpdate, _eventContext);
         }
 
         public void RequestPath(PathRequest request)

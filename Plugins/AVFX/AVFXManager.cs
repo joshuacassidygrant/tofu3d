@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TofuConfig;
 using TofuCore.Configuration;
 using TofuCore.Events;
 using TofuCore.Service;
@@ -18,7 +19,7 @@ namespace Scripts.AVFX
         public override void Initialize()
         {
             base.Initialize();
-            BindListener("AVFXRequest", HandleAVFXRequest, EventContext);
+            BindListener(EventKey.AVFXRequest, HandleAVFXRequest, EventContext);
             ActiveInstances = new List<AVFXInstance>();
         }
 

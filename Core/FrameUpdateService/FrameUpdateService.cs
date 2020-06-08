@@ -1,4 +1,5 @@
-﻿using TofuCore.Events;
+﻿using TofuConfig;
+using TofuCore.Events;
 using TofuCore.Service;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ namespace TofuCore.FrameUpdateServices
             if (EventContext == null) return;
             EventPayload deltaTimePayload = new EventPayload("Float", seconds);
             EventContext.PreUpdate();
-            EventContext.TriggerEvent("FrameUpdate", deltaTimePayload);
+            EventContext.TriggerEvent(EventKey.FrameUpdate, deltaTimePayload);
         }
     }
 }

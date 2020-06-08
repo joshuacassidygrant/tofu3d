@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using TofuConfig;
 using TofuCore.Service;
 using UnityEngine;
 
 /*
- * Event listeners are bound and triggered within
+ * EventKey listeners are bound and triggered within
  * this class.
  *
  * Must load an array of event names with LoadEvents to use. 
@@ -36,21 +37,26 @@ namespace TofuCore.Events
 
         
 
-        // Event Management
-        public TofuEvent GetEvent(string name)
+        // EventKey Management
+        public TofuEvent GetEvent(EventKey key)
         {
-            return _events.Get(name);
+            return _events.Get(key);
         }
 
-        public void TriggerEvent(string eventKey)
+        public void TriggerEvent(EventKey eventKey)
         {
             TriggerEvent(eventKey, new EventPayload("Null", null));
         }
 
-        public void TriggerEvent(string eventKey, EventPayload payload)
+        public void TriggerEvent(EventKey eventKey, EventPayload payload)
         {
             if (EventPayloadLibrary != null)
             {
+                if (eventKey == EventKey.None)
+                {
+                    throw new ArgumentException("Cannot trigger a null event!");
+                }
+
                 if (!EventPayloadLibrary.ValidatePayload(payload))
                 {
                     throw new ArgumentException("Invalid payload!");
@@ -61,7 +67,7 @@ namespace TofuCore.Events
             TofuEvent evnt = GetEvent(eventKey);
 
             if (!_eventListeners.ContainsKey(evnt) || _eventListeners[evnt].Count == 0) return;
-            _events.Get(evnt.Name).HasBeenCalled();
+            _events.Get(evnt.Key).HasBeenCalled();
 
             List<IListener> listeners = new List<IListener>(_eventListeners[evnt]);
 
@@ -86,11 +92,11 @@ namespace TofuCore.Events
 
         }
 
-        //Event Listener Management
+        //EventKey Listener Management
 
-        public void ContextBindEventListener(string evntId, IListener listener)
+        public void ContextBindEventListener(EventKey key, IListener listener)
         {
-            ContextBindEventListener(GetEvent(evntId), listener);
+            ContextBindEventListener(GetEvent(key), listener);
         }
 
         public void ContextBindEventListener(TofuEvent evnt, IListener listener)
@@ -108,9 +114,9 @@ namespace TofuCore.Events
             _eventListeners[evnt].Add(listener);
         }
 
-        public void ContextRemoveEventListener(string evntId, IListener listener)
+        public void ContextRemoveEventListener(EventKey key, IListener listener)
         {
-            ContextRemoveEventListener(GetEvent(evntId), listener);
+            ContextRemoveEventListener(key, listener);
         }
 
         public void ContextRemoveEventListener(TofuEvent evnt, IListener listener)

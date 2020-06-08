@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Player;
 using TofuCore.Service;
@@ -18,7 +19,7 @@ namespace TofuTest.PlayerTests {
         public void SetUp()
         {
             _subEventContext = Substitute.For<IEventContext>();
-            _subEventContext.GetEvent("FrameUpdate").Returns(new TofuEvent("FrameUpdate"));
+            _subEventContext.GetEvent(EventKey.FrameUpdate).Returns(new TofuEvent(EventKey.FrameUpdate));
 
             _subServiceContext = TestUtilities.BuildSubServiceContextWithServices(new Dictionary<string, object>
             {

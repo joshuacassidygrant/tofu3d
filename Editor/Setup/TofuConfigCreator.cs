@@ -20,7 +20,7 @@ public class TofuConfigCreator
         DeleteConfigFolder();
         string newFolderPath = CreateFolderAndAsmdef();
 
-        GenerateEventsEnum(newFolderPath + "/EventKey.cs");
+        GenerateEventsEnum(newFolderPath + "/EventName.cs");
 
 
     }
@@ -50,7 +50,7 @@ public class TofuConfigCreator
         sb.Append(@"
 namespace TofuConfig
 {
-    public enum EventKey
+    public enum EventName
     {
 ");
 

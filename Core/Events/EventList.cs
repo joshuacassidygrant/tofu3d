@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TofuConfig;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,43 +8,43 @@ namespace TofuCore.Events
     public class EventList
     {
 
-        private Dictionary<string, TofuEvent> _events = new Dictionary<string, TofuEvent>();
+        private Dictionary<EventKey, TofuEvent> _events = new Dictionary<EventKey, TofuEvent>();
 
-        public void Register(string name)
+        public void Register(EventKey key)
         {
-            _events.Add(name, new TofuEvent(name));
+            _events.Add(key, new TofuEvent(key));
         }
 
         //Note: this may not be useful, since we're binding event names at request time.
-        public void RegisterAll(List<string> names)
+        public void RegisterAll(List<EventKey> keys)
         {
-            foreach (string name in names)
+            foreach (EventKey key in keys)
             {
-                Register(name);
+                Register(key);
             }
         }
 
-        public void Deregister(string name)
+        public void Deregister(EventKey key)
         {
-            _events.Remove(name);
+            _events.Remove(key);
         }
 
-        public bool IsRegistered(string name)
+        public bool IsRegistered(EventKey key)
         {
-            return _events.ContainsKey(name);
+            return _events.ContainsKey(key);
         }
 
-        public TofuEvent Get(string name)
+        public TofuEvent Get(EventKey key)
         {
-            if (!IsRegistered(name))
+            if (!IsRegistered(key))
             {
                 //Debug.Log("No event registered for " + name + ", creating one");
-                TofuEvent evnt = new TofuEvent(name);
-                _events.Add(name, evnt);
+                TofuEvent evnt = new TofuEvent(key);
+                _events.Add(key, evnt);
                 return evnt;
             }
 
-            return _events[name];
+            return _events[key];
         }
     }
 

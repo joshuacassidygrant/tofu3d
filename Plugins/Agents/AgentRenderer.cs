@@ -1,4 +1,5 @@
-﻿using TofuCore.Events;
+﻿using TofuConfig;
+using TofuCore.Events;
 using TofuCore.Service;
 using TofuPlugin.Pathfinding;
 using TofuPlugin.Renderable;
@@ -14,7 +15,7 @@ namespace TofuPlugin.Agents
         {
             base.Initialize(agent, context);
             
-            BindListener("AgentDies", UnitDestroyed, EventContext);
+            BindListener(EventKey.AgentDies, UnitDestroyed, EventContext);
 
 
             //string colorLabel = agent.Properties.GetProperty("BaseColor", "white");
@@ -41,7 +42,7 @@ namespace TofuPlugin.Agents
             Agent agent = eventPayload.GetContent();
             if (agent.Id == Renderable.Id)
             {
-                UnbindListener(EventContext.GetEvent("UnitDies"), UnitDestroyed, EventContext);
+                UnbindListener(EventContext.GetEvent(EventKey.UnitDies), UnitDestroyed, EventContext);
                 ToDestroy = true;
             }
         }

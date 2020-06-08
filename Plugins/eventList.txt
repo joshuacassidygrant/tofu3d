@@ -1,2 +1,4 @@
-P1
-P2
+AVFXRequest
+MapLoaded
+AgentDies
+UnitDies

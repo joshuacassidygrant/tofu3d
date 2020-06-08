@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Service;
 using TofuPlugin.Pathfinding.MapAdaptors;
@@ -30,7 +31,7 @@ namespace TofuPlugin.Pathfinding
 
         public override void Prepare()
         {
-            BindListener("MapLoaded", OnMapServiceLoaded, _eventContext);
+            BindListener(EventKey.MapLoaded, OnMapServiceLoaded, _eventContext);
         }
 
         void ConfigureParameters()

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TofuConfig;
 using TofuCore.Service;
 using UnityEngine;
 
@@ -7,18 +8,18 @@ namespace TofuCore.Events
 {
     public interface IEventLogger
     {
-        void LogEvent(float timeStamp, string evnt, string payloadType);
+        void LogEvent(float timeStamp, EventKey evnt, string payloadType);
         void DumpCallCounts();
         void DumpCallHistory();
     }
 
     public class EventLogger: AbstractService, IEventLogger
     {
-        public Dictionary<string, Dictionary<string, int>> EventsCalledToPayloadTypesCounts = new Dictionary<string, Dictionary<string, int>>();
+        public Dictionary<EventKey, Dictionary<string, int>> EventsCalledToPayloadTypesCounts = new Dictionary<EventKey, Dictionary<string, int>>();
         public List<EventLog> Logs = new List<EventLog>();
 
         //Note: this is only called for events that HAVE listeners
-        public void LogEvent(float timeStamp, string evnt, string payloadType)
+        public void LogEvent(float timeStamp, EventKey evnt, string payloadType)
         {
             Logs.Add(new EventLog(timeStamp, evnt, payloadType));
 
@@ -42,7 +43,7 @@ namespace TofuCore.Events
         public void DumpCallCounts()
         {
             string logString = "";
-            foreach (KeyValuePair<string, Dictionary<string, int>> entry in EventsCalledToPayloadTypesCounts)
+            foreach (KeyValuePair<EventKey, Dictionary<string, int>> entry in EventsCalledToPayloadTypesCounts)
             {
                 logString += entry.Key + ":\n";
                 foreach (KeyValuePair<string, int> subEntry in entry.Value)

@@ -16,9 +16,9 @@ namespace TofuTest.ResourceModules
         public void SetUp()
         {
             _subEventContext = Substitute.For<IEventContext>();
-            _subEventContext.GetEvent("DepleteEvent").Returns(new TofuEvent("DepleteEvent"));
+            /*_subEventContext.GetEvent("DepleteEvent").Returns(new TofuEvent("DepleteEvent"));
             _subEventContext.GetEvent("DepleteEvent2").Returns(new TofuEvent("DepleteEvent2"));
-
+            */
             _subResourceModuleOwner = Substitute.For<IResourceModuleOwner>();
         }
 
@@ -55,7 +55,7 @@ namespace TofuTest.ResourceModules
             ResourceModule resourceModule = new ResourceModule("Test", 100f,150f,  _subResourceModuleOwner, _subEventContext);
             Assert.AreEqual(1.5, resourceModule.Percent);
         }
-
+        /*
         [Test]
         public void TestEventsShouldBeSentWhenTriggeredOnDepletion()
         {
@@ -105,7 +105,7 @@ namespace TofuTest.ResourceModules
             _subEventContext.Received(1).TriggerEvent("ReplenishEvent", Arg.Any<EventPayload>());
             Assert.AreEqual(6, resourceModule.IValue);
             Assert.AreEqual(0.6f, resourceModule.Percent, 0.001f);
-        }
+        }*/
 
         [Test]
         public void TestCanSpendFalse()

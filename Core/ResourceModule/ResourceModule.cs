@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Policy;
 using Newtonsoft.Json;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Glops;
 using UnityEngine;
@@ -17,15 +18,15 @@ namespace TofuCore.ResourceModule
         float FMax { get; }
         float Percent { get; }
         IResourceModuleOwner Owner { get; set; }
-        void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null);
+        void Deplete(float amount, EventKey additionalDepletionEventKey = EventKey.None, EventPayload additionalPayload = null);
         bool Spend(float amount);
         bool CanSpend(float amount);
         void Replenish(float amount, bool keepOverrun = false);
-        void BindFullDepletionEvent(string key, EventPayload payload);
-        void SetDepletionEventKey(string key);
-        void SetReplenishEventKey(string key);
-        void SetChangeDeltaEventKey(string key);
-        void SetStateChangeEventKey(string key);
+        void BindFullDepletionEvent(EventKey key, EventPayload payload);
+        void SetDepletionEventKey(EventKey key);
+        void SetReplenishEventKey(EventKey key);
+        void SetChangeDeltaEventKey(EventKey key);
+        void SetStateChangeEventKey(EventKey key);
         void SetMax(float amount);
         void SetValue(float amount);
         void SetMaxRetainPercent(float amount);
@@ -53,12 +54,12 @@ namespace TofuCore.ResourceModule
         [JsonIgnore] public float FMax => Max;
         [JsonIgnore] public string MaterialName { get; set; }
 
-        [JsonIgnore] private string _depletionEventKey;
-        [JsonIgnore] private string _fullDepletionEventKey;
+        [JsonIgnore] private EventKey _depletionEventKey;
+        [JsonIgnore] private EventKey _fullDepletionEventKey;
         [JsonIgnore] private EventPayload _fullDepletionEventPayload;
-        [JsonIgnore] private string _replenishEventKey;
-        [JsonIgnore] private string _changeDeltaEventKey;
-        [JsonIgnore] private string _stateChangeEventKey;
+        [JsonIgnore] private EventKey _replenishEventKey;
+        [JsonIgnore] private EventKey _changeDeltaEventKey;
+        [JsonIgnore] private EventKey _stateChangeEventKey;
 
         [JsonIgnore]
         public float Percent
@@ -101,7 +102,7 @@ namespace TofuCore.ResourceModule
          * Depletes the resource module. Unlike "Spend", "Deplete" can go below 0. If deplete hits 0 or below, it can fire a special event (passed in)
          * as well as a deplete event with a resource module payload.
          */
-        public void Deplete(float amount, string additionalDepletionEventKey = null, EventPayload additionalPayload = null)
+        public void Deplete(float amount, EventKey additionalDepletionEventKey = EventKey.None, EventPayload additionalPayload = null)
         {
 
             Value -= amount;
@@ -171,28 +172,28 @@ namespace TofuCore.ResourceModule
         /**
          * For binding events:
          */
-        public void BindFullDepletionEvent(string key, EventPayload payload)
+        public void BindFullDepletionEvent(EventKey key, EventPayload payload)
         {
             _fullDepletionEventKey = key;
             _fullDepletionEventPayload = payload;
         }
 
-        public void SetDepletionEventKey(string key)
+        public void SetDepletionEventKey(EventKey key)
         {
             _depletionEventKey = key;
         }
 
-        public void SetReplenishEventKey(string key)
+        public void SetReplenishEventKey(EventKey key)
         {
             _replenishEventKey = key;
         }
 
-        public void SetChangeDeltaEventKey(string key)
+        public void SetChangeDeltaEventKey(EventKey key)
         {
             _changeDeltaEventKey = key;
         }
 
-        public void SetStateChangeEventKey(string key)
+        public void SetStateChangeEventKey(EventKey key)
         {
             _stateChangeEventKey = key;
         }
@@ -245,7 +246,7 @@ namespace TofuCore.ResourceModule
                 Debug.LogWarning("No EventContext bound.");
                 return;
             } 
-            if (string.IsNullOrEmpty(_changeDeltaEventKey)) return;
+            if (_changeDeltaEventKey == EventKey.None) return;
             _eventContext.TriggerEvent(_changeDeltaEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, IValue)));
             _eventContext.TriggerEvent((_stateChangeEventKey), new EventPayload("ResourceStateEventPayload", new ResourceStateEventPayload(Color.white, Owner, IValue, IMax)));
 

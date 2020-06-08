@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Player;
 using TofuCore.ResourceModule;
@@ -9,7 +11,8 @@ using UnityEngine.UI;
 
 public class UiTextDynamic : TofuUiBase
 {
-    public string EventKey;
+    public string EventName;
+    private EventKey _eventKey;
     public string PayloadType;
     public int DecimalPointsForFloat = 0;
     public string PlayerNameSelector;
@@ -21,7 +24,7 @@ public class UiTextDynamic : TofuUiBase
 
 	private void Start ()
     {
-        if (!string.IsNullOrEmpty(EventKey))
+        if (!string.IsNullOrEmpty(EventName) && Enum.TryParse(EventName, false, out _eventKey))
         {
             BindServiceContext();
             BindEventListener();
@@ -34,7 +37,7 @@ public class UiTextDynamic : TofuUiBase
 
     private void BindEventListener()
     {
-        BindListener(EventContext.GetEvent(EventKey), OnReceiveUpdate, EventContext);
+        BindListener(EventContext.GetEvent(_eventKey), OnReceiveUpdate, EventContext);
     }
 
     private void OnReceiveUpdate(EventPayload payload)

@@ -9,7 +9,7 @@ namespace TofuPlugin.Agents
     //[CreateAssetMenu(fileName = "AgentPrototype", menuName = "Data/AgentPrototype", order = 1)]
     /*public class AgentPrototype : ScriptableObject {
 
-        public string Name;
+        public string Key;
         public string Id;
         public Sprite Sprite;
         public RuntimeAnimatorController Animator;

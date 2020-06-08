@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Player;
 using TofuCore.ResourceModule;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 
 public class UIResourceModuleVialDisplay : TofuUiBase
 {
-    public string EventKey;
+    public EventKey EventKey;
     public int OwnerGlopId;
     public IResourceModule Module;
 
@@ -19,7 +20,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
 
     private void Start()
     {
-        if (!string.IsNullOrEmpty(EventKey))
+        if (EventKey != EventKey.None)
         {
             BindServiceContext();
             BindEventListener();

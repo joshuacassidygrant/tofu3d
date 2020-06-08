@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Glops;
 using TofuCore.Service;
@@ -23,8 +24,8 @@ namespace TofuTest
             _subServiceContext.Fetch("IEventContext").Returns(_subEventContext);
 
             //Prepare Events
-            TofuEvent _frameUpdateEvent = new TofuEvent("FrameUpdate");
-            _subEventContext.GetEvent("FrameUpdate").Returns(_frameUpdateEvent);
+            TofuEvent _frameUpdateEvent = new TofuEvent(EventKey.FrameUpdate);
+            _subEventContext.GetEvent(EventKey.FrameUpdate).Returns(_frameUpdateEvent);
 
             //Prepare Object Under Test
             _glopContainer = new GlopContainer<Glop>();

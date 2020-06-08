@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TofuConfig;
 using UnityEngine;
 
 namespace TofuCore.Events
@@ -7,19 +8,19 @@ namespace TofuCore.Events
     public class EventLog
     {
         public float TimeStamp;
-        public string Event;
+        public EventKey EventKey;
         public string PayloadType;
 
-        public EventLog(float timeStamp, string evnt, string payloadType)
+        public EventLog(float timeStamp, EventKey evnt, string payloadType)
         {
             TimeStamp = timeStamp;
-            Event = evnt;
+            EventKey = evnt;
             PayloadType = payloadType;
         }
 
         public override string ToString()
         {
-            return TimeStamp.ToString() + ": " + Event + "(" + PayloadType + ")";
+            return TimeStamp.ToString() + ": " + EventKey + "(" + PayloadType + ")";
         }
     }
 

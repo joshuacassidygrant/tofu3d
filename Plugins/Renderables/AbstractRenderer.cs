@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Service;
 using UnityEngine;
@@ -88,9 +89,9 @@ namespace TofuPlugin.Renderable
             FlushListeners();
         }
 
-        public void BindListener(string eventId, Action<EventPayload> action, IEventContext evntContext)
+        public void BindListener(EventKey key, Action<EventPayload> action, IEventContext evntContext)
         {
-            BindListener(evntContext.GetEvent(eventId), action, evntContext);
+            BindListener(evntContext.GetEvent(key), action, evntContext);
         }
 
         public void BindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
@@ -139,11 +140,11 @@ namespace TofuPlugin.Renderable
             return Renderable;
         }
 
-        public void UnbindListenerDeferred(string eventId, Action<EventPayload> action, IEventContext evntContext) {
+        public void UnbindListenerDeferred(EventKey key, Action<EventPayload> action, IEventContext evntContext) {
             if (_listenersToUnbind != null) {
-                _listenersToUnbind.Add(evntContext.GetEvent(eventId), action);
+                _listenersToUnbind.Add(evntContext.GetEvent(key), action);
             } else {
-                UnbindListener(evntContext.GetEvent(eventId), action, evntContext);
+                UnbindListener(evntContext.GetEvent(key), action, evntContext);
             }
         }
     }

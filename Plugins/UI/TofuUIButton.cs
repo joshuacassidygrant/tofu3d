@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TofuConfig;
 using TofuPlugin.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +13,7 @@ namespace TofuPlugin.UI
     {
 
         public string EventName;
+        private EventKey _eventKey;
 
         protected Button Button;
 
@@ -21,13 +24,17 @@ namespace TofuPlugin.UI
 
         void Start()
         {
-            Button.onClick.AddListener(OnClick);
-            BindServiceContext();
+            if (Enum.TryParse(EventName, false, out _eventKey))
+            {
+                Button.onClick.AddListener(OnClick);
+                BindServiceContext();
+            }
+
         }
 
         private void OnClick()
         {
-            EventContext.TriggerEvent(EventName);
+            EventContext.TriggerEvent(_eventKey);
         }
 
         protected void SetTrigger(string eventName)

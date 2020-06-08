@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TofuConfig;
 using TofuCore.ContentInjectable;
 using TofuCore.Events;
 using TofuCore.Exceptions;
@@ -171,9 +172,9 @@ namespace TofuCore.Service
             _listenersToUnbind = null;
         }
 
-        public void BindListener(string eventId, Action<EventPayload> action, IEventContext evntContext)
+        public void BindListener(EventKey key, Action<EventPayload> action, IEventContext evntContext)
         {
-            BindListener(evntContext.GetEvent(eventId), action, evntContext);
+            BindListener(evntContext.GetEvent(key), action, evntContext);
         }
 
 
@@ -187,8 +188,8 @@ namespace TofuCore.Service
             _boundListeners[evnt].Add(action);
         }
 
-        public void UnbindListener(string eventId, Action<EventPayload> action, IEventContext evntContext) {
-            UnbindListener(evntContext.GetEvent(eventId), action, evntContext);
+        public void UnbindListener(EventKey key, Action<EventPayload> action, IEventContext evntContext) {
+            UnbindListener(evntContext.GetEvent(key), action, evntContext);
         }
 
         public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
@@ -201,11 +202,11 @@ namespace TofuCore.Service
 
         }
 
-        public void UnbindListenerDeferred(string eventId, Action<EventPayload> action, IEventContext evntContext) {
+        public void UnbindListenerDeferred(EventKey key, Action<EventPayload> action, IEventContext evntContext) {
             if (_listenersToUnbind != null) {
-                _listenersToUnbind.Add(evntContext.GetEvent(eventId), action);
+                _listenersToUnbind.Add(evntContext.GetEvent(key), action);
             } else {
-                UnbindListener(evntContext.GetEvent(eventId), action, evntContext);
+                UnbindListener(evntContext.GetEvent(key), action, evntContext);
             }
         }
     }

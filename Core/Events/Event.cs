@@ -1,13 +1,15 @@
-﻿namespace TofuCore.Events
+﻿using TofuConfig;
+
+namespace TofuCore.Events
 {
     public class TofuEvent
     {
-        public string Name;
+        public readonly EventKey Key;
         public int CallCount;
 
-        public TofuEvent(string name)
+        public TofuEvent(EventKey key)
         {
-            Name = name;
+            Key = key;
             CallCount = 0;
         }
 
@@ -19,17 +21,17 @@
 
         public override bool Equals(object obj)
         {
-            return obj is TofuEvent && Name == ((TofuEvent)obj).Name;
+            return obj is TofuEvent && Key == ((TofuEvent)obj).Key;
         }
 
         public bool Equals(TofuEvent other)
         {
-            return string.Equals(Name, other.Name);
+            return string.Equals(Key, other.Key);
         }
 
         public override int GetHashCode()
         {
-            return (Name != null ? Name.GetHashCode() : 0);
+            return (Key.GetHashCode());
         }
     }
 

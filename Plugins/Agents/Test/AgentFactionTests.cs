@@ -24,7 +24,7 @@ namespace TofuPlugin.Agents.Tests
 
             /*_prototype = ScriptableObject.CreateInstance<AgentPrototype>();
             _prototype.Id = "t1p";
-            _prototype.Name = "T1P";
+            _prototype.Key = "T1P";
             _prototype.Sprite = null;
             _prototype.Actions = new List<PrototypeActionEntry>();*/
         }

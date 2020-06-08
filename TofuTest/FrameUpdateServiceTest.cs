@@ -3,6 +3,7 @@ using System.Runtime.Remoting.Messaging;
 using NSubstitute;
 using NSubstitute.Core.Arguments;
 using NUnit.Framework;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.FrameUpdateServices;
 using TofuCore.Service;
@@ -26,7 +27,7 @@ namespace TofuTest
                 {"IEventContext", _subEventContext}
             });
 
-            _subEventContext.When(x => x.TriggerEvent(Arg.Any<string>(), Arg.Any<EventPayload>())).Do(x => { });
+            _subEventContext.When(x => x.TriggerEvent(Arg.Any<EventKey>(), Arg.Any<EventPayload>())).Do(x => { });
             _frameUpdateService = new GameObject().AddComponent<FrameUpdateService>();
             _frameUpdateService.BindServiceContext(_subServiceContext);
             _frameUpdateService.ResolveServiceBindings();
@@ -41,11 +42,11 @@ namespace TofuTest
         [Test]
         public void TestFrameUpdateForceUpdateTriggersEvent()
         {
-            _subEventContext.Received(0).TriggerEvent("FrameUpdate", Arg.Any<EventPayload>());
+            _subEventContext.Received(0).TriggerEvent(EventKey.FrameUpdate, Arg.Any<EventPayload>());
             _frameUpdateService.ForceUpdate(0.1f);
             _frameUpdateService.ForceUpdate(0.12f);
             _frameUpdateService.ForceUpdate(0.15f);
-            _subEventContext.Received(3).TriggerEvent("FrameUpdate", Arg.Any<EventPayload>());
+            _subEventContext.Received(3).TriggerEvent(EventKey.FrameUpdate, Arg.Any<EventPayload>());
         }
 
     }

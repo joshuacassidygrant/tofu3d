@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Service;
 using Debug = UnityEngine.Debug;
@@ -21,13 +22,13 @@ namespace TofuCore.Glops
         [Dependency] protected IEventContext EventContext;
 
         public override void Initialize() {
-            BindListener(EventContext.GetEvent("FrameUpdate"), OnUpdateFrame, EventContext);
+            BindListener(EventKey.FrameUpdate, OnUpdateFrame, EventContext);
         }
 
         public override void Prepare()
         {
             base.Prepare();
-            BindListener("GlopsDeserialized", HandleGlopsDeserialized, EventContext);
+            BindListener(EventKey.GlopsDeserialized, HandleGlopsDeserialized, EventContext);
         }
 
         public void SetDefault(T def)
@@ -174,7 +175,7 @@ namespace TofuCore.Glops
             foreach (Glop glop in _contents.Values) {
                 glop.ResolveAfterDeserialize(ServiceContext);
             }
-            EventContext.TriggerEvent("ContainerResolved");
+            EventContext.TriggerEvent(EventKey.ContainerResolved);
         }
 
         public int GenerateGlopId()

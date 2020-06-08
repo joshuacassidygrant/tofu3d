@@ -4,7 +4,8 @@
         "TofuCore",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "NSubstitute"
+        "NSubstitute",
+        "TofuConfig"
     ],
     "includePlatforms": [
         "Editor"

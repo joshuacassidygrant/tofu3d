@@ -569,7 +569,7 @@
             If route was configured for the different router, returns <see langword="null"/> and persist the route info.
             </summary>
         </member>
-        <member name="M:NSubstitute.Core.IThreadLocalContext.UsePendingRaisingEventArgumentsFactory">
+        <member name="M:NSubstitute.Core.IThreadLocalContext.UsePendingRaisingEventNameArgumentsFactory">
             <summary>
             Returns the previously set arguments factory and resets the stored value.
             </summary>
@@ -842,7 +842,7 @@
         </member>
         <member name="M:NSubstitute.Proxies.CastleDynamicProxy.CastleDynamicProxyFactory.DefineDynamicType(System.String,System.Reflection.TypeAttributes)">
             <summary>
-            Dynamically define the type with specified <paramref name="typeName"/>.
+            Dynamically define the type with specified <paramref name="typeKey"/>.
             </summary>
         </member>
         <member name="M:NSubstitute.Proxies.CastleDynamicProxy.CastleForwardingInterceptor.SwitchToFullDispatchMode">
@@ -850,29 +850,29 @@
             Switches interceptor to dispatch calls via the full pipeline.
             </summary>
         </member>
-        <member name="M:NSubstitute.Raise.EventWith``1(System.Object,``0)">
+        <member name="M:NSubstitute.Raise.EventNameWith``1(System.Object,``0)">
             <summary>
-            Raise an event for an <c>EventHandler&lt;TEventArgs&gt;</c> event with the provided <paramref name="sender"/> and <paramref name="eventArgs"/>.
+            Raise an event for an <c>EventNameHandler&lt;TEventNameArgs&gt;</c> event with the provided <paramref name="sender"/> and <paramref name="eventArgs"/>.
             </summary>
         </member>
-        <member name="M:NSubstitute.Raise.EventWith``1(``0)">
+        <member name="M:NSubstitute.Raise.EventNameWith``1(``0)">
             <summary>
-            Raise an event for an <c>EventHandler&lt;TEventArgs&gt;</c> event with the substitute as the sender and the provided <paramref name="eventArgs" />.
+            Raise an event for an <c>EventNameHandler&lt;TEventNameArgs&gt;</c> event with the substitute as the sender and the provided <paramref name="eventArgs" />.
             </summary>
         </member>
-        <member name="M:NSubstitute.Raise.EventWith``1">
+        <member name="M:NSubstitute.Raise.EventNameWith``1">
             <summary>
-            Raise an event for an <c>EventHandler&lt;EventArgsT&gt;</c> event with the substitute as the sender
-            and with a default instance of <typeparamref name="TEventArgs" />.
+            Raise an event for an <c>EventNameHandler&lt;EventNameArgsT&gt;</c> event with the substitute as the sender
+            and with a default instance of <typeparamref name="TEventNameArgs" />.
             </summary>
         </member>
-        <member name="M:NSubstitute.Raise.Event">
+        <member name="M:NSubstitute.Raise.EventName">
             <summary>
-            Raise an event for an <c>EventHandler</c> or <c>EventHandler&lt;EventArgs&gt;</c> event with the substitute
-            as the sender and with empty <c>EventArgs</c>.
+            Raise an event for an <c>EventNameHandler</c> or <c>EventNameHandler&lt;EventNameArgs&gt;</c> event with the substitute
+            as the sender and with empty <c>EventNameArgs</c>.
             </summary>
         </member>
-        <member name="M:NSubstitute.Raise.Event``1(System.Object[])">
+        <member name="M:NSubstitute.Raise.EventName``1(System.Object[])">
             <summary>
             Raise an event of type <typeparamref name="THandler" /> with the provided arguments. If no arguments are provided
             NSubstitute will try to provide reasonable defaults.

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
+using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Service;
 
@@ -32,8 +33,8 @@ namespace TofuTest.Events
 
             _subListener = Substitute.For<IListener>();
 
-            _eventContext.ContextBindEventListener("Test", _subListener);
-            _eventContext.ContextBindEventListener("Zep", _subListener);
+            _eventContext.ContextBindEventListener(EventKey.Test, _subListener);
+            _eventContext.ContextBindEventListener(EventKey.Test2, _subListener);
 
 
         }
@@ -41,10 +42,10 @@ namespace TofuTest.Events
         [Test]
         public void TestEventLoggerLogsSimpleEvent()
         {
-            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
+            _eventContext.TriggerEvent(EventKey.Test, new EventPayload("null", null));
 
             Assert.AreEqual(1, _eventLogger.Logs.Count);
-            Assert.AreEqual("Test", _eventLogger.Logs[0].Event);
+            Assert.AreEqual(EventKey.Test, _eventLogger.Logs[0].EventKey);
             Assert.AreEqual("null", _eventLogger.Logs[0].PayloadType);
 
         }
@@ -52,15 +53,15 @@ namespace TofuTest.Events
         [Test]
         public void TestEventLoggerCountsSeveralEvents()
         {
-            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
-            _eventContext.TriggerEvent("Test", new EventPayload("null", null));
-            _eventContext.TriggerEvent("Zep", new EventPayload("norf", null));
-            _eventContext.TriggerEvent("Zep", new EventPayload("norf", null));
-            _eventContext.TriggerEvent("Zep", new EventPayload("null", null));
+            _eventContext.TriggerEvent(EventKey.Test, new EventPayload("null", null));
+            _eventContext.TriggerEvent(EventKey.Test, new EventPayload("null", null));
+            _eventContext.TriggerEvent(EventKey.Test2, new EventPayload("norf", null));
+            _eventContext.TriggerEvent(EventKey.Test2, new EventPayload("norf", null));
+            _eventContext.TriggerEvent(EventKey.Test2, new EventPayload("null", null));
 
-            Assert.AreEqual(2, _eventLogger.EventsCalledToPayloadTypesCounts["Test"]["null"]);
-            Assert.AreEqual(2, _eventLogger.EventsCalledToPayloadTypesCounts["Zep"]["norf"]);
-            Assert.AreEqual(1, _eventLogger.EventsCalledToPayloadTypesCounts["Zep"]["null"]);
+            Assert.AreEqual(2, _eventLogger.EventsCalledToPayloadTypesCounts[EventKey.Test]["null"]);
+            Assert.AreEqual(2, _eventLogger.EventsCalledToPayloadTypesCounts[EventKey.Test2]["norf"]);
+            Assert.AreEqual(1, _eventLogger.EventsCalledToPayloadTypesCounts[EventKey.Test2]["null"]);
             Assert.AreEqual(5, _eventLogger.Logs.Count);
         }
     }
