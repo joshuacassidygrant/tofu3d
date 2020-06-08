@@ -48,9 +48,10 @@ public class TofuConfigCreator
 
         StringBuilder sb = new StringBuilder();
         sb.Append(@"
-using System;
-
-public enum EventKey {
+namespace TofuConfig
+{
+    public enum EventKey
+    {
 ");
 
         HashSet<string> eventKeySet = new HashSet<string>();
@@ -82,7 +83,7 @@ public enum EventKey {
         }
         
 
-        sb.Append("}");
+        sb.Append("}}");
 
         File.WriteAllText(path, sb.ToString());
         AssetDatabase.ImportAsset(path);
