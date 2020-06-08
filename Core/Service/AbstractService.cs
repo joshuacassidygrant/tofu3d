@@ -165,11 +165,15 @@ namespace TofuCore.Service
                 action.Invoke(payload);
             }
 
-            foreach (KeyValuePair<TofuEvent, Action<EventPayload>> kvp in _listenersToUnbind) {
-                UnbindListener(kvp.Key, kvp.Value, _eventContext);
+            if (_listenersToUnbind != null)
+            {
+                foreach (KeyValuePair<TofuEvent, Action<EventPayload>> kvp in _listenersToUnbind) {
+                    UnbindListener(kvp.Key, kvp.Value, _eventContext);
+                }
+
+                _listenersToUnbind = null;
             }
 
-            _listenersToUnbind = null;
         }
 
         public void BindListener(EventKey key, Action<EventPayload> action, IEventContext evntContext)

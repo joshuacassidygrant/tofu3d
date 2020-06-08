@@ -28,11 +28,12 @@ public class UiTextDynamic : TofuUiBase
         {
             BindServiceContext();
             BindEventListener();
+            _text = GetComponentInChildren<Text>();
+            _textMesh = GetComponent<TMP_Text>();
+            StringsService = ServiceContext.Fetch("StringsService");
         }
 
-        _text = GetComponentInChildren<Text>();
-        _textMesh = GetComponent<TMP_Text>();
-        StringsService = ServiceContext.Fetch("StringsService");
+
     }
 
     private void BindEventListener()

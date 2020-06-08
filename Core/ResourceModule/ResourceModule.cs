@@ -108,19 +108,19 @@ namespace TofuCore.ResourceModule
             Value -= amount;
             FireChangeEvent();
 
-            if (_depletionEventKey != null)
+            if (_depletionEventKey != EventKey.None)
             {
                 _eventContext.TriggerEvent(_depletionEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, (int)Math.Round(amount))));
             }
 
             if (Value <= 0)
             {
-                if (_fullDepletionEventKey != null && _fullDepletionEventPayload != null)
+                if (_fullDepletionEventKey != EventKey.None && _fullDepletionEventPayload != null)
                 {
                     _eventContext.TriggerEvent(_fullDepletionEventKey, _fullDepletionEventPayload);
                 }
 
-                if (additionalDepletionEventKey != null && Value <= 0)
+                if (additionalDepletionEventKey != EventKey.None && Value <= 0)
                 {
                     _eventContext.TriggerEvent(additionalDepletionEventKey, additionalPayload);
                 }
@@ -163,7 +163,7 @@ namespace TofuCore.ResourceModule
             }
 
             FireChangeEvent();
-            if (_replenishEventKey != null)
+            if (_replenishEventKey != EventKey.None)
             {
                 _eventContext.TriggerEvent(_replenishEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.green, Owner, (int)Math.Round(amount))));
             }
