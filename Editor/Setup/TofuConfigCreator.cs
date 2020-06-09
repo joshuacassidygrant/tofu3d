@@ -13,8 +13,9 @@ namespace TofuCore.Editor.Setup
         public static string FolderName = "tofuConfig";
         public static string CoreFolder = "Assets/tofu3d/Core";
         public static string PluginsFolder = "Assets/tofu3d/Plugins";
-        public static string ScriptsFolder = "Assets/Scripts";
+        public static string ConfigFolder = "Assets/Config";
         public static string EventsConfigFileName = "eventList.txt";
+        public static string ConfigKeyFileName = "configKeyList.txt";
 
         /**
          * Run this to create/regenerate a separate tofuconfig folder with an asmdef,
@@ -26,7 +27,8 @@ namespace TofuCore.Editor.Setup
             DeleteConfigFolder();
             string newFolderPath = CreateFolderAndAsmdef();
 
-            GenerateEventsEnum(newFolderPath + "/EventName.cs");
+            GenerateEnum(newFolderPath + "/EventKey.cs", "EventKey", EventsConfigFileName);
+            GenerateEnum(newFolderPath + "/ConfigKey.cs", "ConfigKey", ConfigKeyFileName);
         }
 
         private static string CreateFolderAndAsmdef() {
@@ -45,37 +47,51 @@ namespace TofuCore.Editor.Setup
             return newFolderPath;
         }
 
-        public static void GenerateEventsEnum(string path) {
-            string[] eventListPaths = { CoreFolder + "/" + EventsConfigFileName, PluginsFolder + "/" + EventsConfigFileName, ScriptsFolder + "/" + EventsConfigFileName };
+        public static void GenerateEnum(string path, string enumName, string inputFileName) {
+            string[] enumListPaths = { CoreFolder + "/" + inputFileName, PluginsFolder + "/" + inputFileName, ConfigFolder + "/" + inputFileName };
 
             StringBuilder sb = new StringBuilder();
             sb.Append(@"
 namespace TofuConfig
 {
-    public enum EventName
+    public enum
+");
+            sb.Append(enumName);
+            sb.Append(@"
     {
 ");
 
-            HashSet<string> eventKeySet = new HashSet<string>();
+            HashSet<string> enumKeySet = new HashSet<string>();
 
-            foreach (string eventListPath in eventListPaths) {
-                StreamReader input = new StreamReader(eventListPath);
-                while (!input.EndOfStream) {
-                    string key = input.ReadLine();
-                    if (key == null) break;
-                    key = key.Replace("\n", "").Replace("\r", "");
-                    if (!LegalEnumCheck(key)) {
-                        Debug.LogWarning("Can't read enum name for events:" + key);
-                    } else if (eventKeySet.Contains(key)) {
-                        Debug.LogWarning("Ignoring duplicate event key value: " + key);
-                    } else {
-                        eventKeySet.Add(key);
-                        sb.Append(key);
-                        sb.Append(",");
-                        sb.Append(Environment.NewLine);
-                    }
+            foreach (string enumPath in enumListPaths) {
+                if (!File.Exists(enumPath)) {
+                    Debug.LogWarning($"No file {inputFileName} at {enumPath}, please include one to federate event lists.");
                 }
-                input.Close();
+                else
+                {
+                    StreamReader input = new StreamReader(enumPath);
+                    while (!input.EndOfStream) {
+                        string key = input.ReadLine();
+                        if (key == null) break;
+                        key = key.Replace("\n", "").Replace("\r", "");
+                        Regex ignoreRegex = new Regex(@"(^$)|(\/\/\w*)");
+
+                        if (ignoreRegex.IsMatch(key)) {
+                            // Ignore whitespace and comments
+                            Debug.Log("ignored " + key);
+                        } else if (!LegalEnumCheck(key)) {
+                            Debug.LogWarning($"Can't read enum name for {enumName}: {key}");
+                        } else if (enumKeySet.Contains(key)) {
+                            Debug.LogWarning($"Ignoring duplicate {enumName} key value: {key}");
+                        } else {
+                            enumKeySet.Add(key);
+                            sb.Append(key);
+                            sb.Append(",");
+                            sb.Append(Environment.NewLine);
+                        }
+                    }
+                    input.Close();
+                }
             }
 
 
@@ -91,7 +107,7 @@ namespace TofuConfig
 
         public static bool LegalEnumCheck(string name) {
             if (name == "") return false;
-            Regex rg = new Regex("[^a-zA-Z0-9_]");
+            Regex rg = new Regex(@"[^a-zA-Z0-9_]");
             return !rg.IsMatch(name);
         }
     }
