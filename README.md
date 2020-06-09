@@ -14,6 +14,9 @@ tofu3d is a Unity3D framework built to be more unit-testable. We accomplish this
 This repository can be included as a submodule in your repo and accessed within your project.
 TOFU3D is built for games that isolate game logic from physics and graphics. It would be a poor fit for a physics sim or small arcade game. It's a better choice for projects that have complex behind-the-scenes interactions that require unit testing, such as strategy, simulation or RPG games.
 
+### Set up
+When loaded, create a folder "Assets/Scripts" for all non Tofu game scripts, with a file "eventList.txt". Then run Assets > Generate Tofu3D Scripts to create Tofu config files.
+
 ## Dependencies:
 TOFU3D is built with NSubstitute to aid testing. I will be adding a suite of helper methods that aid testing using NSubstitute subs.
 
