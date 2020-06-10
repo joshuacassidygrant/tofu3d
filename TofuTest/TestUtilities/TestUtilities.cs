@@ -12,7 +12,7 @@ public class TestUtilities
 
         foreach (KeyValuePair<string, object> entry in services)
         {
-            subContext.Has(entry.Key).Returns(true);
+                subContext.Has(entry.Key).Returns(true);
             subContext.Fetch(entry.Key).Returns(entry.Value);
         }
 

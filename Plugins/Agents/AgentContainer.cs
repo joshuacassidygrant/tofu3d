@@ -46,7 +46,7 @@ namespace TofuPlugin.Agents
 
         [Dependency] protected AgentFactory AgentFactory;
 
-        [Dependency] [ContentInjectable] private EventContext _eventContext;
+        //[Dependency] [ContentInjectable] private EventContext _eventContext;
         [Dependency] [ContentInjectable] protected FactionContainer FactionContainer;
         [Dependency] [ContentInjectable] protected AIBehaviourManager AiBehaviourManager;
         //[Dependency] [ContentInjectable] protected PathRequestService PathRequestService;

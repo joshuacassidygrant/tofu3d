@@ -11,7 +11,6 @@ namespace TofuPlugin.Pathfinding
     public class PathGrid : AbstractService
     {
         [Dependency("IPathableMapService")] private IPathableMapService _pathableMapService;
-        [Dependency] private EventContext _eventContext;
 
         public int PenaltyBlur = 3; //Set in configurator
         public int NodesPerTileSide = 4; // Set in configurator

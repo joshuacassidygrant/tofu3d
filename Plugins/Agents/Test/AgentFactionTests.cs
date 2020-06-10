@@ -1,8 +1,10 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TofuCore.Player;
 using TofuCore.Service;
 using TofuPlugin.Agents.Factions;
+using Debug = UnityEngine.Debug;
 
 namespace TofuPlugin.Agents.Tests
 {
@@ -105,6 +107,7 @@ namespace TofuPlugin.Agents.Tests
                 Assert.Fail();
             } catch (ExceptionSelfRelationship e)
             {
+                Debug.LogWarning(e);
                 Assert.AreEqual(0, faction.GetRelationship(faction));
             }
         }
