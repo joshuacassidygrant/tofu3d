@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using TofuCore.Service;
 using TofuCore.TestSupport;
+using UnityEngine;
 
 namespace TofuTest
 {
@@ -59,6 +60,7 @@ namespace TofuTest
             }
             catch (Exception e)
             {
+                Debug.Log(e);
                 //Pass
             }
         }

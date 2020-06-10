@@ -6,6 +6,7 @@ using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Player;
 using TofuCore.Service;
+using UnityEngine;
 
 namespace TofuTest.PlayerTests {
 
@@ -61,6 +62,7 @@ namespace TofuTest.PlayerTests {
             }
             catch (ArgumentException e)
             {
+                Debug.Log(e);
                 Assert.Pass();
             }
 

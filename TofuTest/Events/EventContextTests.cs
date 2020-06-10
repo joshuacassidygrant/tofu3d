@@ -5,6 +5,7 @@ using NUnit.Framework;
 using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Service;
+using UnityEngine;
 
 namespace TofuTest.Events
 {
@@ -104,6 +105,7 @@ namespace TofuTest.Events
             }
             catch (ArgumentNullException e)
             {
+                Debug.Log(e);
                 Assert.Pass();
             }
         }
@@ -127,6 +129,7 @@ namespace TofuTest.Events
             }
             catch (ArgumentException e)
             {
+                Debug.Log(e);
                 Assert.Pass();
             }
         }

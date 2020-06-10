@@ -14,7 +14,9 @@ namespace TofuPlugin.Pathfinding
     public class Pathfinder : AbstractMonoService
     {
 
+#pragma warning disable 649
         [Dependency] private PathGrid _grid;
+#pragma warning restore 649
 
         public void FindPath(PathRequest request, Action<PathResult> callback)
         {

@@ -10,7 +10,9 @@ namespace TofuPlugin.Pathfinding
 {
     public class PathGrid : AbstractService
     {
+#pragma warning disable 649
         [Dependency("IPathableMapService")] private IPathableMapService _pathableMapService;
+#pragma warning restore 649
 
         public int PenaltyBlur = 3; //Set in configurator
         public int NodesPerTileSide = 4; // Set in configurator

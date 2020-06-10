@@ -12,8 +12,7 @@ namespace TofuPlugin.Agents.Factions
     public class FactionContainer : GlopContainer<Faction>
     {
 
-        [Dependency] [ContentInjectable] protected EventContext EventContext;
-        [Dependency] [ContentInjectable] protected FactionContainer Self;
+        [Dependency] protected FactionContainer Self;
 
         public FactionRelationshipLevel Unaffiliated;
         public FactionRelationshipLevel Same;

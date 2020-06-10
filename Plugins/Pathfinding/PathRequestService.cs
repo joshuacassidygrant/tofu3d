@@ -11,8 +11,9 @@ namespace TofuPlugin.Pathfinding
     public class PathRequestService : AbstractService
     {
         Queue<PathResult> results = new Queue<PathResult>();
+#pragma warning disable 649
         [Dependency] private Pathfinder _pathfinder;
-        [Dependency] private EventContext _eventContext;
+#pragma warning restore 649
 
         public override void Initialize()
         {
