@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Policy;
 using Newtonsoft.Json;
 using TofuConfig;
 using TofuCore.Events;

@@ -6,3 +6,4 @@ GameServicesInitialized
 ContainerResolved
 Test
 Test2
+GlopsDeserialized
