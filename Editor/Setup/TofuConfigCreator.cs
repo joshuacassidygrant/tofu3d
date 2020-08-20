@@ -16,6 +16,7 @@ namespace TofuCore.Editor.Setup
         public static string ConfigFolder = "Assets/Config";
         public static string EventsConfigFileName = "eventList.txt";
         public static string ConfigKeyFileName = "configKeyList.txt";
+        public static string ScriptsFolder = "Assets/Scripts";
 
         /**
          * Run this to create/regenerate a separate tofuconfig folder with an asmdef,
@@ -48,7 +49,7 @@ namespace TofuCore.Editor.Setup
         }
 
         public static void GenerateEnum(string path, string enumName, string inputFileName) {
-            string[] enumListPaths = { CoreFolder + "/" + inputFileName, PluginsFolder + "/" + inputFileName, ConfigFolder + "/" + inputFileName };
+            string[] enumListPaths = { CoreFolder + "/" + inputFileName, PluginsFolder + "/" + inputFileName, ConfigFolder + "/" + inputFileName, ScriptsFolder + "/" + inputFileName };
 
             StringBuilder sb = new StringBuilder();
             sb.Append(@"
