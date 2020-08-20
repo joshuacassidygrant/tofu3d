@@ -17,8 +17,10 @@ TOFU3D is built for games that isolate game logic from physics and graphics. It 
 ### Set up
 When loaded, create a folder "Assets/Scripts" for all non Tofu game scripts, with a file "eventList.txt". Then run Assets > Generate Tofu3D Scripts to create Tofu config files.
 
+Extend AbstractServiceInitializer and include a call to bind all game services you need on load.
+
 ## Dependencies:
-TOFU3D is built with NSubstitute to aid testing. I will be adding a suite of helper methods that aid testing using NSubstitute subs.
+TOFU3D is built with NSubstitute to aid testing. I will be adding a suite of helper methods that aid testing using NSubstitute subs. Also need NewtonSoftJSON for json serializing.
 
 ## Status:
 TOFU3D is still under construction, and somewhat unstable. Will be adding in-project tests, demos and documentation when I have time. I am developing this as a submodule inside a game project, so expect this to be updated as I need more features in the game.
