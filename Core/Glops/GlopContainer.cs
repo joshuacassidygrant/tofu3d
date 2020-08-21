@@ -124,6 +124,12 @@ namespace TofuCore.Glops
             return vals;
         }
 
+
+        public List<T> GetAll()
+        {
+            return _contents.Values.Cast<T>().ToList();
+        }
+
         public bool HasId(int id)
         {
             return _contents.ContainsKey(id);

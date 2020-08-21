@@ -16,6 +16,5 @@ namespace TofuCore.Tangible
         int Id { get; }
         bool Hidden { get; }
         List<string> Tags { get; }
-        Sprite Sprite { get; }
     }
 }

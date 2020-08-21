@@ -13,7 +13,6 @@ namespace TofuCore.FrameUpdateServices
         void Update()
         {
             UpdateTime(Time.deltaTime);
-
         }
 
         public void ForceUpdate(float seconds)

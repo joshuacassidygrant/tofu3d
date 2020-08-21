@@ -45,7 +45,6 @@ public class UiTextDynamic : TofuUiBase
     {
         if (payload.ContentType != PayloadType) return;
         string value = HandleType(payload);
-        
         if (_text != null)
         {
             _text.text = value;

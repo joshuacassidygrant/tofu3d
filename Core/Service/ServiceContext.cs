@@ -160,7 +160,6 @@ namespace TofuCore.Service
         {
             new EventContext().BindServiceContext(this);
             AddAlias("EventContext", "IEventContext");
-            NewServiceGameObject("FrameUpdateService").AddComponent<FrameUpdateService>().BindServiceContext(this);
 
         }
 
