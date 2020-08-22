@@ -30,7 +30,7 @@ namespace TofuCore.Config
                 } 
                 else if (_config.ContainsKey(key))
                 {
-                    Debug.LogWarning($"Overwriting config entry for ${key} from ${_config[key]} to {entry.Value}");
+                    Debug.LogWarning($"Overwriting config entry for {key} from {_config[key]} to {entry.Value}");
                     _config.Remove(key);
                 }
 

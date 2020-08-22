@@ -61,6 +61,20 @@ namespace TofuCore.Service
             }
         }
 
+        public bool Unbind(string name)
+        {
+            if (!_services.ContainsKey(name))
+            {
+                Debug.LogWarning($"Tried to unbind {name} but it wasn't bound");
+                return false;
+            }
+
+            IService service = Fetch(name);
+            service.Cease();
+            _services.Remove(name);
+            return true;
+        }
+
         public dynamic Fetch(string name)
         {
             if (Has(name))

@@ -16,6 +16,7 @@ namespace TofuCore.Service
         string GetServiceName();
         bool Initialized { get; }
         RebindMode RebindMode { get; }
-        
+        void Cease();
+
     }
 }

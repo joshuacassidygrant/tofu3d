@@ -22,6 +22,7 @@ namespace TofuCore.Glops
         [Dependency] protected IEventContext EventContext;
 
         public override void Initialize() {
+            base.Initialize();
             BindListener(EventKey.FrameUpdate, OnUpdateFrame, EventContext);
         }
 

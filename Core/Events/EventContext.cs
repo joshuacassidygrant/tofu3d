@@ -14,7 +14,7 @@ namespace TofuCore.Events
 {
     public class EventContext : AbstractService, IEventContext
     {
-        private Dictionary<TofuEvent, List<IListener>> _eventListeners;
+        private Dictionary<TofuEvent, HashSet<IListener>> _eventListeners;
         private EventList _events;
         private Dictionary<TofuEvent, IListener> _eventListenersToRemove;
         [Dependency] protected IEventPayloadTypeLibrary EventPayloadLibrary;
@@ -25,7 +25,7 @@ namespace TofuCore.Events
         public override void Build()
         {
             base.Build();
-            _eventListeners = new Dictionary<TofuEvent, List<IListener>>();
+            _eventListeners = new Dictionary<TofuEvent, HashSet<IListener>>();
             _events = new EventList();
         }
 
@@ -108,7 +108,7 @@ namespace TofuCore.Events
 
             if (!_eventListeners.ContainsKey(evnt))
             {
-                _eventListeners.Add(evnt, new List<IListener>());
+                _eventListeners.Add(evnt, new HashSet<IListener>());
             }
 
             _eventListeners[evnt].Add(listener);

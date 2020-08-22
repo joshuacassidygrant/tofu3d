@@ -24,7 +24,8 @@ namespace TofuCore.Service
         private Dictionary<TofuEvent, Action<EventPayload>> _listenersToUnbind;
         [Dependency] protected EventContext _eventContext;
 
-        public virtual RebindMode RebindMode => RebindMode.REBIND_IGNORE;
+        public virtual RebindMode RebindMode => RebindMode.REBIND_REINITIALIZE;
+
 
         private bool _initialized = false;
 
@@ -110,9 +111,18 @@ namespace TofuCore.Service
         {
             if (bindingName == null) bindingName = GetType().Name;
             ServiceContext = serviceContext;
-
-            try
+            if (RebindMode == RebindMode.REBIND_IGNORE && serviceContext.Has(bindingName))
             {
+                return ServiceContext.Fetch(bindingName);
+            }
+
+            if (RebindMode == RebindMode.REBIND_REINITIALIZE && serviceContext.Has(bindingName))
+            {
+                IService oldService = serviceContext.Fetch(bindingName);
+                oldService.Cease();
+            }
+
+            try {
                 serviceContext.Bind(bindingName, this, true);
             }
             catch (ServiceDoubleBindException e)
@@ -140,6 +150,17 @@ namespace TofuCore.Service
             }
 
             return true;
+        }
+
+        public void Cease() {
+            if (_boundListeners != null)
+            {
+                foreach (TofuEvent eventKey in _boundListeners.Keys) {
+                    foreach (Action<EventPayload> action in _boundListeners[eventKey]) {
+                        UnbindListener(eventKey, action, _eventContext);
+                    }
+                }
+            }
         }
 
         public void ReceiveEvent(TofuEvent evnt, EventPayload payload)

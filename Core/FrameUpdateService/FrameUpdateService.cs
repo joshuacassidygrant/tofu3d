@@ -10,6 +10,7 @@ namespace TofuCore.FrameUpdateServices
 
         [Dependency] protected IEventContext EventContext;
 
+
         void Update()
         {
             UpdateTime(Time.deltaTime);
