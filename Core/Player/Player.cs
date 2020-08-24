@@ -13,6 +13,8 @@ namespace TofuCore.Player
     {
         [JsonProperty] public string Name { get; set; }
         [JsonProperty] public Vector3 Position { get; private set; }
+        public IControllable Controlling;
+
 
         public Player(string name) : base()
         {
