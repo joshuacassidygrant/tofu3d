@@ -8,6 +8,12 @@ namespace TofuCore.Player
     {
         private Dictionary<string, Player> _playersByString = new Dictionary<string, Player>();
 
+        public string GetCurrentPlayerId()
+        {
+            // TODO
+            return "player1";
+        }
+
         public Player Create(string idName)
         {
             Player player = new Player(idName);
