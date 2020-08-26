@@ -15,6 +15,6 @@ namespace TofuCore.Tangible
         float SizeRadius { get; }
         int Id { get; }
         bool Hidden { get; }
-        List<string> Tags { get; }
+        HashSet<string> Tags { get; }
     }
 }

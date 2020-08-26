@@ -75,7 +75,7 @@ namespace TofuPlugin.Agents
 
         public bool Hidden => false;
 
-        public List<string> Tags => new List<string>();
+        public HashSet<string> Tags => new HashSet<string>();
 
         /*
          * Rendering

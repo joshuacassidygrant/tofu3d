@@ -25,7 +25,7 @@ namespace TofuCore.Tangible
         private float _sizeRadius;
         public int Id => 0;
         public bool Hidden => false;
-        public List<string> Tags => new List<string>();
+        public HashSet<string> Tags => new HashSet<string>();
         public Sprite Sprite => null;
 
 
