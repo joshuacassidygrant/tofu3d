@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using TofuCore.Glops;
+using UnityEngine;
 
 namespace TofuCore.Player
 {
@@ -29,5 +30,9 @@ namespace TofuCore.Player
             return _playersByString[idName];
         }
 
+        public IControllable GetCurrentPlayerControllable()
+        {
+            return GetPlayerByName(GetCurrentPlayerId()).Controlling;
+        }
     }
 }
