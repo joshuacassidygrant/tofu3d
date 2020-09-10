@@ -1,20 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using TofuCore.Glops;
-using TofuCore.Service;
-using TofuCore.ResourceModule;
 using UnityEngine;
 
 namespace TofuCore.Player
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class Player : Glop
+    public class Player : Glop, IController
     {
         [JsonProperty] public string Name { get; set; }
         [JsonProperty] public Vector3 Position { get; private set; }
-        public IControllable Controlling;
+        public IControllable Controlling { get; set; }
 
+        private bool _local;
 
         public Player(string name) : base()
         {
@@ -22,6 +20,10 @@ namespace TofuCore.Player
         }
 
 
+        public bool IsLocalPlayer()
+        {
+            return _local;
+        }
     }
 
 }
