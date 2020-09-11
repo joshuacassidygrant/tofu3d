@@ -24,6 +24,11 @@ namespace TofuCore.Player
         {
             return _local;
         }
+
+        public void UpdateController(float delta)
+        {
+            //
+        }
     }
 
 }

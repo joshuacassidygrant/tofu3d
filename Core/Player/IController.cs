@@ -4,5 +4,6 @@
     {
         bool IsLocalPlayer();
         IControllable Controlling { get; }
+        void UpdateController(float delta);
     }
 }
