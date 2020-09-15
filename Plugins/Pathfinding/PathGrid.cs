@@ -24,6 +24,7 @@ namespace TofuPlugin.Pathfinding
         public float NodeDiameter;
         private int _gridSizeX, _gridSizeY;
         public Vector2 GridWorldSize;
+        public bool YZSwizzle = false;
 
 
         //Debugging:
@@ -43,6 +44,7 @@ namespace TofuPlugin.Pathfinding
             _gridSizeX = terrainTiles.GetLength(0) * NodesPerTileSide;
             _gridSizeY = terrainTiles.GetLength(1) * NodesPerTileSide;
             GridWorldSize = new Vector2(_gridSizeX * _pathableMapService.TileSize, _gridSizeY * _pathableMapService.TileSize);
+            YZSwizzle = _pathableMapService.YZSwizzle;
         }
 
         void CreatePathGrid()
@@ -70,8 +72,16 @@ namespace TofuPlugin.Pathfinding
         public PathNode NodeFromWorldPoint(Vector3 worldPosition)
         {
             int x = Mathf.RoundToInt(worldPosition.x * NodesPerTileSide);
-            int y = Mathf.RoundToInt(worldPosition.y * NodesPerTileSide);
+            int y;
 
+            if (YZSwizzle)
+            {
+                y = Mathf.RoundToInt(worldPosition.z * NodesPerTileSide);
+            }
+            else
+            {
+                y = Mathf.RoundToInt(worldPosition.y * NodesPerTileSide);
+            }
 
             return Grid[Mathf.Clamp(x, 0, _gridSizeX - 1), Mathf.Clamp(y, 0, _gridSizeY - 1)];
         }

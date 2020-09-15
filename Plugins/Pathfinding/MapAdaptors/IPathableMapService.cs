@@ -10,6 +10,7 @@ namespace TofuPlugin.Pathfinding.MapAdaptors
         IPathableMapTile GetPathableMapTile(Vector3 worldPoint);
         IPathableMapTile[,] GetPathableMapTiles();
         float TileSize { get; }
+        bool YZSwizzle { get; }
 
 
     }
