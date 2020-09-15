@@ -3,7 +3,7 @@
     public interface IController
     {
         bool IsLocalPlayer();
-        IControllable Controlling { get; }
+        IControllable Controlling { get; set; }
         void UpdateController(float delta);
     }
 }
