@@ -149,6 +149,19 @@ namespace TofuPlugin.Pathfinding
             return 14*distanceX + 10*(distanceY - distanceX);
         }
 
+
+        void OnDrawGizmosSelected()
+        {
+            for (int i = 0; i < _grid.Grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < _grid.Grid.GetLength(1); j++)
+                {
+                    Gizmos.color = Color.Lerp(Color.white, Color.red, _grid.Grid[i, j].MovementPenalty);
+                    Gizmos.DrawCube(new Vector3(i /(float) _grid.NodesPerTileSide, 0, j / (float)_grid.NodesPerTileSide),
+                        Vector3.one / (_grid.NodesPerTileSide + 1));
+                }
+            }
+        }
     }
 
 }

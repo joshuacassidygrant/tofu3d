@@ -14,8 +14,8 @@ namespace TofuPlugin.Pathfinding
         [Dependency("IPathableMapService")] private IPathableMapService _pathableMapService;
 #pragma warning restore 649
 
-        public int PenaltyBlur = 3; //Set in configurator
-        public int NodesPerTileSide = 4; // Set in configurator
+        public int PenaltyBlur =2; //Set in configurator
+        public int NodesPerTileSide = 3; // Set in configurator
 
         public float NodeSizeRadius;
         public int MaxSize => _gridSizeX * _gridSizeY;
