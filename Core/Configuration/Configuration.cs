@@ -9,10 +9,12 @@ namespace TofuCore.Configuration
     public class Configuration
     {
         public List<ConfigurationProperty> Properties = new List<ConfigurationProperty>();
+        public Dictionary<string, string> _properties = new Dictionary<string, string>();
 
         public void AddProperty(string id, dynamic value)
         {
             Properties.Add(new ConfigurationProperty(id, value.ToString()));
+            _properties.Add(id, value.ToString());
         }
 
         public List<ConfigurationProperty>.Enumerator GetEnumerator()
@@ -43,6 +45,50 @@ namespace TofuCore.Configuration
                 AddProperty(kvp.Key, kvp.Value);
             }
         }
+
+
+        public float GetProperty(string id, float defaultValue) {
+            if (!_properties.ContainsKey(id)) {
+                return defaultValue;
+            }
+
+            float result;
+            if (float.TryParse(_properties[id], out result)) return result;
+
+            return defaultValue;
+        }
+
+        public string GetProperty(string id, string defaultValue) {
+            if (!_properties.ContainsKey(id) || (string)_properties[id] == null) {
+                return defaultValue;
+            }
+
+            return _properties[id];
+        }
+
+        public int GetProperty(string id, int defaultValue) {
+            if (!_properties.ContainsKey(id)) {
+                return defaultValue;
+            }
+
+            int result;
+            if (int.TryParse(_properties[id], out result)) return result;
+
+            return defaultValue;
+        }
+
+        public bool GetProperty(string id, bool defaultValue) {
+            if (!_properties.ContainsKey(id)) {
+                return defaultValue;
+            }
+
+
+            bool result;
+            if (bool.TryParse(_properties[id], out result)) return result;
+
+            return defaultValue;
+        }
+
 
         public Configuration()
         {
