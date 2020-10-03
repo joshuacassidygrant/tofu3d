@@ -27,6 +27,7 @@ namespace TofuPlugin.Agents
         string Name { get; set; }
         bool Active { get; }
         Vector3 Position { get; set; }
+        Vector3 PositionYZSwizzled { get; }
         float SizeRadius { get; }
         ITangible TangibleSelf { get; }
         Sprite Sprite { get; set; }
@@ -70,6 +71,8 @@ namespace TofuPlugin.Agents
          * ITangible and positioning
          */
         public Vector3 Position { get; set; }
+
+        public Vector3 PositionYZSwizzled => new Vector3(Position.x, Position.z, Position.y);
         public float SizeRadius { get; protected set; }
         public ITangible TangibleSelf => this;
 

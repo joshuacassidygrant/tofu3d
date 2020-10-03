@@ -20,6 +20,7 @@ namespace TofuCore.Tangible
         }
 
         public Vector3 Position => _position;
+        public Vector3 PositionYZSwizzled => new Vector3(_position.x, _position.z, _position.y);
         public bool Active => true;
         public float SizeRadius => _sizeRadius;
         private float _sizeRadius;

@@ -8,6 +8,7 @@ namespace TofuCore.Tangible
     {
         public string Name => "Default";
         public Vector3 Position => Vector3.zero;
+        public Vector3 PositionYZSwizzled => Vector3.zero;
         public bool Active => true;
         public float SizeRadius => 0f;
         public int Id => 0;
