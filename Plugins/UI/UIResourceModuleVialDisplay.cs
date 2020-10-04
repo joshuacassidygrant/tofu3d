@@ -15,6 +15,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
     public IResourceModule Module;
 
     public Transform Inner;
+    public Image Fill;
     private Material InnerMaterial;
     public float MaxScale;
 
@@ -25,6 +26,7 @@ public class UIResourceModuleVialDisplay : TofuUiBase
             BindServiceContext();
             BindEventListener();
         }
+        Fill = Inner.gameObject.GetComponent<Image>();
 
     }
 
@@ -55,7 +57,6 @@ public class UIResourceModuleVialDisplay : TofuUiBase
 
     private void OnReceiveUpdate(EventPayload payload)
     {
-
         if (payload.ContentType != "ResourceStateEventPayload") return;
         ResourceStateEventPayload resourceState = payload.GetContent();
         if (resourceState.Target.Id != OwnerGlopId) return;
@@ -69,7 +70,13 @@ public class UIResourceModuleVialDisplay : TofuUiBase
         if (Inner != null)
         {
             percent = Mathf.Min(1f, percent);
-            InnerMaterial.SetFloat("_Fullness", percent);
+            InnerMaterial?.SetFloat("_Fullness", percent);
+            
+
+            if (Fill != null)
+            {
+                Fill.fillAmount = percent;
+            }
             //Inner.localScale = new Vector3(Inner.localScale.x, Inner.localScale.y, MaxScale * percent);
 
         }

@@ -244,10 +244,17 @@ namespace TofuCore.ResourceModule
             {
                 Debug.LogWarning("No EventContext bound.");
                 return;
-            } 
-            if (_changeDeltaEventKey == EventKey.None) return;
-            _eventContext.TriggerEvent(_changeDeltaEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, IValue)));
-            _eventContext.TriggerEvent((_stateChangeEventKey), new EventPayload("ResourceStateEventPayload", new ResourceStateEventPayload(Color.white, Owner, IValue, IMax)));
+            }
+
+            if (_changeDeltaEventKey != EventKey.None)
+            {
+                _eventContext.TriggerEvent(_changeDeltaEventKey, new EventPayload("ResourceEventPayload", new ResourceEventPayload(Color.white, Owner, IValue)));
+            }
+
+            if (_stateChangeEventKey != EventKey.None)
+            {
+                _eventContext.TriggerEvent((_stateChangeEventKey), new EventPayload("ResourceStateEventPayload", new ResourceStateEventPayload(Color.white, Owner, IValue, IMax)));
+            }
 
         }
 
