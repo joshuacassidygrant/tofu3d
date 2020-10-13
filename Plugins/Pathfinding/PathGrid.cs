@@ -121,16 +121,22 @@ namespace TofuPlugin.Pathfinding
                 for (int x = -kernelExtents; x <= kernelExtents; x++)
                 {
                     int sampleX = Mathf.Clamp(x, 0, kernelExtents);
-                    penaltiesHorizontalPass[0, y] += Grid[sampleX, y].MovementPenalty;
+                    if (Grid[sampleX, y] != null)
+                    {
+                        penaltiesHorizontalPass[0, y] += Grid[sampleX, y].MovementPenalty;
+                    }
                 }
 
                 for (int x = 1; x < _gridSizeX; x++)
                 {
                     int removeIndex = Mathf.Clamp(x - kernelExtents - 1, 0, _gridSizeX);
                     int addIndex = Mathf.Clamp(x + kernelExtents, 0, _gridSizeX -1);
-                    penaltiesHorizontalPass[x, y] = penaltiesHorizontalPass[x - 1, y] -
-                                                    Grid[removeIndex, y].MovementPenalty +
-                                                    Grid[addIndex, y].MovementPenalty;
+                    if (Grid[removeIndex, y] != null && Grid[addIndex, y] != null)
+                    {
+                        penaltiesHorizontalPass[x, y] = penaltiesHorizontalPass[x - 1, y] -
+                                                        Grid[removeIndex, y].MovementPenalty +
+                                                        Grid[addIndex, y].MovementPenalty;
+                    }
                 }
             }
 
@@ -143,7 +149,10 @@ namespace TofuPlugin.Pathfinding
                 }
 
                 float blurredPenalty = penaltiesVerticalPass[x, 0] / (kernelSize * kernelSize);
-                Grid[x, 0].MovementPenalty = blurredPenalty;
+                if (Grid[x, 0] != null)
+                {
+                    Grid[x, 0].MovementPenalty = blurredPenalty;
+                }
 
                 for (int y = 1; y < _gridSizeY; y++)
                 {
@@ -153,10 +162,13 @@ namespace TofuPlugin.Pathfinding
                                                     penaltiesHorizontalPass[x, removeIndex] +
                                                     penaltiesHorizontalPass[x, addIndex];
                     blurredPenalty = penaltiesVerticalPass[x, y] / (kernelSize * kernelSize);
-                    Grid[x, y].MovementPenalty = blurredPenalty;
-                    //UnityEngine.Debug.Log(blurredPenalty);
-                    PenaltyMax = Mathf.Min(blurredPenalty, PenaltyMax);
-                    PenaltyMin = Mathf.Max(blurredPenalty, PenaltyMin);
+                    if (Grid[x, y] != null)
+                    {
+                        Grid[x, y].MovementPenalty = blurredPenalty;
+                        PenaltyMax = Mathf.Min(blurredPenalty, PenaltyMax);
+                        PenaltyMin = Mathf.Max(blurredPenalty, PenaltyMin);
+                    }
+
                 }
             }
         }
