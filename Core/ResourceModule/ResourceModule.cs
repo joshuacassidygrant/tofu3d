@@ -2,13 +2,13 @@
 using Newtonsoft.Json;
 using TofuConfig;
 using TofuCore.Events;
-using TofuCore.Glops;
 using UnityEngine;
-using UnityEngine.Experimental.XR;
 
 
 namespace TofuCore.ResourceModule
 {
+    // v0.0.7: Deprecated for a more lightweight version with no events. See ResourceHolder
+
     public interface IResourceModule
     {
         int IValue { get; }
@@ -75,6 +75,7 @@ namespace TofuCore.ResourceModule
 
         public ResourceModule(string name, float max, float val, IResourceModuleOwner owner, IEventContext eventContext)
         {
+            Debug.LogWarning("ResourceModule has been deprecated as of v0.0.7; please use ResourceHolder instead");
             Name = name;
             Value = val;
             Max = max;
@@ -85,6 +86,7 @@ namespace TofuCore.ResourceModule
 
         public ResourceModule(string name, float max, float val)
         {
+            Debug.LogWarning("ResourceModule has been deprecated as of v0.0.7; please use ResourceHolder instead");
             Name = name;
             Value = val;
             Max = max;

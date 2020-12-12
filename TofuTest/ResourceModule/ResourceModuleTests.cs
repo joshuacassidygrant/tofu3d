@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using TofuCore.Events;
 using TofuCore.ResourceModule;
-using UnityEngine;
 
 namespace TofuTest.ResourceModules
 {
@@ -32,7 +31,7 @@ namespace TofuTest.ResourceModules
             Assert.AreEqual(40f, resourceModule.FValue);
             Assert.AreEqual(100, resourceModule.IMax);
             Assert.AreEqual(40, resourceModule.IValue);
-            Assert.AreEqual(0.4f, resourceModule.Percent);
+            Assert.AreEqual(0.43f, resourceModule.Percent);
         }
 
         [Test]
