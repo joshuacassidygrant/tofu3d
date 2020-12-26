@@ -116,7 +116,7 @@ namespace TofuCore.Events
 
         public void ContextRemoveEventListener(EventKey key, IListener listener)
         {
-            ContextRemoveEventListener(key, listener);
+            ContextRemoveEventListener(GetEvent(key), listener);
         }
 
         public void ContextRemoveEventListener(TofuEvent evnt, IListener listener)

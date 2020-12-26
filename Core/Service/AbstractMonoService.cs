@@ -204,8 +204,16 @@ namespace TofuCore.Service
 
         public void UnbindListener(TofuEvent evnt, Action<EventPayload> action, IEventContext evntContext)
         {
+            
             evntContext.ContextRemoveEventListener(evnt, this);
-            _boundListeners[evnt].Remove(action);
+            if (action != null && _boundListeners != null && _boundListeners.ContainsKey(evnt) && _boundListeners[evnt].Contains(action)) {
+                _boundListeners[evnt].Remove(action);
+            }
+        }
+
+        public void UnbindListener(EventKey key, Action<EventPayload> action, IEventContext evntContext)
+        {
+            UnbindListener(evntContext.GetEvent(key), action, evntContext);
         }
 
         public void UnbindListenerDeferred(EventKey key, Action<EventPayload> action, IEventContext evntContext)
