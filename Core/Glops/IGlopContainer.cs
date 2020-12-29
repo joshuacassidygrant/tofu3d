@@ -12,4 +12,5 @@ public interface IGlopContainer
     bool HasId(int id);
     void FillFromSerializedData(Dictionary<int, JObject> jsonGlopList);
     void ReinitializeContents();
+    void FlushAll();
 }

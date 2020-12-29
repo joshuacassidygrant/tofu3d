@@ -218,6 +218,11 @@ namespace TofuCore.Glops
             }
         }
 
+        public void FlushAll()
+        {
+            DestroyAllByIds(_contents.Keys.ToList());
+        }
+
         public virtual void FillFromSerializedData(Dictionary<int, JObject> jsonGlopList)
         {
             foreach (KeyValuePair<int, JObject> jsonGlop in jsonGlopList)
