@@ -223,12 +223,18 @@ namespace TofuCore.Glops
             DestroyAllByIds(_contents.Keys.ToList());
         }
 
-        public virtual void FillFromSerializedData(Dictionary<int, JObject> jsonGlopList)
+        public virtual void FillFromSerializedData(Dictionary<string, JObject> jsonGlopList)
         {
-            foreach (KeyValuePair<int, JObject> jsonGlop in jsonGlopList)
+            foreach (KeyValuePair<string, JObject> jsonGlop in jsonGlopList)
             {
+                int id = -1;
+                bool succ = int.TryParse(jsonGlop.Key, out id);
+                if (!succ)
+                {
+                    Debug.LogWarning($"Can't parse id to int: {jsonGlop.Key}");
+                }
                 T val = JsonConvert.DeserializeObject<T>(jsonGlop.Value.ToString());
-                RegisterFromLoad(jsonGlop.Key, val);
+                RegisterFromLoad(id, val);
             }
         }
     }

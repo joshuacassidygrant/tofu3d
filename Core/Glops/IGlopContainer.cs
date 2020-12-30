@@ -10,7 +10,7 @@ public interface IGlopContainer
     Dictionary<int, Glop> GetContentsIndexed();
     Glop GetGlopById(int id);
     bool HasId(int id);
-    void FillFromSerializedData(Dictionary<int, JObject> jsonGlopList);
+    void FillFromSerializedData(Dictionary<string, JObject> jsonGlopList);
     void ReinitializeContents();
     void FlushAll();
 }
