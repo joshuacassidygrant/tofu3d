@@ -1,4 +1,5 @@
-﻿using NSubstitute.Routing.Handlers;
+﻿using Newtonsoft.Json;
+using NSubstitute.Routing.Handlers;
 using UnityEngine;
 
 
@@ -31,10 +32,16 @@ namespace TofuCore.ResourceHolder {
 
     public class ResourceHolder: IResourceHolder
     {
+        [JsonProperty]
         public string Name { get; }
-        public IResourceHolderOwner Owner { get; set; }
+        [JsonProperty]
         public int Value { get; set; }
+        [JsonProperty]
         public int Max { get; set; }
+
+        // Dependent State
+        public IResourceHolderOwner Owner { get; set; }
+        [JsonIgnore]
         public float Percent => Max == 0 ? 0 : (float) Value / Max;
 
         public int Deplete(int amount, bool forceIfResultLessThan0 = false)

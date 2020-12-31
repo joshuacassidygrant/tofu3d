@@ -17,6 +17,7 @@ namespace TofuCore.Glops
     public class GlopContainer<T>: AbstractService, IGlopContainer, IGlopStream {
         T Value { get; }
         public T Default = default(T);
+        public bool RequiresRefResolution;
 
         protected Dictionary<int, Glop> _contents;
         [Dependency] protected IEventContext EventContext;
@@ -234,6 +235,7 @@ namespace TofuCore.Glops
                     Debug.LogWarning($"Can't parse id to int: {jsonGlop.Key}");
                 }
                 T val = JsonConvert.DeserializeObject<T>(jsonGlop.Value.ToString());
+                RequiresRefResolution = true;
                 RegisterFromLoad(id, val);
             }
         }
