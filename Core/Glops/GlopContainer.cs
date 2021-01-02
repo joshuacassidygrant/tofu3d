@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Service;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace TofuCore.Glops
@@ -17,7 +18,6 @@ namespace TofuCore.Glops
     public class GlopContainer<T>: AbstractService, IGlopContainer, IGlopStream {
         T Value { get; }
         public T Default = default(T);
-        public bool RequiresRefResolution;
 
         protected Dictionary<int, Glop> _contents;
         [Dependency] protected IEventContext EventContext;
@@ -188,6 +188,7 @@ namespace TofuCore.Glops
 
         public int GenerateGlopId()
         {
+            Debug.Log(ServiceContext.LastGlopId);
             return ServiceContext.LastGlopId++;
         }
 
@@ -224,6 +225,18 @@ namespace TofuCore.Glops
             DestroyAllByIds(_contents.Keys.ToList());
         }
 
+        public void Resolve(ref T item)
+        {
+            Glop glop = item as Glop;
+            if (glop == null) return;
+            item = Get(glop.Id);
+        }
+
+        public void ResolveAll(ref List<T> items)
+        {
+            items = ResolveGlopList(items.Select(i => (i as Glop).Id).ToList());
+        }
+
         public virtual void FillFromSerializedData(Dictionary<string, JObject> jsonGlopList)
         {
             foreach (KeyValuePair<string, JObject> jsonGlop in jsonGlopList)
@@ -235,7 +248,6 @@ namespace TofuCore.Glops
                     Debug.LogWarning($"Can't parse id to int: {jsonGlop.Key}");
                 }
                 T val = JsonConvert.DeserializeObject<T>(jsonGlop.Value.ToString());
-                RequiresRefResolution = true;
                 RegisterFromLoad(id, val);
             }
         }

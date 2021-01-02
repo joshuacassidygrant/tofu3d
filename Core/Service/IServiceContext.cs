@@ -8,6 +8,7 @@ namespace TofuCore.Service
         void Drop(string name);
         void Bind(string name, IService service, bool overwrite);
         dynamic Fetch(string name);
+        IGlopContainer FetchContainer(string name);
         bool Has(string name);
         void AddAlias(string key, string alias);
         Glop FindGlopById(int id);

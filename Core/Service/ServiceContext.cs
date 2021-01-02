@@ -92,6 +92,18 @@ namespace TofuCore.Service
             return null;
         }
 
+        public IGlopContainer FetchContainer(string name)
+        {
+            IService service = Fetch(name);
+            IGlopContainer container = service as IGlopContainer;
+            if (container == null)
+            {
+                Debug.LogWarning($"No container of name {name}");
+                return null;
+            }
+            return container;
+        }
+
         public bool Has(string name)
         {
             if (_services.ContainsKey(name) || (_aliases.ContainsKey(name) && _services.ContainsKey(_aliases[name])))
@@ -194,6 +206,7 @@ namespace TofuCore.Service
         {
             LastGlopId = id;
         }
+        
 
         private static GameObject NewServiceGameObject(string typeName) {
             GameObject obj = new GameObject();
