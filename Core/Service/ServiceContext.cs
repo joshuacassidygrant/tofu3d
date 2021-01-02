@@ -190,6 +190,11 @@ namespace TofuCore.Service
             return containers;
         }
 
+        public void SetLastGlopId(int id)
+        {
+            LastGlopId = id;
+        }
+
         private static GameObject NewServiceGameObject(string typeName) {
             GameObject obj = new GameObject();
             obj.name = typeName;

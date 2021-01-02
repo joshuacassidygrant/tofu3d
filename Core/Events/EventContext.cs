@@ -101,6 +101,7 @@ namespace TofuCore.Events
 
         public void ContextBindEventListener(TofuEvent evnt, IListener listener)
         {
+            FlushListeners();
             if (listener == this)
             {
                 Debug.LogWarning("Trying to bind EventContext as its own listener.");

@@ -15,5 +15,6 @@ namespace TofuCore.Service
         void FullInitialization(IService service);
         int LastGlopId { get; set; }
         Dictionary<string, IGlopContainer> GetGlopContainers();
+        void SetLastGlopId(int id);
     }
 }
