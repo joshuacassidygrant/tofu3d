@@ -188,7 +188,6 @@ namespace TofuCore.Glops
 
         public int GenerateGlopId()
         {
-            Debug.Log(ServiceContext.LastGlopId);
             return ServiceContext.LastGlopId++;
         }
 
