@@ -58,6 +58,11 @@ namespace TofuCore.ResourceLibrary
             return _contents.Count;
         }
 
+        public T GetRandom()
+        {
+            return _contents[new List<string>(_contents.Keys)[UnityEngine.Random.Range(0, _contents.Keys.Count)]];
+        }
+
 
         public bool ContainsKey(string id)
         {
