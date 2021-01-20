@@ -47,12 +47,6 @@ namespace TofuTest.Events
         }
 
         [Test]
-        public void TestEventContextHasAllDependenciesSatisfied()
-        {
-            Assert.True(_eventContext.CheckDependencies());   
-        }
-
-        [Test]
         public void TestEventAutoRegisters()
         {
             Assert.NotNull(_eventContext.GetEvent(EventKey.Test));
@@ -93,21 +87,6 @@ namespace TofuTest.Events
             //Assert
             _subListener1.Received(0).ReceiveEvent(_eventContext.GetEvent(EventKey.Test), Arg.Any<EventPayload>());
             _subListener2.Received(0).ReceiveEvent(_eventContext.GetEvent(EventKey.Test), Arg.Any<EventPayload>());
-        }
-
-        [Test]
-        public void TestEventWithNullIdFails()
-        {
-            try
-            {
-                _eventContext.TriggerEvent(EventKey.None, new EventPayload("null", null));
-                Assert.Fail();
-            }
-            catch (ArgumentNullException e)
-            {
-                Debug.Log(e);
-                Assert.Pass();
-            }
         }
 
         [Test]

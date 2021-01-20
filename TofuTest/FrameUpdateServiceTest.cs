@@ -33,11 +33,6 @@ namespace TofuTest
             _frameUpdateService.ResolveServiceBindings();
         }
 
-        [Test]
-        public void TestFrameUpdateServiceHasAllDependencies()
-        {
-            Assert.True(_frameUpdateService.CheckDependencies());
-        }
 
         [Test]
         public void TestFrameUpdateForceUpdateTriggersEvent()

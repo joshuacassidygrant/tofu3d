@@ -34,12 +34,6 @@ namespace TofuTest.PlayerTests {
             _playerContainer.Initialize();
         }
 
-        [Test]
-        public void TestPlayerContainerConstructs()
-        {
-            Assert.NotNull(_playerContainer);
-            Assert.True(_playerContainer.CheckDependencies());
-        }
 
         [Test]
         public void TestPlayerContainerCreatesAndRegistersANewPlayer()

@@ -11,28 +11,6 @@ namespace TofuTest
     public class ServiceTests
     {
 
-        [Test]
-        public void ServiceShouldThrowExceptionOnDoubleInitialize()
-        {
-            DummyServiceOne dummy = new DummyServiceOne();
-
-            Assert.False(dummy.GetInitialized());
-
-            dummy.Initialize();
-
-            Assert.True(dummy.GetInitialized());
-
-            try
-            {
-                dummy.Initialize();
-                Assert.Fail();
-            } catch (MultipleInitializationException e)
-            {
-                //Pass!
-                Debug.Log(e);
-            }
-
-        }
 
         [Test]
         public void ServiceShouldBindAllDependencies()

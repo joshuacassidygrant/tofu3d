@@ -36,12 +36,6 @@ namespace TofuTest
         }
 
         [Test]
-        public void TestGlopContainerDependenciesSatisfied()
-        {
-            Assert.True(_glopContainer.CheckDependencies());
-        }
-
-        [Test]
         public void TestGlopContainerShouldInitialize()
         {
             Assert.AreEqual(0, _glopContainer.GetContents().Count);
