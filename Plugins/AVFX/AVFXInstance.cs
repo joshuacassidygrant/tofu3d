@@ -37,10 +37,9 @@ public class AVFXInstance: MonoBehaviour
             FireIndex++;
         }
 
-        if (Lifetime >= TotalLifetime)
+        if (Lifetime >= TotalLifetime && TotalLifetime != 0)
         {
-            //Destroy
-            //_manager
+            EndEffect();
         }
 
     }
@@ -53,6 +52,12 @@ public class AVFXInstance: MonoBehaviour
     public void SetProjectileTarget(Vector3 target)
     {
         transform.LookAt(target);
+    }
+
+    public void EndEffect()
+    {
+        Destroy(gameObject);
+
     }
 
     [System.Serializable]
