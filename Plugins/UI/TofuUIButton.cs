@@ -32,6 +32,16 @@ namespace TofuPlugin.UI
 
         }
 
+        public void SetEvent(string name)
+        {
+            EventName = name;
+            if (Enum.TryParse(EventName, false, out _eventKey))
+            {
+                Button.onClick.AddListener(OnClick);
+                BindServiceContext();
+            }
+        }
+
         private void OnClick()
         {
             EventContext.TriggerEvent(_eventKey);
