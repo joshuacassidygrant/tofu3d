@@ -34,6 +34,7 @@ namespace TofuPlugin.UI
 
         public void SetEvent(string name)
         {
+            if (name == null) return;
             EventName = name;
             if (Enum.TryParse(EventName, false, out _eventKey))
             {
