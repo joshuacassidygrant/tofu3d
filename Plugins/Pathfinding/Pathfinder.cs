@@ -26,7 +26,6 @@ namespace TofuPlugin.Pathfinding
 
             PathNode startNode = _grid.NodeFromWorldPoint(request.pathStart);
             PathNode targetNode = _grid.NodeFromWorldPoint(request.pathEnd);
-
             if (startNode.Walkable && targetNode.Walkable)
             {
                 Heap<PathNode> openSet = new Heap<PathNode>(_grid.MaxSize);
@@ -156,7 +155,8 @@ namespace TofuPlugin.Pathfinding
             {
                 for (int j = 0; j < _grid.Grid.GetLength(1); j++)
                 {
-                    Gizmos.color = Color.Lerp(Color.white, Color.red, _grid.Grid[i, j].MovementPenalty);
+                    Debug.Log(_grid.Grid[i, j].MovementPenalty / _grid.PenaltyMax);
+                    Gizmos.color = _grid.Grid[i,j].Walkable ? Color.Lerp(Color.white, Color.red, _grid.Grid[i, j].MovementPenalty / _grid.PenaltyMax) : Color.black;
                     Gizmos.DrawCube(new Vector3(i /(float) _grid.NodesPerTileSide, 0, j / (float)_grid.NodesPerTileSide),
                         Vector3.one / (_grid.NodesPerTileSide + 1));
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TofuConfig;
 using TofuCore.Events;
 using TofuCore.Service;
@@ -65,6 +66,9 @@ namespace TofuPlugin.Pathfinding
                     }
                 }
             }
+
+            PenaltyMax = Grid.Cast<PathNode>().ToList().Select(p => p.MovementPenalty).Max();
+            PenaltyMin = Grid.Cast<PathNode>().ToList().Select(p => p.MovementPenalty).Min();
 
             BlurPenaltyMap(PenaltyBlur);
         }
