@@ -9,7 +9,7 @@ namespace TofuTest.Events
         [Test]
         public void TestEventConstructor()
         {
-            TofuEvent evnt = new TofuEvent(EventKey.Test);
+            TofuEvent evnt = new TofuEvent("Test");
 
             Assert.AreEqual(EventKey.Test, evnt.Key);
         }
@@ -17,7 +17,7 @@ namespace TofuTest.Events
         [Test]
         public void TestEventKeepsCallCount()
         {
-            TofuEvent evnt = new TofuEvent(EventKey.Test);
+            TofuEvent evnt = new TofuEvent("Test");
 
             Assert.AreEqual(0, evnt.CallCount);
 
@@ -29,9 +29,9 @@ namespace TofuTest.Events
         [Test]
         public void TestTwoEventsAreEqualWithEqualNames()
         {
-            TofuEvent evnt1 = new TofuEvent(EventKey.Test);
-            TofuEvent evnt2 = new TofuEvent(EventKey.Test);
-            TofuEvent evnt3 = new TofuEvent(EventKey.Test2);
+            TofuEvent evnt1 = new TofuEvent("Test");
+            TofuEvent evnt2 = new TofuEvent("Test");
+            TofuEvent evnt3 = new TofuEvent("Test2");
             evnt2.HasBeenCalled();
 
             Assert.AreEqual(evnt1, evnt2);
@@ -41,9 +41,9 @@ namespace TofuTest.Events
         [Test]
         public void TestTwoEventsEqualHashWithEqualNames()
         {
-            TofuEvent evnt1 = new TofuEvent(EventKey.Test);
-            TofuEvent evnt2 = new TofuEvent(EventKey.Test);
-            TofuEvent evnt3 = new TofuEvent(EventKey.Test2);
+            TofuEvent evnt1 = new TofuEvent("Test");
+            TofuEvent evnt2 = new TofuEvent("Test");
+            TofuEvent evnt3 = new TofuEvent("Test2");
             evnt2.HasBeenCalled();
 
             Assert.AreEqual(evnt1.GetHashCode(), evnt2.GetHashCode());

@@ -38,21 +38,21 @@ namespace TofuCore.Events
         
 
         // EventKey Management
-        public TofuEvent GetEvent(EventKey key)
+        public TofuEvent GetEvent(dynamic key)
         {
             return _events.Get(key);
         }
 
-        public void TriggerEvent(EventKey eventKey)
+        public void TriggerEvent(dynamic eventKey)
         {
             TriggerEvent(eventKey, new EventPayload("Null", null));
         }
 
-        public void TriggerEvent(EventKey eventKey, EventPayload payload)
+        public void TriggerEvent(dynamic eventKey, EventPayload payload)
         {
             if (EventPayloadLibrary != null)
             {
-                if (eventKey == EventKey.None)
+                if (eventKey == null)
                 {
                     throw new ArgumentException("Cannot trigger a null event!");
                 }
@@ -94,7 +94,7 @@ namespace TofuCore.Events
 
         //EventKey Listener Management
 
-        public void ContextBindEventListener(EventKey key, IListener listener)
+        public void ContextBindEventListener(dynamic key, IListener listener)
         {
             ContextBindEventListener(GetEvent(key), listener);
         }

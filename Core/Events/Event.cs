@@ -4,10 +4,10 @@ namespace TofuCore.Events
 {
     public class TofuEvent
     {
-        public readonly EventKey Key;
+        public readonly string Key;
         public int CallCount;
 
-        public TofuEvent(EventKey key)
+        public TofuEvent(string key)
         {
             Key = key;
             CallCount = 0;

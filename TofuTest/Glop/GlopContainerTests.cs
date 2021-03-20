@@ -24,7 +24,7 @@ namespace TofuTest
             _subServiceContext.Fetch("IEventContext").Returns(_subEventContext);
 
             //Prepare Events
-            TofuEvent _frameUpdateEvent = new TofuEvent(EventKey.FrameUpdate);
+            TofuEvent _frameUpdateEvent = new TofuEvent("FrameUpdate");
             _subEventContext.GetEvent(EventKey.FrameUpdate).Returns(_frameUpdateEvent);
 
             //Prepare Object Under Test

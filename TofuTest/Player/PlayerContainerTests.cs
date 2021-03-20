@@ -20,7 +20,7 @@ namespace TofuTest.PlayerTests {
         public void SetUp()
         {
             _subEventContext = Substitute.For<IEventContext>();
-            _subEventContext.GetEvent(EventKey.FrameUpdate).Returns(new TofuEvent(EventKey.FrameUpdate));
+            _subEventContext.GetEvent(EventKey.FrameUpdate).Returns(new TofuEvent("FrameUpdate"));
 
             _subServiceContext = TestUtilities.BuildSubServiceContextWithServices(new Dictionary<string, object>
             {

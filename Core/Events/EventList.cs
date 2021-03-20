@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TofuConfig;
 using UnityEditor;
 using UnityEngine;
@@ -8,11 +9,19 @@ namespace TofuCore.Events
     public class EventList
     {
 
-        private Dictionary<EventKey, TofuEvent> _events = new Dictionary<EventKey, TofuEvent>();
+        private Dictionary<string, TofuEvent> _events = new Dictionary<string, TofuEvent>();
 
-        public void Register(EventKey key)
+        public void Register(dynamic key)
         {
-            _events.Add(key, new TofuEvent(key));
+            try
+            {
+                string keyString = key.ToString();
+                _events.Add(keyString, new TofuEvent(keyString));
+
+            } catch (Exception e)
+            {
+                Debug.LogWarning(e);
+            }
         }
 
         //Note: this may not be useful, since we're binding event names at request time.
@@ -24,27 +33,48 @@ namespace TofuCore.Events
             }
         }
 
-        public void Deregister(EventKey key)
+        public void Deregister(dynamic key)
         {
-            _events.Remove(key);
+            try
+            {
+                string keyString = key.ToString();
+                _events.Remove(keyString);
+
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+            }
         }
 
-        public bool IsRegistered(EventKey key)
+        public bool IsRegistered(dynamic key)
         {
-            return _events.ContainsKey(key);
+            try
+            {
+                string keyString = key.ToString();
+                return _events.ContainsKey(key);
+
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+            }
+            return false;
         }
 
-        public TofuEvent Get(EventKey key)
+        public TofuEvent Get(dynamic key)
         {
-            if (!IsRegistered(key))
+            string keyString = key.ToString();
+
+            if (!IsRegistered(keyString))
             {
                 //Debug.Log("No event registered for " + name + ", creating one");
-                TofuEvent evnt = new TofuEvent(key);
-                _events.Add(key, evnt);
+                TofuEvent evnt = new TofuEvent(keyString);
+                _events.Add(keyString, evnt);
                 return evnt;
             }
 
-            return _events[key];
+            return _events[keyString];
         }
     }
 
