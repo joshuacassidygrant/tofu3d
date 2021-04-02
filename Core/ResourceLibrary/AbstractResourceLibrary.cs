@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TofuCore.Service;
 using UnityEngine;
 
@@ -67,6 +68,11 @@ namespace TofuCore.ResourceLibrary
         public bool ContainsKey(string id)
         {
             return _contents.ContainsKey(id);
+        }
+
+        public Dictionary<string, T> MakeDict(string key, params T[] contents)
+        {
+            return contents.ToDictionary(t => t.GetType().GetProperty(key).ToString(), t => t);
         }
 
     }
