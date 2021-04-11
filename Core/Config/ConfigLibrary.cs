@@ -71,21 +71,46 @@ namespace TofuCore.Config
             return float.TryParse(_config[key], NumberStyles.Float, null, out val);
         }
 
-        public float GetValueFloat(ConfigKey key, float defaultVal = 0f)
+        public float GetValueFloat(ConfigKey key, float defaultVal)
         {
             float val = defaultVal;
             return TryGetValueFloat(key, out val) ? val : defaultVal;
         }
 
-        public int GetValueInteger(ConfigKey key, int defaultVal = 0) {
+        public int GetValueInteger(ConfigKey key, int defaultVal) {
             int val = defaultVal;
             return TryGetValueInteger(key, out val) ? val : defaultVal;
         }
 
-        public string GetValueString(ConfigKey key, string defaultVal = "") {
+        public string GetValueString(ConfigKey key, string defaultVal ) {
             string val = defaultVal;
             return TryGetValueString(key, out val) ? val : defaultVal;
         }
+
+
+        public float GetValueFloat(ConfigKey key)
+        {
+            if (!_config.ContainsKey(key)) throw new Exception($"Missing key {key}");
+            float val = 0f;
+            float.TryParse(_config[key], out val);
+            return val;
+        }
+
+        public int GetValueInteger(ConfigKey key)
+        {
+            if (!_config.ContainsKey(key)) throw new Exception($"Missing key {key}");
+
+            int val = 0;
+            int.TryParse(_config[key], out val);
+            return val;
+        }
+
+        public string GetValueString(ConfigKey key)
+        {
+            if (!_config.ContainsKey(key)) throw new Exception($"Missing key {key}");
+            return _config[key];
+        }
+
 
 
     }
