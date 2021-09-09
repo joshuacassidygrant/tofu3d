@@ -33,6 +33,10 @@ namespace Scripts.AVFX
 
         public AVFXInstance SpawnAVFXInstance(string id, Vector3 position, Configuration config = null)
         {
+            if (id == null)
+            {
+                return null;
+            }
             if (!AVFXLibrary.ContainsKey(id))
             {
                 Debug.LogWarning($"No AVFX registered with id {id}");
